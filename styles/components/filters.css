@@ -1,0 +1,184 @@
+.filters {
+  border-radius: 12px;
+  width: 300px;
+  height: fit-content;
+  padding: 20px 2px 13px;
+  position: sticky;
+  top: 88px;
+  box-shadow: 0 0 5px #d3d3d3;
+}
+.filters .holder {
+  gap: 10px;
+  padding: 0 8px;
+}
+.filters hr {
+  background: #e7e7e7;
+}
+
+.filters .holder h4 {
+  color: var(--paragraph);
+  margin-left: 8px;
+}
+.filters .holder p {
+  margin-left: 7px;
+}
+
+.filters .holder ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.filters .holder ul li {
+  cursor: pointer;
+  border-radius: 7px;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 8px;
+  transition: all 0.3s;
+  display: flex;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--paragraph);
+}
+.filters .holder ul li:hover,
+.filters .holder ul li.active {
+  background: #ea8c43e8;
+  color: white;
+}
+.filters .holder .price-input {
+  align-items: center;
+  gap: 5px;
+  display: flex;
+  padding: 0 8px;
+}
+.filters .holder .price-input .field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 50%;
+}
+.filters .holder .price-input .field span {
+  font-size: 15px;
+  color: var(--title-color);
+  font-weight: 500;
+}
+.filters .holder .price-input .field h3 {
+  font-size: 15px;
+  color: var(--paragraph);
+  border: 1px solid #c8c8c8;
+  padding: 6px 12px;
+  border-radius: 7px;
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+}
+.filters .separator {
+  width: 11px;
+  height: 2px;
+  background: #8a8a8a;
+}
+.filters .price-slider {
+  color: #ea8c43e8;
+  width: 90%;
+  height: 3px;
+  margin: auto;
+  padding: 7px 0;
+}
+
+.selected-filters {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.selected-filters strong {
+  margin-right: 3px;
+  color: var(--paragraph);
+  font-size: 16px;
+}
+.selected-filters p {
+  background: var(--section-color);
+  text-transform: capitalize;
+  cursor: pointer;
+  border-radius: 5px;
+  align-items: center;
+  gap: 1px;
+  padding: 3px 4px 3px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+  display: flex;
+}
+.selected-filters p:hover {
+  color: white;
+  background: #c23737;
+}
+.selected-filters svg {
+  color: #c23737;
+  font-size: 23px;
+}
+.selected-filters p:hover svg {
+  color: white;
+}
+
+.filters .checkbox {
+  display: flex;
+  margin-right: 2px;
+}
+
+.checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox .input {
+  appearance: none;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e7e7e7;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+}
+.filters li:hover .custom-checkbox {
+  border-color: #ebebeb;
+}
+.filters li.active .custom-checkbox {
+  border-color: transparent;
+}
+/* Hover effect */
+
+/* Checked state */
+.input:checked + .custom-checkbox {
+  background: #ec9654;
+  border-color: #ec9654;
+}
+
+/* Checkmark */
+.input:checked + .custom-checkbox::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Optional — Add spacing for labels next to checkbox */
+.checkbox span + span {
+  margin-left: 8px;
+}

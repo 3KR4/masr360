@@ -1,0 +1,148 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.register {
+  height: 93vh;
+  width: 100%;
+  position: relative;
+}
+.register .registerBackground {
+  position: relative !important;
+}
+.register form {
+  background: white;
+  border-radius: 28px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: 32%;
+  height: fit-content;
+  padding: 32px 32px;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.register form h1 {
+  color: var(--paragraph);
+  text-align: center;
+  font-weight: 800;
+  font-size: 27px;
+  line-height: 1.2;
+}
+.register form .rowHolder {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+.register form .box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+.register form .box label {
+  color: var(--paragraph);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.register form .inputHolder .holder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #a6a6a6;
+  padding: 9px;
+  border-radius: 10px;
+}
+.register form .inputHolder .holder svg {
+  color: var(--paragraph);
+  width: 20px;
+  cursor: auto;
+}
+.register form .inputHolder .holder svg.eye {
+  cursor: pointer;
+}
+.register form .inputHolder .holder input {
+  flex: 1;
+}
+.register form .inputHolder .error {
+  color: red;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  margin: 2px 4px -6px;
+}
+.register form .inputHolder .error svg {
+  color: red;
+  width: 15px;
+}
+.register form .main-button {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px !important;
+  font-size: 16px;
+  font-family: "Roboto";
+  font-weight: 700;
+}
+.register form .otherWay {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0;
+}
+
+.register form .otherWay span {
+  min-width: max-content;
+  color: var(--paragraph);
+  font-size: 15px;
+}
+.register form .social-btns {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  display: grid;
+}
+.register form .social-btns .btn {
+  color: var(--paragraph);
+  cursor: pointer;
+  border: 1px solid #a6a6a6;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+}
+.register form .didntHasAccount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--paragraph);
+}
+p.didntHasAccount {
+  justify-content: flex-start;
+  transform: translateX(8px);
+}
+.register form .mineLink {
+  color: var(--main-color);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: capitalize;
+  text-decoration: underline;
+}

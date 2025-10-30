@@ -1,0 +1,63 @@
+.discover {
+}
+.discover > .fluid-container:not(.title-holder):not(.navigations):not(.city) {
+  display: flex;
+  gap: 20px;
+  margin: 25px auto;
+}
+.discover .holder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.discover .grid-holder {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+.places-page {
+  position: relative;
+  min-height: 90vh;
+}
+.discover .city {
+  background: #000;
+  border-radius: 0 0 45px 45px;
+  height: 56vh;
+  margin: 0 auto 20px;
+  position: relative;
+  overflow: hidden;
+}
+.discover .city img {
+  object-fit: cover;
+  position: relative !important;
+}
+.discover .city .details {
+  position: absolute;
+  left: 40px;
+  bottom: 40px;
+}
+.discover .city .details::before {
+  content: "";
+  z-index: 0;
+  width: 61%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0 0 175px 62px #000;
+}
+.discover .city .details > * {
+  position: relative;
+  z-index: 1;
+}
+.discover .city .details h3 {
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 48px;
+  margin-bottom: 4px;
+}
+.discover .city .details p {
+  color: #fcfcfc;
+  width: 60%;
+  font-size: 22px;
+  font-weight: 400;
+}
+
