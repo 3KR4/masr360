@@ -11,8 +11,6 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { motion } from "framer-motion";
 
-console.log(slides[0].image);
-
 function LandingSwiper() {
   return (
     <div className="landing">

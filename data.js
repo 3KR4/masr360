@@ -1,6 +1,6 @@
 export const slides = [
   {
-    image: "/slides/slide-003.jpg",
+    image: "/Slides/slide-003.jpg",
     small: "Discover Egypt",
     paragraph:
       "Explore hidden gems, exciting night spots, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
@@ -9,7 +9,7 @@ export const slides = [
     link: "/discover?type=governments",
   },
   {
-    image: "/slides/slide-005.jpg",
+    image: "/Slides/slide-005.jpg",
     small: "Play • Explore • Win",
     paragraph:
       "Complete fun challenges at iconic places, earn points, and unlock real rewards — restaurants, handcrafts, and more!",
@@ -18,7 +18,7 @@ export const slides = [
     link: "/discover?type=governments",
   },
   {
-    image: "/slides/slide-001.jpg",
+    image: "/Slides/slide-001.jpg",
 
     small: "Explore Egypt Differently",
     paragraph:
