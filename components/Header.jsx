@@ -163,7 +163,7 @@ function Header() {
                   </div>
                 );
               })}
-              <Link href={""} className="main-button">
+              <Link href={navLinks[activeNav]?.link} className="main-button">
                 See All
               </Link>
             </div>
