@@ -16,6 +16,7 @@ import MiniCart from "@/components/MiniCart";
 const navLinks = [
   {
     title: "Discover",
+    link: "/discover?type=governments",
     departments: [
       {
         name: "Cairo",
@@ -41,6 +42,7 @@ const navLinks = [
   },
   {
     title: "Masr 360 Nights",
+    link: "/nights",
     departments: [
       {
         name: "Nile Parties",
@@ -66,6 +68,7 @@ const navLinks = [
   },
   {
     title: "Marketplace",
+    link: "/marketplace",
     departments: [
       { name: "Souvenirs", icon: "MdShoppingBag", link: "/" },
       { name: "Local Crafts", icon: "MdHandyman", link: "/" },
