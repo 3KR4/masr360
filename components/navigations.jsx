@@ -2,9 +2,13 @@
 import Link from "next/link";
 import React from "react";
 
-export default function Navigations({ items = [] }) {
+export default function Navigations({ items = [], container = "fluid" }) {
   return (
-    <nav className="navigations fluid-container">
+    <nav
+      className={`navigations ${
+        container !== "main" ? "fluid-container" : "container"
+      }`}
+    >
       <Link href="/">Home</Link>
 
       {items.map((item, index) => (

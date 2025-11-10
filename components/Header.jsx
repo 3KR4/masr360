@@ -4,12 +4,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as MdIcons from "react-icons/md";
-import {
-  FaAngleRight,
-  FaArrowUpLong,
-  FaAngleDown,
-  FaArrowRight,
-} from "react-icons/fa6";
+import { FaAngleRight, FaAngleDown } from "react-icons/fa6";
 import { mainContext } from "@/Contexts/mainContext";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
@@ -17,56 +12,30 @@ import { IoIosClose } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 
 import { FaCartShopping, FaUser } from "react-icons/fa6";
-
-// ✅ Updated Navigation Links for Masr 360
+import MiniCart from "@/components/MiniCart";
 const navLinks = [
   {
-    title: "governments",
+    title: "Discover",
     departments: [
       {
         name: "Cairo",
-        categories: [
-          "Pyramids",
-          "Citadel",
-          "Khan El Khalili",
-          "Egyptian Museum",
-        ],
+        link: "/",
       },
       {
         name: "Alexandria",
-        categories: [
-          "Qaitbay Citadel",
-          "Library of Alexandria",
-          "Corniche",
-          "Stanley Bridge",
-        ],
+        link: "/",
       },
       {
         name: "Giza",
-        categories: [
-          "Pyramids",
-          "Sphinx",
-          "Sound & Light Show",
-          "Grand Museum",
-        ],
+        link: "/",
       },
       {
         name: "Luxor",
-        categories: [
-          "Karnak",
-          "Luxor Temple",
-          "Valley of Kings",
-          "Hatshepsut Temple",
-        ],
+        link: "/",
       },
       {
         name: "Aswan",
-        categories: [
-          "Philae Temple",
-          "Nubian Village",
-          "Unfinished Obelisk",
-          "High Dam",
-        ],
+        link: "/",
       },
     ],
   },
@@ -76,61 +45,41 @@ const navLinks = [
       {
         name: "Nile Parties",
         icon: "MdOutlineCelebration",
-        categories: [
-          "Dinner Cruises",
-          "Night Tours",
-          "Private Events",
-          "Live Music",
-        ],
+        link: "/",
       },
       {
         name: "Safari Nights",
         icon: "MdOutlineNightlife",
-        categories: [
-          "Desert Camps",
-          "ATV Adventures",
-          "Bedouin Nights",
-          "Camel Rides",
-        ],
+        link: "/",
       },
       {
         name: "Restaurants & Cafes",
         icon: "MdRestaurant",
-        categories: [
-          "Top Restaurants",
-          "Rooftop Cafes",
-          "Street Food",
-          "View Spots",
-        ],
+        link: "/",
       },
       {
         name: "Cultural Events",
         icon: "MdLocalActivity",
-        categories: [
-          "Theatre Shows",
-          "Museums Events",
-          "Workshops",
-          "Festivals",
-        ],
+        link: "/",
       },
     ],
   },
   {
     title: "Marketplace",
     departments: [
-      { name: "Souvenirs", icon: "MdShoppingBag", categories: [] },
-      { name: "Local Crafts", icon: "MdHandyman", categories: [] },
-      { name: "Art & Decor", icon: "MdBrush", categories: [] },
-      { name: "Traditional Clothes", icon: "MdCheckroom", categories: [] },
+      { name: "Souvenirs", icon: "MdShoppingBag", link: "/" },
+      { name: "Local Crafts", icon: "MdHandyman", link: "/" },
+      { name: "Art & Decor", icon: "MdBrush", link: "/" },
+      { name: "Traditional Clothes", icon: "MdCheckroom", link: "/" },
     ],
   },
   {
+    title: "games",
+    link: "/games",
+  },
+  {
     title: "About Us",
-    departments: [
-      { name: "Our Story", icon: "MdInfoOutline", categories: [] },
-      { name: "Team", icon: "MdGroups", categories: [] },
-      { name: "Support", icon: "MdEmail", categories: [] },
-    ],
+    link: "/about",
   },
 ];
 
@@ -156,89 +105,79 @@ function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const nav = () => (
+    <nav className={mobileMenu ? "active" : ""}>
+      <ul>
+        {/* Dynamic Dropdown Menus */}
+        {navLinks.map((x, index) => (
+          <li
+            key={index}
+            className={activeBtn === index ? `active` : ``}
+            onMouseEnter={() => {
+              setActiveNav(index);
+              setActiveBtn(null);
+            }}
+            onClick={() => {
+              setActiveNav(index);
+              setActiveBtn(null);
+            }}
+          >
+            {x.departments ? (
+              <>
+                {x.title} <FaAngleDown />
+              </>
+            ) : (
+              <Link className="page-route" href={x.link}>
+                {x.title}
+              </Link>
+            )}
+          </li>
+        ))}
+
+        {/* Routes Menu */}
+        {navLinks[activeNav]?.departments && (
+          <div
+            className={`routs-menu`}
+            onMouseEnter={() => setActiveBtn(activeNav)}
+          >
+            <div className={`container`}>
+              {navLinks[activeNav]?.departments?.map((dept, index) => {
+                const Icon = dept.icon ? MdIcons[dept.icon] : null;
+                return (
+                  <div key={index}>
+                    <h4>
+                      {Icon && <Icon />} {/* render only if icon exists */}
+                      <Link href={`/${dept.link}`}>{dept.name}</Link>
+                      <FaAngleRight className="arrow-right" />
+                    </h4>
+                    <ul>
+                      {dept.categories?.map((cat, idx) => (
+                        <Link href={`/`} key={idx}>
+                          {cat}
+                        </Link>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+              <Link href={""} className="main-button">
+                See All
+              </Link>
+            </div>
+          </div>
+        )}
+      </ul>
+    </nav>
+  );
+
   return (
     <header>
       <div className="container">
-        {/* Logo */}
         <Link href="/" className="logo">
           <Image src={`/logo.png`} fill alt="Masr 360" />
         </Link>
 
-        {/* Mobile Menu Icon */}
-        {screenSize !== "large" && (
-          <IoMenu className="menu-ico" onClick={() => setMobileMenu(true)} />
-        )}
-
-        <nav>
-          {/* Top Section for Mobile */}
-          {screenSize !== "large" && (
-            <div className="top">
-              <Link href="/" className="logo">
-                <Image src={`/logo.png`} fill alt="Masr 360" />
-              </Link>
-              <IoClose
-                className="menu-ico-close"
-                onClick={() => setMobileMenu(false)}
-              />
-            </div>
-          )}
-
-          <ul>
-            {/* Dynamic Dropdown Menus */}
-            {navLinks.map((x, index) => (
-              <li
-                key={index}
-                className={activeBtn === index ? `active` : ``}
-                onMouseEnter={() => {
-                  setActiveNav(index);
-                  setActiveBtn(null);
-                }}
-                onClick={() => {
-                  setActiveNav(index);
-                  setActiveBtn(null);
-                }}
-              >
-                {x.title} <FaAngleDown />
-              </li>
-            ))}
-
-            {/* Routes Menu */}
-            <div
-              className={`routs-menu`}
-              onMouseEnter={() => setActiveBtn(activeNav)}
-            >
-              <div className={`container ${activeNav > 1 ? "wrap" : ""}`}>
-                {navLinks[activeNav]?.departments?.map((dept, index) => {
-                  const Icon = dept.icon ? MdIcons[dept.icon] : null;
-                  return (
-                    <div key={index}>
-                      <h4>
-                        {Icon && <Icon />} {/* render only if icon exists */}
-                        <Link href={`/`}>{dept.name}</Link>
-                        {activeNav > 2 && (
-                          <FaAngleRight className="arrow-right" />
-                        )}
-                      </h4>
-                      <ul>
-                        {dept.categories?.map((cat, idx) => (
-                          <Link href={`/`} key={idx}>
-                            {cat}
-                          </Link>
-                        ))}
-                      </ul>
-                    </div>
-                  );
-                })}
-                {activeNav < 1 && (
-                  <Link href={""} className="main-button">
-                    See More
-                  </Link>
-                )}
-              </div>
-            </div>
-          </ul>
-        </nav>
-
+        {screenSize === "large" && nav()}
         <div className="actions-btns">
           <div className="search-holder">
             <div className={`input ${searchActive ? "active" : ""}`}>
@@ -271,20 +210,24 @@ function Header() {
             <>
               <button className="btn cart">
                 <FaCartShopping title="Cart" />
+                <MiniCart />
               </button>
               <button className="btn user">
                 <FaUser title="Login / Register" />
-                <div className="userMenu">
+                <div className="userMenu menu">
                   <div className="top">Mahmoud Elshzly</div>
                   <ul>
                     <li>
-                      <Link href={``}>Your Visits</Link>
+                      <Link href={`/booking`}>Bookings</Link>
                     </li>
                     <li>
-                      <Link href={``}>Your Orders</Link>
+                      <Link href={`/orders`}>Orders</Link>
                     </li>
                     <li>
-                      <Link href={``}>Messages</Link>
+                      <Link href={`/favorites`}>favorites</Link>
+                    </li>
+                    <li>
+                      <Link href={`/Messages`}>Messages</Link>
                     </li>
                     <li className="danger" onClick={() => setIsLogin(false)}>
                       <MdLogout />
@@ -299,8 +242,24 @@ function Header() {
               Create Account
             </Link>
           )}
+          {screenSize !== "large" && (
+            <div className="menuHandler">
+              {!mobileMenu ? (
+                <IoMenu
+                  className="menu-ico"
+                  onClick={() => setMobileMenu(true)}
+                />
+              ) : (
+                <IoClose
+                  className="menu-ico-close"
+                  onClick={() => setMobileMenu(false)}
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
+      {screenSize !== "large" && nav()}
     </header>
   );
 }

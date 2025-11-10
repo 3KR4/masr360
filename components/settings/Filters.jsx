@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Slider from "@mui/material/Slider";
-import { tourismCategories } from "@/data";
+import { tourismCategories, productCategories } from "@/data";
 import "@/styles/components/filters.css";
 
 const Filters = ({
@@ -13,6 +13,7 @@ const Filters = ({
   setSelectedCategory,
   handleRemoveFilter,
   showAvailability,
+  catsType,
 }) => {
   const handleAvailabilityClick = (status) => {
     setAvailability((prev) => (prev === status ? null : status));
@@ -26,6 +27,7 @@ const Filters = ({
     setSelectedCategory((prev) => (prev === name ? null : name));
   };
 
+  const cats = catsType == "products" ? productCategories : tourismCategories;
   return (
     <div className="filters">
       {/* Availability Filter */}
@@ -98,7 +100,7 @@ const Filters = ({
       <div className="holder">
         <h4>Filter by Categories</h4>
         <ul>
-          {tourismCategories.map((x) => (
+          {cats.map((x) => (
             <li
               key={x.id}
               className={selectedCategory === x.name ? "active" : ""}

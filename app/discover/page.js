@@ -105,7 +105,7 @@ function Page() {
         ].filter(Boolean)}
       />
 
-      <div className="fluid-container">
+      <div className="fluid-container big-holder">
         {type !== "governments" && (
           <Filters
             availability={availability}
@@ -116,6 +116,7 @@ function Page() {
             setSelectedCategory={setSelectedCategory}
             handleRemoveFilter={handleRemoveFilter}
             showAvailability={false}
+            catsType={"places"}
           />
         )}
 

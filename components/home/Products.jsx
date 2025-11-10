@@ -23,7 +23,7 @@ function Products() {
           Discover Egypt’s most loved handmade creations — crafted with passion,
           tradition, and authentic local artistry.
         </p>
-        <Link href={``} className="main-button">
+        <Link href={`/marketplace`} className="main-button">
           Explore More
         </Link>
       </div>

@@ -71,13 +71,17 @@ export default function Register() {
 
           {/* Full name */}
           {!isLoginPage && (
-            <div className="box">
+            <div
+              className="box forInput"
+              onClick={() => document.getElementById("fullname").focus()}
+            >
               <label htmlFor="fullname">Full Name</label>
               <div className="inputHolder">
                 <div className="holder">
                   <UserRound />
                   <input
                     type="text"
+                    id="fullname"
                     {...register("fullname", {
                       required: "Your Full Name is required",
                       validate: (value) => {
@@ -104,13 +108,17 @@ export default function Register() {
 
           {/* Phone */}
           {!isLoginPage && (
-            <div className="box">
+            <div
+              className="box forInput"
+              onClick={() => document.getElementById("phone").focus()}
+            >
               <label htmlFor="phone">Phone Number</label>
               <div className="inputHolder">
                 <div className="holder">
                   <Phone />
                   <input
                     type="tel"
+                    id="phone"
                     {...register("phone", {
                       required: "Phone number is required",
                       pattern: {
@@ -133,7 +141,7 @@ export default function Register() {
             </div>
           )}
 
-          <div className="box">
+          <div className="box forInput">
             <label htmlFor="country">Nationality</label>
             <div className="inputHolder">
               <div className="holder" style={{ padding: "0", border: "none" }}>
@@ -206,13 +214,17 @@ export default function Register() {
           </div>
 
           {/* Email */}
-          <div className="box">
+          <div
+            className="box forInput"
+            onClick={() => document.getElementById("email").focus()}
+          >
             <label htmlFor="email">Email Address</label>
             <div className="inputHolder">
               <div className="holder">
                 <Mail />
                 <input
                   type="email"
+                  id="email"
                   {...register("email", {
                     required: "Email address is required",
                     pattern: {
@@ -231,9 +243,12 @@ export default function Register() {
               )}
             </div>
           </div>
-           
+
           {/* Password */}
-          <div className="box">
+          <div
+            className="box forInput"
+            onClick={() => document.getElementById("password").focus()}
+          >
             <label htmlFor="password">Password</label>
             <div className="inputHolder password">
               <div className="holder">
@@ -241,6 +256,7 @@ export default function Register() {
 
                 <input
                   type={passEye.password ? "text" : "password"}
+                  id="password"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -273,7 +289,12 @@ export default function Register() {
 
           {/* Confirm Password */}
           {!isLoginPage && (
-            <div className="box">
+            <div
+              className="box forInput"
+              onClick={() =>
+                document.getElementById("passwordConfirmation").focus()
+              }
+            >
               <label htmlFor="confirm">Confirm Password</label>
               <div className="inputHolder password">
                 <div className="holder">
@@ -281,6 +302,7 @@ export default function Register() {
 
                   <input
                     type={passEye.confirm ? "text" : "password"}
+                    id="passwordConfirmation"
                     {...register("passwordConfirmation", {
                       required: "Please confirm your password",
                       validate: (value) =>

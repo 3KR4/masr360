@@ -7,20 +7,27 @@ import {
   FaLocationDot,
   FaArrowRight,
 } from "react-icons/fa6";
+import React, { useContext } from "react";
+import { mainContext } from "@/Contexts/mainContext";
+
 import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice"; // optional, only for product
 
 export default function CardItem({ item, type }) {
+  const { screenSize } = useContext(mainContext);
+
   const isProduct = type === "product";
   const isPlace = type === "place";
   const isGov = type === "gov";
+  const isGame = type === "game";
 
   return (
-    <div key={item?.id} className={`card ${isProduct ? "product" : ""}`}>
+    <div key={item?.id} className={`card ${type}`}>
       {/* ❤️ ACTION ICONS */}
-      {!isGov && (
+      {!isGov && !isGame && (
         <div className="actions-icon">
-          <FaHeart className="wish-icon" />
+          {!isGame && <FaHeart className="wish-icon" />}
+
           {isProduct && <FaCartShopping className="cart-icon" />}
         </div>
       )}
@@ -29,22 +36,27 @@ export default function CardItem({ item, type }) {
       <Link
         href={
           isProduct
-            ? `/market/${item?.id}`
+            ? `/marketplace/${item?.id}`
             : isPlace
             ? `/place/${item?.id}?type=place`
+            : isGame
+            ? `/games/${item?.id}`
             : `/discover?type=government&id=${item?.id}`
         }
         className="image-holder"
       >
         <Image
-          src={item?.image}
+          src={!isGame ? item?.image : item?.place?.image}
           alt={item?.name}
           fill
-          sizes="(max-width: 768px) 100vw, 33vw"
         />
         {!isGov && (
           <button className="main-button">
-            {isProduct ? "See Product" : "See Details"}
+            {isProduct
+              ? "See Product"
+              : isGame
+              ? "Start the journey"
+              : "See Details"}
           </button>
         )}
       </Link>
@@ -52,22 +64,32 @@ export default function CardItem({ item, type }) {
       {/* 📝 TEXT SECTION */}
       <div className="text-holder">
         <div className="top">
-          <h3>{item?.name}</h3>
-
+          <Link href={`/marketplace/${item?.id}`} className="name-link">
+            {item?.name}
+          </Link>
+          {isGame && <p>/ {item?.questions?.length} questions</p>}
           {isPlace && (
-            <Link href={`/places/${item?.id}?type=city`} className="location">
+            <Link href={`/places/${item?.id}`} className="location">
               <FaLocationDot />
               {item?.govermorate}
             </Link>
           )}
 
           {isGov && (
-            <Link className="explore" href={`/discover?type=government&id=${item?.id}`}>
-              Explore {item?.count} place <FaArrowRight className="arrow" />
+            <Link
+              className="explore"
+              href={`/discover?type=government&id=${item?.id}`}
+            >
+              {screenSize !== "small" ? "Explore" : ""} {item?.count} place{" "}
+              <FaArrowRight className="arrow" />
             </Link>
           )}
         </div>
-
+        {isGame && (
+          <Link href={`/games/${item?.id}`} className="main-button rewards">
+            {item?.reward} coin reward
+          </Link>
+        )}
         {/* ⭐ RATING */}
         {(isProduct || isPlace) && (
           <div className="reviews">
@@ -94,7 +116,7 @@ export default function CardItem({ item, type }) {
         )}
 
         {/* 📜 DESCRIPTION */}
-        <p>{item?.description}</p>
+        {item?.description && <p>{item?.description}</p>}
       </div>
     </div>
   );

@@ -13,12 +13,13 @@ header .container {
   align-items: center;
   justify-content: space-between;
 }
-
+header .logo {
+  display: flex;
+}
 header .logo img {
   cursor: pointer;
   width: 102px !important;
   position: relative !important;
-  transform: translateY(2px);
 }
 header .container > .holder {
   display: flex;
@@ -56,6 +57,12 @@ header nav > ul > li::before {
   left: 50%;
   transform: translateX(-50%);
 }
+header nav > ul > li .page-route {
+  color: var(--paragraph);
+}
+header nav > ul > li:hover .page-route {
+  color: var(--main-color);
+}
 header nav ul li:hover,
 header nav ul li.active {
   color: var(--main-color);
@@ -71,7 +78,6 @@ header nav ul li.active::before {
   width: 100%;
 }
 
-
 header .routs-menu {
   background: var(--section-color);
   z-index: -1;
@@ -80,40 +86,53 @@ header .routs-menu {
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  padding: 26px 0 32px;
-  transition: all 0.3s;
+  padding: 18px 0;
   display: flex;
   position: absolute;
   top: 74px;
   left: 50%;
+
   background: var(--body-color);
   width: 80%;
   transform: translateX(-50%);
   border-radius: 0 0 22px 22px;
+  border: 1px solid #e0e0e0;
+  border-top: 0;
+  transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
+}
+header:has(nav li:hover) .routs-menu,
+.routs-menu:hover {
+  visibility: visible;
+  z-index: 1;
+  opacity: 1;
 }
 
+header .routs-menu:not(:has(.main-button)) {
+  padding: 30px 0;
+}
 header .routs-menu .container {
-  align-items: unset;
-  gap: 106px;
+  align-items: center;
+  gap: 50px;
   justify-content: center;
   flex-wrap: wrap;
-  row-gap: 45px;
 }
 header .routs-menu .container > div h4 {
-  border-bottom: 2px solid #dcdcdc;
-  padding-bottom: 11px;
-  margin-bottom: 18px;
   color: var(--main-color);
   text-transform: uppercase;
-  font-size: 15px;
-  display: flex;
   align-items: center;
-  gap: 3px;
-  transition: 0s;
+  gap: 5px;
+  font-size: 15px;
+  transition: all;
+  display: flex;
 }
 header .routs-menu .container > div h4 svg {
   color: var(--main-color);
   font-size: 23px;
+}
+header .routs-menu .container > div h4 .arrow-right {
+  font-size: 15px;
+  color: var(--paragraph);
+  margin-left: -3px;
 }
 header .routs-menu .container > div ul {
   display: flex;
@@ -121,14 +140,15 @@ header .routs-menu .container > div ul {
   gap: 20px;
 }
 header .routs-menu .container > div h4 a {
-  font-weight: 700;
+  font-weight: 500;
 }
 header .routs-menu .container .main-button {
-  align-self: center;
+  font-size: 13px;
+  height: 37px;
 }
 header .routs-menu .container > div a {
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   transition: all 0.3s;
   color: var(--paragraph);
@@ -142,34 +162,11 @@ header .routs-menu .container > div .main-button:hover {
   font-weight: 700;
 }
 
-header .routs-menu .container.wrap {
-  gap: 50px;
-}
-header .routs-menu .container.wrap > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 header .routs-menu .container .row-h4s {
   display: flex;
   gap: 50px;
   border-bottom: 1px solid var(--border-color2);
   padding-bottom: 30px;
-}
-header .routs-menu .container.wrap h4 {
-  padding: 0;
-  margin: 0;
-  border: none;
-}
-header .routs-menu .container.wrap > div h4 {
-  color: var(--title-color);
-  font-weight: 500;
-  font-size: 14px;
-}
-header .routs-menu .container.wrap > div svg.arrow-right {
-  font-size: 13px;
-  transform: translateY(-1px);
-  color: var(--title-color);
 }
 
 header .routs-menu .holder {
@@ -268,7 +265,7 @@ header .routs-menu .holder .right .hold button:hover {
 header .actions-btns {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   position: relative;
 }
 header .actions-btns .main-button {
@@ -310,6 +307,7 @@ header .actions-btns .search-holder svg {
   color: white;
   width: 42px;
   padding: 7px;
+  border-radius: 0;
 }
 header .actions-btns .search-holder svg.close {
   padding: 0;
@@ -318,19 +316,21 @@ header .actions-btns .search-holder .results {
   position: absolute;
   width: 100%;
   background: white;
-  border-radius: 0 0 12px 12px;
   padding: 15px;
   z-index: -1;
   visibility: hidden;
   opacity: 0;
-  transition: 0.3s;
+  transition: visibility 0s, opacity 0.3s;
   top: 50px;
   left: 0;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 7px 5px #00000014;
+  border-top: 3px solid var(--main-color);
+  border-radius: 6px 6px 12px 12px !important;
 }
 header .actions-btns .search-holder:has(.input.active) .results {
-  z-index: 1;
+  z-index: 2;
   visibility: visible;
   opacity: 1;
 }
@@ -339,8 +339,11 @@ header .actions-btns .search-holder .results .main-button {
   height: 0;
   width: 100%;
   margin-top: 6px;
-  text-transform: capitalize;
   font-size: 14px;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: capitalize;
+  font-weight: 500;
 }
 
 header .actions-btns .btn,
@@ -348,17 +351,20 @@ header .actions-btns a {
   font-size: 15px;
   font-weight: 400;
   display: flex;
+  cursor: auto;
 }
 header .actions-btns .search-holder .results a:not(.main-button) {
   border-radius: 6px;
-  padding: 10px;
+  padding: 8px 10px;
   color: var(--paragraph);
   font-weight: 500;
+  cursor: pointer;
 }
 header .actions-btns .search-holder .results a:not(.main-button):hover {
-  background: #eeeeee;
+  background: var(--main-color);
+  color: white;
 }
-header .actions-btns .btn svg {
+header .actions-btns svg {
   background-color: var(--main-color);
   border-radius: 6px;
   justify-content: center;
@@ -369,31 +375,44 @@ header .actions-btns .btn svg {
   padding: 8px;
   color: white;
 }
-header .actions-btns .btn svg:hover,
+header .actions-btns svg:hover,
 header .actions-btns .search-holder svg:hover {
   background: var(--hover-color);
 }
-header .actions-btns .userMenu {
+header .actions-btns .menuHandler svg {
+  padding: 5px;
+}
+header .actions-btns .menu {
   position: absolute;
   right: -20px;
   top: 48px;
   width: 100%;
   background: white;
   border-radius: 12px;
-  overflow: hidden;
   padding-bottom: 15px;
   z-index: -1;
   visibility: hidden;
   opacity: 0;
-  transition: 0.3s;
+  transition: visibility 0s, opacity 0.3s;
   width: 280px;
+  box-shadow: 0 2px 10px #0000001a;
 }
-header .actions-btns .btn.user:hover .userMenu {
-  z-index: 1;
+header .actions-btns .btn:hover .menu {
+  z-index: 2;
   visibility: visible;
   opacity: 1;
 }
-
+header .actions-btns .menu::before {
+  content: "";
+  width: 100%;
+  height: 13px;
+  position: absolute;
+  top: -13px;
+  left: 0;
+}
+header .actions-btns .cartMenu::before {
+  top: -16px;
+}
 header .actions-btns .userMenu .top {
   background: var(--main-color);
   color: #fff;
@@ -401,13 +420,16 @@ header .actions-btns .userMenu .top {
   text-align: left;
   margin-bottom: 9px;
   padding: 13px 17px;
+
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
+  border-radius: 12px 12px 0 0;
 }
 
 header .actions-btns .userMenu li {
   padding: 11px;
   padding: 0 11px;
+  cursor: pointer;
 }
 
 header .actions-btns .userMenu a,
@@ -418,6 +440,7 @@ header .actions-btns .userMenu a,
   font-size: 16px;
   font-weight: 600;
   transition: all 0.3s;
+  cursor: pointer;
 }
 header .actions-btns .userMenu a:hover {
   background: #eeeeee;
@@ -448,28 +471,219 @@ header .actions-btns .userMenu svg {
 }
 header .actions-btns .userMenu .danger:hover svg {
   width: 19px;
-
   margin-right: 5px;
 }
 
-@media (min-width: 1700px) {
+/*! MINI-CART  */
+
+header .cartMenu {
+  width: 339px !important;
+  border-top: 3px solid var(--main-color);
+  padding-bottom: 0 !important;
+  border-radius: 6px 6px 12px 12px !important;
 }
-@media (max-width: 1600px) {
-}
-@media (max-width: 1500px) {
-}
-@media (max-width: 1300px) {
-}
-@media (max-width: 1200px) {
-}
-@media (max-width: 1100px) {
+header .cartMenu > * {
+  padding: 12px;
 }
 
-@media (min-width: 786px) {
-  header:has(nav li:hover) .routs-menu,
-  header .routs-menu:hover {
+header .cartMenu .top.forEmpety {
+  font-size: 15px;
+  padding-bottom: 10px;
+}
+header .cartMenu .info a {
+  font-size: 14px;
+  cursor: pointer;
+}
+header .cartMenu .info a:hover {
+  color: var(--main-color);
+}
+header .cartMenu .top {
+  color: var(--title-color);
+  font-size: 14px;
+  border-bottom: 2px solid #e9ecef;
+}
+header .cartMenu .holder {
+  max-height: 243px;
+  padding: 0 0 0 12px;
+  overflow: auto;
+}
+header .cartMenu .holder::-webkit-scrollbar {
+  width: 5px;
+}
+header .cartMenu .holder::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+}
+header .cartMenu .item {
+  padding: 10px 0;
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid #e9ecef;
+  position: relative;
+  padding-right: 5px;
+}
+header .cartMenu .item img {
+  border-radius: 5px;
+  min-width: 64px !important;
+  max-width: 64px !important;
+  height: 60px !important;
+  object-fit: cover;
+}
+header .cartMenu .item .info {
+  flex-direction: column;
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+header .cartMenu .item .info > p {
+  color: var(--paragraph);
+  text-align: left;
+  font-weight: 500;
+  font-size: 14px;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+}
+header .cartMenu .item .remove {
+  color: #d94452;
+  font-size: 8px;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+  background: transparent !important;
+  transform: translateY(-2px);
+}
+header .cartMenu .item .remove:hover {
+  color: #c82333;
+}
+header .cartMenu .item .info > span {
+  font-size: 12px;
+  text-align: left;
+  color: var(--paragraph);
+  font-weight: 500;
+}
+header .cartMenu .total {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  font-weight: 500;
+  color: var(--paragraph);
+  font-size: 15px;
+  padding-bottom: 0;
+}
+header .cartMenu .btns {
+  flex-direction: column;
+  gap: 5px;
+  display: flex;
+}
+header .cartMenu .btns a.forcart {
+  background: #313131;
+}
+header .cartMenu .btns a.forcart:hover {
+  background: var(--main-color);
+}
+header .cartMenu .btns a {
+  border-radius: 6px !important;
+  width: 100%;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+@media (max-width: 1300px) {
+  header .routs-menu .container {
+    gap: 35px;
+  }
+  header .actions-btns .menu {
+    right: 0;
+  }
+}
+@media (max-width: 1200px) {
+  header nav > ul > li {
+    padding: 28px 14px;
+  }
+  header .routs-menu .container {
+    gap: 25px;
+  }
+}
+@media (max-width: 1100px) {
+  header .routs-menu {
+    width: 95%;
+  }
+  header .routs-menu .container {
+    gap: 25px;
+  }
+  header .routs-menu .container > div a {
+    font-size: 13px;
+  }
+  header .routs-menu .container > div h4 svg {
+    font-size: 21px;
+  }
+  header .routs-menu .container .main-button {
+    font-size: 12px;
+    padding: 17px 18px;
+  }
+  header .routs-menu {
+    height: unset;
+  }
+  header .actions-btns .search-holder .input.active input {
+    width: 130px;
+    padding: 0 8px;
+  }
+}
+@media (max-width: 992px) {
+  header > .container {
+    padding: 8px 12px;
+  }
+  header .logo img {
+    width: 90px !important;
+    transform: unset;
+  }
+  header nav {
+    position: absolute;
+    background: white;
+    border-radius: 0 0 14px 14px;
+    left: 50%;
+    transform: translate(-50%, 1px);
+    width: 94%;
+    justify-content: center;
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
+    position: absolute;
+  }
+  header nav.active {
     visibility: visible;
     z-index: 1;
     opacity: 1;
+  }
+  header nav > ul > li {
+    padding: 23px 14px;
+    font-weight: 500;
+  }
+  header .routs-menu {
+    top: 62px;
+    border: 1px solid #e0e0e0;
+    width: 94% !important;
+    padding: 16px 0;
+  }
+  header .routs-menu .container {
+    gap: 10px 25px;
+  }
+}
+@media (max-width: 900px) {
+  header .routs-menu .container {
+    gap: 10px 14px;
+  }
+}
+@media (max-width: 768px) {
+  header .routs-menu .container .main-button {
+    height: unset;
+    padding: 7px 11px;
+    font-size: 12px;
   }
 }

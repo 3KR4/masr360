@@ -23,9 +23,9 @@ export const slides = [
     small: "Explore Egypt Differently",
     paragraph:
       "Find hidden gems, unique experiences, and special rewards across all Egyptian governments. Masr360 is your smart guide to explore, play, and enjoy every part of Egypt.",
-    title: "Discover the Real Egypt with Masr360",
+    title: "Discover the Real Egypt",
     btnText: "Visit Marketplace",
-    link: "/discover?type=governments",
+    link: "/marketplace",
   },
 ];
 export const categories = [
@@ -376,11 +376,38 @@ export const places = [
       "A modern architectural masterpiece reviving the spirit of the ancient library — where culture meets innovation.",
   },
 ];
+export const bookings = [
+  {
+    id: 1,
+    place: places[0],
+    ticketPrice: 100,
+    peopleCount: 3,
+    totalPaid: 300,
+    bookingDate: "2024-10-10T16:20:00Z",
+    visitDate: "2024-11-01T10:00:00Z",
+  },
+  {
+    id: 2,
+    place: places[2],
+    ticketPrice: 80,
+    peopleCount: 2,
+    totalPaid: 160,
+    bookingDate: "2024-09-20T14:00:00Z",
+    visitDate: "2024-09-30T09:00:00Z",
+  },
+];
 export const products = [
   {
     id: 1,
     name: "Papyrus Painting of Nefertiti",
     image: "/products/papyrus-nefertiti.jpg",
+    images: [
+      "/products/papyrus-nefertiti.jpg",
+      "/products/papyrus-nefertiti.jpg",
+      "/products/papyrus-nefertiti.jpg",
+      "/products/papyrus-nefertiti.jpg",
+      "/products/papyrus-nefertiti.jpg",
+    ],
     price: 250,
     sale: 15,
     category: "Souvenirs",
@@ -722,5 +749,377 @@ export const tourismCategories = [
     id: 8,
     name: "Shopping",
     icon: "🛍️",
+  },
+];
+export const productCategories = [
+  {
+    id: 1,
+    name: "Souvenirs",
+    icon: "🎁",
+  },
+  {
+    id: 2,
+    name: "Local Crafts",
+    icon: "🧵",
+  },
+  {
+    id: 3,
+    name: "Art & Decor",
+    icon: "🖼️",
+  },
+  {
+    id: 4,
+    name: "Traditional Clothes",
+    icon: "👘",
+  },
+  {
+    id: 5,
+    name: "Handmade Jewelry",
+    icon: "💍",
+  },
+  {
+    id: 6,
+    name: "Home Accessories",
+    icon: "🏡",
+  },
+  {
+    id: 7,
+    name: "Spices & Aromas",
+    icon: "🌿",
+  },
+  {
+    id: 8,
+    name: "Leather Goods",
+    icon: "👝",
+  },
+];
+export const orders = [
+  {
+    id: 1,
+    cart: [
+      products[0],
+      products[1],
+      products[2],
+      products[3],
+      products[4],
+      products[5],
+    ],
+    totalItems: 12,
+    cartTotalPrice: 387, // بعد خصم العروض تقريبًا
+    customer: {
+      id: 101,
+      name: "John Doe",
+      email: "john.doe@example.com",
+      phone: "+20 111 234 5678",
+      nationality: "Egyptian",
+      address: "15 Tahrir St, Downtown, Cairo",
+    },
+    payment: "Card",
+    shipping: "Standard",
+    orderStatus: "Processing",
+    orderDate: "2024-06-01T10:00:00Z",
+    notes: "Please leave the package at the front door if no one is home.",
+  },
+  {
+    id: 2,
+    cart: [products[6], products[2], products[3], products[4]],
+    totalItems: 6,
+    cartTotalPrice: 465, // خصم 25% من 620 + شحن
+    customer: {
+      id: 102,
+      name: "Sarah Ahmed",
+      email: "sarah.ahmed@example.com",
+      phone: "+20 122 678 9012",
+      nationality: "Egyptian",
+      address: "25 Nile Corniche, Luxor",
+    },
+    payment: "Cash on Delivery",
+    shipping: "Express",
+
+    orderStatus: "Shipped",
+    orderDate: "2024-07-12T14:30:00Z",
+    notes: "Handle with care — fragile item.",
+  },
+  {
+    id: 3,
+    cart: [products[10], products[12], products[3]],
+    totalItems: 3,
+    cartTotalPrice: 518,
+    customer: {
+      id: 103,
+      name: "Mohamed Elsayed",
+      email: "mohamed.elsayed@example.com",
+      phone: "+20 100 555 2134",
+      nationality: "Egyptian",
+      address: "45 El Haram St, Giza",
+    },
+    payment: "Card",
+    shipping: "Standard",
+    orderStatus: "Delivered",
+    orderDate: "2024-08-20T09:45:00Z",
+    notes: "Delivered successfully to the customer.",
+  },
+  {
+    id: 4,
+    cart: [products[2], products[8], products[4], products[14]],
+    totalItems: 5,
+    cartTotalPrice: 573,
+    customer: {
+      id: 104,
+      name: "Emily Brown",
+      email: "emily.brown@example.com",
+      phone: "+44 755 678 2221",
+      nationality: "British",
+      address: "Flat 3, 12 Garden Road, Alexandria",
+    },
+    payment: "Card",
+    shipping: "Express",
+
+    orderStatus: "Processing",
+    orderDate: "2024-09-03T12:00:00Z",
+    notes: "Gift wrap the items, please.",
+  },
+  {
+    id: 5,
+    cart: [products[8]],
+    totalItems: 1,
+    cartTotalPrice: 476,
+    customer: {
+      id: 105,
+      name: "Omar Hassan",
+      email: "omar.hassan@example.com",
+      phone: "+20 114 333 9855",
+      nationality: "Egyptian",
+      address: "Villa 8, Rehab City, New Cairo",
+    },
+    payment: "Cash on Delivery",
+    shipping: "Standard",
+    orderStatus: "Cancelled",
+    orderDate: "2024-09-28T17:10:00Z",
+    notes: "Order cancelled before shipping.",
+  },
+  {
+    id: 6,
+    cart: [products[9], products[11]],
+    totalItems: 2,
+    cartTotalPrice: 873,
+    customer: {
+      id: 106,
+      name: "Lina Khaled",
+      email: "lina.khaled@example.com",
+      phone: "+20 127 456 7893",
+      nationality: "Egyptian",
+      address: "12 King Farouk St, Ismailia",
+    },
+    payment: "Card",
+    shipping: "Express",
+    orderStatus: "Delivered",
+    orderDate: "2024-10-10T16:20:00Z",
+    notes: "Customer requested to be notified before delivery.",
+  },
+];
+export const games = [
+  {
+    id: 1,
+    place: places[0], // The Egyptian Museum
+    name: "The Egyptian Museum Challenge",
+    reward: 130,
+    questions: [
+      {
+        id: 1,
+        question:
+          "In the first floor, at the end of the left corridor, what type of artifact is displayed?",
+        options: ["Statue", "Mummy", "Sarcophagus", "Jewelry"],
+        correctAnswer: "Sarcophagus",
+      },
+      {
+        id: 2,
+        question:
+          "Who was the famous boy king whose treasures are displayed here?",
+        options: ["Tutankhamun", "Ramses II", "Akhenaten", "Khufu"],
+        correctAnswer: "Tutankhamun",
+      },
+      {
+        id: 3,
+        question:
+          "Which material was commonly used for statues in the Old Kingdom?",
+        options: ["Granite", "Wood", "Limestone", "Gold"],
+        correctAnswer: "Limestone",
+      },
+      {
+        id: 4,
+        question: "Which goddess is often shown with outstretched wings?",
+        options: ["Isis", "Hathor", "Bastet", "Nephthys"],
+        correctAnswer: "Isis",
+      },
+      {
+        id: 5,
+        question: "What is the main color used in the Tutankhamun mask?",
+        options: ["Silver", "Gold", "Bronze", "Blue"],
+        correctAnswer: "Gold",
+      },
+    ],
+  },
+  {
+    id: 2,
+    place: places[1], // The Pyramids of Giza
+    name: "Pyramids Explorer",
+    reward: 150,
+    questions: [
+      {
+        id: 1,
+        question: "Which pyramid is the largest in Giza?",
+        options: ["Khufu", "Khafre", "Menkaure", "Djoser"],
+        correctAnswer: "Khufu",
+      },
+      {
+        id: 2,
+        question: "What mythical creature guards the Pyramids?",
+        options: ["Sphinx", "Anubis", "Phoenix", "Scarab"],
+        correctAnswer: "Sphinx",
+      },
+      {
+        id: 3,
+        question: "The pyramids were built during which period?",
+        options: ["Old Kingdom", "New Kingdom", "Middle Kingdom", "Roman Era"],
+        correctAnswer: "Old Kingdom",
+      },
+      {
+        id: 4,
+        question: "What is inside the Great Pyramid?",
+        options: ["King’s Chamber", "Mummy of Ramses II", "Jewels", "Nothing"],
+        correctAnswer: "King’s Chamber",
+      },
+      {
+        id: 5,
+        question: "The pyramids were built mainly from what material?",
+        options: ["Limestone", "Granite", "Sandstone", "Mud bricks"],
+        correctAnswer: "Limestone",
+      },
+    ],
+  },
+  {
+    id: 3,
+    place: places[2], // The High Dam
+    name: "High Dam Quiz",
+    reward: 100,
+    questions: [
+      {
+        id: 1,
+        question: "In which city is the High Dam located?",
+        options: ["Luxor", "Cairo", "Aswan", "Alexandria"],
+        correctAnswer: "Aswan",
+      },
+      {
+        id: 2,
+        question: "What does the High Dam control?",
+        options: ["Nile floods", "Electricity", "Tourism", "Sandstorms"],
+        correctAnswer: "Nile floods",
+      },
+      {
+        id: 3,
+        question: "When was the dam completed?",
+        options: ["1960", "1970", "1955", "1980"],
+        correctAnswer: "1970",
+      },
+      {
+        id: 4,
+        question: "What lake was formed behind the dam?",
+        options: ["Lake Tana", "Lake Nasser", "Lake Victoria", "Lake Qarun"],
+        correctAnswer: "Lake Nasser",
+      },
+      {
+        id: 5,
+        question: "Which leader inaugurated the High Dam?",
+        options: ["Nasser", "Sadat", "Mubarak", "King Farouk"],
+        correctAnswer: "Nasser",
+      },
+    ],
+  },
+  {
+    id: 4,
+    place: places[3], // Philae Temple
+    name: "Philae Temple Knowledge Test",
+    reward: 120,
+    questions: [
+      {
+        id: 1,
+        question: "Philae Temple is dedicated to which goddess?",
+        options: ["Isis", "Hathor", "Mut", "Nephthys"],
+        correctAnswer: "Isis",
+      },
+      {
+        id: 2,
+        question: "On which island is Philae Temple located now?",
+        options: ["Agilkia", "Elephantine", "Sahel", "Abu"],
+        correctAnswer: "Agilkia",
+      },
+      {
+        id: 3,
+        question: "When was the temple relocated?",
+        options: ["1960s", "1980s", "1950s", "1970s"],
+        correctAnswer: "1960s",
+      },
+      {
+        id: 4,
+        question: "Which civilization built Philae Temple?",
+        options: ["Greek", "Roman", "Egyptian", "Persian"],
+        correctAnswer: "Egyptian",
+      },
+      {
+        id: 5,
+        question: "What is the temple’s main architectural feature?",
+        options: [
+          "Columns with floral capitals",
+          "Pyramids",
+          "Obelisks",
+          "Domes",
+        ],
+        correctAnswer: "Columns with floral capitals",
+      },
+    ],
+  },
+  {
+    id: 5,
+    place: places[4], // Luxor Temple
+    name: "Luxor Temple Adventure",
+    reward: 140,
+    questions: [
+      {
+        id: 1,
+        question: "Luxor Temple is dedicated to which god?",
+        options: ["Amun", "Ra", "Osiris", "Anubis"],
+        correctAnswer: "Amun",
+      },
+      {
+        id: 2,
+        question: "Which Pharaoh started building Luxor Temple?",
+        options: ["Amenhotep III", "Ramses II", "Tutankhamun", "Seti I"],
+        correctAnswer: "Amenhotep III",
+      },
+      {
+        id: 3,
+        question: "Where is Luxor Temple located?",
+        options: ["East bank", "West bank", "Desert", "Island"],
+        correctAnswer: "East bank",
+      },
+      {
+        id: 4,
+        question: "Which structure connects Luxor Temple to Karnak Temple?",
+        options: [
+          "Avenue of Sphinxes",
+          "Bridge of Kings",
+          "Path of Ra",
+          "Valley of Queens",
+        ],
+        correctAnswer: "Avenue of Sphinxes",
+      },
+      {
+        id: 5,
+        question: "At night, the temple is famous for its?",
+        options: ["Light show", "Boat rides", "Statues", "Market"],
+        correctAnswer: "Light show",
+      },
+    ],
   },
 ];

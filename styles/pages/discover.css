@@ -1,10 +1,6 @@
 .discover {
 }
-.discover > .fluid-container:not(.title-holder):not(.navigations):not(.city) {
-  display: flex;
-  gap: 20px;
-  margin: 25px auto;
-}
+
 .discover .holder {
   flex: 1;
   display: flex;
@@ -13,6 +9,12 @@
 }
 .discover .grid-holder {
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+.discover .grid-holder:has(.product) {
+  grid-template-columns: repeat(auto-fill, minmax(286px, 1fr));
+}
+.discover .grid-holder:has(.game) {
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 }
 .places-page {
   position: relative;
@@ -60,4 +62,3 @@
   font-size: 22px;
   font-weight: 400;
 }
-

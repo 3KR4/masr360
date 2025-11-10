@@ -105,8 +105,8 @@ const Footer = () => {
       {/* Privacy & Rights */}
       <p className="privacy">
         © {new Date().getFullYear()} Masr360. All rights reserved. |
-        <Link href="/privacy-policy" className="privacy-link">
-          {" "}
+        <Link href="/privacy" className="privacy-link">
+          {""}
           Privacy Policy
         </Link>
       </p>

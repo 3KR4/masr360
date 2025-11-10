@@ -6,14 +6,15 @@
   scroll-behavior: smooth;
   list-style: none;
   text-decoration: none;
+  text-transform: capitalize;
 }
 :root {
   --body-color: #ffffff;
   --section-color: #f2f2f2;
   --main-color: #ea8c43;
   --hover-color: #dc7423;
-  --title-color: #3c3c3c;
-  --paragraph: #484848;
+  --title-color: #333;
+  --paragraph: #575757;
   --second-color: #4d68ff;
 }
 body {
@@ -131,29 +132,12 @@ a {
 }
 
 @media (min-width: 768px) {
-  .container {
-    width: 720px;
-  }
+  .container,
   .fluid-container {
-    width: 850px;
+    width: 95%;
   }
 }
-@media (min-width: 992px) {
-  .container {
-    width: 960px;
-  }
-  .fluid-container {
-    width: 1100px;
-  }
-}
-@media (min-width: 1200px) {
-  .container {
-    width: 1140px;
-  }
-  .fluid-container {
-    width: 1300px;
-  }
-}
+
 @media (min-width: 1600px) {
   .container {
     width: 1400px;
@@ -163,10 +147,7 @@ a {
   }
 }
 @media (max-width: 768px) {
-  .container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+  .container,
   .fluid-container {
     padding-left: 20px;
     padding-right: 20px;
@@ -177,6 +158,11 @@ a {
   display: grid;
   gap: 16px;
   row-gap: 18px;
+}
+.big-holder {
+  display: flex;
+  gap: 20px;
+  margin: 15px auto 25px;
 }
 
 /*! Main Button */
@@ -207,7 +193,7 @@ a {
   position: relative;
 }
 .title-holder.pages {
-  margin: 38px auto 16px;
+  margin: 38px auto 15px;
   padding: 0 40px;
 }
 
@@ -229,8 +215,11 @@ a {
 }
 .sub-title {
   text-align: center;
+  max-width: 60%;
+  margin: 0 auto;
+  font-weight: 400;
   font-size: 17px;
-  font-family: cursive;
+  letter-spacing: 0.3px;
 }
 
 .card {
@@ -246,12 +235,14 @@ a {
 }
 .card img {
   position: relative !important;
-  height: 245px !important;
   object-fit: cover;
   cursor: pointer;
   transition: 1s;
+  aspect-ratio: 1.7;
 }
-
+.card.product img {
+  aspect-ratio: 1.15;
+}
 .card:hover img {
   scale: 1.1;
 }
@@ -259,7 +250,7 @@ a {
 .card .text-holder {
   padding: 20px;
   border-radius: 20px;
-  margin-top: -20px;
+  margin-top: -18px;
   z-index: 9;
   position: relative;
   background: white;
@@ -273,7 +264,14 @@ a {
   align-items: center;
   justify-content: space-between;
 }
-.card h3 {
+.card.game .top p {
+  font-weight: 700;
+}
+.card.game .top {
+  justify-content: center;
+  gap: 5px;
+}
+.card .name-link {
   color: var(--paragraph);
   font-weight: 600;
   font-size: 17px;
@@ -284,7 +282,9 @@ a {
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
 }
-.card.product h3 {
+
+.card.game .name-link,
+.card.product .name-link {
   font-size: 16px;
 }
 .card .text-holder a.explore {
@@ -306,12 +306,12 @@ a {
 .card .text-holder a:hover svg {
   color: var(--hover-color);
 }
-.card .reviews {
+.reviews {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.card .reviews .count {
+.reviews .count {
   color: var(--paragraph);
   font-weight: 500;
   font-size: 13px;
@@ -345,14 +345,15 @@ a {
   flex-direction: column;
   gap: 5px;
 }
-.card .actions-icon svg {
-  background: var(--paragraph);
+.card .actions-icon > * {
+  background: #494949;
   color: white;
   width: 26px;
   height: 26px;
   padding: 6px;
   border-radius: 6px;
 }
+
 .card .actions-icon svg:hover {
   background: var(--main-color);
 }
@@ -382,6 +383,14 @@ a {
   color: var(--paragraph);
   font-size: 12px;
 }
+
+.card .main-button.rewards {
+  letter-spacing: 0.2px;
+  height: 38px;
+  width: 100%;
+  color: white !important;
+}
+
 .css-stars {
   display: inline-flex;
   align-items: center;
@@ -401,7 +410,8 @@ a {
 .price-holder p {
   display: flex;
   align-items: center;
-  gap: 7px;
+  flex-wrap: wrap;
+  gap: 2px 7px;
 }
 
 .new-price {
@@ -440,7 +450,6 @@ a {
   font-size: 14px;
   display: flex;
   padding-left: 10px;
-  text-transform: capitalize;
 }
 .navigations a {
   color: var(--paragraph);
@@ -511,4 +520,110 @@ a {
   color: var(--title-color) !important;
   opacity: 0.7;
   cursor: auto;
+}
+
+.box.forInput {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+.box.forInput label {
+  color: var(--paragraph);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.box.forInput .inputHolder .holder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #a6a6a6;
+  padding: 9px;
+  border-radius: 10px;
+}
+.box.forInput .inputHolder .holder svg {
+  color: var(--paragraph);
+  width: 20px;
+  cursor: auto;
+}
+.box.forInput .inputHolder .holder svg.eye {
+  cursor: pointer;
+}
+.box.forInput .inputHolder .holder input {
+  flex: 1;
+  height: 100%;
+}
+.box.forInput .inputHolder .error {
+  color: red;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  margin: 2px 4px -6px;
+}
+.box.forInput .inputHolder .error svg {
+  color: red;
+  width: 15px;
+}
+
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 60vh;
+}
+.error-page svg {
+  font-size: 165px;
+  color: var(--main-color);
+}
+.error-page h1 {
+  font-size: 160px;
+  color: var(--main-color);
+  font-family: cursive;
+  line-height: 1;
+}
+.error-page h4 {
+  font-size: 34px;
+  color: var(--paragraph);
+}
+.error-page p {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+  color: #878787;
+  margin: 5px 0 11px;
+  max-width: 70%;
+}
+.error-page .btns {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 992px) {
+  .sub-title {
+    max-width: 95%;
+  }
+}
+@media (max-width: 768px) {
+  .title-holder {
+    width: 100%;
+  }
+  .main-title {
+    font-size: 30px;
+  }
+  .sub-title {
+    font-size: 15px;
+  }
+  .main-title hr {
+    width: 34px;
+  }
+  .card.product img {
+    aspect-ratio: 1.35;
+  }
 }

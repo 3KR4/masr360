@@ -42,51 +42,7 @@ input:-webkit-autofill:focus {
   gap: 10px;
   grid-template-columns: repeat(2, 1fr);
 }
-.register form .box {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-}
-.register form .box label {
-  color: var(--paragraph);
-  font-size: 13px;
-  font-weight: 700;
-}
 
-.register form .inputHolder .holder {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid #a6a6a6;
-  padding: 9px;
-  border-radius: 10px;
-}
-.register form .inputHolder .holder svg {
-  color: var(--paragraph);
-  width: 20px;
-  cursor: auto;
-}
-.register form .inputHolder .holder svg.eye {
-  cursor: pointer;
-}
-.register form .inputHolder .holder input {
-  flex: 1;
-}
-.register form .inputHolder .error {
-  color: red;
-  align-items: center;
-  gap: 2px;
-  font-size: 13px;
-  font-weight: 600;
-  display: flex;
-  margin: 2px 4px -6px;
-}
-.register form .inputHolder .error svg {
-  color: red;
-  width: 15px;
-}
 .register form .main-button {
   width: 100%;
   margin-top: 10px;
@@ -143,6 +99,5 @@ p.didntHasAccount {
   font-weight: 700;
   cursor: pointer;
   font-size: 14px;
-  text-transform: capitalize;
   text-decoration: underline;
 }
