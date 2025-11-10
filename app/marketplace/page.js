@@ -3,7 +3,6 @@ import Image from "next/image";
 
 import React, { useState } from "react";
 import { products } from "@/data";
-import { useSearchParams } from "next/navigation";
 import CardItem from "@/components/CardItem";
 import Navigations from "@/components/navigations";
 import Filters from "@/components/settings/Filters";
@@ -12,8 +11,7 @@ import "@/styles/pages/discover.css";
 import { IoIosClose } from "react-icons/io";
 
 function Marketplace() {
-  const searchParams = useSearchParams();
-  const cat = searchParams.get("cat");
+
 
   const [availability, setAvailability] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 10000]);

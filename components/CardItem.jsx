@@ -64,7 +64,18 @@ export default function CardItem({ item, type }) {
       {/* 📝 TEXT SECTION */}
       <div className="text-holder">
         <div className="top">
-          <Link href={`/marketplace/${item?.id}`} className="name-link">
+          <Link
+            href={
+              isProduct
+                ? `/marketplace/${item?.id}`
+                : isPlace
+                ? `/place/${item?.id}?type=place`
+                : isGame
+                ? `/games/${item?.id}`
+                : `/discover?type=government&id=${item?.id}`
+            }
+            className="name-link"
+          >
             {item?.name}
           </Link>
           {isGame && <p>/ {item?.questions?.length} questions</p>}

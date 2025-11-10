@@ -78,6 +78,7 @@
   width: fit-content !important;
   left: 50% !important;
   transform: translate(-50%, -13px) !important;
+  z-index: 1 !important;
 }
 .swiper-pagination-bullet {
   background-color: #e7802c69 !important;

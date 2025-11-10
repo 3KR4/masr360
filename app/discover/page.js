@@ -1,9 +1,7 @@
 "use client";
 import Image from "next/image";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { governments, places } from "@/data";
-import { useSearchParams } from "next/navigation";
 import CardItem from "@/components/CardItem";
 import Navigations from "@/components/navigations";
 import Filters from "@/components/settings/Filters";
@@ -12,11 +10,19 @@ import "@/styles/pages/discover.css";
 import { IoIosClose } from "react-icons/io";
 
 function Page() {
-  const searchParams = useSearchParams();
-  const type = searchParams.get("type");
-  const govId = searchParams.get("id");
-  let data = [];
+  const [params, setParams] = useState({ type: null, id: null });
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const search = new URLSearchParams(window.location.search);
+      const type = search.get("type");
+      const id = search.get("id");
+      setParams({ type, id });
+    }
+  }, []);
+
+  const { type, id: govId } = params;
+  let data = [];
   let selectedGovernment = null;
 
   if (type === "governments") {
@@ -40,6 +46,7 @@ function Page() {
 
   return (
     <div className="discover">
+      {/* -------- City Section -------- */}
       {selectedGovernment && (
         <div className="city fluid-container">
           <Image
@@ -54,16 +61,18 @@ function Page() {
         </div>
       )}
 
+      {/* -------- Title Section -------- */}
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
           {type === "government"
             ? `${selectedGovernment?.name} places`
-            : type == "places"
+            : type === "places"
             ? "discover places"
             : "discover egypt"}
           <hr />
         </h1>
+
         <p className="sub-title">
           {type === "government" ? (
             <>
@@ -75,16 +84,14 @@ function Page() {
           ) : type === "places" ? (
             <>
               Discover Egypt’s most remarkable places — from historic landmarks
-              to hidden gems.
-              <br />
+              to hidden gems. <br />
               With Masr 360, explore top destinations, uncover local stories,
               and experience the true essence of every location.
             </>
           ) : (
             <>
               Egypt is a land of wonders — from ancient monuments to hidden gems
-              tucked away in every city.
-              <br />
+              tucked away in every city. <br />
               With Masr 360, you can explore each government and experience
               Egypt like never before.
             </>
@@ -92,10 +99,11 @@ function Page() {
         </p>
       </div>
 
+      {/* -------- Navigation -------- */}
       <Navigations
         items={[
           {
-            name: type.includes("government") ? "governments" : "places",
+            name: type?.includes("government") ? "governments" : "places",
             href: "/discover?type=governments",
           },
           selectedGovernment && {
@@ -105,6 +113,7 @@ function Page() {
         ].filter(Boolean)}
       />
 
+      {/* -------- Main Holder -------- */}
       <div className="fluid-container big-holder">
         {type !== "governments" && (
           <Filters
@@ -121,7 +130,7 @@ function Page() {
         )}
 
         <div className="holder">
-          {/* Selected Filters */}
+          {/* -------- Selected Filters -------- */}
           {(availability ||
             selectedCategory ||
             priceRange[0] !== 0 ||
@@ -146,16 +155,19 @@ function Page() {
               )}
             </div>
           )}
+
+          {/* -------- Grid -------- */}
           <div className="grid-holder">
             {data?.map((item) => (
               <CardItem
                 key={item.id}
                 item={item}
-                type={type === "places" ? "place" : "gov"}
+                type={type === "governments" ? "gov" : "place"}
               />
             ))}
           </div>
 
+          {/* -------- Pagination -------- */}
           {type !== "governments" && (
             <Pagination pageCount={50} onPageChange={() => {}} />
           )}
