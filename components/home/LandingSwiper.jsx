@@ -11,6 +11,8 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { motion } from "framer-motion";
 
+console.log(slides[0].image);
+
 function LandingSwiper() {
   return (
     <div className="landing">
@@ -22,9 +24,9 @@ function LandingSwiper() {
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
       >
-        {slides.map((slide, index) => (
+        {slides?.map((slide, index) => (
           <SwiperSlide key={index}>
-            <Image src={slide.image} fill alt={``}></Image>
+            <Image src={slide?.image} fill alt={``}></Image>
             <div className="slide-content">
               <motion.span
                 initial={{ opacity: 0, y: 50 }}
