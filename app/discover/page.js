@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { governments, places } from "@/data";
 import CardItem from "@/components/CardItem";
 import Navigations from "@/components/navigations";
@@ -9,22 +9,19 @@ import Pagination from "@/components/settings/Pagination";
 import "@/styles/pages/discover.css";
 import { IoIosClose } from "react-icons/io";
 import { mainContext } from "@/Contexts/mainContext";
+import { useSearchParams } from "next/navigation";
 
 function Page() {
   const { screenSize } = useContext(mainContext);
+  const searchParams = useSearchParams();
 
-  const [params, setParams] = useState({ type: null, id: null });
+  const { type, id: govId } = useMemo(() => {
+    return {
+      type: searchParams.get("type"),
+      id: searchParams.get("id"),
+    };
+  }, [searchParams]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const search = new URLSearchParams(window.location.search);
-      const type = search.get("type");
-      const id = search.get("id");
-      setParams({ type, id });
-    }
-  }, []);
-
-  const { type, id: govId } = params;
   let data = [];
   let selectedGovernment = null;
 
