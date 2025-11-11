@@ -19,7 +19,7 @@ function LandingSwiper() {
         slidesPerView={1}
         loop={true}
         speed={2000}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        // autoplay={{ delay: 5000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
       >
         {slides?.map((slide, index) => (

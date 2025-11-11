@@ -55,8 +55,8 @@
 }
 .swiper .slide-content h2 {
   font-weight: 400;
-  font-size: 20px;
-  max-width: 49%;
+  font-size: 21px;
+  max-width: 55%;
   color: white;
 }
 
@@ -110,7 +110,7 @@
 }
 .categories .swiper-pagination {
   position: relative;
-  border: 2px solid #e0e0e0;
+  border: 1px solid #e0e0e0;
   transform: unset !important;
   left: unset !important;
   margin: 2px auto 0;
@@ -176,16 +176,7 @@
   margin: 50px 0;
   gap: 34px;
 }
-.governments .main-button,
-.places .main-button,
-.products .main-button {
-  height: 40px;
-  font-size: 14px;
 
-  margin: 15px auto -2px;
-  width: 200px;
-  border-radius: 50px !important;
-}
 .governments .grid-holder {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -285,6 +276,12 @@
   .places .grid-holder {
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   }
+  .categories .text-holder > * {
+    font-size: 15px;
+  }
+  .categories .places-count {
+    font-size: 14px;
+  }
 }
 @media (max-width: 786px) {
   .swiper .slide-content h1 {
@@ -328,5 +325,43 @@
   }
   .grid-holder {
     grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .swiper .slide-content:before {
+    box-shadow: 0 0 118px 82px #0000006b;
+  }
+  .swiper .slide-content span {
+    font-weight: 400;
+    font-size: 15px;
+  }
+  .swiper .slide-content h1 {
+    font-size: 29px;
+  }
+  .swiper .slide-content h2 {
+    font-size: 12px;
+  }
+  .swiper .slide-content button {
+    height: 32px;
+    padding: 17px 18px;
+    font-size: 10px;
+    margin: 0;
+  }
+  .swiper-pagination {
+    padding: 5px 12px;
+  }
+  .swiper-pagination-bullet {
+    height: 4px !important;
+  }
+  .categories .swiper {
+    height: 205px !important;
+  }
+  .categories .text-holder > * {
+    font-size: 13px !important;
+  }
+
+  .categories .text-holder {
+    margin: -28px auto 0;
   }
 }

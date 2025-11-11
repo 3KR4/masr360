@@ -81,7 +81,7 @@ const navLinks = [
     link: "/games",
   },
   {
-    title: "About Us",
+    title: "about us",
     link: "/about",
   },
 ];
@@ -127,7 +127,20 @@ function Header() {
           >
             {x.departments ? (
               <>
-                {x.title} <FaAngleDown />
+                {x.title === "Masr 360 Nights"
+                  ? screenSize === "large"
+                    ? "Masr 360 Nights"
+                    : "Nights"
+                  : x.title === "Marketplace"
+                  ? screenSize === "large"
+                    ? "Marketplace"
+                    : "Market"
+                  : x.title.trim().toLowerCase() === "about us"
+                  ? screenSize === "large"
+                    ? "about us"
+                    : "about"
+                  : x.title}
+                <FaAngleDown />
               </>
             ) : (
               <Link className="page-route" href={x.link}>

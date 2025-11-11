@@ -280,6 +280,10 @@ header .actions-btns .search-holder {
   border-radius: 6px;
   display: flex;
   border: 2px solid var(--main-color);
+  transition: 0.3s;
+}
+header .actions-btns .search-holder:hover {
+  border-color: var(--hover-color);
 }
 header .actions-btns .search-holder .input {
   display: flex;
@@ -288,6 +292,7 @@ header .actions-btns .search-holder .input {
 header .actions-btns .search-holder .input.active input {
   width: 200px;
   padding: 0 12px;
+  height: 100%;
 }
 header .actions-btns .search-holder input {
   transition: 0.3s;
@@ -309,6 +314,7 @@ header .actions-btns .search-holder svg {
   padding: 7px;
   border-radius: 0;
 }
+
 header .actions-btns .search-holder svg.close {
   padding: 0;
 }
@@ -655,6 +661,7 @@ header .cartMenu .btns a {
     visibility: hidden;
     transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
     position: absolute;
+    min-height: 63px;
   }
   header nav.active {
     visibility: visible;
@@ -674,16 +681,94 @@ header .cartMenu .btns a {
   header .routs-menu .container {
     gap: 10px 25px;
   }
+  header .routs-menu .container .main-button {
+    height: unset;
+    padding: 7px 11px;
+    font-size: 12px;
+  }
 }
 @media (max-width: 900px) {
   header .routs-menu .container {
     gap: 10px 14px;
   }
 }
-@media (max-width: 768px) {
-  header .routs-menu .container .main-button {
-    height: unset;
-    padding: 7px 11px;
+@media (max-width: 786px) {
+  header nav > ul > li {
+    padding: 23px 8px;
+    font-weight: 500;
+    font-size: 13px;
+  }
+  header .routs-menu .container {
+    gap: 10px 10px;
+  }
+  header .routs-menu .container > div h4 {
+    gap: 3px;
+  }
+  header .routs-menu .container > div a {
     font-size: 12px;
+  }
+}
+@media (max-width: 480px) {
+  header .logo img {
+    width: 80px !important;
+  }
+  header nav {
+    width: 96%;
+  }
+  header nav > ul > li {
+    padding: 23px 6px;
+  }
+  header .actions-btns svg {
+    width: 36px;
+    height: 30px;
+  }
+  header .actions-btns .search-holder {
+    height: 30px;
+  }
+  header .actions-btns .search-holder svg {
+    width: 32px;
+  }
+  header .actions-btns .menu,
+  header .actions-btns .search-holder .results {
+    top: 43px;
+  }
+  header .actions-btns .search-holder .input.active input {
+    width: 100px;
+  }
+  header .actions-btns .search-holder .results {
+    padding: 11px;
+  }
+  header .actions-btns .search-holder .results .main-button {
+    font-size: 13px;
+  }
+  header .actions-btns .search-holder .results a:not(.main-button) {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+  header .cartMenu .top {
+    font-size: 13px;
+  }
+  header .actions-btns .userMenu a,
+  .userMenu .danger {
+    padding: 9px 12px;
+    font-size: 15px;
+  }
+}
+@media (max-width: 390px) {
+  header .logo img {
+    width: 75px !important;
+  }
+  header nav {
+    width: 100%;
+  }
+  header nav ul {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  header nav ul::-webkit-scrollbar {
+    height: 3px;
+  }
+  header nav > ul > li .page-route {
+    width: max-content;
   }
 }

@@ -221,6 +221,13 @@ a {
   font-size: 17px;
   letter-spacing: 0.3px;
 }
+.title-holder .main-button {
+  height: 40px;
+  font-size: 14px;
+  margin: 15px auto -2px;
+  width: 200px;
+  border-radius: 50px !important;
+}
 
 .card {
   box-shadow: 0 0 5px 0px #dcdcdc;
@@ -626,4 +633,19 @@ a {
   .card.product img {
     aspect-ratio: 1.35;
   }
+}
+@media (max-width: 400px) {
+  .main-title {
+    font-size: 26px;
+  }
+  .sub-title {
+    font-size: 13px;
+  }
+  .title-holder .main-button {
+    width: unset;
+    height: 36px;
+    padding: 18px 35px;
+    margin-top: 10px;
+  }
+
 }
