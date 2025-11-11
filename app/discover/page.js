@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useMemo, useContext } from "react";
+import React, { useState, useMemo, useContext, Suspense } from "react";
 import { governments, places } from "@/data";
 import CardItem from "@/components/CardItem";
 import Navigations from "@/components/navigations";
@@ -11,7 +11,7 @@ import { IoIosClose } from "react-icons/io";
 import { mainContext } from "@/Contexts/mainContext";
 import { useSearchParams } from "next/navigation";
 
-function Page() {
+function DiscoverContent() {
   const { screenSize } = useContext(mainContext);
   const searchParams = useSearchParams();
 
@@ -191,4 +191,10 @@ function Page() {
   );
 }
 
-export default Page;
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="loading-page">Loading...</div>}>
+      <DiscoverContent />
+    </Suspense>
+  );
+}
