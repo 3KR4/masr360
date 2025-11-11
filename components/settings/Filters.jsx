@@ -3,6 +3,7 @@ import React from "react";
 import Slider from "@mui/material/Slider";
 import { tourismCategories, productCategories } from "@/data";
 import "@/styles/components/filters.css";
+import { IoIosClose } from "react-icons/io";
 
 const Filters = ({
   availability,
@@ -14,6 +15,9 @@ const Filters = ({
   handleRemoveFilter,
   showAvailability,
   catsType,
+  screenSize,
+  active,
+  setActive,
 }) => {
   const handleAvailabilityClick = (status) => {
     setAvailability((prev) => (prev === status ? null : status));
@@ -29,7 +33,11 @@ const Filters = ({
 
   const cats = catsType == "products" ? productCategories : tourismCategories;
   return (
-    <div className="filters">
+    <div className={`filters ${active ? "active" : ""}`}>
+      {screenSize !== "large" && (
+        <IoIosClose className="close" onClick={() => setActive(false)} />
+      )}
+
       {/* Availability Filter */}
       {showAvailability && (
         <>

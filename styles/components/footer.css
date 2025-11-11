@@ -10,7 +10,7 @@ footer {
 }
 
 .footer-bg {
-  object-fit: fill;
+  object-fit: cover;
   z-index: 0;
   opacity: 0.2;
 }
@@ -47,7 +47,7 @@ footer h4 {
   font-size: 21px;
   padding-bottom: 10px;
   border-bottom: 1px solid #cbcbcb;
-  width: fit-content;
+  width: max-content;
 }
 footer .hold {
   display: flex;

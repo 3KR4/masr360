@@ -3,9 +3,11 @@ import "@/styles/forms.css";
 import Image from "next/image";
 import countryList from "react-select-country-list";
 import Select from "react-select";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import Link from "next/link";
 import { useForm, Controller } from "react-hook-form";
+import { mainContext } from "@/Contexts/mainContext";
+
 import {
   LockKeyhole,
   Mail,
@@ -17,6 +19,8 @@ import {
 } from "lucide-react";
 
 export default function Register() {
+  const { screenSize } = useContext(mainContext);
+
   const [isLoginPage, setIsLoginPage] = useState(false);
   const [passEye, setPassEye] = useState({ password: false, confirm: false });
   const [loadingSpinner, setLoadingSpinner] = useState(false);
@@ -58,12 +62,15 @@ export default function Register() {
   return (
     <>
       <div className="register">
-        <Image
-          className="registerBackground"
-          src={`/Slides/slide-002.jpg`}
-          fill
-          alt="background image"
-        />
+        {screenSize !== "small" && (
+          <Image
+            className="registerBackground"
+            src={`/Slides/slide-002.jpg`}
+            fill
+            alt="background image"
+          />
+        )}
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1>
             {isLoginPage ? "Login into your account" : "Create your account"}

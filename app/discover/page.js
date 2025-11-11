@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { governments, places } from "@/data";
 import CardItem from "@/components/CardItem";
 import Navigations from "@/components/navigations";
@@ -8,8 +8,11 @@ import Filters from "@/components/settings/Filters";
 import Pagination from "@/components/settings/Pagination";
 import "@/styles/pages/discover.css";
 import { IoIosClose } from "react-icons/io";
+import { mainContext } from "@/Contexts/mainContext";
 
 function Page() {
+  const { screenSize } = useContext(mainContext);
+
   const [params, setParams] = useState({ type: null, id: null });
 
   useEffect(() => {
@@ -34,6 +37,7 @@ function Page() {
     data = places;
   }
 
+  const [openFilters, setOpenFilters] = useState(false);
   const [availability, setAvailability] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -83,15 +87,11 @@ function Page() {
             </>
           ) : type === "places" ? (
             <>
-              Discover Egypt’s most remarkable places — from historic landmarks
-              to hidden gems. <br />
               With Masr 360, explore top destinations, uncover local stories,
               and experience the true essence of every location.
             </>
           ) : (
             <>
-              Egypt is a land of wonders — from ancient monuments to hidden gems
-              tucked away in every city. <br />
               With Masr 360, you can explore each government and experience
               Egypt like never before.
             </>
@@ -126,17 +126,30 @@ function Page() {
             handleRemoveFilter={handleRemoveFilter}
             showAvailability={false}
             catsType={"places"}
+            screenSize={screenSize}
+            active={openFilters}
+            setActive={setOpenFilters}
           />
         )}
 
         <div className="holder">
           {/* -------- Selected Filters -------- */}
-          {(availability ||
+          {(screenSize !== "large" ||
+            availability ||
             selectedCategory ||
             priceRange[0] !== 0 ||
             priceRange[1] !== 10000) && (
             <div className="selected-filters">
-              <strong>Selected Filters:</strong>
+              <strong
+                onClick={() => {
+                  if (screenSize !== "large") {
+                    setOpenFilters(true);
+                  }
+                }}
+                className={screenSize !== "large" ? "main-button" : ""}
+              >
+                Selected Filters
+              </strong>
               {availability && (
                 <p onClick={() => handleRemoveFilter("availability")}>
                   Availability: {availability} <IoIosClose className="remove" />
@@ -169,7 +182,11 @@ function Page() {
 
           {/* -------- Pagination -------- */}
           {type !== "governments" && (
-            <Pagination pageCount={50} onPageChange={() => {}} />
+            <Pagination
+              pageCount={50}
+              screenSize={screenSize}
+              onPageChange={() => {}}
+            />
           )}
         </div>
       </div>

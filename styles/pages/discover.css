@@ -62,3 +62,72 @@
   font-size: 22px;
   font-weight: 400;
 }
+
+@media (max-width: 1300px) {
+  .discover .city .details h3 {
+    font-size: 42px;
+  }
+  .discover .city .details p {
+    font-size: 18px;
+  }
+}
+@media (max-width: 1200px) {
+  .discover .city {
+    height: 48vh;
+  }
+}
+@media (max-width: 1050px) {
+  .discover .city {
+    height: 45vh;
+  }
+  .discover .city .details h3 {
+    font-size: 40px;
+  }
+  .discover .city .details p {
+    font-size: 17px;
+    width: 75%;
+  }
+  .sub-title {
+    max-width: 85%;
+  }
+}
+@media (max-width: 800px) {
+  .discover .city .details {
+    bottom: 30px;
+    left: 0;
+    padding: 0 26px;
+  }
+  .discover .city .details h3 {
+    font-size: 35px;
+  }
+  .discover .city .details p {
+    width: 85%;
+    font-size: 16px;
+  }
+}
+@media (max-width: 768px) {
+  .discover .city {
+    padding: 0;
+    height: 41vh;
+    border-radius: 0 0 30px 30px;
+  }
+  .discover .city .details p {
+    width: 100%;
+  }
+  .discover .city .details {
+    text-align: center;
+  }
+}
+@media (max-width: 500px) {
+  .discover .city {
+    height: 27vh;
+  }
+
+  .discover .city .details p {
+    font-size: 15px;
+  }
+  .discover .city .details:before {
+    width: 100%;
+    box-shadow: 0 0 175px 62px #000000c9;
+  }
+}

@@ -2,15 +2,15 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
 
-const Pagination = ({ pageCount = 10, onPageChange }) => {
+const Pagination = ({ pageCount = 10, screenSize, onPageChange }) => {
   return (
     <ReactPaginate
       pageCount={pageCount}
       marginPagesDisplayed={1}
-      pageRangeDisplayed={2}
+      pageRangeDisplayed={screenSize === "small" ? 1 : 2}
       breakLabel="..."
-      nextLabel="next >"
-      previousLabel="< prev"
+      nextLabel={`${screenSize !== "small" ? "next" : ""} >`}
+      previousLabel={`< ${screenSize !== "small" ? "prev" : ""}`}
       pageLinkClassName="page-num"
       previousLinkClassName="page-num btns"
       nextLinkClassName="page-num btns"

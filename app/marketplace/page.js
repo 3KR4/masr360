@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { products } from "@/data";
 import CardItem from "@/components/CardItem";
 import Navigations from "@/components/navigations";
@@ -9,9 +9,11 @@ import Filters from "@/components/settings/Filters";
 import Pagination from "@/components/settings/Pagination";
 import "@/styles/pages/discover.css";
 import { IoIosClose } from "react-icons/io";
+import { mainContext } from "@/Contexts/mainContext";
 
 function Marketplace() {
-
+  const { screenSize } = useContext(mainContext);
+  const [openFilters, setOpenFilters] = useState(false);
 
   const [availability, setAvailability] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 10000]);
@@ -28,7 +30,7 @@ function Marketplace() {
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
-          the Egyptian Marketplace
+          Marketplace
           <hr />
         </h1>
         <p className="sub-title">
@@ -57,15 +59,28 @@ function Marketplace() {
           handleRemoveFilter={handleRemoveFilter}
           showAvailability={true}
           catsType={"products"}
+          screenSize={screenSize}
+          active={openFilters}
+          setActive={setOpenFilters}
         />
 
         <div className="holder">
-          {(availability ||
+          {(screenSize !== "large" ||
+            availability ||
             selectedCategory ||
             priceRange[0] !== 0 ||
             priceRange[1] !== 10000) && (
             <div className="selected-filters">
-              <strong>Selected Filters:</strong>
+              <strong
+                onClick={() => {
+                  if (screenSize !== "large") {
+                    setOpenFilters(true);
+                  }
+                }}
+                className={screenSize !== "large" ? "main-button" : ""}
+              >
+                Selected Filters
+              </strong>
               {availability && (
                 <p onClick={() => handleRemoveFilter("availability")}>
                   Availability: {availability} <IoIosClose className="remove" />
@@ -90,7 +105,11 @@ function Marketplace() {
             ))}
           </div>
 
-          <Pagination pageCount={30} onPageChange={() => {}} />
+          <Pagination
+            pageCount={30}
+            screenSize={screenSize}
+            onPageChange={() => {}}
+          />
         </div>
       </div>
     </div>
