@@ -21,14 +21,14 @@ function Places() {
           Step into history and explore Egypt’s most breathtaking landmarks —
           from ancient wonders to timeless treasures.
         </p>
-        <Link href={`/discover?type=places`} className="main-button">
+        <Link href={`/places`} className="main-button">
           See More
         </Link>
       </div>
 
       <div className="grid-holder container">
         {places.map((place) => (
-          <CardItem item={place} type="place" />
+          <CardItem key={place.id} item={place} type="place" />
         ))}
       </div>
     </div>

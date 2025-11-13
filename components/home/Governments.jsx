@@ -17,14 +17,14 @@ function Governments() {
         <p className="sub-title">
           Take a look at the most famous governments in Egypt
         </p>
-        <Link href={`/discover?type=governments`} className="main-button">
+        <Link href={`/discover`} className="main-button">
           See All
         </Link>
       </div>
 
       <div className="grid-holder container">
         {governments.slice(0, 6).map((gov) => (
-          <CardItem item={gov} type="gov" />
+          <CardItem key={gov.id} item={gov} type="gov" />
         ))}
       </div>
     </div>

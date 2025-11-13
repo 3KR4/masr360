@@ -20,6 +20,9 @@
   position: relative;
   min-height: 90vh;
 }
+.discover .city + .title-holder.pages {
+  margin: 38px auto 32px;
+}
 .discover .city {
   background: #000;
   border-radius: 0 0 45px 45px;

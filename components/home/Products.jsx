@@ -30,7 +30,7 @@ function Products() {
 
       <div className="grid-holder container">
         {products.slice(0, 10).map((product) => (
-          <CardItem item={product} type="product" />
+          <CardItem key={product.id} item={product} type="product" />
         ))}
       </div>
     </div>

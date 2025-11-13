@@ -17,8 +17,6 @@ export const MainProvider = ({ children }) => {
       return "large";
     }
 
-    setScreenSize(getScreenSize());
-
     const handleResize = () => {
       setScreenSize(getScreenSize());
     };

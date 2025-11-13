@@ -11,9 +11,9 @@ import SwiperCore from "swiper";
 import "swiper/css";
 import "swiper/css/effect-fade";
 
-SwiperCore.use([Autoplay, EffectFade, Pagination]);
-
 function Categories() {
+  SwiperCore.use([Autoplay, EffectFade, Pagination]);
+
   const { screenSize } = useContext(mainContext);
   const swiperRef = useRef(null);
 
@@ -78,7 +78,7 @@ function Categories() {
       >
         {categories.map((cat) => (
           <SwiperSlide key={cat.id}>
-            <Link href={`/discover?type=places&cat=${cat?.id}`} className="box">
+            <Link href={`/places?cat=${cat?.id}`} className="box">
               <Image src={cat.image} alt={cat.name} fill />
               <div className="text-holder">
                 <h2 className="name">{cat.name}</h2>

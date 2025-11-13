@@ -3,30 +3,32 @@ import Navigations from "@/components/navigations";
 import "@/styles/pages/discover.css";
 import DisplayContent from "@/components/DisplayContent";
 
-function Marketplace() {
+export default function DiscoverContent() {
   return (
     <div className="discover">
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
-          Marketplace
+          discover places
           <hr />
         </h1>
+
         <p className="sub-title">
-          Discover authentic Egyptian crafts and souvenirs made by local
-          artisans — each piece reflects the spirit of Egypt.
+          With Masr 360, explore top destinations, uncover local stories, and
+          experience the true essence of every location.
         </p>
       </div>
+
       <Navigations
         items={[
           {
-            name: "marketplace",
+            name: "places",
             href: "",
           },
         ]}
       />
-      <DisplayContent type={"product"} />
+
+      <DisplayContent type={"place"} />
     </div>
   );
 }
-export default Marketplace;

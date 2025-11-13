@@ -79,7 +79,7 @@ function Favorites() {
                           </div>
 
                           <Link
-                            href={`/discover?type=places&cat=${item?.id}`}
+                            href={`/places?cat=${item?.id}`}
                             className="link"
                           >
                             {item?.category}
@@ -130,7 +130,7 @@ function Favorites() {
                         <div key={item?.id} className="table-item">
                           <div className="holder">
                             <Link
-                              href={`/place/${item?.id}`}
+                              href={`/places/${item?.id}`}
                               className="item-image"
                             >
                               <Image
@@ -144,7 +144,7 @@ function Favorites() {
 
                             <div className="item-details">
                               <Link
-                                href={`/place/${item?.id}`}
+                                href={`/places/${item?.id}`}
                                 className="item-name"
                               >
                                 {item?.name}
@@ -152,10 +152,7 @@ function Favorites() {
                               <p className="description">{item?.description}</p>
                             </div>
                           </div>
-                          <Link
-                            href={`/discover?type=government&id=1`}
-                            className="link"
-                          >
+                          <Link href={`/discover/1`} className="link">
                             {item?.govermorate}
                           </Link>
                           <div className="item-rating center">

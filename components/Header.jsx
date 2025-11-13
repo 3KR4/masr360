@@ -16,7 +16,7 @@ import MiniCart from "@/components/MiniCart";
 const navLinks = [
   {
     title: "Discover",
-    link: "/discover?type=governments",
+    link: "/discover",
     departments: [
       {
         name: "Cairo",

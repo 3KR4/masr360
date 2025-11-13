@@ -41,7 +41,7 @@ function Bookings() {
                   <div key={item.id} className="table-item">
                     <div className="holder">
                       {/* صورة المكان */}
-                      <Link href={`/place/${item?.id}`} className="item-image">
+                      <Link href={`/places/${item?.id}`} className="item-image">
                         <Image
                           src={item.place.image}
                           alt={item.place.name}
@@ -53,13 +53,13 @@ function Bookings() {
 
                       {/* اسم المحافظة */}
                       <div className="item-details">
-                        <Link href={`/place/${item?.id}`} className="item-name">
+                        <Link
+                          href={`/places/${item?.id}`}
+                          className="item-name"
+                        >
                           {item.place.name}
                         </Link>
-                        <Link
-                          href={`/discover?type=government&id=1`}
-                          className="link"
-                        >
+                        <Link href={`/discover/1`} className="link">
                           in {item.place.govermorate}
                         </Link>
                       </div>

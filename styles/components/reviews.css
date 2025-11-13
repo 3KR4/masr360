@@ -1,0 +1,160 @@
+.review-section {
+}
+.review-section .holder {
+  gap: 20px;
+  display: flex;
+}
+.review-section .overview {
+  border-radius: 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 385px;
+  max-width: 100%;
+  height: fit-content;
+  padding: 16px 16px 17px;
+  display: flex;
+  box-shadow: 0 1px 5px #0000001a;
+  position: sticky;
+  top: 88px;
+}
+.review-section .holder .overview h3 {
+  color: var(--paragraph);
+  text-transform: uppercase;
+  font-size: 18px;
+}
+.review-section .overview .hold {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.review-section .overview .hold .count {
+  color: var(--paragraph);
+  font-weight: 600;
+  font-size: 14px;
+}
+.review-section .overview .hold p {
+  font-weight: 600;
+  font-size: 14px;
+}
+.review-section .overview .holder {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  margin-top: 8px;
+}
+.review-section .overview .holder li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+  color: var(--paragraph);
+  font-size: 14px;
+}
+.review-section .overview .holder li svg {
+  color: #a5a5a5;
+  margin-left: -2px;
+}
+.review-section .overview .holder .bar {
+  height: 8px;
+  border-radius: 7px;
+  width: 100%;
+  background: var(--section-color);
+  position: relative;
+  overflow: hidden;
+}
+.review-section .overview .holder .bar .percentage {
+  width: 71%;
+  background: var(--main-color);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+.review-section .reviews {
+  flex-direction: column;
+  align-items: unset;
+  flex: 1;
+  gap: 12px;
+}
+.review-section .review {
+  box-shadow: 0 1px 5px #0000001a;
+
+  border-radius: 10px;
+  gap: 8px;
+  padding: 16px 15px;
+  display: flex;
+}
+
+.review-section .review .hold {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 2px;
+}
+.review-section .review .hold .top {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.review-section .review .image.left {
+  background: var(--section-color);
+  min-width: 40px;
+  height: 40px;
+  color: var(--paragraph);
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  display: flex;
+}
+.review-section .review .rowHolder {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.review-section .review .rowHolder h5 {
+  font-size: 15px;
+  color: var(--paragraph);
+}
+.review-section .review .rate {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transform: translateX(-3px);
+}
+.review-section .review h4 {
+  color: var(--paragraph);
+  font-size: 15px;
+  margin: -1px 0 -3px;
+  font-weight: 500;
+}
+.review-section .review p {
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0;
+}
+
+@media (max-width: 1200px) {
+  .review-section .overview {
+    width: 345px;
+  }
+}
+@media (max-width: 1100px) {
+  .review-section .holder {
+    gap: 15px;
+  }
+}
+@media (max-width: 992px) {
+  .review-section .holder {
+    flex-direction: column;
+  }
+  .review-section .overview {
+    width: 100%;
+  }
+  .review-section .holder {
+    gap: 12px;
+  }
+}

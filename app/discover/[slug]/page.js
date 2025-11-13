@@ -1,45 +1,39 @@
+"use client";
 import Image from "next/image";
 import { governments } from "@/data";
-import { use } from "react";
-import Navigations from "@/components/navigations";
 import "@/styles/pages/discover.css";
+import DisplayContent from "@/components/DisplayContent";
+import { useParams } from "next/navigation";
 
-export default function PlaceDetails({ params, searchParams }) {
-  const { slug } = use(params);
-  const { type } = use(searchParams);
+export default function GovernmentDetails() {
+  const { slug } = useParams();
 
-  console.log("id:", slug);
-  console.log("type:", type);
-
-  const city =
-    type === "governments" ? governments.find((x) => x.id == slug) : null;
-
-  const data = city || null;
-
-  console.log(data);
-
-  if (!data) {
-    return <h2>Not Found</h2>;
-  }
+  const government = governments.find((gov) => gov.id == slug);
 
   return (
-    <div className="places-page">
+    <div className="discover">
       <div className="city fluid-container">
-        <Image src={data?.image} fill alt={data?.name} />
+        <Image src={government?.image} fill alt={government?.name} />
         <div className="details">
-          <h3>{data?.name}</h3>
-          <p>{data?.description}</p>
+          <h3>{government?.name}</h3>
+          <p>{government?.description}</p>
         </div>
       </div>
-      <Navigations
-        items={[
-          {
-            name: type == "governments" ? "governments" : "categories",
-            href: "/discover?type=governments",
-          },
-          { name: data?.name, href: "" },
-        ]}
-      />
+      <div className="title-holder pages container">
+        <h1 className="main-title">
+          <hr />
+          {`${government?.name} places`}
+          <hr />
+        </h1>
+
+        <p className="sub-title">
+          Explore the beauty and attractions of{" "}
+          <strong>{government?.name}</strong>. <br />
+          Discover its history, landmarks, and hidden treasures only on Masr
+          360.
+        </p>
+      </div>
+      <DisplayContent type={"place"} />
     </div>
   );
 }

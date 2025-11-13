@@ -38,10 +38,10 @@ export default function CardItem({ item, type }) {
           isProduct
             ? `/marketplace/${item?.id}`
             : isPlace
-            ? `/place/${item?.id}?type=place`
+            ? `/places/${item?.id}`
             : isGame
             ? `/games/${item?.id}`
-            : `/discover?type=government&id=${item?.id}`
+            : `/discover/${item?.id}`
         }
         className="image-holder"
       >
@@ -69,10 +69,10 @@ export default function CardItem({ item, type }) {
               isProduct
                 ? `/marketplace/${item?.id}`
                 : isPlace
-                ? `/place/${item?.id}?type=place`
+                ? `/places/${item?.id}`
                 : isGame
                 ? `/games/${item?.id}`
-                : `/discover?type=government&id=${item?.id}`
+                : `/discover/${item?.id}`
             }
             className="name-link"
           >
@@ -87,10 +87,7 @@ export default function CardItem({ item, type }) {
           )}
 
           {isGov && (
-            <Link
-              className="explore"
-              href={`/discover?type=government&id=${item?.id}`}
-            >
+            <Link className="explore" href={`/discover/${item?.id}`}>
               {screenSize !== "small" ? "Explore" : ""} {item?.count} place{" "}
               <FaArrowRight className="arrow" />
             </Link>

@@ -1,23 +1,31 @@
-.product-page .navigations {
+.single-page .navigations {
   margin-top: 16px;
   margin-bottom: -2px;
 }
-.product-page .holder {
-  display: flex;
+.single-page > .holder {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 25px;
+  margin: 15px auto 75px;
 }
-.product-page .images-holder {
+.single-page .title-holder {
+  margin: 38px auto 35px;
+}
+.single-page .images-holder {
   flex-direction: column;
   gap: 14px;
   display: flex;
+  height: fit-content;
+  position: sticky;
+  top: 88px;
 }
-.product-page .images-holder > img {
+.single-page .images-holder > img {
   object-fit: fill;
   position: relative !important;
   aspect-ratio: 1;
   border-radius: 20px;
 }
-.product-page .images-holder .imgs {
+.single-page .images-holder .imgs {
   align-items: center;
   gap: 7px;
   display: flex;
@@ -25,9 +33,9 @@
   width: 80%;
   margin: auto;
 }
-.product-page .images-holder .imgs .img {
+.single-page .images-holder .imgs .img {
   object-fit: fill;
-  height: 77px !important;
+  max-height: 77px !important;
   width: unset !important;
   position: relative !important;
   border-radius: 9px;
@@ -35,56 +43,57 @@
   cursor: pointer;
   overflow: hidden;
 }
-.product-page .images-holder .imgs .img img {
+.single-page .images-holder .imgs .img img {
   object-fit: fill;
   position: relative !important;
   transition: 0.3s;
 }
 
-.product-page .images-holder .imgs .img:hover img {
+.single-page .images-holder .imgs .img:hover img {
   scale: 1.1;
 }
-.product-page .images-holder .imgs .img:has(img.active) {
+.single-page .images-holder .imgs .img:has(img.active) {
   outline: 3px solid var(--main-color);
 }
-.product-page .details-holder {
+.single-page .details-holder {
   flex-direction: column;
   gap: 10px;
+  height: fit-content;
   display: flex;
   position: sticky;
-  top: 85px;
-  height: fit-content;
+  top: 72px;
+  padding-top: 20px;
 }
-.product-page .details-holder h3 {
+.single-page .details-holder h3 {
   font-size: 25px;
   color: #3f3f3f;
 }
-.product-page .details-holder h5 {
+.single-page .details-holder h5 {
   font-size: 16px;
   color: var(--paragraph);
 }
-.product-page .details-holder h5 a {
+.single-page .details-holder h5 a {
   color: var(--title-color);
 }
-.product-page .details-holder h5 a:hover {
+.single-page .details-holder h5 a:hover {
   color: var(--main-color);
 }
-.product-page .details-holder .discount {
+.single-page .details-holder .discount {
   font-size: 15px;
 }
-.product-page .details-holder .old-price {
+.single-page .details-holder .old-price {
   font-size: 17px;
 }
-.product-page .details-holder .new-price {
+.single-page .details-holder .new-price {
   font-size: 19px;
 }
-.product-page .details-holder .Availability {
+.single-page .details-holder .Availability {
   display: flex;
   flex-direction: column;
   gap: 5px;
   font-weight: 500;
 }
-.product-page .details-holder .Availability .hold {
+.single-page .details-holder .Availability .hold {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -92,58 +101,58 @@
   color: var(--paragraph);
   font-weight: 600;
 }
-.product-page .details-holder .Availability span {
+.single-page .details-holder .Availability span {
   display: flex;
   align-items: center;
   gap: 3px;
   font-weight: 700;
 }
-.product-page .details-holder .Availability .in {
+.single-page .details-holder .Availability .in {
   color: #16a34a;
 }
-.product-page .details-holder .Availability .out {
+.single-page .details-holder .Availability .out {
   color: #d94452;
 }
-.product-page .details-holder .description {
+.single-page .details-holder .description {
   font-size: 17px;
   font-weight: 400;
   line-height: 1.4;
 }
-.product-page .details-holder .actions {
+.single-page .details-holder .actions {
   align-items: center;
   gap: 8px;
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
 }
-.product-page .details-holder .actions button {
+.single-page .details-holder .actions button {
   width: unset;
   height: 44px;
 }
 
-.product-page .details-holder .actions .forFavoriet {
+.single-page .details-holder .actions .forFavoriet {
   background: #ffdebd;
   border: 1px solid var(--main-color);
   color: var(--paragraph);
   font-weight: 500;
 }
-.product-page .details-holder .actions .forFavoriet:hover {
+.single-page .details-holder .actions .forFavoriet:hover {
   background: var(--main-color);
   color: white;
 }
-.product-page .details-holder .specifications {
+.single-page .details-holder .specifications {
   margin-top: 10px;
 }
-.product-page .details-holder .specifications h5 {
+.single-page .details-holder .specifications h5 {
   color: var(--paragraph);
   font-size: 18px;
   margin-bottom: 2px;
 }
-.product-page .details-holder .specifications ul {
+.single-page .details-holder .specifications ul {
   flex-direction: column;
   padding-left: 15px;
   display: flex;
 }
-.product-page .details-holder .specifications ul li {
+.single-page .details-holder .specifications ul li {
   color: var(--paragraph);
   font-size: 15px;
   font-weight: 600;
@@ -151,7 +160,10 @@
   border-bottom: 1px solid #d5d5d5;
   padding: 10px 0;
 }
-.product-page .details-holder .specifications ul li::before {
+.single-page .details-holder .specifications ul li:last-child {
+  border-color: transparent;
+}
+.single-page .details-holder .specifications ul li::before {
   content: "•";
   color: var(--paragraph);
   position: absolute;
@@ -160,7 +172,38 @@
   top: 50%;
   transform: translateY(-50%);
 }
-.product-page .details-holder .specifications ul li span {
+.single-page .details-holder .specifications ul li span {
   color: var(--title-color);
   font-weight: 600;
+}
+
+@media (max-width: 1200px) {
+  .single-page .details-holder .actions button {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 992px) {
+  .single-page > .holder {
+    grid-template-columns: 1fr;
+  }
+  .single-page > .holder > *,
+  .review-section .overview {
+    position: relative !important;
+    top: unset !important;
+  }
+  .single-page .details-holder {
+    padding-top: 0;
+  }
+}
+@media (max-width: 768px) {
+  .single-page > .holder {
+    margin-bottom: 0;
+  }
+  .single-page .details-holder .actions {
+    grid-template-columns: 1fr 1fr;
+  }
+  .single-page .details-holder .specifications ul li {
+    font-size: 14px;
+  }
 }
