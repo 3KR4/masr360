@@ -652,6 +652,12 @@ a {
     font-size: 18px;
     height: 40px;
   }
+  .pagination li.next a,
+  .pagination li.previous a {
+    width: 50px;
+    font-size: 18px;
+    height: 40px;
+  }
 }
 @media (max-width: 500px) {
   .sub-title {
