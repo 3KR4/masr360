@@ -89,8 +89,7 @@ const navLinks = [
 function Header() {
   const { screenSize } = useContext(mainContext);
   const [isLogin, setIsLogin] = useState(true);
-  const [activeNav, setActiveNav] = useState(0);
-  const [activeBtn, setActiveBtn] = useState(null);
+  const [activeNav, setActiveNav] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const mobileMenuRef = useRef(null);
@@ -115,15 +114,11 @@ function Header() {
         {navLinks.map((x, index) => (
           <li
             key={index}
-            className={activeBtn === index ? `active` : ``}
+            className={activeNav === index ? `active` : ``}
             onMouseEnter={() => {
               setActiveNav(index);
-              setActiveBtn(null);
             }}
-            onClick={() => {
-              setActiveNav(index);
-              setActiveBtn(null);
-            }}
+            onMouseLeave={() => setActiveNav(null)}
           >
             {x.departments ? (
               <>
@@ -154,7 +149,10 @@ function Header() {
         {navLinks[activeNav]?.departments && (
           <div
             className={`routs-menu`}
-            onMouseEnter={() => setActiveBtn(activeNav)}
+            onMouseEnter={() => {
+              setActiveNav(activeNav);
+            }}
+            onMouseLeave={() => setActiveNav(null)}
           >
             <div className={`container`}>
               {navLinks[activeNav]?.departments?.map((dept, index) => {
