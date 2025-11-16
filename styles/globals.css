@@ -21,6 +21,7 @@ body {
   background-color: var(--body-color);
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 ::-webkit-scrollbar {
   width: 6px;
@@ -193,7 +194,7 @@ a {
   position: relative;
 }
 .title-holder.pages {
-  margin: 38px auto 15px;
+  margin: 38px 0 15px;
   padding: 0 40px;
 }
 
@@ -619,7 +620,7 @@ a {
     -webkit-line-clamp: 2;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
-    font-size: 14px;
+    font-size: 15px;
     display: -webkit-box;
     overflow: hidden;
   }
@@ -634,9 +635,7 @@ a {
   .main-title {
     font-size: 30px;
   }
-  .sub-title {
-    font-size: 15px;
-  }
+
   .main-title hr {
     width: 34px;
   }

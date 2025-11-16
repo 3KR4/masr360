@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { products, reviews } from "@/data";
-import "@/styles/pages/product-details.css";
+import "@/styles/pages/singel-details.css";
 import Image from "next/image";
 import Link from "next/link";
 import { IoCloseCircleSharp } from "react-icons/io5";

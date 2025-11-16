@@ -10,7 +10,7 @@ footer {
 }
 
 .footer-bg {
-  object-fit: cover;
+  object-fit: fill;
   z-index: 0;
   opacity: 0.2;
 }

@@ -728,6 +728,7 @@ header .cartMenu .btns a {
   }
   header .actions-btns .search-holder svg {
     width: 32px;
+    padding: 6px;
   }
   header .actions-btns .menu,
   header .actions-btns .search-holder .results {

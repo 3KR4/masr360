@@ -61,9 +61,10 @@ export default function GameDetailsPage() {
       <div className="title-holder pages">
         <h1 className="main-title">
           <hr />
-          {game?.name}
+          the game
           <hr />
         </h1>
+        <p className="sub-title">{game?.name}</p>
       </div>
 
       <div className="progress-holder">
@@ -83,7 +84,6 @@ export default function GameDetailsPage() {
         <div className="top">
           <h3>{game?.questions[current].question}</h3>
           <span>question {`${current < 10 ? `0` : ""}${current + 1}`}</span>
-
         </div>
 
         <div className="options">
