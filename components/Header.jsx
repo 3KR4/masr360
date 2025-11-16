@@ -10,7 +10,7 @@ import { IoMenu, IoClose } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
-
+import { usePathname } from "next/navigation";
 import { FaCartShopping, FaUser } from "react-icons/fa6";
 import MiniCart from "@/components/MiniCart";
 const navLinks = [
@@ -87,6 +87,12 @@ const navLinks = [
 ];
 
 function Header() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setActiveNav(null);
+  }, [pathname]);
+
   const { screenSize } = useContext(mainContext);
   const [isLogin, setIsLogin] = useState(true);
   const [activeNav, setActiveNav] = useState(null);
