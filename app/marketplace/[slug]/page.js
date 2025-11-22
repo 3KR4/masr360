@@ -88,18 +88,21 @@ export default function ProductDetails() {
                 </span>
               )}
             </div>
-            {product?.stock > 5 && (
+            {product?.stock < 5 && (
               <p className="dont-miss">
-                Dont Miss Out, only 0{product?.stock} pieces left in stock
+                Dont Miss Out, only {product?.stock} pieces left in stock
               </p>
             )}
           </div>
           <p className="description">{product?.description}</p>
           <div className="actions">
-            <button className="main-button forCart">add to cart</button>
-            <button className="main-button forFavoriet">
-              add to favoriets
-            </button>
+            <button className="main-button forCart">buy it now</button>
+            <div className="hold">
+              <button className="main-button forFavoriet">add to cart</button>
+              <button className="main-button forFavoriet">
+                add to favoriets
+              </button>
+            </div>
           </div>
           {product.specifications && (
             <div className="specifications">

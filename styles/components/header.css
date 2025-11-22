@@ -498,8 +498,10 @@ header .cartMenu .top.forEmpety {
   padding-bottom: 10px;
 }
 header .cartMenu .info a {
-  font-size: 14px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--paragraph);
 }
 header .cartMenu .info a:hover {
   color: var(--main-color);
@@ -546,12 +548,6 @@ header .cartMenu .item .info > p {
   text-align: left;
   font-weight: 500;
   font-size: 14px;
-  line-clamp: 1;
-  -webkit-line-clamp: 1;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  overflow: hidden;
 }
 header .cartMenu .item .remove {
   color: #d94452;
@@ -663,6 +659,8 @@ header .cartMenu .btns a {
     transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
     position: absolute;
     min-height: 63px;
+    border: 1px solid #e0e0e0;
+    border-top: 0;
   }
   header nav.active {
     visibility: visible;
@@ -674,7 +672,7 @@ header .cartMenu .btns a {
     font-weight: 500;
   }
   header .routs-menu {
-    top: 62px;
+    top: 63px;
     border: 1px solid #e0e0e0;
     width: 94% !important;
     padding: 16px 0;

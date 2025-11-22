@@ -1,12 +1,13 @@
 .single-page .navigations {
-  margin-top: 16px;
-  margin-bottom: -2px;
+  width: unset;
+  margin: 6px 0;
+  padding: 0;
 }
 .single-page > .holder {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 25px;
-  margin: 15px auto 75px;
+  margin: 0 auto 75px;
 }
 .single-page .title-holder {
   margin: 38px auto 35px;
@@ -118,24 +119,30 @@
   font-weight: 400;
   line-height: 1.4;
 }
-.single-page .details-holder .actions {
+
+.single-page .actions {
   align-items: center;
   gap: 8px;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  display: flex;
+  flex-direction: column;
 }
-.single-page .details-holder .actions button {
-  width: unset;
+.single-page .actions button {
   height: 44px;
+  width: 100%;
 }
-
-.single-page .details-holder .actions .forFavoriet {
+.single-page .actions .hold {
+  gap: 8px;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1.5fr 1fr;
+}
+.single-page .actions .forFavoriet {
   background: #ffdebd;
   border: 1px solid var(--main-color);
   color: var(--paragraph);
   font-weight: 500;
 }
-.single-page .details-holder .actions .forFavoriet:hover {
+.single-page .actions .forFavoriet:hover {
   background: var(--main-color);
   color: white;
 }
@@ -177,12 +184,249 @@
   font-weight: 600;
 }
 
+/*! For Place */
+
+.single-page.forPlace {
+  max-width: 100%;
+}
+.single-page.forPlace > .holder,
+.single-page.forPlace .details-holder {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.single-page.forPlace .images-holder,
+.single-page.forPlace .details-holder {
+  position: relative;
+  top: unset;
+}
+
+.single-page.forPlace .hero-image-holder {
+  width: 100%;
+  margin: 0 auto 15px;
+}
+.single-page.forPlace .hero-image-holder img {
+  object-fit: cover;
+  width: 100%;
+}
+.single-page.forPlace .hero-image-holder .details {
+  bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 95%;
+  justify-content: space-between;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.single-page.forPlace .hero-image-holder .details h3 {
+  margin: 0;
+}
+.single-page.forPlace .hero-image-holder .details:before {
+  width: 100%;
+}
+
+.single-page.forPlace .details .free {
+  color: #fff;
+  background: var(--main-color);
+  border-radius: 5px;
+  min-width: max-content;
+  padding: 10px 16px;
+  font-size: 17px;
+  font-weight: 700;
+}
+.single-page.forPlace > .holder {
+  gap: 0px;
+}
+.single-page.forPlace .details-holder h3 {
+  font-size: 34px;
+  margin-bottom: -3px;
+}
+.single-page.forPlace .details-holder .description {
+  font-size: 16px;
+  padding: 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+}
+.single-page.forPlace .tickets {
+  position: sticky;
+  top: 88px;
+  height: fit-content;
+}
+.single-page.forPlace > .holder .top {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  padding: 0 17px 0 12px;
+}
+.single-page.forPlace > .holder h4 {
+  color: var(--paragraph);
+  font-size: 18px;
+}
+.single-page.forPlace > .holder .top .hold {
+  gap: 5px;
+}
+.single-page.forPlace > .holder .location .top .actions button {
+  text-transform: capitalize;
+  width: 100%;
+  height: 37px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 14px 14px 0 0 !important;
+}
+.single-page.forPlace > .holder .location .i-frame {
+  aspect-ratio: 2.8;
+}
+.single-page.forPlace > .holder .location iframe {
+  border-radius: 20px;
+}
+
+.single-page.forPlace .images-swiper {
+  margin: 35px 0 40px;
+}
+.single-page.forPlace .images-swiper .swiper {
+  aspect-ratio: 3.5;
+  border-radius: 20px;
+}
+.single-page.forPlace .images-swiper .swiper-slide {
+  border-radius: 20px;
+  overflow: hidden;
+}
+.single-page.forPlace .images-swiper .navigation {
+  display: flex;
+}
+.single-page.forPlace .images-swiper .navigation button {
+  border: 1px solid var(--main-color);
+  background: var(--main-color);
+  border-radius: 15px 0 0;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 33px;
+  display: flex;
+  background: #ffdebd;
+}
+.single-page.forPlace .images-swiper .navigation button.custom-next {
+  border-radius: 0 15px 0 0;
+  width: 50px;
+  border-left: 0;
+}
+.single-page.forPlace .images-swiper .navigation button:hover {
+  background: var(--main-color);
+  border-color: var(--main-color);
+}
+.single-page.forPlace .images-swiper .navigation button svg {
+  color: var(--paragraph);
+  font-size: 18px;
+  transition: color 0.3s;
+}
+.single-page.forPlace .images-swiper .navigation button:hover svg {
+  font-size: 20px;
+  color: white;
+}
+
+.single-page.forPlace .images-swiper img {
+  position: relative !important;
+  object-fit: cover;
+}
+.single-page.forPlace .holds {
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  gap: 15px;
+  margin-top: 7px;
+}
+.single-page.forPlace .holds.noTikets {
+  grid-template-columns: 1fr !important;
+}
+.single-page .navigations {
+  width: unset;
+  margin: 0;
+  padding: 0;
+}
+.single-page.forPlace .holds .top {
+  padding: 0;
+}
+.single-page.forPlace .holds h4 {
+  font-size: 16px;
+}
+
+.single-page.forPlace .tickets-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-top: 6px;
+}
+.single-page.forPlace .tickets-list > div {
+  align-items: center;
+  gap: 10px;
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+}
+.single-page.forPlace .tickets-list > div:last-child {
+  border-bottom: 0;
+}
+.single-page.forPlace .tickets-list h5 {
+  color: var(--paragraph);
+  text-align: center;
+  border-right: 1px solid #e0e0e0;
+  align-items: center;
+  min-width: 97px;
+  height: 48px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+}
+.single-page.forPlace .tickets-list ul {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.single-page.forPlace .tickets-list li {
+  background: #9bd6ff52;
+  text-align: center;
+  border-radius: 7px;
+  padding: 7px 13px;
+  font-weight: 500;
+  width: fit-content;
+  color: var(--title-color);
+  font-weight: 500;
+  font-size: 12px;
+}
+.single-page.forPlace .tickets-list .free li {
+  background: #20a851;
+  width: 80px;
+}
+.single-page.forPlace .tickets-list li.egyption {
+  background: #ffd1ad96;
+}
+
+@media (max-width: 1300px) {
+  .single-page.forPlace > .holder .location .i-frame {
+    aspect-ratio: 2.5;
+  }
+}
 @media (max-width: 1200px) {
   .single-page .details-holder .actions button {
     font-size: 12px;
   }
+  .hero-image-holder .details h3 {
+    font-size: 37px;
+  }
+  .single-page.forPlace .holds {
+    grid-template-columns: 1fr;
+  }
+  .single-page.forPlace .details-holder .description {
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  }
 }
 
+@media (max-width: 1100px) {
+  .single-page.forPlace .hero-image-holder .details .free {
+    font-size: 15px;
+  }
+}
 @media (max-width: 992px) {
   .single-page > .holder {
     grid-template-columns: 1fr;
@@ -195,6 +439,22 @@
   .single-page .details-holder {
     padding-top: 0;
   }
+  .single-page.forPlace > .holder .location .i-frame {
+    aspect-ratio: 2.2;
+  }
+  .single-page.forPlace > .holder .location .top .actions button {
+    height: 25px;
+    padding: 16px 26px;
+  }
+  .single-page.forPlace .images-swiper .navigation button {
+    height: 31px;
+  }
+  .hero-image-holder .details h3 {
+    font-size: 34px;
+  }
+  .single-page.forPlace .images-swiper .swiper {
+    aspect-ratio: 2.6;
+  }
 }
 @media (max-width: 768px) {
   .single-page > .holder {
@@ -205,5 +465,54 @@
   }
   .single-page .details-holder .specifications ul li {
     font-size: 14px;
+  }
+  .single-page.forPlace .hero-image-holder .details {
+    justify-content: flex-end !important;
+  }
+  .single-page.forPlace .details .free {
+    width: 100%;
+    text-align: center;
+    margin: 10px 0 0;
+  }
+  .single-page.forPlace .images-swiper .swiper {
+    aspect-ratio: 2.3;
+  }
+}
+@media (max-width: 630px) {
+  .single-page.forPlace .images-swiper .swiper {
+    aspect-ratio: 1.9;
+  }
+}
+@media (max-width: 500px) {
+  .single-page .details-holder .actions .hold {
+    grid-template-columns: 1fr 1fr;
+  }
+  .single-page.forPlace .details-holder .description {
+    font-size: 14px;
+  }
+  .single-page.forPlace .details-holder h3 {
+    font-size: 32px;
+    text-align: center;
+  }
+  .single-page.forPlace > .holder .location iframe,
+  .single-page.forPlace .images-swiper .swiper-slide,
+  .single-page.forPlace .images-swiper .swiper {
+    border-radius: 12px;
+  }
+  .single-page.forPlace .images-swiper .navigation button {
+    width: 42px !important;
+    height: 29px;
+  }
+  .single-page.forPlace .images-swiper .navigation button svg {
+    font-size: 16px;
+  }
+  .single-page.forPlace .tickets-list > div {
+    gap: 0;
+  }
+  .single-page.forPlace .tickets-list ul {
+    flex-wrap: wrap;
+    margin-right: 0;
+    padding: 14px;
+    display: flex;
   }
 }

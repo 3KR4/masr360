@@ -45,7 +45,7 @@ export default function DisplayContent({ type }) {
           setPriceRange={setPriceRange}
           setSelectedCategory={setSelectedCategory}
           handleRemoveFilter={handleRemoveFilter}
-          showAvailability={false}
+          showAvailability={type == "product"}
           catsType={type}
           screenSize={screenSize}
           active={openFilters}

@@ -74,7 +74,7 @@ export default function CardItem({ item, type }) {
                 ? `/games/${item?.id}`
                 : `/discover/${item?.id}`
             }
-            className="name-link"
+            className="name-link ellipsis"
           >
             {item?.name}
           </Link>
@@ -99,7 +99,7 @@ export default function CardItem({ item, type }) {
           </Link>
         )}
         {/* ⭐ RATING */}
-        {(isProduct || isPlace) && (
+        {isProduct && (
           <div className="reviews">
             <Rating
               name="read-only"
@@ -124,7 +124,7 @@ export default function CardItem({ item, type }) {
         )}
 
         {/* 📜 DESCRIPTION */}
-        {item?.description && <p>{item?.description}</p>}
+        {item?.description && <p className="ellipsis">{item?.description}</p>}
       </div>
     </div>
   );

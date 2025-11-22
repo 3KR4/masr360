@@ -33,7 +33,9 @@ function MiniCart() {
                   height={60}
                 />
                 <div className="info">
-                  <Link href={`/market/${item?.id}`}>{item?.name}</Link>
+                  <Link className="ellipsis" href={`/market/${item?.id}`}>
+                    {item?.name}
+                  </Link>
 
                   <div className="price-holder">
                     <p className={item?.sale > 0 ? "on-sale" : "regular-price"}>

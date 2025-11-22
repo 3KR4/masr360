@@ -2,15 +2,18 @@
 import Image from "next/image";
 import React from "react";
 import "@/styles/pages/tables.css";
-
+import { useContext } from "react";
 import "@/styles/forms.css";
 import { bookings } from "@/data";
 import { FaBoxOpen } from "react-icons/fa";
 import Link from "next/link";
+import { mainContext } from "@/Contexts/mainContext";
 
 function Bookings() {
+  const { screenSize } = useContext(mainContext);
+
   return (
-    <div className="booking" style={{ minHeight: "53vh" }}>
+    <div className="booking">
       {bookings.length > 0 ? (
         <>
           <div className="title-holder pages container">
@@ -28,12 +31,20 @@ function Bookings() {
           <div className="container">
             <div className="table-container order-table">
               <div className="table-header">
-                <div className="header-item details">place details</div>
-                <div className="header-item">ticket price</div>
-                <div className="header-item">people count</div>
-                <div className="header-item">total paid</div>
-                <div className="header-item">booking date</div>
-                <div className="header-item">visit date</div>
+                {screenSize !== "small" ? (
+                  <>
+                    <div className="header-item details">place details</div>
+                    <div className="header-item">ticket price</div>
+                    <div className="header-item">people count</div>
+                    <div className="header-item">total paid</div>
+                    <div className="header-item">booking date</div>
+                    <div className="header-item">visit date</div>
+                  </>
+                ) : (
+                  <div className="header-item" style={{ fontSize: "17px" }}>
+                    booking list
+                  </div>
+                )}
               </div>
 
               <div className="table-items">
@@ -45,8 +56,7 @@ function Bookings() {
                         <Image
                           src={item.place.image}
                           alt={item.place.name}
-                          width={110}
-                          height={90}
+                          fill
                           className="product-image"
                         />
                       </Link>
@@ -66,19 +76,37 @@ function Bookings() {
                     </div>
 
                     {/* سعر التذكرة */}
-                    <p className="price">${item.ticketPrice.toFixed(2)}</p>
+                    <p className="price">
+                      {screenSize == "small" ? (
+                        <span>ticket price:</span>
+                      ) : null}
+                      ${item.ticketPrice.toFixed(2)}
+                    </p>
 
                     {/* عدد الأفراد */}
                     <p className="people-count">
+                      {screenSize == "small" ? (
+                        <span>people count:</span>
+                      ) : null}
                       {item.peopleCount}{" "}
-                      {item.peopleCount > 1 ? "people" : "person"}
+                      {screenSize === "small"
+                        ? null
+                        : item.peopleCount > 1
+                        ? "people"
+                        : "person"}
                     </p>
 
                     {/* الإجمالي */}
-                    <p className="price">${item.totalPaid.toFixed(2)}</p>
+                    <p className="price">
+                      {screenSize == "small" ? <span>total paid:</span> : null}$
+                      {item.totalPaid.toFixed(2)}
+                    </p>
 
                     {/* تاريخ الحجز */}
                     <p className="date">
+                      {screenSize == "small" ? (
+                        <span>booking date:</span>
+                      ) : null}
                       {new Date(item.bookingDate).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
@@ -88,6 +116,7 @@ function Bookings() {
 
                     {/* تاريخ الزيارة */}
                     <p className="date">
+                      {screenSize == "small" ? <span>visit date:</span> : null}
                       {new Date(item.visitDate).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",

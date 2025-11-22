@@ -31,7 +31,7 @@ const Filters = ({
     setSelectedCategory((prev) => (prev === name ? null : name));
   };
 
-  const cats = catsType == "products" ? productCategories : tourismCategories;
+  const cats = catsType == "product" ? productCategories : tourismCategories;
   return (
     <div className={`filters ${active ? "active" : ""}`}>
       {screenSize !== "large" && (

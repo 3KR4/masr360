@@ -307,17 +307,41 @@ export const places = [
     id: 1,
     name: "The Egyptian Museum",
     image: "/places/The Egyptian Museum.jpg",
+    images: [
+      "/places/xxx/A-wonderful-picture-of-the-Egyptian-Museum-from-the-outside.jpg",
+      "/places/xxx/Cairo2_008.jpg",
+      "/places/xxx/download.avif",
+      "/places/xxx/f7.jpg",
+    ],
+    location: {
+      link: "https://maps.app.goo.gl/E65nvSms4xhVm1ys5",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110518.71491261623!2d31.460567384638452!3d30.045181193851644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458b14d72adf029%3A0x9a38f9bbb6edbfe4!2z2KfZhNmF2KrYrdmBINin2YTZhdi12LHZiiDYqNin2YTZgtin2YfYsdip!5e0!3m2!1sar!2seg!4v1763594565368!5m2!1sar!2seg",
+    },
     govermorate: "Cairo",
-    rate: 4,
     description:
-      "Home to thousands of ancient artifacts, including the treasures of Tutankhamun. A must-visit for history lovers.",
+      "Cairo, the vibrant capital of Egypt, is a city where ancient history meets modern life in the most captivating way. Home to some of the world’s greatest archaeological treasures, Cairo offers a unique blend of culture, heritage, and urban energy. The city’s bustling streets, colorful markets, and traditional cafés reflect a lifestyle full of warmth and authenticity. Along the Nile River, visitors can enjoy scenic views, relaxing cruises, and unforgettable sunsets. Cairo is also rich in iconic landmarks such as the Egyptian Museum, the Citadel, and historic mosques that showcase centuries of architectural beauty. The city’s old districts, like Islamic Cairo and Coptic Cairo, reveal stories carved in stone and preserved through time. Visitors can explore vibrant bazaars like Khan El Khalili, where artisans and merchants continue age-old crafts. In contrast, modern Cairo features luxurious malls, lively nightlife, and world-class dining experiences. The city's unique mix of the old and the new makes every visit feel like a journey through time. With its welcoming people and unmatched cultural depth, Cairo remains one of the most fascinating destinations in the world.",
+    tickets: {
+      free: false,
+      students: {
+        egyptian: 50,
+        foreigner: 100,
+      },
+      adults: {
+        egyptian: 150,
+        foreigner: 300,
+      },
+      seniors: {
+        egyptian: 80,
+        foreigner: 150,
+      },
+    },
   },
   {
     id: 2,
     name: "The Pyramids of Giza",
     image: "/places/The Pyramids of Giza.jpg",
     govermorate: "Giza",
-    rate: 5,
     description:
       "The last surviving wonder of the ancient world — an eternal symbol of Egypt’s glory and mystery.",
   },
@@ -326,7 +350,6 @@ export const places = [
     name: "The High Dam",
     image: "/places/The High Dam.jpg",
     govermorate: "Aswan",
-    rate: 3.5,
     description:
       "A modern engineering marvel controlling the Nile’s floods and powering Egypt’s development.",
   },
@@ -335,7 +358,6 @@ export const places = [
     name: "Philae Temple",
     image: "/places/Philae Temple.jpg",
     govermorate: "Aswan",
-    rate: 3,
     description:
       "Dedicated to the goddess Isis, this beautiful temple sits gracefully on an island surrounded by the Nile.",
   },
@@ -344,7 +366,6 @@ export const places = [
     name: "Luxor Temple",
     image: "/places/Luxor Temple.jpg",
     govermorate: "Luxor",
-    rate: 4.5,
     description:
       "A breathtaking open-air museum showcasing the grandeur of ancient Thebes and its divine architecture.",
   },
@@ -353,7 +374,6 @@ export const places = [
     name: "Abu Simbel Temples",
     image: "/places/Abu Simbel Temples.webp",
     govermorate: "Aswan",
-    rate: 4,
     description:
       "Majestic rock-cut temples built by Ramses II, standing tall as a timeless tribute to ancient Egyptian art.",
   },
@@ -362,7 +382,6 @@ export const places = [
     name: "Dahab",
     image: "/places/Dahab.jpg",
     govermorate: "South Sinai",
-    rate: 4.5,
     description:
       "A laid-back beach town famous for its golden sands, diving spots, and the relaxed spirit of the Red Sea.",
   },
@@ -371,7 +390,6 @@ export const places = [
     name: "Alexandria Library",
     image: "/places/Alexandria Library.jpg",
     govermorate: "Alexandria",
-    rate: 3.8,
     description:
       "A modern architectural masterpiece reviving the spirit of the ancient library — where culture meets innovation.",
   },
@@ -416,6 +434,7 @@ export const products = [
     description:
       "Hand-painted papyrus artwork depicting Queen Nefertiti, made using traditional Egyptian papyrus techniques.",
     stock: 20,
+
     specifications: {
       Material: "Papyrus",
       Dimensions: "12 x 16 inches",
@@ -427,6 +446,7 @@ export const products = [
       Artist: "Crafted by local Egyptian artisans in Luxor",
       ProductionTime: "Each piece takes approximately 2 days to complete",
     },
+
     tags: ["papyrus", "nefertiti", "egyptian art"],
   },
   {

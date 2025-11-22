@@ -176,3 +176,8 @@ footer .privacy a:hover {
     width: 190px !important;
   }
 }
+@media (max-width: 500px) {
+  .footer-bg {
+    object-fit: cover;
+  }
+}

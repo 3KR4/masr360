@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Rating from "@mui/material/Rating";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
@@ -13,8 +13,11 @@ import useCart from "@/hooks/useCart";
 import { SlLocationPin } from "react-icons/sl";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import Link from "next/link";
+import { mainContext } from "@/Contexts/mainContext";
 
 function Cart() {
+  const { screenSize } = useContext(mainContext);
+
   const {
     favorites,
     updateQuantity,
@@ -59,12 +62,18 @@ function Cart() {
   const renderStep1 = () => (
     <div className="table-container">
       <div className="table-header">
-        <div className="header-item">Image</div>
-        <div className="header-item name">Name</div>
-        <div className="header-item">Price</div>
-        <div className="header-item">Quantity</div>
-        <div className="header-item">Quantity Price</div>
-        <div className="header-item">Remove</div>
+        {screenSize !== "small" ? (
+          <>
+            <div className="header-item details">product details</div>
+            <div className="header-item">Price</div>
+            <div className="header-item">Quantity</div>
+            <div className="header-item">Remove</div>
+          </>
+        ) : (
+          <div className="header-item" style={{ fontSize: "17px" }}>
+            cart items
+          </div>
+        )}
       </div>
 
       {/* Favorites items */}
@@ -75,35 +84,45 @@ function Cart() {
 
           return (
             <div key={item.id} className="table-item">
-              <div className="item-image">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  width={128}
-                  height={100}
-                  className="product-image"
-                />
-              </div>
-
-              <div className="item-details">
-                <h3 className="item-name">{item.name}</h3>
-                <p className="link">Category: {item.category}</p>
-                <div className="item-rating">
-                  <Rating
-                    name="read-only"
-                    value={item.rate}
-                    precision={0.1}
-                    readOnly
-                    sx={{ color: "#ea8c43", fontSize: "18px" }}
+              <div className="holder">
+                <Link href={``} className="item-image">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="product-image"
                   />
-                  <span className="reviews-count">({item.reviewsCount})</span>
+                </Link>
+
+                <div className="item-details">
+                  <Link href={``} className="item-name">
+                    {item.name}
+                  </Link>
+                  {screenSize !== "small" && (
+                    <>
+                      <Link href={``} className="link">
+                        <span>Category:</span> {item.category}
+                      </Link>
+                      <div className="item-rating">
+                        <Rating
+                          name="read-only"
+                          value={item.rate}
+                          precision={0.1}
+                          readOnly
+                          sx={{ color: "#ea8c43", fontSize: "18px" }}
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
+
               <div className="item-price">
                 <DisplayPrice
                   price={item?.price}
                   sale={item?.sale}
                   stock={item?.stock}
+                  qty={item?.quantity}
                 />
               </div>
               <div className="item-quantity">
@@ -122,19 +141,29 @@ function Cart() {
                   >
                     +
                   </button>
+                  {screenSize == "small" && (
+                    <div className="item-remove">
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="remove-btn"
+                      >
+                        <FaTrashAlt />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <p className="price">${totalPrice.toFixed(2)}</p>
-
-              <div className="item-remove">
-                <button
-                  onClick={() => removeItem(item.id)}
-                  className="remove-btn"
-                >
-                  <FaTrashAlt />
-                </button>
-              </div>
+              {screenSize !== "small" && (
+                <div className="item-remove">
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    className="remove-btn"
+                  >
+                    <FaTrashAlt />
+                  </button>
+                </div>
+              )}
             </div>
           );
         })}

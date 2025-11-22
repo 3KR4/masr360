@@ -12,7 +12,7 @@ export default function GovernmentDetails() {
 
   return (
     <div className="discover">
-      <div className="city fluid-container">
+      <div className="hero-image-holder fluid-container">
         <Image src={government?.image} fill alt={government?.name} />
         <div className="details">
           <h3>{government?.name}</h3>

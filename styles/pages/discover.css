@@ -20,117 +20,12 @@
   position: relative;
   min-height: 90vh;
 }
-.discover .city + .title-holder.pages {
+.hero-image-holder + .title-holder.pages {
   margin: 38px auto 32px;
 }
-.discover .city {
-  background: #000;
-  border-radius: 0 0 45px 45px;
-  height: 56vh;
-  margin: 0 auto 20px;
-  position: relative;
-  overflow: hidden;
-}
-.discover .city img {
-  object-fit: cover;
-  position: relative !important;
-}
-.discover .city .details {
-  position: absolute;
-  left: 40px;
-  bottom: 40px;
-}
-.discover .city .details::before {
-  content: "";
-  z-index: 0;
-  width: 61%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  box-shadow: 0 0 175px 62px #000;
-}
-.discover .city .details > * {
-  position: relative;
-  z-index: 1;
-}
-.discover .city .details h3 {
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 48px;
-  margin-bottom: 4px;
-}
-.discover .city .details p {
-  color: #fcfcfc;
-  width: 60%;
-  font-size: 22px;
-  font-weight: 400;
-}
 
-@media (max-width: 1300px) {
-  .discover .city .details h3 {
-    font-size: 42px;
-  }
-  .discover .city .details p {
-    font-size: 18px;
-  }
-}
-@media (max-width: 1200px) {
-  .discover .city {
-    height: 48vh;
-  }
-}
 @media (max-width: 1050px) {
-  .discover .city {
-    height: 45vh;
-  }
-  .discover .city .details h3 {
-    font-size: 40px;
-  }
-  .discover .city .details p {
-    font-size: 17px;
-    width: 75%;
-  }
   .sub-title {
     max-width: 85%;
-  }
-}
-@media (max-width: 800px) {
-  .discover .city .details {
-    bottom: 30px;
-    left: 0;
-    padding: 0 26px;
-  }
-  .discover .city .details h3 {
-    font-size: 35px;
-  }
-  .discover .city .details p {
-    width: 85%;
-    font-size: 16px;
-  }
-}
-@media (max-width: 768px) {
-  .discover .city {
-    padding: 0;
-    height: 41vh;
-    border-radius: 0 0 30px 30px;
-  }
-  .discover .city .details p {
-    width: 100%;
-  }
-  .discover .city .details {
-    text-align: center;
-  }
-}
-@media (max-width: 500px) {
-  .discover .city {
-    height: 27vh;
-  }
-
-  .discover .city .details p {
-    font-size: 15px;
-  }
-  .discover .city .details:before {
-    width: 100%;
-    box-shadow: 0 0 175px 62px #000000c9;
   }
 }

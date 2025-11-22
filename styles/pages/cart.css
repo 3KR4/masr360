@@ -9,18 +9,15 @@
   justify-content: center;
 }
 
-
 .table-item .item-price .price-holder .old-price {
   font-size: 15px !important;
   color: #898989;
 }
 
-
-
 .quantity-controls {
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  gap: 12px;
   border-radius: 6px;
   justify-content: center;
 }
@@ -51,9 +48,8 @@
 
 .quantity-number {
   font-weight: 600;
-  min-width: 30px;
   text-align: center;
-  
+
   color: var(--paragraph);
 }
 
@@ -82,7 +78,6 @@
   font-size: 0.9rem;
   font-weight: normal;
 }
-
 
 .favorites-total {
   margin-top: 2rem;
@@ -158,7 +153,7 @@
 
 .step-label {
   font-size: 0.9rem;
-    color:var(--paragraph);
+  color: var(--paragraph);
 
   transition: all 0.3s ease;
 }
@@ -183,7 +178,7 @@
 .order-information {
   display: grid;
   grid-template-columns: 1fr 400px;
-  gap: 2rem;
+  gap: 20px;
   margin-top: 2rem;
 }
 
@@ -306,8 +301,9 @@
 }
 
 .summary-item-price {
-  font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
+  color: var(--paragraph);
+  font-weight: 700;
 }
 .coupon-section {
   padding: 13px 17px 8px;
@@ -319,6 +315,9 @@
 }
 .coupon-section label {
   margin: 0 !important;
+  color: var(--paragraph) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
 }
 .summary-total {
   border-bottom: 2px solid #e9ecef;
@@ -328,10 +327,11 @@
 }
 
 .total-line {
-  margin-bottom: 0.45rem;
-  font-size: 15px;
-  font-weight: 600;
   letter-spacing: 0.2px;
+  margin-bottom: 0.45rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--paragraph);
 }
 
 .payment-method {
@@ -344,7 +344,6 @@
 }
 
 .payment-subtitle {
-
   font-size: 1.1rem;
 }
 
@@ -377,6 +376,7 @@
 }
 .nav-btn:disabled {
   visibility: hidden;
+  transition: 0s;
 }
 .navigation-total {
   align-items: center;
@@ -390,4 +390,33 @@
   color: var(--main-color);
   font-size: 23px;
   font-weight: 900;
+}
+
+@media (max-width: 992px) {
+  .checkout-navigation {
+    width: 100%;
+  }
+  .order-information {
+    grid-template-columns: 1fr 370px;
+  }
+}
+@media (max-width: 890px) {
+  .order-information {
+    flex-direction: column;
+    display: flex;
+  }
+  .form-section .box.forInput .inputHolder .holder textarea {
+    height: 130px;
+  }
+}
+@media (max-width: 768px) {
+  .checkout-progress {
+    margin: 1.5rem auto;
+    width: 90%;
+  }
+  .step-number {
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
+  }
 }
