@@ -9,7 +9,7 @@ export default function DiscoverContent() {
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
-          discover masr nights
+          masr nights
           <hr />
         </h1>
 
@@ -22,7 +22,7 @@ export default function DiscoverContent() {
       <Navigations
         items={[
           {
-            name: "masr nights",
+            name: "nights",
             href: "",
           },
         ]}

@@ -120,7 +120,6 @@ function Favorites() {
                     <div className="header-item details">place details</div>
 
                     <div className="header-item location">location</div>
-                    <div className="header-item rating">rating</div>
                     <div className="header-item">Remove</div>
                   </div>
 
@@ -155,18 +154,7 @@ function Favorites() {
                           <Link href={`/discover/1`} className="link">
                             {item?.govermorate}
                           </Link>
-                          <div className="item-rating center">
-                            <Rating
-                              name="read-only"
-                              value={item?.rate}
-                              precision={0.1}
-                              readOnly
-                              sx={{ color: "#ea8c43", fontSize: "18px" }}
-                            />
-                            <span className="reviews-count">
-                              ({item?.rate}) {item?.rate > 1 ? "stars" : "star"}
-                            </span>
-                          </div>
+
                           <div className="item-remove">
                             <button
                               onClick={() => removeItem("place", item?.id)}

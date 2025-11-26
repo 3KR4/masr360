@@ -57,7 +57,7 @@ const Filters = ({
       {/* Availability Filter */}
       {showAvailability && (
         <>
-          <div className="holder">
+          <div className="holder availability">
             <h4>Filter by Availability</h4>
             <ul>
               {["inStock", "outOfStock"].map((status) => (

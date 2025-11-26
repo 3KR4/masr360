@@ -25,7 +25,7 @@ export default function ProductDetails() {
     <div className="single-page forPlace container">
       <div className="holder big-holder">
         <div className="hero-image-holder ">
-          <Image src={place?.image} alt={places?.name} fill />
+          <Image src={place?.image} alt={place?.name} fill />
           {screenSize !== "small" && (
             <div className="details">
               <h3 className="ellipsis">{place?.name}</h3>{" "}
@@ -121,14 +121,16 @@ export default function ProductDetails() {
         <div className="images-swiper">
           <div className="top">
             <h4>place images</h4>
-            <div className="navigation">
-              <button className="custom-prev">
-                <IoIosArrowBack />
-              </button>
-              <button className="custom-next">
-                <IoIosArrowForward />
-              </button>
-            </div>
+            {place?.images?.length > 2 && (
+              <div className="navigation">
+                <button className="custom-prev">
+                  <IoIosArrowBack />
+                </button>
+                <button className="custom-next">
+                  <IoIosArrowForward />
+                </button>
+              </div>
+            )}
           </div>
 
           <Swiper

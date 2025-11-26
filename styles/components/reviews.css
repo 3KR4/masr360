@@ -96,8 +96,11 @@
 }
 .review-section .review .hold .top {
   display: flex;
-  align-items: center;
   gap: 5px;
+  padding: 0;
+  align-items: center;
+  justify-content: unset;
+  flex-direction: row;
 }
 .review-section .review .image.left {
   background: var(--section-color);

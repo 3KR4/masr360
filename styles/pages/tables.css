@@ -79,6 +79,11 @@
 }
 .table-container p.description {
   text-align: left;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
   font-size: 14px;
 }
 .table-container .price,
@@ -170,11 +175,10 @@
 .favorites .table-item {
   grid-template-columns: 2.2fr 1.3fr 1fr 1fr 0.7fr;
 }
-.favorites .table-header.forPlace {
-  grid-template-columns: 1fr 9rem 11rem 9rem;
-}
+
+.favorites .table-header.forPlace,
 .favorites .table-items.forPlace .table-item {
-  grid-template-columns: 1fr 9rem 11rem 9rem;
+  grid-template-columns: 1fr 11rem 9rem;
 }
 .remove-btn {
   color: #fff;

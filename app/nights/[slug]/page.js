@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { places } from "@/data";
+import { nights, reviews } from "@/data";
 import "@/styles/pages/singel-details.css";
 import Image from "next/image";
 import Navigations from "@/components/navigations";
@@ -13,25 +13,21 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import formatCurrency from "@/utlies/curancy";
+import ReviewSection from "@/components/reviews/ReviewSection";
+import Rating from "@mui/material/Rating";
 
 export default function ProductDetails() {
   const { screenSize } = useContext(mainContext);
   SwiperCore.use([Autoplay, EffectFade, Navigation]);
   const { slug } = useParams();
-  const place = places.find((g) => g.id == slug.toLowerCase());
+  const place = nights.find((g) => g.id == slug.toLowerCase());
+  const productReviews = reviews.find((g) => g.productId == slug.toLowerCase());
 
   return (
-    <div className="single-page forPlace container">
+    <div className="single-page forPlace forNight container">
       <div className="holder big-holder">
         <div className="hero-image-holder ">
-          <Image src={place?.image} alt={places?.name} fill />
-          {screenSize !== "small" && (
-            <div className="details">
-              <h3 className="ellipsis">{place?.name}</h3>{" "}
-              {place.tickets.free && <div className="free">free to visit</div>}
-            </div>
-          )}
+          <Image src={place?.image} alt={place?.name} fill />
         </div>
 
         <Navigations
@@ -48,87 +44,45 @@ export default function ProductDetails() {
           container={`main`}
         />
 
-        <div className={`holds ${place.tickets.free ? "noTikets" : ""}`}>
+        <div
+          className={`holds ${
+            place?.tickets
+              ? place?.tickets?.free
+                ? "noTikets"
+                : ""
+              : "noTikets"
+          }`}
+        >
           <div className="details-holder">
-            {screenSize == "small" && (
-              <div className="details">
-                <h3 className="ellipsis">{place?.name}</h3>{" "}
-                {place.tickets.free && (
-                  <div className="free">free to visit</div>
-                )}
-              </div>
-            )}
-            <p className="description">{place?.description}</p>
-          </div>
-          {!place.tickets.free && (
-            <div className="tickets">
-              <div className="top">
-                <h4>tickets price</h4>
-              </div>
-              <div className="tickets-list">
-                <div>
-                  <h5>Students:</h5>
-                  <ul>
-                    {Object.entries(place.tickets.students).map(
-                      ([type, price]) => (
-                        <li
-                          key={type}
-                          className={type == "egyptian" ? "egyption" : ""}
-                        >
-                          {type} {formatCurrency(price)}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-
-                <div>
-                  <h5>Adults:</h5>
-                  <ul>
-                    {Object.entries(place.tickets.adults).map(
-                      ([type, price]) => (
-                        <li
-                          key={type}
-                          className={type == "egyptian" ? "egyption" : ""}
-                        >
-                          {type} {formatCurrency(price)}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-
-                <div>
-                  <h5>Seniors:</h5>
-                  <ul>
-                    {Object.entries(place.tickets.seniors).map(
-                      ([type, price]) => (
-                        <li
-                          key={type}
-                          className={type == "egyptian" ? "egyption" : ""}
-                        >
-                          {type}
-                          {formatCurrency(price)}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
+            <div className="details">
+              <h3 className="">{place?.name}</h3>{" "}
+              <div className="reviews">
+                <Rating
+                  name="read-only"
+                  value={place?.rate}
+                  precision={0.1}
+                  readOnly
+                  sx={{ color: "#ea8c43", fontSize: "20px" }}
+                />
+                <span className="count">{place?.reviewsCount} Review</span>
               </div>
             </div>
-          )}
+            <p className="description">{place?.description}</p>
+          </div>
         </div>
         <div className="images-swiper">
           <div className="top">
             <h4>place images</h4>
-            <div className="navigation">
-              <button className="custom-prev">
-                <IoIosArrowBack />
-              </button>
-              <button className="custom-next">
-                <IoIosArrowForward />
-              </button>
-            </div>
+            {place?.images?.length > 2 && (
+              <div className="navigation">
+                <button className="custom-prev">
+                  <IoIosArrowBack />
+                </button>
+                <button className="custom-next">
+                  <IoIosArrowForward />
+                </button>
+              </div>
+            )}
           </div>
 
           <Swiper
@@ -191,6 +145,7 @@ export default function ProductDetails() {
             ></iframe>
           </div>
         </div>
+        {reviews && <ReviewSection reviews={productReviews} />}
       </div>
     </div>
   );
