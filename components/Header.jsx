@@ -13,78 +13,7 @@ import { MdLogout } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import { FaCartShopping, FaUser } from "react-icons/fa6";
 import MiniCart from "@/components/MiniCart";
-const navLinks = [
-  {
-    title: "Discover",
-    link: "/discover",
-    departments: [
-      {
-        name: "Cairo",
-        link: "/",
-      },
-      {
-        name: "Alexandria",
-        link: "/",
-      },
-      {
-        name: "Giza",
-        link: "/",
-      },
-      {
-        name: "Luxor",
-        link: "/",
-      },
-      {
-        name: "Aswan",
-        link: "/",
-      },
-    ],
-  },
-  {
-    title: "Masr 360 Nights",
-    link: "/nights",
-    departments: [
-      {
-        name: "Nile Parties",
-        icon: "MdOutlineCelebration",
-        link: "/",
-      },
-      {
-        name: "Safari Nights",
-        icon: "MdOutlineNightlife",
-        link: "/",
-      },
-      {
-        name: "Restaurants & Cafes",
-        icon: "MdRestaurant",
-        link: "/",
-      },
-      {
-        name: "Cultural Events",
-        icon: "MdLocalActivity",
-        link: "/",
-      },
-    ],
-  },
-  {
-    title: "Marketplace",
-    link: "/marketplace",
-    departments: [
-      { name: "Souvenirs", icon: "MdShoppingBag", link: "/" },
-      { name: "Local Crafts", icon: "MdHandyman", link: "/" },
-      { name: "Art & Decor", icon: "MdBrush", link: "/" },
-      { name: "Traditional Clothes", icon: "MdCheckroom", link: "/" },
-    ],
-  },
-  {
-    title: "games",
-    link: "/games",
-  },
-  {
-    title: "about us",
-    link: "/about",
-  },
-];
+import { navLinks } from "@/data";
 
 function Header() {
   const pathname = usePathname();

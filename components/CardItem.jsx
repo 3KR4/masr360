@@ -20,14 +20,14 @@ export default function CardItem({ item, type }) {
   const isPlace = type === "place";
   const isGov = type === "gov";
   const isGame = type === "game";
+  const isNight = type === "night";
 
   return (
     <div key={item?.id} className={`card ${type}`}>
       {/* ❤️ ACTION ICONS */}
-      {!isGov && !isGame && (
+      {(isProduct || isPlace) && (
         <div className="actions-icon">
           {!isGame && <FaHeart className="wish-icon" />}
-
           {isProduct && <FaCartShopping className="cart-icon" />}
         </div>
       )}
@@ -41,6 +41,8 @@ export default function CardItem({ item, type }) {
             ? `/places/${item?.id}`
             : isGame
             ? `/games/${item?.id}`
+            : isNight
+            ? `/nights/${item?.id}`
             : `/discover/${item?.id}`
         }
         className="image-holder"
@@ -72,6 +74,8 @@ export default function CardItem({ item, type }) {
                 ? `/places/${item?.id}`
                 : isGame
                 ? `/games/${item?.id}`
+                : isNight
+                ? `/nights/${item?.id}`
                 : `/discover/${item?.id}`
             }
             className="name-link ellipsis"
@@ -79,7 +83,7 @@ export default function CardItem({ item, type }) {
             {item?.name}
           </Link>
           {isGame && <p>/ {item?.questions?.length} questions</p>}
-          {isPlace && (
+          {(isPlace || isNight) && (
             <Link href={`/places/${item?.id}`} className="location">
               <FaLocationDot />
               {item?.govermorate}
@@ -99,7 +103,7 @@ export default function CardItem({ item, type }) {
           </Link>
         )}
         {/* ⭐ RATING */}
-        {isProduct && (
+        {(isProduct || isNight) && (
           <div className="reviews">
             <Rating
               name="read-only"
@@ -108,9 +112,7 @@ export default function CardItem({ item, type }) {
               readOnly
               sx={{ color: "#ea8c43", fontSize: "18px" }}
             />
-            {isProduct && (
               <span className="count">{item?.reviewsCount} Review</span>
-            )}
           </div>
         )}
 

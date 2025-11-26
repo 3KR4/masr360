@@ -46,18 +46,45 @@
 .filters .holder ul li {
   cursor: pointer;
   border-radius: 7px;
-  align-items: center;
-  gap: 4px;
-  padding: 7px 8px;
   transition: all 0.3s;
   display: flex;
   font-size: 15px;
   font-weight: 500;
   color: var(--paragraph);
+  flex-direction: column;
+  overflow: hidden;
 }
-.filters .holder ul li:hover,
-.filters .holder ul li.active {
+.filters .holder ul li .main-cat {
+  padding: 7px 6px;
+  transition: 0.3s;
+}
+.filters .holder ul li:has(.sub-cats) .main-cat {
+  padding: 9px 6px;
+}
+.filters .holder ul:has(.sub-cats) li:has(.main-cat.active) {
+  border: 1px solid var(--main-color);
+}
+.filters .holder ul li .main-cat:hover,
+.filters .holder ul li .main-cat.active {
   background: #ea8c43e8;
+  color: white;
+}
+.filters .holder .sub-cats {
+  padding: 5px;
+  background: #ffe3c7;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.filters .holder .sub-cats .sub-cat {
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 14px;
+}
+.filters .holder .sub-cats .sub-cat.active,
+.filters .holder .sub-cats .sub-cat:hover {
+  background: #ec9654;
+  font-weight: 400;
   color: white;
 }
 .filters .holder .price-input {

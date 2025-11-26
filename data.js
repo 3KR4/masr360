@@ -1,3 +1,75 @@
+export const navLinks = [
+  {
+    title: "Discover",
+    link: "/discover",
+    departments: [
+      {
+        name: "Cairo",
+        link: "/",
+      },
+      {
+        name: "Alexandria",
+        link: "/",
+      },
+      {
+        name: "Giza",
+        link: "/",
+      },
+      {
+        name: "Luxor",
+        link: "/",
+      },
+      {
+        name: "Aswan",
+        link: "/",
+      },
+    ],
+  },
+  {
+    title: "Masr 360 Nights",
+    link: "/nights",
+    departments: [
+      {
+        name: "Nile Parties",
+        icon: "MdOutlineCelebration",
+        link: "/",
+      },
+      {
+        name: "Safari Nights",
+        icon: "MdOutlineNightlife",
+        link: "/",
+      },
+      {
+        name: "Restaurants & Cafes",
+        icon: "MdRestaurant",
+        link: "/",
+      },
+      {
+        name: "Cultural Events",
+        icon: "MdLocalActivity",
+        link: "/",
+      },
+    ],
+  },
+  {
+    title: "Marketplace",
+    link: "/marketplace",
+    departments: [
+      { name: "Souvenirs", icon: "MdShoppingBag", link: "/" },
+      { name: "Local Crafts", icon: "MdHandyman", link: "/" },
+      { name: "Art & Decor", icon: "MdBrush", link: "/" },
+      { name: "Traditional Clothes", icon: "MdCheckroom", link: "/" },
+    ],
+  },
+  {
+    title: "games",
+    link: "/games",
+  },
+  {
+    title: "about us",
+    link: "/about",
+  },
+];
 export const slides = [
   {
     image: "/Slides/slide-003.jpg",
@@ -15,7 +87,7 @@ export const slides = [
       "Complete fun challenges at iconic places, earn points, and unlock real rewards — restaurants, handcrafts, and more!",
     title: "Make Every Step a Game",
     btnText: "See Events",
-    link: "/games",
+    link: "/nights",
   },
   {
     image: "/Slides/slide-001.jpg",
@@ -394,6 +466,218 @@ export const places = [
       "A modern architectural masterpiece reviving the spirit of the ancient library — where culture meets innovation.",
   },
 ];
+export const nights = [
+  {
+    id: 1,
+    name: "Nile Maxim Dinner Cruise",
+    image: "https://images.unsplash.com/photo-1564501049412-61c2a7a04a53",
+    images: [
+      "https://images.unsplash.com/photo-1558979158-65a1eaa08691",
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/2Tz4HV7Uf5FN1cJk8",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.43809791451!2d31.228833!3d30.057943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840c959a7a8ef%3A0x7ab3edd4e5b71e1e!2sNile%20Maxim!5e0!3m2!1sen!2seg!4v1700000000000",
+    },
+    govermorate: "Cairo",
+    category: "Nile Parties",
+    description:
+      "Experience a luxurious dinner cruise along the Nile with live entertainment, belly dancing, and breathtaking night views of Cairo.",
+  },
+  {
+    id: 2,
+    name: "Wadi El Rayan Night Safari",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    images: [
+      "https://images.unsplash.com/photo-1541417904950-b855846fe074",
+      "https://images.unsplash.com/photo-1526657782461-9fe13402c4b8",
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/GhcCSkX2UX7hVf7n9",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13859.376497578344!2d30.318!3d29.2411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145847ad741b5b0b%3A0xa58f52eec2a3f8b5!2sWadi%20El%20Rayan!5e0!3m2!1sen!2seg!4v1700000000001",
+    },
+    govermorate: "Fayoum",
+    category: "Safari Nights",
+    description:
+      "Enjoy an exciting night safari in the desert with fire shows, BBQ dinner, star gazing, and traditional Bedouin entertainment.",
+  },
+  {
+    id: 3,
+    name: "Cairo Tower Revolving Restaurant",
+    image: "https://images.unsplash.com/photo-1489516408517-0c0a15662682",
+    images: [
+      "https://images.unsplash.com/photo-1528605248644-14dd04022da1",
+      "https://images.unsplash.com/photo-1520207594112-1e4cf3f7f84c",
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/KU11avs8dYxxuL2c7",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.43809791451!2d31.2245!3d30.0451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840c959a7a8ef%3A0xee3d71b7a3caf0df!2sCairo%20Tower!5e0!3m2!1sen!2seg!4v1700000000002",
+    },
+    govermorate: "Cairo",
+    category: "Restaurants & Cafes",
+    description:
+      "A luxurious rotating restaurant offering stunning 360° night views of Cairo with premium dining.",
+  },
+  {
+    id: 4,
+    name: "Citadel Sound & Light Show",
+    image: "https://images.unsplash.com/photo-1533720961736-085a6bef63c1",
+    images: [
+      "https://images.unsplash.com/photo-1508057198894-247b23fe5ade",
+      "https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
+      "https://images.unsplash.com/photo-1528701800489-20be9ee0c1df",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/saqMUWZqKqC4o7nS9",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.541!2d31.260!3d30.029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840c959a7a8ef%3A0x1fb8a3fa0f14a3f7!2sCitadel%20of%20Cairo!5e0!3m2!1sen!2seg!4v1700000000003",
+    },
+    govermorate: "Cairo",
+    category: "Cultural Events",
+    description:
+      "A mesmerizing nighttime show combining lights, historical narration, and dramatic sound across the ancient Citadel walls.",
+  },
+  {
+    id: 5,
+    name: "Cairo Jazz Club",
+    image: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14",
+    images: [
+      "https://images.unsplash.com/photo-1511192336575-5a79af67aefe",
+      "https://images.unsplash.com/photo-1508780709619-79562169bc64",
+      "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/A1ZKqxEAE3V1ky7n7",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.438!2d31.212!3d30.057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14584!2sCairo%20Jazz%20Club!5e0!3m2!1sen!2seg!4v1700000000004",
+    },
+    govermorate: "Giza",
+    category: "Concerts & Live Music",
+    description:
+      "A top nightlife venue hosting live bands, DJs, and musical events every night with a lively atmosphere.",
+  },
+  {
+    id: 6,
+    name: "Sky Lounge Nile View",
+    image: "https://images.unsplash.com/photo-1525286116112-b59af11adad1",
+    images: [
+      "https://images.unsplash.com/photo-1519677100203-a0e668c92439",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
+      "https://images.unsplash.com/photo-1498654896293-37aacf113fd9",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/DsqBPy2rC9uJf7sJ7",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.438!2d31.234!3d30.056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840c!2sNile%20Sky%20Lounge!5e0!3m2!1sen!2seg!4v1700000000005",
+    },
+    govermorate: "Cairo",
+    category: "Night Clubs & Lounges",
+    description:
+      "A modern Nile-view rooftop lounge offering drinks, music, shisha, and a relaxing nighttime atmosphere.",
+  },
+  {
+    id: 7,
+    name: "Khan El Khalili Night Bazaar",
+    image: "https://images.unsplash.com/photo-1534081333815-ae5019106622",
+    images: [
+      "https://images.unsplash.com/photo-1526804507-25e8e2ee632e",
+      "https://images.unsplash.com/photo-1534531688091-a458257992d5",
+      "https://images.unsplash.com/photo-1523307730650-594bc63c8882",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/JdYj8gV9gFDwzjwE7",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.438!2d31.262!3d30.047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14584!2sKhan%20El%20Khalili!5e0!3m2!1sen!2seg!4v1700000000006",
+    },
+    govermorate: "Cairo",
+    category: "Night Markets",
+    description:
+      "A vibrant night bazaar filled with cafes, souvenirs, handmade crafts, spices, and traditional Egyptian goods.",
+  },
+  {
+    id: 8,
+    name: "Zamalek Outdoor Cinema",
+    image: "https://images.unsplash.com/photo-1512070679279-c04f595669e2",
+    images: [
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85",
+      "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6",
+      "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/B6YLhZrtqdR1JvU87",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452!2d31.228!3d30.045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14584!2sZamalek!5e0!3m2!1sen!2seg!4v1700000000007",
+    },
+    govermorate: "Cairo",
+    category: "Cinema & Outdoor Movies",
+    description:
+      "An open-air cinema experience in Zamalek offering indie films, classics, and newly released movies under the night sky.",
+  },
+  {
+    id: 9,
+    name: "El Sawy Culturewheel Night Concerts",
+    image: "https://images.unsplash.com/photo-1486591978090-58e619d37fe7",
+    images: [
+      "https://images.unsplash.com/photo-1464374270879-6d8971f7a6c8",
+      "https://images.unsplash.com/photo-1511192336575-5a79af67aefe",
+      "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/Ekn8Cv8HcCPJmYk46",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3451!2d31.228!3d30.056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14584!2sEl%20Sawy%20Culturewheel!5e0!3m2!1sen!2seg!4v1700000000008",
+    },
+    govermorate: "Cairo",
+    category: "Concerts & Live Music",
+    description:
+      "One of Cairo's most popular venues for nighttime concerts, poetry nights, and cultural performances.",
+  },
+  {
+    id: 10,
+    name: "White Beach Night Lounge",
+    image: "https://images.unsplash.com/photo-1500631195312-e3a9a5819f6f",
+    images: [
+      "https://images.unsplash.com/photo-1505996408032-6be239d0c1d5",
+      "https://images.unsplash.com/photo-1506157786151-b8491531f063",
+      "https://images.unsplash.com/photo-1498654896293-37aacf113fd9",
+    ],
+    rate: 4.8,
+    reviewsCount: 16,
+    location: {
+      link: "https://maps.app.goo.gl/7TqULkuWcQ3UdrSz8",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3450!2d34.329!3d27.859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14565b!2sWhite%20Beach!5e0!3m2!1sen!2seg!4v1700000000009",
+    },
+    govermorate: "Hurghada",
+    category: "Night Clubs & Lounges",
+    description:
+      "A vibrant seaside nightlife spot offering DJ nights, cocktails, and a stylish open-air atmosphere.",
+  },
+];
 export const bookings = [
   {
     id: 1,
@@ -735,21 +1019,44 @@ export const tourismCategories = [
     id: 1,
     name: "Ancient Egypt",
     icon: "🏺",
+    subcategories: [
+      { id: 11, name: "Temples" },
+      { id: 12, name: "Tombs & Pyramids" },
+      { id: 13, name: "Archaeological Sites" },
+      { id: 14, name: "Pharaonic Statues" },
+    ],
   },
   {
     id: 2,
     name: "Beaches",
     icon: "🏖️",
+    subcategories: [
+      { id: 21, name: "Red Sea" },
+      { id: 22, name: "Mediterranean" },
+      { id: 23, name: "Diving Spots" },
+      { id: 24, name: "Resorts" },
+    ],
   },
   {
     id: 3,
     name: "Cruises",
     icon: "🚢",
+    subcategories: [
+      { id: 31, name: "Nile Cruises" },
+      { id: 32, name: "Felucca Rides" },
+      { id: 33, name: "Sea Cruises" },
+    ],
   },
   {
     id: 4,
     name: "Oases & Deserts",
     icon: "🏜️",
+    subcategories: [
+      { id: 41, name: "Siwa Oasis" },
+      { id: 42, name: "Western Desert" },
+      { id: 43, name: "White Desert" },
+      { id: 44, name: "Safari Tours" },
+    ],
   },
   {
     id: 5,
@@ -758,22 +1065,42 @@ export const tourismCategories = [
     subcategories: [
       { id: 51, name: "Islamic" },
       { id: 52, name: "Coptic" },
+      { id: 53, name: "Jewish" },
+      { id: 54, name: "Sacred Sites" },
     ],
   },
   {
     id: 6,
     name: "Museums",
     icon: "🏛️",
+    subcategories: [
+      { id: 61, name: "History Museums" },
+      { id: 62, name: "Art Museums" },
+      { id: 63, name: "Cultural Museums" },
+      { id: 64, name: "Science Museums" },
+    ],
   },
   {
     id: 7,
     name: "Outdoor Sports",
     icon: "🎯",
+    subcategories: [
+      { id: 71, name: "Hiking" },
+      { id: 72, name: "Climbing" },
+      { id: 73, name: "Water Sports" },
+      { id: 74, name: "Sandboarding" },
+    ],
   },
   {
     id: 8,
     name: "Shopping",
     icon: "🛍️",
+    subcategories: [
+      { id: 81, name: "Bazaars" },
+      { id: 82, name: "Handicrafts" },
+      { id: 83, name: "Malls" },
+      { id: 84, name: "Souvenirs" },
+    ],
   },
 ];
 export const productCategories = [
@@ -816,6 +1143,48 @@ export const productCategories = [
     id: 8,
     name: "Leather Goods",
     icon: "👝",
+  },
+];
+export const nightsCategories = [
+  {
+    name: "Nile Parties",
+    icon: "🚤",
+    link: "/night-events/nile-parties",
+  },
+  {
+    name: "Safari Nights",
+    icon: "🏜️",
+    link: "/night-events/safari-nights",
+  },
+  {
+    name: "Restaurants & Cafes",
+    icon: "🍽️",
+    link: "/night-events/restaurants-cafes",
+  },
+  {
+    name: "Cultural Events",
+    icon: "🎭",
+    link: "/night-events/cultural-events",
+  },
+  {
+    name: "Concerts & Live Music",
+    icon: "🎵",
+    link: "/night-events/live-music",
+  },
+  {
+    name: "Night Clubs & Lounges",
+    icon: "🍸",
+    link: "/night-events/night-clubs",
+  },
+  {
+    name: "Night Markets",
+    icon: "🛍️",
+    link: "/night-events/night-markets",
+  },
+  {
+    name: "Cinema & Outdoor Movies",
+    icon: "🎬",
+    link: "/night-events/outdoor-cinema",
   },
 ];
 export const orders = [

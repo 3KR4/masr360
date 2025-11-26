@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useMemo, useContext, Suspense } from "react";
-import { governments, places, products } from "@/data";
+import { governments, places, products, nights } from "@/data";
 import CardItem from "@/components/CardItem";
 import Navigations from "@/components/navigations";
 import Filters from "@/components/settings/Filters";
@@ -21,19 +21,37 @@ export default function DisplayContent({ type }) {
     data = places;
   } else if (type === "product") {
     data = products;
+  } else if (type === "night") {
+    data = nights;
   }
 
   const [openFilters, setOpenFilters] = useState(false);
   const [availability, setAvailability] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 10000]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState({
+    cat: null,
+    subCat: null,
+  });
 
   const handleRemoveFilter = (filter) => {
     if (filter === "availability") setAvailability(null);
-    if (filter === "price") setPriceRange([0, 10000]);
-    if (filter === "category") setSelectedCategory(null);
-  };
 
+    if (filter === "price") setPriceRange([0, 10000]);
+
+    if (filter === "cat") {
+      // إزالة القسم الرئيسي ⇒ لازم يشيل subcat كمان
+      setSelectedCategory({ cat: null, subCat: null });
+    }
+
+    if (filter === "subCat") {
+      // إزالة subcategory فقط ⇒ cat يفضل زي ما هو
+      setSelectedCategory((prev) => ({
+        ...prev,
+        subCat: null,
+      }));
+    }
+  };
+  
   return (
     <div className="fluid-container big-holder">
       {type !== "gov" && (
@@ -57,7 +75,8 @@ export default function DisplayContent({ type }) {
         {type !== "gov" &&
           (screenSize !== "large" ||
             availability ||
-            selectedCategory ||
+            selectedCategory.cat ||
+            selectedCategory.subCat ||
             priceRange[0] !== 0 ||
             priceRange[1] !== 10000) && (
             <div className="selected-filters">
@@ -85,9 +104,17 @@ export default function DisplayContent({ type }) {
                 </p>
               )}
 
-              {selectedCategory && (
-                <p onClick={() => handleRemoveFilter("category")}>
-                  Category: {selectedCategory} <IoIosClose className="remove" />
+              {selectedCategory.cat && (
+                <p onClick={() => handleRemoveFilter("cat")}>
+                  cat: {selectedCategory.cat}
+                  <IoIosClose className="remove" />
+                </p>
+              )}
+
+              {selectedCategory.subCat && (
+                <p onClick={() => handleRemoveFilter("subCat")}>
+                  sub cat: {selectedCategory.subCat}
+                  <IoIosClose className="remove" />
                 </p>
               )}
             </div>
