@@ -1,6 +1,6 @@
 export const navLinks = [
   {
-    title: "Discover",
+    title: "governorates",
     link: "/discover",
     departments: [
       {
@@ -21,6 +21,24 @@ export const navLinks = [
       },
       {
         name: "Aswan",
+        link: "/",
+      },
+    ],
+  },
+  {
+    title: "places",
+    link: "/places",
+    departments: [
+      {
+        name: "The Egyptian Museum",
+        link: "/",
+      },
+      {
+        name: "The Pyramids of Giza",
+        link: "/",
+      },
+      {
+        name: "Abu Simbel Temples",
         link: "/",
       },
     ],
@@ -64,10 +82,6 @@ export const navLinks = [
   {
     title: "games",
     link: "/games",
-  },
-  {
-    title: "about us",
-    link: "/about",
   },
 ];
 export const slides = [
@@ -677,6 +691,92 @@ export const nights = [
     category: "Cinema & Outdoor Movies",
     description:
       "An open-air cinema experience in Zamalek offering indie films, classics, and newly released movies under the night sky.",
+  },
+];
+export const events = [
+  {
+    id: 1,
+    name: "Nile Maxim Dinner Cruise",
+    image: "/nightss/ff.jpg",
+    images: [
+      "/nightss/900x600-1-50-04536f10c59e44d9fad22d53ca9bdf95.jpg",
+      "/nightss/af.jpg",
+    ],
+    location: {
+      link: "https://maps.app.goo.gl/2Tz4HV7Uf5FN1cJk8",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.43809791451!2d31.228833!3d30.057943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840c959a7a8ef%3A0x7ab3edd4e5b71e1e!2sNile%20Maxim!5e0!3m2!1sen!2seg!4v1700000000000",
+    },
+    eventStartAt: "2025-12-06T03:00:00.000Z",
+    eventLasts: "6 hours",
+    govermorate: "Cairo",
+    category: "Nile Parties",
+    description:
+      "Experience a luxurious dinner cruise sailing along the historic Nile River, enjoying an elegant atmosphere with premium onboard service, indulging in a delicious gourmet buffet, listening to live music performances, watching captivating belly dancing and folkloric shows, admiring Cairo’s illuminated skyline at night, relaxing on the open deck with the cool Nile breeze, and creating unforgettable memories on one of the city’s most iconic evening experiences.",
+  },
+  {
+    id: 2,
+    name: "Khan El Khalili Night Bazaar",
+    image:
+      "/nightss/two-tourists-watching-the-amazing-exhibits-in-khan-al-khalili.jpg",
+    images: [
+      "https://images.unsplash.com/photo-1526804507-25e8e2ee632e",
+      "https://images.unsplash.com/photo-1534531688091-a458257992d5",
+      "https://images.unsplash.com/photo-1523307730650-594bc63c8882",
+    ],
+    eventStartAt: "2025-11-28T18:30:00.000Z",
+    eventLasts: "2 hours",
+    location: {
+      link: "https://maps.app.goo.gl/JdYj8gV9gFDwzjwE7",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.438!2d31.262!3d30.047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14584!2sKhan%20El%20Khalili!5e0!3m2!1sen!2seg!4v1700000000006",
+    },
+    govermorate: "Cairo",
+    category: "Night Markets",
+    description:
+      "A vibrant night bazaar filled with cafes, souvenirs, handmade crafts, spices, and traditional Egyptian goods.",
+  },
+  {
+    id: 3,
+    name: "El Sawy Culturewheel Night Concerts",
+    image: "/nightss/fairmont-nile-city-600-1.jpg",
+    images: [
+      "https://images.unsplash.com/photo-1464374270879-6d8971f7a6c8",
+      "https://images.unsplash.com/photo-1511192336575-5a79af67aefe",
+      "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3",
+    ],
+    eventStartAt: "2025-03-02T18:30:00.000Z",
+    eventLasts: "1 day",
+    location: {
+      link: "https://maps.app.goo.gl/Ekn8Cv8HcCPJmYk46",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3451!2d31.228!3d30.056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14584!2sEl%20Sawy%20Culturewheel!5e0!3m2!1sen!2seg!4v1700000000008",
+    },
+    govermorate: "Cairo",
+    category: "Concerts & Live Music",
+    description:
+      "One of Cairo's most popular venues for nighttime concerts, poetry nights, and cultural performances.",
+  },
+  {
+    id: 4,
+    name: "El Sawy Culturewheel Night Concerts",
+    image: "/nightss/El-Sawy-Culturewheel-Egypt-Tours-Portal.jpg",
+    images: [
+      "https://images.unsplash.com/photo-1464374270879-6d8971f7a6c8",
+      "https://images.unsplash.com/photo-1511192336575-5a79af67aefe",
+      "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3",
+    ],
+    eventStartAt: "2025-03-02T18:30:00.000Z",
+    eventLasts: "4 hours",
+    location: {
+      link: "https://maps.app.goo.gl/Ekn8Cv8HcCPJmYk46",
+      iFrame:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3451!2d31.228!3d30.056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14584!2sEl%20Sawy%20Culturewheel!5e0!3m2!1sen!2seg!4v1700000000008",
+    },
+    govermorate: "Cairo",
+    category: "Concerts & Live Music",
+    description:
+      "One of Cairo's most popular venues for nighttime concerts, poetry nights, and cultural performances.",
   },
 ];
 export const bookings = [

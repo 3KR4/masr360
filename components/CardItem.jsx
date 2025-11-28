@@ -12,6 +12,7 @@ import { mainContext } from "@/Contexts/mainContext";
 
 import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice"; // optional, only for product
+import CountDown from "@/components/CountDown";
 
 export default function CardItem({ item, type }) {
   const { screenSize } = useContext(mainContext);
@@ -21,6 +22,7 @@ export default function CardItem({ item, type }) {
   const isGov = type === "gov";
   const isGame = type === "game";
   const isNight = type === "night";
+  const isEvent = type === "event";
 
   return (
     <div key={item?.id} className={`card ${type}`}>
@@ -43,6 +45,8 @@ export default function CardItem({ item, type }) {
             ? `/games/${item?.id}`
             : isNight
             ? `/nights/${item?.id}`
+            : isEvent
+            ? `/nights/${item?.id}?event=true`
             : `/discover/${item?.id}`
         }
         className="image-holder"
@@ -76,6 +80,8 @@ export default function CardItem({ item, type }) {
                 ? `/games/${item?.id}`
                 : isNight
                 ? `/nights/${item?.id}`
+                : isEvent
+                ? `/nights/${item?.id}?isEvent=true`
                 : `/discover/${item?.id}`
             }
             className="name-link ellipsis"
@@ -83,8 +89,13 @@ export default function CardItem({ item, type }) {
             {item?.name}
           </Link>
           {isGame && <p>/ {item?.questions?.length} questions</p>}
-          {(isPlace || isNight) && (
-            <Link href={`/places/${item?.id}`} className="location">
+          {(isPlace || isNight || isEvent) && (
+            <Link
+              href={`/${isPlace ? "places" : "nights"}/${item?.id}${
+                isEvent ? "?isEvent=true" : ""
+              }`}
+              className="location"
+            >
               <FaLocationDot />
               {item?.govermorate}
             </Link>
@@ -112,7 +123,7 @@ export default function CardItem({ item, type }) {
               readOnly
               sx={{ color: "#ea8c43", fontSize: "18px" }}
             />
-              <span className="count">{item?.reviewsCount} Review</span>
+            <span className="count">{item?.reviewsCount} Review</span>
           </div>
         )}
 
@@ -124,9 +135,17 @@ export default function CardItem({ item, type }) {
             stock={item?.stock}
           />
         )}
-
-        {/* 📜 DESCRIPTION */}
         {item?.description && <p className="ellipsis">{item?.description}</p>}
+
+        {isEvent && (
+          <div className="time-holder">
+            <CountDown eventStartAt={item.eventStartAt} />
+            <hr />
+            <div>
+              <span>event time:</span> <span>{item.eventLasts}</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

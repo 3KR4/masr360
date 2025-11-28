@@ -5,6 +5,8 @@ import Categories from "@/components/home/Categories";
 import Governments from "@/components/home/Governments";
 import Places from "@/components/home/Places";
 import Products from "@/components/home/Products";
+import Nights from "@/components/home/Nights";
+import Events from "@/components/home/Events";
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
       <Governments />
       <Places />
       <Products />
+      <Nights />
+      <Events />
     </>
   );
 }

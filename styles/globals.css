@@ -332,6 +332,12 @@ a {
   line-clamp: 2;
   -webkit-line-clamp: 2;
 }
+.card.event p {
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  font-size: 15px;
+  margin: -4px 0 0;
+}
 
 @keyframes arrow-bounce {
   0%,
@@ -397,7 +403,30 @@ a {
   width: 100%;
   color: white !important;
 }
-
+.card .time-holder {
+  border: 1px solid #e0e0e0;
+  padding: 11px 0;
+  border-radius: 9px;
+}
+.card .time-holder div {
+  display: flex;
+  justify-content: space-between;
+  color: var(--paragraph);
+  font-weight: 500;
+  font-size: 15px;
+  padding: 0 11px;
+}
+.card .time-holder .countdown span.main-color {
+  color: var(--main-color);
+}
+.card .time-holder .startedAt {
+}
+.card .time-holder span {
+}
+.card .time-holder hr {
+  margin: 9px 0;
+  background: #e0e0e0;
+}
 .css-stars {
   display: inline-flex;
   align-items: center;
@@ -689,6 +718,9 @@ a {
   .hero-image-holder img {
     aspect-ratio: 2;
   }
+  .card .name-link {
+    font-size: 16px;
+  }
 }
 @media (max-width: 800px) {
   .hero-image-holder .details {
@@ -711,7 +743,7 @@ a {
 @media (max-width: 768px) {
   .title-holder {
     width: 100%;
-    padding: 0 !important;
+    padding: 0 15px !important;
   }
   .main-title {
     font-size: 30px;
@@ -750,6 +782,9 @@ a {
   .single-page.forPlace .hero-image-holder .details .free {
     font-size: 13px;
     padding: 9px 16px;
+  }
+  .card .time-holder div {
+    font-size: 13px;
   }
 }
 @media (max-width: 600px) {

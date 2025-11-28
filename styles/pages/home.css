@@ -106,15 +106,17 @@
 .categories .swiper {
   width: 90%;
   border-radius: 24px;
-  height: 290px !important;
 }
-.categories .swiper-pagination {
+.swiper-pagination.backhome {
   position: relative;
   border: 1px solid #e0e0e0;
   transform: unset !important;
   left: unset !important;
   margin: 2px auto 0;
   bottom: unset;
+}
+.categories .swiper .swiper-slide {
+  aspect-ratio: 1.4;
 }
 .categories .box {
   position: relative;
@@ -124,7 +126,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-radius: unset;
+  border-radius: 24px;
 }
 .categories img {
   object-fit: cover;
@@ -170,10 +172,12 @@
 
 .governments,
 .places,
-.products {
+.products,
+.events,
+.nights {
   display: flex;
   flex-direction: column;
-  margin: 50px 0;
+  margin: 50px auto;
   gap: 34px;
 }
 
@@ -198,16 +202,48 @@
   gap: 7px;
 }
 
+/*! NIGHTS */
+
+.nights .grid-holder {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/*! EVENTS */
+
+.events {
+  width: 100%;
+}
+
+.events .swiper {
+  width: 80%;
+  padding: 3px 3px;
+}
+
 /*! RESPONSIVE */
 
+@media (max-width: 1700px) {
+  .events .swiper {
+    width: 90%;
+  }
+}
 @media (max-width: 1600px) {
   .governments,
   .places,
-  .products {
-    margin: 35px 0;
+  .products,
+  .events,
+  .nights {
+    margin: 35px auto;
+  }
+  .events .swiper {
+    width: 96%;
   }
 }
 
+@media (max-width: 1400px) {
+  .nights .grid-holder {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 @media (max-width: 1300px) {
   .landing .swiper,
   .landing .swiper .swiper-slide {
@@ -302,7 +338,9 @@
     font-size: 12px;
   }
   .categories .swiper {
-    height: 235px !important;
+    border-radius: 16px;
+  }
+  .categories .box {
     border-radius: 16px;
   }
 }
@@ -354,9 +392,7 @@
   .swiper-pagination-bullet {
     height: 4px !important;
   }
-  .categories .swiper {
-    height: 205px !important;
-  }
+
   .categories .text-holder > * {
     font-size: 13px !important;
   }

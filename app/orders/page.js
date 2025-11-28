@@ -9,7 +9,7 @@ import { FaBoxOpen } from "react-icons/fa";
 
 function Orders() {
   return (
-    <div className="orders" style={{ minHeight: "53vh" }}>
+    <div className="orders">
       {orders.length > 0 ? (
         <>
           <div className="title-holder pages container">
@@ -44,8 +44,9 @@ function Orders() {
                     return (
                       <div key={item?.id} className="table-item">
                         <div className="images">
-                          {item.cart.slice(0, 3).map((x) => (
+                          {item.cart.slice(0, 3).map((x, index) => (
                             <Image
+                            key={index}
                               src={x?.image}
                               alt={x?.name}
                               fill

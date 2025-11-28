@@ -2,16 +2,17 @@
 import React, { useContext, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { categories } from "@/data";
-import { mainContext } from "@/Contexts/mainContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import SwiperCore from "swiper";
+import { mainContext } from "@/Contexts/mainContext";
+import { nights, events } from "@/data";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
+import CardItem from "@/components/CardItem";
 
-function Categories() {
+function Events() {
   SwiperCore.use([Autoplay, EffectFade, Pagination]);
 
   const { screenSize } = useContext(mainContext);
@@ -19,7 +20,7 @@ function Categories() {
 
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.params.pagination.el = ".custom-pagination";
+      swiperRef.current.swiper.params.pagination.el = ".custom-paginations";
       swiperRef.current.swiper.pagination.init();
       swiperRef.current.swiper.pagination.render();
       swiperRef.current.swiper.pagination.update();
@@ -27,72 +28,55 @@ function Categories() {
   }, [screenSize]);
 
   return (
-    <div className="categories">
-      <div className="title-holder">
+    <div className="events">
+      <div className="title-holder container">
         <h1 className="main-title">
           <hr />
-          Categories
+          upcoming events
           <hr />
         </h1>
         <p className="sub-title">
-          From ancient temples to sunlit shores — your journey starts here
+          Check out the latest upcoming events happening soon!
         </p>
+        <Link href={`/nights`} className="main-button">
+          Explore More
+        </Link>
       </div>
 
       <Swiper
         ref={swiperRef}
         modules={[Autoplay, Pagination, EffectFade]}
         slidesPerView={5}
-        spaceBetween={9}
+        spaceBetween={11}
         loop={true}
         speed={2000}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         pagination={{
-          el: ".custom-pagination", // نربطها بعنصر خارجي
+          el: ".custom-paginations",
           clickable: true,
         }}
         breakpoints={{
           0: {
-            slidesPerView: 1.5,
+            slidesPerView: 1,
           },
-          650: {
+          768: {
             slidesPerView: 2,
           },
-          800: {
-            slidesPerView: 2.5,
-          },
-          1024: {
+          1400: {
             slidesPerView: 3,
-          },
-          1350: {
-            slidesPerView: 3.5,
-          },
-          1520: {
-            slidesPerView: 4,
-          },
-          1650: {
-            slidesPerView: 4.5,
           },
         }}
         className="categories-swiper"
       >
-        {categories.map((cat) => (
-          <SwiperSlide key={cat.id}>
-            <Link href={`/places?cat=${cat?.id}`} className="box">
-              <Image src={cat.image} alt={cat.name} fill />
-              <div className="text-holder">
-                <h2 className="name">{cat.name}</h2>
-                <span className="places-count">{cat.count} places</span>
-              </div>
-            </Link>
+        {events.map((item) => (
+          <SwiperSlide key={item.id}>
+            <CardItem item={item} type={"event"} />
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {/* ✅ الباجنيشن الخارجي */}
-      <ul className="swiper-pagination custom-pagination backhome"></ul>
+      <ul className="swiper-pagination custom-paginations backhome"></ul>
     </div>
   );
 }
 
-export default Categories;
+export default Events;

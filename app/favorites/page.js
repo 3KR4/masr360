@@ -14,7 +14,7 @@ function Favorites() {
   const { favoritesProducts, favoritesPlaces, removeItem } = useFavoriet();
 
   return (
-    <div className="favorites" style={{ minHeight: "53vh" }}>
+    <div className="favorites">
       {favoritesProducts.length > 0 || favoritesPlaces.length > 0 ? (
         <>
           <div
