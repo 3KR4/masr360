@@ -14,6 +14,7 @@
 .side-nav .actions-btns {
 }
 .side-nav {
+  color: red;
 }
 .side-nav a {
   display: flex;
