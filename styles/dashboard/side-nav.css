@@ -1,0 +1,25 @@
+.side-nav {
+  width: 187px;
+  border-right: 1px solid #e0e0e0;
+}
+.side-nav h3 {
+  color: var(--paragraph);
+}
+.side-nav svg {
+  color: var(--paragraph);
+
+}
+.side-nav .actions-btns h3 {
+}
+.side-nav .actions-btns {
+}
+.side-nav {
+}
+.side-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.side-nav a svg {
+}

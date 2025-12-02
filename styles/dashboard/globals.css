@@ -1,0 +1,5 @@
+.dashboard {
+  min-height: 92.2vh;
+  display: flex;
+  gap: 21px;
+}
