@@ -83,6 +83,10 @@ export const navLinks = [
     title: "games",
     link: "/games",
   },
+  {
+    title: "about us",
+    link: "/about",
+  },
 ];
 export const slides = [
   {
