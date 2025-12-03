@@ -12,6 +12,15 @@ const nextConfig = {
       },
     ],
   },
+
+  async rewrites() {
+    return [
+      {
+        source: "/api-proxy/:path*",
+        destination: "http://101.46.70.242/:path*", // السيرفر بتاعك
+      },
+    ];
+  },
 };
 
 export default nextConfig;
