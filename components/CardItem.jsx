@@ -25,7 +25,7 @@ export default function CardItem({ item, type }) {
   const isEvent = type === "event";
 
   return (
-    <div key={item?.id} className={`card ${type}`}>
+    <div key={item?._id} className={`card ${type}`}>
       {/* ❤️ ACTION ICONS */}
       {(isProduct || isPlace) && (
         <div className="actions-icon">
@@ -38,21 +38,21 @@ export default function CardItem({ item, type }) {
       <Link
         href={
           isProduct
-            ? `/marketplace/${item?.id}`
+            ? `/marketplace/${item?._id}`
             : isPlace
-            ? `/places/${item?.id}`
+            ? `/places/${item?._id}`
             : isGame
-            ? `/games/${item?.id}`
+            ? `/games/${item?._id}`
             : isNight
-            ? `/nights/${item?.id}`
+            ? `/nights/${item?._id}`
             : isEvent
-            ? `/nights/${item?.id}?event=true`
-            : `/discover/${item?.id}`
+            ? `/nights/${item?._id}?event=true`
+            : `/discover/${item?._id}`
         }
         className="image-holder"
       >
         <Image
-          src={!isGame ? item?.image : item?.place?.image}
+          src={(isProduct || isNight) ? item?.image : !isGame ? item?.img : item?.place?.img}
           alt={item?.name}
           fill
         />
@@ -73,16 +73,16 @@ export default function CardItem({ item, type }) {
           <Link
             href={
               isProduct
-                ? `/marketplace/${item?.id}`
+                ? `/marketplace/${item?._id}`
                 : isPlace
-                ? `/places/${item?.id}`
+                ? `/places/${item?._id}`
                 : isGame
-                ? `/games/${item?.id}`
+                ? `/games/${item?._id}`
                 : isNight
-                ? `/nights/${item?.id}`
+                ? `/nights/${item?._id}`
                 : isEvent
-                ? `/nights/${item?.id}?isEvent=true`
-                : `/discover/${item?.id}`
+                ? `/nights/${item?._id}?isEvent=true`
+                : `/discover/${item?._id}`
             }
             className="name-link ellipsis"
           >
@@ -91,25 +91,25 @@ export default function CardItem({ item, type }) {
           {isGame && <p>/ {item?.questions?.length} questions</p>}
           {(isPlace || isNight || isEvent) && (
             <Link
-              href={`/${isPlace ? "places" : "nights"}/${item?.id}${
+              href={`/${isPlace ? "places" : "nights"}/${item?._id}${
                 isEvent ? "?isEvent=true" : ""
               }`}
               className="location"
             >
               <FaLocationDot />
-              {item?.govermorate}
+              {item?.governorate?.name}
             </Link>
           )}
 
           {isGov && (
-            <Link className="explore" href={`/discover/${item?.id}`}>
-              {screenSize !== "small" ? "Explore" : ""} {item?.count} place{" "}
+            <Link className="explore" href={`/discover/${item?._id}`}>
+              {screenSize !== "small" ? "Explore" : ""} {item?.count} places{" "}
               <FaArrowRight className="arrow" />
             </Link>
           )}
         </div>
         {isGame && (
-          <Link href={`/games/${item?.id}`} className="main-button rewards">
+          <Link href={`/games/${item?._id}`} className="main-button rewards">
             {item?.reward} coin reward
           </Link>
         )}
@@ -135,7 +135,7 @@ export default function CardItem({ item, type }) {
             stock={item?.stock}
           />
         )}
-        {item?.description && <p className="ellipsis">{item?.description}</p>}
+        {item?.desc && <p className="ellipsis">{item?.desc}</p>}
 
         {isEvent && (
           <div className="time-holder">

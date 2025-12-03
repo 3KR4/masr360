@@ -12,9 +12,11 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.4",
+    "axios": "^1.13.2",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.547.0",
     "next": "16.0.0",
+    "rc-slider": "^11.1.8",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hook-form": "^7.65.0",
@@ -24,12 +26,12 @@
     "react-rating-stars-component": "^2.2.0",
     "react-select": "^5.10.2",
     "react-select-country-list": "^2.2.3",
-    "rc-slider": "^11.1.8",
     "react-simple-star-rating": "^5.1.7",
     "react-star-ratings": "^2.3.0",
     "swiper": "^12.0.3"
   },
   "devDependencies": {
+    "baseline-browser-mapping": "^2.8.32",
     "eslint": "^9",
     "eslint-config-next": "16.0.0"
   }

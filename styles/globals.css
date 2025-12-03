@@ -390,6 +390,7 @@ a {
   color: var(--paragraph);
   font-size: 13px;
   font-weight: 500;
+  min-width: max-content;
 }
 
 .card .location svg {
@@ -647,10 +648,11 @@ a {
   margin: 0 auto 20px;
   position: relative;
   overflow: hidden;
+  aspect-ratio: 2.4;
+
 }
 .hero-image-holder img {
   object-fit: cover;
-  aspect-ratio: 2.4;
   position: relative !important;
 }
 .hero-image-holder .details {
@@ -714,10 +716,10 @@ a {
   }
   .hero-image-holder {
     border-radius: 0 0 28px 28px;
-  }
-  .hero-image-holder img {
     aspect-ratio: 2;
+
   }
+
   .card .name-link {
     font-size: 16px;
   }

@@ -56,7 +56,6 @@ function Cart() {
   };
 
   const applyCoupon = () => {
-    console.log("Applying coupon:", formData.coupon);
   };
 
   const renderStep1 = () => (

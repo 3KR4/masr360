@@ -1,29 +1,18 @@
 "use client";
-import Image from "next/image";
-import React, { useState, useMemo, useContext, Suspense } from "react";
-import { governments, places, products, nights } from "@/data";
+import React, { useState, useEffect, useContext } from "react";
 import CardItem from "@/components/CardItem";
-import Navigations from "@/components/navigations";
 import Filters from "@/components/settings/Filters";
 import Pagination from "@/components/settings/Pagination";
 import "@/styles/pages/discover.css";
 import { IoIosClose } from "react-icons/io";
 import { mainContext } from "@/Contexts/mainContext";
+import { getService } from "@/services/api/getService";
+import { nights, products } from "@/data";
 
-export default function DisplayContent({ type }) {
+export default function DisplayContent({ type, isSharedData, shared }) {
   const { screenSize } = useContext(mainContext);
 
-  let data = [];
-
-  if (type === "gov") {
-    data = governments;
-  } else if (type === "place") {
-    data = places;
-  } else if (type === "product") {
-    data = products;
-  } else if (type === "night") {
-    data = nights;
-  }
+  const [data, setData] = useState([]);
 
   const [openFilters, setOpenFilters] = useState(false);
   const [availability, setAvailability] = useState(null);
@@ -33,25 +22,38 @@ export default function DisplayContent({ type }) {
     subCat: null,
   });
 
+  // Fetch data based on type
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response;
+        if (type === "gov") response = await getService.getGovernorates();
+        else if (type === "place" && !isSharedData)
+          response = await getService.getPlaces();
+        else if (type === "product") response = { data: products };
+        else if (type === "night") response = { data: nights };
+        else response = { data: shared };
+
+        console.log(shared);
+
+        setData(response.data || []);
+      } catch (err) {
+        console.error(`Failed to fetch ${type}:`, err);
+        setData([]);
+      }
+    };
+
+    fetchData();
+  }, [type]);
+
   const handleRemoveFilter = (filter) => {
     if (filter === "availability") setAvailability(null);
-
     if (filter === "price") setPriceRange([0, 10000]);
-
-    if (filter === "cat") {
-      // إزالة القسم الرئيسي ⇒ لازم يشيل subcat كمان
-      setSelectedCategory({ cat: null, subCat: null });
-    }
-
-    if (filter === "subCat") {
-      // إزالة subcategory فقط ⇒ cat يفضل زي ما هو
-      setSelectedCategory((prev) => ({
-        ...prev,
-        subCat: null,
-      }));
-    }
+    if (filter === "cat") setSelectedCategory({ cat: null, subCat: null });
+    if (filter === "subCat")
+      setSelectedCategory((prev) => ({ ...prev, subCat: null }));
   };
-  
+
   return (
     <div className="fluid-container big-holder">
       {type !== "gov" && (
@@ -63,7 +65,7 @@ export default function DisplayContent({ type }) {
           setPriceRange={setPriceRange}
           setSelectedCategory={setSelectedCategory}
           handleRemoveFilter={handleRemoveFilter}
-          showAvailability={type == "product"}
+          showAvailability={type === "product"}
           catsType={type}
           screenSize={screenSize}
           active={openFilters}
@@ -82,9 +84,7 @@ export default function DisplayContent({ type }) {
             <div className="selected-filters">
               <strong
                 onClick={() => {
-                  if (screenSize !== "large") {
-                    setOpenFilters(true);
-                  }
+                  if (screenSize !== "large") setOpenFilters(true);
                 }}
                 className={screenSize !== "large" ? "main-button" : ""}
               >
@@ -121,10 +121,11 @@ export default function DisplayContent({ type }) {
           )}
 
         <div className="grid-holder">
-          {data?.map((item) => (
+          {data.map((item) => (
             <CardItem key={item.id} item={item} type={type} />
           ))}
         </div>
+
         {type !== "gov" && (
           <Pagination
             pageCount={50}

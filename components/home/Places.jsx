@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaLocationDot } from "react-icons/fa6";
@@ -7,8 +8,25 @@ import Rating from "@mui/material/Rating";
 import { FaHeart } from "react-icons/fa";
 import { places } from "@/data";
 import CardItem from "@/components/CardItem";
+import { getService } from "@/services/api/getService";
 
 function Places() {
+  const [places, setPlaces] = useState([]);
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const { data } = await getService.getPlaces(8);
+        setPlaces(data || []);
+        console.log(data);
+      } catch (err) {
+        console.error("Failed to fetch governments:", err);
+        setPlaces([]);
+      }
+    };
+    fetchPlaces();
+  }, []);
+
   return (
     <div className="places">
       <div className="title-holder container">

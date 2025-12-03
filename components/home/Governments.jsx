@@ -1,11 +1,27 @@
-import React from "react";
-import Image from "next/image";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import CardItem from "@/components/CardItem";
 import { FaArrowRight } from "react-icons/fa6";
-import { governments } from "@/data";
+import { getService } from "@/services/api/getService";
 
 function Governments() {
+  const [governments, setGovernments] = useState([]);
+  console.log(governments[0]?.img);
+
+  useEffect(() => {
+    const fetchGovernments = async () => {
+      try {
+        const { data } = await getService.getGovernorates(6);
+        setGovernments(data || []);
+      } catch (err) {
+        console.error("Failed to fetch governments:", err);
+        setGovernments([]);
+      }
+    };
+    fetchGovernments();
+  }, []);
+
   return (
     <div className="governments">
       <div className="title-holder container">

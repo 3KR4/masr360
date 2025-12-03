@@ -1,7 +1,6 @@
 "use client";
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { places } from "@/data";
 import "@/styles/pages/singel-details.css";
 import Image from "next/image";
 import Navigations from "@/components/navigations";
@@ -14,66 +13,89 @@ import { IoIosArrowBack } from "react-icons/io";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import formatCurrency from "@/utlies/curancy";
+import { getService } from "@/services/api/getService";
 
 export default function ProductDetails() {
   const { screenSize } = useContext(mainContext);
   SwiperCore.use([Autoplay, EffectFade, Navigation]);
   const { slug } = useParams();
-  const place = places.find((g) => g.id == slug.toLowerCase());
+
+  const [place, setPlace] = useState(null);
+
+  useEffect(() => {
+    const GetSinglePlace = async () => {
+      try {
+        const { data } = await getService.getSinglePlace(slug);
+
+        const placeData = data;
+
+        if (placeData) {
+          setPlace(placeData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (slug) GetSinglePlace();
+  }, [slug]);
 
   return (
     <div className="single-page forPlace container">
       <div className="holder big-holder">
-        <div className="hero-image-holder ">
-          <Image src={place?.image} alt={place?.name} fill />
+        {/* HERO IMAGE */}
+        <div className="hero-image-holder">
+          <Image src={place?.imgs[0]} alt={place?.name} fill />
           {screenSize !== "small" && (
             <div className="details">
-              <h3 className="ellipsis">{place?.name}</h3>{" "}
-              {place.tickets.free && <div className="free">free to visit</div>}
+              <h3 className="ellipsis">{place?.name}</h3>
+              {place?.tickets?.free && (
+                <div className="free">free to visit</div>
+              )}
             </div>
           )}
         </div>
 
+        {/* NAVIGATION */}
         <Navigations
           items={[
-            {
-              name: "places",
-              href: "/places",
-            },
-            {
-              name: "place details",
-              href: "",
-            },
+            { name: "places", href: "/places" },
+            { name: "place details", href: "" },
           ]}
-          container={`main`}
+          container="main"
         />
 
-        <div className={`holds ${place.tickets.free ? "noTikets" : ""}`}>
+        {/* DETAILS */}
+        <div className={`holds ${(!place?.tickets?.free && place?.tickets) ? "" : "noTikets"}`}>
           <div className="details-holder">
-            {screenSize == "small" && (
+            {screenSize === "small" && (
               <div className="details">
-                <h3 className="ellipsis">{place?.name}</h3>{" "}
-                {place.tickets.free && (
+                <h3 className="ellipsis">{place?.name}</h3>
+                {place?.tickets?.free && (
                   <div className="free">free to visit</div>
                 )}
               </div>
             )}
-            <p className="description">{place?.description}</p>
+            <p className="description">{place?.desc}xxx</p>
           </div>
-          {!place.tickets.free && (
+
+          {/* TICKETS */}
+          {!place?.tickets?.free && place?.tickets && (
             <div className="tickets">
               <div className="top">
                 <h4>tickets price</h4>
               </div>
+
               <div className="tickets-list">
+                {/* Students */}
                 <div>
                   <h5>Students:</h5>
                   <ul>
-                    {Object.entries(place.tickets.students).map(
+                    {Object.entries(place?.tickets?.students || {}).map(
                       ([type, price]) => (
                         <li
                           key={type}
-                          className={type == "egyptian" ? "egyption" : ""}
+                          className={type === "egyptian" ? "egyption" : ""}
                         >
                           {type} {formatCurrency(price)}
                         </li>
@@ -82,14 +104,15 @@ export default function ProductDetails() {
                   </ul>
                 </div>
 
+                {/* Adults */}
                 <div>
                   <h5>Adults:</h5>
                   <ul>
-                    {Object.entries(place.tickets.adults).map(
+                    {Object.entries(place?.tickets?.adults || {}).map(
                       ([type, price]) => (
                         <li
                           key={type}
-                          className={type == "egyptian" ? "egyption" : ""}
+                          className={type === "egyptian" ? "egyption" : ""}
                         >
                           {type} {formatCurrency(price)}
                         </li>
@@ -98,17 +121,17 @@ export default function ProductDetails() {
                   </ul>
                 </div>
 
+                {/* Seniors */}
                 <div>
                   <h5>Seniors:</h5>
                   <ul>
-                    {Object.entries(place.tickets.seniors).map(
+                    {Object.entries(place?.tickets?.seniors || {}).map(
                       ([type, price]) => (
                         <li
                           key={type}
-                          className={type == "egyptian" ? "egyption" : ""}
+                          className={type === "egyption" ? "egyption" : ""}
                         >
-                          {type}
-                          {formatCurrency(price)}
+                          {type} {formatCurrency(price)}
                         </li>
                       )
                     )}
@@ -118,10 +141,12 @@ export default function ProductDetails() {
             </div>
           )}
         </div>
+
+        {/* IMAGES SWIPER */}
         <div className="images-swiper">
           <div className="top">
             <h4>place images</h4>
-            {place?.images?.length > 2 && (
+            {place?.imgs?.length > 2 && (
               <div className="navigation">
                 <button className="custom-prev">
                   <IoIosArrowBack />
@@ -146,21 +171,13 @@ export default function ProductDetails() {
             }}
             className="categories-swiper"
             breakpoints={{
-              0: {
-                slidesPerView: 1,
-              },
-              630: {
-                slidesPerView: 1.3,
-              },
-              768: {
-                slidesPerView: 1.5,
-              },
-              992: {
-                slidesPerView: 2,
-              },
+              0: { slidesPerView: 1 },
+              630: { slidesPerView: 1.3 },
+              768: { slidesPerView: 1.5 },
+              992: { slidesPerView: 2 },
             }}
           >
-            {place?.images?.map((img, index) => (
+            {place?.imgs?.map((img, index) => (
               <SwiperSlide key={index}>
                 <Image src={img} alt={`place img - ${index}`} fill />
               </SwiperSlide>
@@ -168,6 +185,7 @@ export default function ProductDetails() {
           </Swiper>
         </div>
 
+        {/* LOCATION */}
         <div className="location">
           <div className="top">
             <h4>Location in {place?.govermorate}</h4>
