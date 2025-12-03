@@ -1,5 +1,5 @@
 "use client";
-import Navigations from "@/components/navigations";
+import Navigations from "@/components/Navigations";
 import DisplayContent from "@/components/DisplayContent";
 import "@/styles/pages/discover.css";
 

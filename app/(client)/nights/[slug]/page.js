@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { nights, reviews } from "@/data";
 import "@/styles/pages/singel-details.css";
 import Image from "next/image";
-import Navigations from "@/components/navigations";
+import Navigations from "@/components/Navigations";
 import { mainContext } from "@/Contexts/mainContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";

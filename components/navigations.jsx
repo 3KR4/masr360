@@ -2,14 +2,20 @@
 import Link from "next/link";
 import React from "react";
 
-export default function Navigations({ items = [], container = "fluid" }) {
+export default function Navigations({
+  items = [],
+  container = "fluid",
+  isDashBoard = false,
+}) {
   return (
     <nav
       className={`navigations ${
         container !== "main" ? "fluid-container" : "container"
       }`}
     >
-      <Link href="/">Home</Link>
+      <Link href={`${isDashBoard ? "/dashboard" : "/"}`}>
+        {isDashBoard ? "dashboard" : "home"}
+      </Link>
 
       {items.map((item, index) => (
         <React.Fragment key={index}>

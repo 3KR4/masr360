@@ -44,10 +44,9 @@ export default function RootLayout({ children }) {
     <html lang="en" className={roboto.className}>
       <body>
         <MainProvider>
-          <Header />
           <div className="dashboard">
             <SideNav />
-            {children}
+            <div className="dash-holder">{children}</div>
           </div>
         </MainProvider>
       </body>

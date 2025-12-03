@@ -1,5 +1,8 @@
 .dashboard {
   min-height: 92.2vh;
   display: flex;
-  gap: 21px;
+}
+.dashboard .dash-holder {
+  flex: 1;
+  padding: 20px;
 }

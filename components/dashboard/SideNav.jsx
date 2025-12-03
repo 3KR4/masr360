@@ -15,71 +15,130 @@ import { FaAngleLeft, FaChartPie } from "react-icons/fa6";
 import { IoMenu } from "react-icons/io5";
 import { MdEventNote } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
-import "@/styles/dashboard/side-nav.css"
+import "@/styles/dashboard/side-nav.css";
+import { usePathname } from "next/navigation";
 
 function SideNav() {
-  const { screenSize } = useContext(mainContext);
-  const [isNavOpen, setIsNavOpen] = useState(true);
+  const pathname = usePathname();
+  const isActive = (path) => pathname === path;
 
-  const mobileMenuRef = useRef(null);
-
+  const [isNavOpen, setIsNavOpen] = useState(null);
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target)
-      ) {
-        setMobileMenu(false);
+    try {
+      const saved = localStorage.getItem("nav-open");
+
+      if (saved === null) {
+        // أول مرة يفتح الموقع
+        setIsNavOpen(true);
+      } else {
+        setIsNavOpen(saved === "true"); // تحويل من string إلى boolean
       }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    } catch (e) {
+      console.error("LocalStorage read error", e);
+      setIsNavOpen(true);
+    }
   }, []);
 
+  // حفظ القيمة بعد التغيير
+  useEffect(() => {
+    if (isNavOpen !== null) {
+      localStorage.setItem("nav-open", isNavOpen ? "true" : "false");
+    }
+  }, [isNavOpen]);
+
+  // لغاية ما القيمة تتحمل → منرندرش حاجة
+  if (isNavOpen === null) return null;
   return (
-    <div className="side-nav">
-      <div className="actions-btns">
-        <h3>menu</h3>
+    <div className={`side-nav ${isNavOpen ? "active" : ""}`}>
+      <div
+        className="actions-btns"
+        onClick={() => setIsNavOpen((prev) => !prev)}
+      >
+        <h4>Masr360 Dashboard</h4>
         {isNavOpen ? (
-          <FaAngleLeft
-            className="menu-ico-close"
-            onClick={() => setIsNavOpen(false)}
-          />
+          <FaAngleLeft className="menu-ico-close" />
         ) : (
-          <IoMenu className="menu-ico" onClick={() => setIsNavOpen(true)} />
+          <IoMenu style={{ fontSize: "21px" }} className="menu-ico" />
         )}
       </div>
-      <Link href={`/dashboard/`}>
-        <h3>OverView</h3>
-        <FaHome />
+      <Link
+        href="/dashboard"
+        className={isActive("/dashboard") ? "active" : ""}
+      >
+        <div className="hold">
+          <h4>OverView</h4>
+          <FaHome />
+        </div>
       </Link>
-      <Link href={`/dashboard/products`}>
-        <h3>products</h3>
-        <FaShoppingCart />
+
+      <Link
+        href="/dashboard/products"
+        className={isActive("/dashboard/products") ? "active" : ""}
+      >
+        <div className="hold">
+          <h4>products</h4>
+          <FaShoppingCart />
+        </div>
       </Link>
-      <Link href={`/dashboard/governorates`}>
-        <h3>governorates</h3>
-        <RiGovernmentFill />
+
+      <Link
+        href="/dashboard/governorates"
+        className={isActive("/dashboard/governorates") ? "active" : ""}
+      >
+        <div className="hold">
+          <h4>governorates</h4>
+          <RiGovernmentFill />
+        </div>
       </Link>
-      <Link href={`/dashboard/places`}>
-        <h3>places</h3>
-        <FaPlaceOfWorship />
+
+      <Link
+        href="/dashboard/places"
+        className={isActive("/dashboard/places") ? "active" : ""}
+      >
+        <div className="hold">
+          <h4>places</h4>
+          <FaPlaceOfWorship />
+        </div>
       </Link>
-      <Link href={`/dashboard/nights`}>
-        <h3>nights</h3>
-        <FaMoon />
+
+      <Link
+        href="/dashboard/nights"
+        className={isActive("/dashboard/nights") ? "active" : ""}
+      >
+        <div className="hold">
+          <h4>nights</h4>
+          <FaMoon />
+        </div>
       </Link>
-      <Link href={`/dashboard/events`}>
-        <h3>events</h3>
-        <MdEventNote />
+
+      <Link
+        href="/dashboard/events"
+        className={isActive("/dashboard/events") ? "active" : ""}
+      >
+        <div className="hold">
+          <h4>events</h4>
+          <MdEventNote />
+        </div>
       </Link>
-      <Link href={`/dashboard/games`}>
-        <h3>games</h3>
-        <FaChartPie />
+
+      <Link
+        href="/dashboard/games"
+        className={isActive("/dashboard/games") ? "active" : ""}
+      >
+        <div className="hold">
+          <h4>games</h4>
+          <FaChartPie />
+        </div>
       </Link>
-      <Link href={`/dashboard/orders`}>
-        <h3>orders</h3>
-        <HiChartBar />
+
+      <Link
+        href="/dashboard/orders"
+        className={isActive("/dashboard/orders") ? "active" : ""}
+      >
+        <div className="hold">
+          <h4>orders</h4>
+          <HiChartBar />
+        </div>
       </Link>
     </div>
   );

@@ -17,7 +17,7 @@ const nextConfig = {
     return [
       {
         source: "/api-proxy/:path*",
-        destination: "http://101.46.70.242/:path*", // السيرفر بتاعك
+        destination: "http://101.46.70.242/:path*",
       },
     ];
   },

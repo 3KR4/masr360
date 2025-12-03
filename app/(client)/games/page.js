@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useContext } from "react";
 import { games } from "@/data";
 import CardItem from "@/components/CardItem";
-import Navigations from "@/components/navigations";
+import Navigations from "@/components/Navigations";
 import Pagination from "@/components/settings/Pagination";
 import "@/styles/pages/discover.css";
 import { mainContext } from "@/Contexts/mainContext";

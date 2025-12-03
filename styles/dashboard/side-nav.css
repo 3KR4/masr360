@@ -1,26 +1,89 @@
 .side-nav {
-  width: 187px;
   border-right: 1px solid #e0e0e0;
 }
-.side-nav h3 {
+.side-nav h4 {
+  font-size: 15px;
+  transition: 0.3s;
   color: var(--paragraph);
+  width: 0;
+  overflow: hidden;
+}
+.side-nav.active h4 {
+  width: 145px;
 }
 .side-nav svg {
   color: var(--paragraph);
-
-}
-.side-nav .actions-btns h3 {
 }
 .side-nav .actions-btns {
+  padding: 6px 15px !important;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-top: 0px !important;
+}
+.side-nav.active .actions-btns {
+  padding: 6px 18px !important;
+}
+.side-nav .actions-btns:hover {
+  background: var(--main-color);
+}
+.side-nav .actions-btns:hover * {
+  color: white;
+}
+.side-nav .actions-btns h4 {
+  white-space: nowrap;
+}
+.side-nav .actions-btns svg {
+  font-size: 26px !important;
+}
+.side-nav.active .actions-btns svg {
+  font-size: 20px !important;
 }
 .side-nav {
   color: red;
 }
-.side-nav a {
+.side-nav hr {
+}
+.side-nav a,
+.side-nav .actions-btns {
+  gap: 0px;
+  height: 50px;
   display: flex;
-  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+  padding: 6px;
+  transition: 0.3s;
+}
+.side-nav.active a,
+.side-nav.active .actions-btns {
   gap: 10px;
 }
-
-.side-nav a svg {
+.side-nav a .hold {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  padding: 12px;
+  transition: 0.3s;
+}
+.side-nav a:hover .hold {
+  background: var(--main-color);
+  border-radius: 7px;
+}
+.side-nav a.active {
+  background: var(--main-color);
+  border-radius: 0;
+  border: none;
+}
+.side-nav svg {
+  font-size: 20px;
+}
+.side-nav.active svg {
+  font-size: 19px;
+}
+.side-nav a:hover h4,
+.side-nav a:hover svg,
+.side-nav a.active h4,
+.side-nav a.active svg {
+  color: white;
 }

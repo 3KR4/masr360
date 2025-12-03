@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { FaCircleCheck } from "react-icons/fa6";
-import Navigations from "@/components/navigations";
+import Navigations from "@/components/Navigations";
 import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice";
 import ReviewSection from "@/components/reviews/ReviewSection";

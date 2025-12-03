@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import "@/styles/pages/singel-details.css";
 import Image from "next/image";
-import Navigations from "@/components/navigations";
+import Navigations from "@/components/Navigations";
 import { mainContext } from "@/Contexts/mainContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";
@@ -66,7 +66,11 @@ export default function ProductDetails() {
         />
 
         {/* DETAILS */}
-        <div className={`holds ${(!place?.tickets?.free && place?.tickets) ? "" : "noTikets"}`}>
+        <div
+          className={`holds ${
+            !place?.tickets?.free && place?.tickets ? "" : "noTikets"
+          }`}
+        >
           <div className="details-holder">
             {screenSize === "small" && (
               <div className="details">
