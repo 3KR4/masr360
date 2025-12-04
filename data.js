@@ -395,7 +395,7 @@ export const governments = [
 export const places = [
   {
     id: 1,
-    name: "The Egyptian Museum",
+    name: "The Egyptian Museum ss",
     image: "/places/The Egyptian Museum.jpg",
     images: [
       "/places/xxx/A-wonderful-picture-of-the-Egyptian-Museum-from-the-outside.jpg",
