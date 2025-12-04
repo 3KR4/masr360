@@ -47,12 +47,20 @@ export default function CardItem({ item, type }) {
             ? `/nights/${item?._id}`
             : isEvent
             ? `/nights/${item?._id}?event=true`
-            : `/discover/${item?._id}`
+            : isGov
+            ? `/discover/${item?._id}`
+            : ``
         }
         className="image-holder"
       >
         <Image
-          src={(isProduct || isNight) ? item?.image : !isGame ? item?.img : item?.place?.img}
+          src={
+            isGov || isPlace
+              ? item.img
+              : isGame
+              ? item?.place?.image
+              : item?.image
+          }
           alt={item?.name}
           fill
         />
