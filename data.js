@@ -112,7 +112,7 @@ export const slides = [
 
     small: "Explore Egypt Differently",
     paragraph:
-      "Find hidden gems, unique experiences, and special rewards across all Egyptian governments. Masr360 is your smart guide to explore, play, and enjoy every part of Egypt.",
+      "Find hidden gems, unique experiences, and special rewards across all Egyptian governorates. Masr360 is your smart guide to explore, play, and enjoy every part of Egypt.",
     title: "Discover the Real Egypt",
     btnText: "Visit Marketplace",
     link: "/marketplace",
@@ -174,12 +174,12 @@ export const categories = [
     image: "/categories/Shopping.jpg",
   },
 ];
-export const governments = [
+export const governorates = [
   {
     id: 1,
     name: "Cairo",
     count: 95,
-    image: "/governments/cairo.jpg",
+    image: "/governorates/cairo.jpg",
     description:
       "The heart of Egypt, blending ancient history with modern energy. Explore museums, mosques, and the vibrant streets of Khan El Khalili.",
   },
@@ -187,7 +187,7 @@ export const governments = [
     id: 2,
     name: "Giza",
     count: 80,
-    image: "/governments/giza.jpg",
+    image: "/governorates/giza.jpg",
     description:
       "Home to the iconic Pyramids and the Great Sphinx. A timeless destination where ancient wonders meet the edge of the desert.",
   },
@@ -195,7 +195,7 @@ export const governments = [
     id: 3,
     name: "Luxor",
     count: 120,
-    image: "/governments/luxor.jpeg",
+    image: "/governorates/luxor.jpeg",
     description:
       "Often called the world’s greatest open-air museum. Discover the Valley of the Kings, Karnak Temple, and breathtaking Nile views.",
   },
@@ -203,7 +203,7 @@ export const governments = [
     id: 4,
     name: "Aswan",
     count: 85,
-    image: "/governments/aswan.jpg",
+    image: "/governorates/aswan.jpg",
     description:
       "A peaceful Nile city with rich Nubian culture. Visit Philae Temple, Abu Simbel, and sail between golden islands at sunset.",
   },
@@ -211,7 +211,7 @@ export const governments = [
     id: 5,
     name: "Alexandria",
     count: 60,
-    image: "/governments/alexandria.jpg",
+    image: "/governorates/alexandria.jpg",
     description:
       "A coastal gem with Mediterranean charm. Walk through history from the ancient library to the seaside Citadel of Qaitbay.",
   },
@@ -219,7 +219,7 @@ export const governments = [
     id: 6,
     name: "Sharm El Sheikh",
     count: 70,
-    image: "/governments/sharmelsheikh.jpeg",
+    image: "/governorates/sharmelsheikh.jpeg",
     description:
       "A paradise for divers and beach lovers. Experience coral reefs, desert adventures, and vibrant nightlife by the Red Sea.",
   },
@@ -227,7 +227,7 @@ export const governments = [
     id: 1,
     name: "Cairo",
     count: 95,
-    image: "/governments/cairo.jpg",
+    image: "/governorates/cairo.jpg",
     description:
       "The heart of Egypt, blending ancient history with modern energy. Explore museums, mosques, and the vibrant streets of Khan El Khalili.",
   },
@@ -235,7 +235,7 @@ export const governments = [
     id: 2,
     name: "Giza",
     count: 80,
-    image: "/governments/giza.jpg",
+    image: "/governorates/giza.jpg",
     description:
       "Home to the iconic Pyramids and the Great Sphinx. A timeless destination where ancient wonders meet the edge of the desert.",
   },
@@ -243,7 +243,7 @@ export const governments = [
     id: 3,
     name: "Luxor",
     count: 120,
-    image: "/governments/luxor.jpeg",
+    image: "/governorates/luxor.jpeg",
     description:
       "Often called the world’s greatest open-air museum. Discover the Valley of the Kings, Karnak Temple, and breathtaking Nile views.",
   },
@@ -251,7 +251,7 @@ export const governments = [
     id: 4,
     name: "Aswan",
     count: 85,
-    image: "/governments/aswan.jpg",
+    image: "/governorates/aswan.jpg",
     description:
       "A peaceful Nile city with rich Nubian culture. Visit Philae Temple, Abu Simbel, and sail between golden islands at sunset.",
   },
@@ -259,7 +259,7 @@ export const governments = [
     id: 5,
     name: "Alexandria",
     count: 60,
-    image: "/governments/alexandria.jpg",
+    image: "/governorates/alexandria.jpg",
     description:
       "A coastal gem with Mediterranean charm. Walk through history from the ancient library to the seaside Citadel of Qaitbay.",
   },
@@ -267,7 +267,7 @@ export const governments = [
     id: 6,
     name: "Sharm El Sheikh",
     count: 70,
-    image: "/governments/sharmelsheikh.jpeg",
+    image: "/governorates/sharmelsheikh.jpeg",
     description:
       "A paradise for divers and beach lovers. Experience coral reefs, desert adventures, and vibrant nightlife by the Red Sea.",
   },
@@ -275,7 +275,7 @@ export const governments = [
     id: 1,
     name: "Cairo",
     count: 95,
-    image: "/governments/cairo.jpg",
+    image: "/governorates/cairo.jpg",
     description:
       "The heart of Egypt, blending ancient history with modern energy. Explore museums, mosques, and the vibrant streets of Khan El Khalili.",
   },
@@ -283,7 +283,7 @@ export const governments = [
     id: 2,
     name: "Giza",
     count: 80,
-    image: "/governments/giza.jpg",
+    image: "/governorates/giza.jpg",
     description:
       "Home to the iconic Pyramids and the Great Sphinx. A timeless destination where ancient wonders meet the edge of the desert.",
   },
@@ -291,7 +291,7 @@ export const governments = [
     id: 3,
     name: "Luxor",
     count: 120,
-    image: "/governments/luxor.jpeg",
+    image: "/governorates/luxor.jpeg",
     description:
       "Often called the world’s greatest open-air museum. Discover the Valley of the Kings, Karnak Temple, and breathtaking Nile views.",
   },
@@ -299,7 +299,7 @@ export const governments = [
     id: 4,
     name: "Aswan",
     count: 85,
-    image: "/governments/aswan.jpg",
+    image: "/governorates/aswan.jpg",
     description:
       "A peaceful Nile city with rich Nubian culture. Visit Philae Temple, Abu Simbel, and sail between golden islands at sunset.",
   },
@@ -307,7 +307,7 @@ export const governments = [
     id: 5,
     name: "Alexandria",
     count: 60,
-    image: "/governments/alexandria.jpg",
+    image: "/governorates/alexandria.jpg",
     description:
       "A coastal gem with Mediterranean charm. Walk through history from the ancient library to the seaside Citadel of Qaitbay.",
   },
@@ -315,7 +315,7 @@ export const governments = [
     id: 6,
     name: "Sharm El Sheikh",
     count: 70,
-    image: "/governments/sharmelsheikh.jpeg",
+    image: "/governorates/sharmelsheikh.jpeg",
     description:
       "A paradise for divers and beach lovers. Experience coral reefs, desert adventures, and vibrant nightlife by the Red Sea.",
   },
@@ -323,7 +323,7 @@ export const governments = [
     id: 1,
     name: "Cairo",
     count: 95,
-    image: "/governments/cairo.jpg",
+    image: "/governorates/cairo.jpg",
     description:
       "The heart of Egypt, blending ancient history with modern energy. Explore museums, mosques, and the vibrant streets of Khan El Khalili.",
   },
@@ -331,7 +331,7 @@ export const governments = [
     id: 2,
     name: "Giza",
     count: 80,
-    image: "/governments/giza.jpg",
+    image: "/governorates/giza.jpg",
     description:
       "Home to the iconic Pyramids and the Great Sphinx. A timeless destination where ancient wonders meet the edge of the desert.",
   },
@@ -339,7 +339,7 @@ export const governments = [
     id: 3,
     name: "Luxor",
     count: 120,
-    image: "/governments/luxor.jpeg",
+    image: "/governorates/luxor.jpeg",
     description:
       "Often called the world’s greatest open-air museum. Discover the Valley of the Kings, Karnak Temple, and breathtaking Nile views.",
   },
@@ -347,7 +347,7 @@ export const governments = [
     id: 4,
     name: "Aswan",
     count: 85,
-    image: "/governments/aswan.jpg",
+    image: "/governorates/aswan.jpg",
     description:
       "A peaceful Nile city with rich Nubian culture. Visit Philae Temple, Abu Simbel, and sail between golden islands at sunset.",
   },
@@ -355,7 +355,7 @@ export const governments = [
     id: 5,
     name: "Alexandria",
     count: 60,
-    image: "/governments/alexandria.jpg",
+    image: "/governorates/alexandria.jpg",
     description:
       "A coastal gem with Mediterranean charm. Walk through history from the ancient library to the seaside Citadel of Qaitbay.",
   },
@@ -363,7 +363,7 @@ export const governments = [
     id: 6,
     name: "Sharm El Sheikh",
     count: 70,
-    image: "/governments/sharmelsheikh.jpeg",
+    image: "/governorates/sharmelsheikh.jpeg",
     description:
       "A paradise for divers and beach lovers. Experience coral reefs, desert adventures, and vibrant nightlife by the Red Sea.",
   },
@@ -371,7 +371,7 @@ export const governments = [
     id: 4,
     name: "Aswan",
     count: 85,
-    image: "/governments/aswan.jpg",
+    image: "/governorates/aswan.jpg",
     description:
       "A peaceful Nile city with rich Nubian culture. Visit Philae Temple, Abu Simbel, and sail between golden islands at sunset.",
   },
@@ -379,7 +379,7 @@ export const governments = [
     id: 5,
     name: "Alexandria",
     count: 60,
-    image: "/governments/alexandria.jpg",
+    image: "/governorates/alexandria.jpg",
     description:
       "A coastal gem with Mediterranean charm. Walk through history from the ancient library to the seaside Citadel of Qaitbay.",
   },
@@ -387,7 +387,7 @@ export const governments = [
     id: 6,
     name: "Sharm El Sheikh",
     count: 70,
-    image: "/governments/sharmelsheikh.jpeg",
+    image: "/governorates/sharmelsheikh.jpeg",
     description:
       "A paradise for divers and beach lovers. Experience coral reefs, desert adventures, and vibrant nightlife by the Red Sea.",
   },
@@ -1689,71 +1689,104 @@ export const reviews = [
     ],
   },
 ];
-export const sorting = [
+export const filters = [
   {
-    id: "name",
-    filters: [
+    id: "products list",
+    sorting: [
       {
-        name: "Name: A to Z",
-        value: "a_to_z",
+        id: "name",
+        filters: [
+          {
+            name: "Name: A to Z",
+            value: "a_to_z",
+          },
+          {
+            name: "Name: Z to A",
+            value: "z_to_a",
+          },
+        ],
       },
       {
-        name: "Name: Z to A",
-        value: "z_to_a",
+        id: "price",
+        filters: [
+          {
+            name: "Price: Low to High",
+            value: "low_to_high",
+          },
+          {
+            name: "Price: High to Low",
+            value: "high_to_low",
+          },
+        ],
       },
-    ],
-  },
-  {
-    id: "price",
-    filters: [
-      {
-        name: "Price: Low to High",
-        value: "low_to_high",
-      },
-      {
-        name: "Price: High to Low",
-        value: "high_to_low",
-      },
-    ],
-  },
 
-  {
-    id: "status",
-    filters: [
       {
-        name: "Most Viewed",
-        value: "most_viewed",
+        id: "status",
+        filters: [
+          {
+            name: "Most Viewed",
+            value: "most_viewed",
+          },
+          {
+            name: "Top Sales",
+            value: "top_sales",
+          },
+        ],
       },
-      {
-        name: "Top Sales",
-        value: "top_sales",
-      },
-    ],
-  },
 
-  {
-    id: "date",
-    filters: [
       {
-        name: "Newest",
-        value: "newest",
+        id: "date",
+        filters: [
+          {
+            name: "Newest",
+            value: "newest",
+          },
+          {
+            name: "Oldest",
+            value: "oldest",
+          },
+        ],
       },
       {
-        name: "Oldest",
-        value: "oldest",
+        id: "availability",
+        filters: [
+          {
+            name: "In Stock",
+            value: "1",
+          },
+          {
+            name: "Out of Stock",
+            value: "0",
+          },
+        ],
       },
     ],
   },
   {
-    id: "availability",
-    filters: [
+    id: "other",
+    sorting: [
       {
-        name: "In Stock",
-        value: "1",
+        id: "name",
+        filters: [
+          {
+            name: "Name: A to Z",
+            value: "a_to_z",
+          },
+          {
+            name: "Name: Z to A",
+            value: "z_to_a",
+          },
+        ],
       },
+
       {
-        name: "Out of Stock",
-        value: "0",
+        id: "status",
+        filters: [
+          {
+            name: "Most Viewed",
+            value: "most_viewed",
+          },
+        ],
       },
     ],
   },

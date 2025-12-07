@@ -1,9 +1,11 @@
 import { Roboto } from "next/font/google";
 import SideNav from "@/components/dashboard/SideNav";
 import { MainProvider } from "@/Contexts/mainContext";
+import { DashBoardProvider } from "@/Contexts/dashboard";
 import "@/styles/globals.css";
 import "@/styles/dashboard/globals.css";
 import Navigations from "@/components/Navigations";
+import Head from "@/components/dashboard/Head";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -44,10 +46,16 @@ export default function RootLayout({ children }) {
     <html lang="en" className={roboto.className}>
       <body>
         <MainProvider>
-          <div className="dashboard">
-            <SideNav />
-            {children}
-          </div>
+          <DashBoardProvider>
+            <div className="dashboard">
+              <SideNav />
+
+              <div className="dash-holder">
+                <Head />
+                {children}
+              </div>
+            </div>
+          </DashBoardProvider>
         </MainProvider>
       </body>
     </html>

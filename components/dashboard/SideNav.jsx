@@ -6,6 +6,11 @@ import Link from "next/link";
 import { mainContext } from "@/Contexts/mainContext";
 import { RiGovernmentFill } from "react-icons/ri";
 
+import { PiCardsThreeFill } from "react-icons/pi";
+import { PiCardsFill } from "react-icons/pi";
+import { FaHeadset } from "react-icons/fa6";
+import { FaUsersCog, FaUsers } from "react-icons/fa";
+
 import {
   FaPlaceOfWorship,
   FaShoppingCart,
@@ -21,7 +26,8 @@ import { usePathname } from "next/navigation";
 
 function SideNav() {
   const pathname = usePathname();
-  const isActive = (path) => pathname === path;
+  const isActive = (path) => pathname == path;
+  console.log(pathname);
 
   const [isNavOpen, setIsNavOpen] = useState(null);
   useEffect(() => {
@@ -71,14 +77,22 @@ function SideNav() {
             <FaHome />
           </div>
         </Link>
-
         <Link
-          href="/dashboard/products"
-          className={isActive("/dashboard/products") ? "active a" : " a"}
+          href="/dashboard/slieds"
+          className={isActive("/dashboard/slieds") ? "active a" : " a"}
         >
           <div className="hold">
-            <h4>products</h4>
-            <FaShoppingCart />
+            <h4>slieds</h4>
+            <PiCardsFill />
+          </div>
+        </Link>
+        <Link
+          href="/dashboard/users"
+          className={isActive("/dashboard/users") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>users</h4>
+            <FaUsers />
           </div>
         </Link>
 
@@ -91,7 +105,6 @@ function SideNav() {
             <RiGovernmentFill />
           </div>
         </Link>
-
         <Link
           href="/dashboard/places"
           className={isActive("/dashboard/places") ? "active a" : " a"}
@@ -101,7 +114,6 @@ function SideNav() {
             <FaPlaceOfWorship />
           </div>
         </Link>
-
         <Link
           href="/dashboard/nights"
           className={isActive("/dashboard/nights") ? "active a" : " a"}
@@ -111,7 +123,6 @@ function SideNav() {
             <FaMoon />
           </div>
         </Link>
-
         <Link
           href="/dashboard/events"
           className={isActive("/dashboard/events") ? "active a" : " a"}
@@ -121,7 +132,6 @@ function SideNav() {
             <MdEventNote />
           </div>
         </Link>
-
         <Link
           href="/dashboard/games"
           className={isActive("/dashboard/games") ? "active a" : " a"}
@@ -131,7 +141,6 @@ function SideNav() {
             <FaChartPie />
           </div>
         </Link>
-
         <Link
           href="/dashboard/orders"
           className={isActive("/dashboard/orders") ? "active a" : " a"}
@@ -139,6 +148,24 @@ function SideNav() {
           <div className="hold">
             <h4>orders</h4>
             <HiChartBar />
+          </div>
+        </Link>
+        <Link
+          href="/dashboard/products"
+          className={isActive("/dashboard/products") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>products</h4>
+            <FaShoppingCart />
+          </div>
+        </Link>
+        <Link
+          href="/dashboard/support"
+          className={isActive("/dashboard/support") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>support</h4>
+            <FaHeadset />
           </div>
         </Link>
       </ul>

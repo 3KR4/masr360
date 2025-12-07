@@ -14,14 +14,14 @@ export default function DiscoverContent() {
         </h1>
 
         <p className="sub-title">
-          With Masr 360, you can explore each government and experience Egypt
+          With Masr 360, you can explore each governorate and experience Egypt
           like never before.
         </p>
       </div>
       <Navigations
         items={[
           {
-            name: "governments",
+            name: "governorates",
             href: "",
           },
         ]}

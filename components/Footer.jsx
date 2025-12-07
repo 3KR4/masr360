@@ -6,11 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiFillInstagram } from "react-icons/ai";
 
-import {
-  FaTiktok,
-  FaFacebookF,
-  FaLinkedinIn,
-} from "react-icons/fa6";
+import { FaTiktok, FaFacebookF, FaLinkedinIn } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -87,7 +83,7 @@ const Footer = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/governments">governments</Link>
+              <Link href="/governorates">governorates</Link>
             </li>
             <li>
               <Link href="/places">Top Attractions</Link>

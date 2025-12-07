@@ -20,7 +20,7 @@ export default function Products() {
   return (
     <div className="dash-holder">
       <div className="body">
-        <div className="table-container products">
+        <div className="table-container">
           <div className="table-header">
             {screenSize !== "small" ? (
               <>
@@ -92,7 +92,7 @@ export default function Products() {
                     <h4>
                       3000 <FaEye />
                     </h4>
-                    <h4 className="green">
+                    <h4>
                       1500 <BiSolidPurchaseTagAlt />
                     </h4>
                   </div>

@@ -5,25 +5,25 @@ import CardItem from "@/components/CardItem";
 import { FaArrowRight } from "react-icons/fa6";
 import { getService } from "@/services/api/getService";
 
-function Governments() {
-  const [governments, setGovernments] = useState([]);
-  console.log(governments[0]?.img);
+function governorates() {
+  const [governorates, setgovernorates] = useState([]);
+  console.log(governorates[0]?.img);
 
   useEffect(() => {
-    const fetchGovernments = async () => {
+    const fetchgovernorates = async () => {
       try {
         const { data } = await getService.getGovernorates(6);
-        setGovernments(data || []);
+        setgovernorates(data || []);
       } catch (err) {
-        console.error("Failed to fetch governments:", err);
-        setGovernments([]);
+        console.error("Failed to fetch governorates:", err);
+        setgovernorates([]);
       }
     };
-    fetchGovernments();
+    fetchgovernorates();
   }, []);
 
   return (
-    <div className="governments">
+    <div className="governorates">
       <div className="title-holder container">
         <h1 className="main-title">
           <hr />
@@ -31,7 +31,7 @@ function Governments() {
           <hr />
         </h1>
         <p className="sub-title">
-          Take a look at the most famous governments in Egypt
+          Take a look at the most famous governorates in Egypt
         </p>
         <Link href={`/discover`} className="main-button">
           See All
@@ -39,7 +39,7 @@ function Governments() {
       </div>
 
       <div className="grid-holder container">
-        {governments.slice(0, 6).map((gov) => (
+        {governorates.slice(0, 6).map((gov) => (
           <CardItem key={gov.id} item={gov} type="gov" />
         ))}
       </div>
@@ -47,4 +47,4 @@ function Governments() {
   );
 }
 
-export default Governments;
+export default governorates;

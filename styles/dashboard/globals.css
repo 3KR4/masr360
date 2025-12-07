@@ -38,7 +38,7 @@
 .dashboard .head .search input {
   align-items: center;
   display: flex;
-  width: 160px;
+  width: 190px;
   height: 100%;
   padding: 0 12px;
 }
@@ -70,37 +70,31 @@
   cursor: pointer;
   border-radius: 7px;
   align-items: center;
-  gap: 4px;
   height: 34px;
-  padding: 0 9px;
   display: flex;
   padding-right: 0;
   overflow: hidden;
   position: relative;
+  flex: 1;
+  justify-content: space-between;
 }
 .dashboard .head .filters .btn h4 {
   color: var(--paragraph);
   font-size: 13px;
   font-weight: 500;
-}
-.dashboard .head .filters .btn .current-filter {
   flex: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.dashboard .head .filters .btn .current-filter h5 {
-  color: var(--paragraph);
-  font-size: 13px;
-  flex: 1;
-  height: 34px;
+  height: 100%;
   display: flex;
   align-items: center;
-  font-weight: 500;
+  justify-content: flex-start;
+  padding: 0 9px;
 }
-.dashboard .head .filters .btn .current-filter svg {
+.dashboard .head .filters .btn svg {
   height: 34px;
   padding: 7px;
+}
+.dashboard .head .main-ico:hover {
+  background: var(--hover-color);
 }
 .dashboard .head .filters .menu {
   visibility: hidden;
@@ -120,13 +114,13 @@
   top: 34px;
   left: 0;
 }
-.dashboard .head .filters .menu > .hold:last-child {
+.dashboard:has(.products) .head .filters .menu > .hold:last-child {
   grid-column: span 2;
 }
-.dashboard .head .filters .menu > .hold:last-child ul {
+.dashboard:has(.products) .head .filters .menu > .hold:last-child ul {
   flex-direction: row;
 }
-.dashboard .head .filters .menu > .hold:last-child li {
+.dashboard:has(.products) .head .filters .menu > .hold:last-child li {
   flex: 1;
 }
 .dashboard .head .filters .menu.active {
@@ -197,7 +191,10 @@
   transform: unset;
   padding: unset;
 }
-
+.dashboard .navigations a,
+.navigations .active {
+  font-size: 17px;
+}
 .dashboard header .actions-btns .btn {
   background-color: var(--main-color);
   color: #fff;
@@ -236,7 +233,6 @@ header .actions-btns .userMenu .top {
   flex: 1;
 }
 .dashboard .dash-holder {
-  height: 100vh;
   flex: 1;
 }
 .dashboard .table-container {
@@ -245,6 +241,8 @@ header .actions-btns .userMenu .top {
   box-shadow: unset;
   border: 1px solid #e0e0e0;
   border-radius: 14px;
+  margin: 0;
+  gap: 0;
 }
 
 .dashboard .table-container .table-header,
@@ -302,7 +300,7 @@ header .actions-btns .userMenu .top {
   color: var(--paragraph);
   justify-content: center;
 }
-.dashboard .table-container .item-overview h4:last-child {
+.dashboard .table-container .item-overview h4.green {
   background: #b3ffcf94;
 }
 .dashboard .table-container .item-stock h4 {
@@ -310,7 +308,7 @@ header .actions-btns .userMenu .top {
   height: 42px;
   margin: auto;
   font-size: 16px;
-  background: #92ffba94;
+  background: #d3ffe3;
   color: var(--paragraph) !important;
 
   margin: auto;
@@ -320,11 +318,10 @@ header .actions-btns .userMenu .top {
   justify-content: center;
 }
 .dashboard .table-container .item-stock h4.low {
-  background: #ffd5ac;
+  background: #ffe3c7;
 }
 .dashboard .table-container .item-stock h4.out {
-  background: #ff5b5be3;
-  color: white !important;
+  background: #ffafaf;
 }
 .dashboard .table-container .actions {
   align-items: center;
@@ -373,4 +370,56 @@ header .actions-btns .userMenu .top {
 .pagination li .page-num,
 .pagination li.break {
   height: 34px !important;
+}
+
+.dashboard .table-container.governorates .item-overview {
+  grid-template-columns: 1fr !important;
+}
+
+.dashboard .table-container.governorates .table-header,
+.dashboard .table-container.governorates .table-item {
+  grid-template-columns: 2.5fr 1fr 1fr 1fr;
+}
+.dashboard .table-container.governorates .item-image .product-image {
+  height: 88px !important;
+  aspect-ratio: 1.6;
+}
+.dashboard .table-container.governorates .item-name {
+  font-size: 16px;
+}
+.table-container.governorates p.description {
+  font-weight: 400;
+}
+.dashboard .table-container.governorates .item-overview h4 {
+  font-size: 15px;
+  padding: 7px 11px;
+}
+
+.dashboard .table-container.places .table-header,
+.dashboard .table-container.places .table-item {
+  grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
+}
+
+.dashboard .table-container.places .categories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  font-weight: bolder;
+  font-size: 15px;
+  flex-direction: row;
+  margin: 0;
+}
+.dashboard .table-container.places .categories h4 {
+  color: var(--paragraph);
+}
+.dashboard .table-container.places .categories h4:first-child {
+  color: var(--hover-color);
+}
+.dashboard .table-container.places .link:has(svg) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
 }

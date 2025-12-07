@@ -20,7 +20,7 @@ function Places() {
         setPlaces(data || []);
         console.log(data);
       } catch (err) {
-        console.error("Failed to fetch governments:", err);
+        console.error("Failed to fetch governorates:", err);
         setPlaces([]);
       }
     };

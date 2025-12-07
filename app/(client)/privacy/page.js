@@ -76,7 +76,7 @@ export default function PrivacyPolicy() {
           <li>
             With service providers (e.g., payment gateways, analytics tools).
           </li>
-          <li>When required by law or government authorities.</li>
+          <li>When required by law or governorate authorities.</li>
         </ul>
         <p>
           All partners are required to comply with data protection and
