@@ -3,6 +3,7 @@ import React, { useContext, useState, useRef } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 
+
 import Image from "next/image";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
