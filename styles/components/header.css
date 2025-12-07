@@ -32,6 +32,18 @@ header nav {
 }
 header nav ul {
   display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 11px;
+}
+
+header nav ul::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+header nav ul::-moz-scrollbar {
+  width: 3px;
+  height: 3px;
 }
 header nav > ul > li {
   color: var(--paragraph);
@@ -59,6 +71,7 @@ header nav > ul > li::before {
 }
 header nav > ul > li .page-route {
   color: var(--paragraph);
+  min-width: max-content;
 }
 header nav > ul > li:hover .page-route {
   color: var(--main-color);
@@ -472,12 +485,12 @@ header .actions-btns .userMenu svg {
   padding: unset;
   border-radius: unset;
   background: transparent;
-  width: 0;
+  width: 0 !important;
   margin-right: 0;
   transition: 0.3s;
 }
 header .actions-btns .userMenu .danger:hover svg {
-  width: 19px;
+  width: 19px !important;
   margin-right: 5px;
 }
 
@@ -760,10 +773,6 @@ header .cartMenu .btns a {
   }
   header nav {
     width: 100%;
-  }
-  header nav ul {
-    overflow-x: auto;
-    overflow-y: hidden;
   }
   header nav ul::-webkit-scrollbar {
     height: 3px;

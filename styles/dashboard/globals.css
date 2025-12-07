@@ -1,8 +1,376 @@
 .dashboard {
-  min-height: 92.2vh;
+  min-height: 100vh;
   display: flex;
 }
-.dashboard .dash-holder {
+
+.dashboard header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+}
+.dashboard .head {
+  border-bottom: 1px solid #e0e0e0;
+  height: 56px;
+  padding: 0 16px;
+  font-size: 14px;
+  transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard .head .right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.dashboard .head .search {
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--main-color);
+  border-radius: 6px;
+  height: 34px;
+  transition: all 0.3s;
+  display: flex;
+}
+.dashboard .head .search input {
+  align-items: center;
+  display: flex;
+  width: 160px;
+  height: 100%;
+  padding: 0 12px;
+}
+.dashboard .head .search input::placeholder {
+  font-weight: 500;
+  color: var(--paragraph);
+}
+.dashboard .head svg.main-ico {
+  padding: 0;
+  background: var(--main-color);
+  color: #fff;
+  border-radius: 0;
+  width: 40px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard .head .filters {
+  position: relative;
+  width: 205px;
+  transition: 0.3s;
+}
+.dashboard .head .filters:has(.menu.active) {
+  width: 320px;
+}
+.dashboard .head .filters .btn {
+  border: 2px solid var(--main-color);
+  cursor: pointer;
+  border-radius: 7px;
+  align-items: center;
+  gap: 4px;
+  height: 34px;
+  padding: 0 9px;
+  display: flex;
+  padding-right: 0;
+  overflow: hidden;
+  position: relative;
+}
+.dashboard .head .filters .btn h4 {
+  color: var(--paragraph);
+  font-size: 13px;
+  font-weight: 500;
+}
+.dashboard .head .filters .btn .current-filter {
   flex: 1;
-  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard .head .filters .btn .current-filter h5 {
+  color: var(--paragraph);
+  font-size: 13px;
+  flex: 1;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+.dashboard .head .filters .btn .current-filter svg {
+  height: 34px;
+  padding: 7px;
+}
+.dashboard .head .filters .menu {
+  visibility: hidden;
+  opacity: 0;
+  z-index: -1;
+  background: var(--body-color);
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  gap: 12px;
+  width: 100%;
+  height: fit-content;
+  padding: 8px 12px 10px;
+  transition: all 0.3s;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: absolute;
+  top: 34px;
+  left: 0;
+}
+.dashboard .head .filters .menu > .hold:last-child {
+  grid-column: span 2;
+}
+.dashboard .head .filters .menu > .hold:last-child ul {
+  flex-direction: row;
+}
+.dashboard .head .filters .menu > .hold:last-child li {
+  flex: 1;
+}
+.dashboard .head .filters .menu.active {
+  visibility: visible;
+  opacity: 1;
+  z-index: 5;
+}
+.dashboard .head .filters .menu .hold {
+  gap: 5px;
+}
+.dashboard .head .filters .menu .hold h5 {
+  color: var(--hover-color);
+  text-transform: uppercase;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dashboard .head .filters .menu .hold h5 svg {
+  font-size: 15px;
+  color: var(--hover-color);
+}
+.dashboard .head .filters .menu .hold ul {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px;
+}
+.dashboard .head .filters .menu .hold ul li {
+  background: var(--section-color);
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px 8px;
+  font-size: 12px;
+  transition: 0.3s;
+}
+.dashboard .head .filters .menu .hold ul li:hover {
+  background: var(--second-color);
+}
+.dashboard .head .filters .menu .hold ul li.active {
+  background: var(--second-color);
+  border: 1px solid var(--main-color);
+}
+.dashboard .head .main-button {
+  height: unset;
+  padding: 0px 15px;
+  font-size: 12px;
+  height: 34px;
+}
+.dashboard .body {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.dashboard .navigations {
+  z-index: unset;
+  opacity: unset;
+  visibility: unset;
+  border: unset;
+  border-top: 0;
+  border-radius: unset;
+  justify-content: unset;
+  width: unset;
+  min-height: unset;
+  transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
+  position: relative;
+  left: unset;
+  transform: unset;
+  padding: unset;
+}
+
+.dashboard header .actions-btns .btn {
+  background-color: var(--main-color);
+  color: #fff;
+  border-radius: 9px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+.dashboard header h4 {
+  color: white;
+  letter-spacing: 0.5px;
+}
+.dashboard header .actions-btns svg {
+  width: unset;
+  height: unset;
+  padding: unset;
+  font-size: 19px;
+}
+.dashboard header .actions-btns .menu {
+  right: 0;
+  top: 40px;
+  width: 260px;
+}
+header .actions-btns .userMenu .top {
+  padding: 12px 17px;
+  font-size: 16px;
+}
+.dashboard header .actions-btns .userMenu .not-a.danger:hover {
+  background: var(--section-color);
+  color: var(--paragraph);
+}
+.dashboard .main-holder {
+  flex: 1;
+}
+.dashboard .dash-holder {
+  height: 100vh;
+  flex: 1;
+}
+.dashboard .table-container {
+  margin-bottom: unset;
+  overflow: auto;
+  box-shadow: unset;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+}
+
+.dashboard .table-container .table-header,
+.dashboard .table-container .table-item {
+  grid-template-columns: 1.4fr 1.4fr 1.4fr 1.2fr 0.8fr 0.8fr;
+}
+.dashboard .table-container .table-item {
+  padding: 0.8rem 1.2rem;
+}
+.dashboard .table-container .table-item:hover {
+  background: var(--section-color);
+}
+.dashboard .table-container .item-rating {
+  flex-direction: column;
+  gap: 2px;
+}
+.dashboard .item-rating .row-holder {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.dashboard .table-container .item-rating h4 {
+  color: var(--paragraph);
+}
+.dashboard .table-container .item-rating .row-holder h4 {
+  font-size: 14px;
+}
+.dashboard .table-container .item-image .product-image {
+  border-radius: 7px;
+  width: unset !important;
+  height: 54px !important;
+  aspect-ratio: 1.1;
+}
+.dashboard .table-container .item-details {
+  gap: 4px;
+}
+.dashboard .table-container .item-name,
+.dashboard .table-container .item-name span {
+  font-size: 14px;
+}
+.dashboard .table-container .item-overview {
+  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 20px;
+}
+.dashboard .table-container .item-overview h4 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--second-color);
+  font-size: 14px;
+  padding: 4px 11px;
+  border-radius: 7px;
+  color: var(--paragraph);
+  justify-content: center;
+}
+.dashboard .table-container .item-overview h4:last-child {
+  background: #b3ffcf94;
+}
+.dashboard .table-container .item-stock h4 {
+  width: 47px;
+  height: 42px;
+  margin: auto;
+  font-size: 16px;
+  background: #92ffba94;
+  color: var(--paragraph) !important;
+
+  margin: auto;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard .table-container .item-stock h4.low {
+  background: #ffd5ac;
+}
+.dashboard .table-container .item-stock h4.out {
+  background: #ff5b5be3;
+  color: white !important;
+}
+.dashboard .table-container .actions {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+.dashboard .table-container .actions svg {
+  width: 33px;
+  height: 33px;
+  border-radius: 7px;
+  padding: 7px;
+}
+.dashboard .table-container .actions svg.view {
+  color: #ff9642;
+}
+.dashboard .table-container .actions svg.edit {
+  color: #2a84ff;
+}
+.dashboard .table-container .actions svg.delete {
+  color: #ff4f4ff5;
+  padding: 8px;
+}
+.dashboard .table-container .actions svg.view:hover {
+  background: var(--main-color);
+  color: white;
+}
+.dashboard .table-container .actions svg.edit:hover {
+  background: #2a84ff;
+  color: white;
+}
+.dashboard .table-container .actions svg.delete:hover {
+  background: #ff4f4ff5;
+  color: white;
+}
+.dashboard .table-container .actions hr {
+  background: #d5d5d5;
+  margin: 0 6px;
+  height: 16px;
+  width: 2px;
+}
+.dashboard .pagination {
+  justify-content: center;
+  margin-top: 9px;
+}
+.pagination li .page-num,
+.pagination li.break {
+  height: 34px !important;
 }

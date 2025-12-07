@@ -43,7 +43,7 @@
 }
 
 .about .about-section {
-  background: #ffe3c7;
+  background: var(--second-color);
   border-radius: 30px;
   padding: 30px 35px;
 }
@@ -97,7 +97,7 @@
   justify-content: center;
 }
 .about .vision-mission .mission ul li {
-  background: #ffe3c7;
+  background: var(--second-color);
   padding: 9px 17px;
   font-weight: 400;
   font-size: 15px;
@@ -113,7 +113,7 @@
   transform: translateY(-50%);
 }
 .about .game-center {
-  background: #ffe3c7;
+  background: var(--second-color);
   border-radius: 30px;
 }
 .about .container ul {
@@ -131,7 +131,7 @@
 }
 
 .about .why-masr {
-  background: #ffe3c7;
+  background: var(--second-color);
   border-radius: 30px;
 }
 .about .why-masr p {
@@ -163,7 +163,7 @@
   align-items: center;
   padding: 15px;
   border-radius: 15px;
-  background: #ffe3c7;
+  background: var(--second-color);
   box-shadow: unset;
 }
 .about .our-values .card h4 {
@@ -192,7 +192,7 @@
   align-items: center;
 }
 .about .closing p {
-  background: #ffe3c7;
+  background: var(--second-color);
   border-radius: 30px;
   padding: 6px 18px;
   font-size: 14px;

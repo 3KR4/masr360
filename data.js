@@ -869,7 +869,7 @@ export const products = [
     reviewsCount: 13,
     description:
       "A detailed brass figurine of a camel, representing the desert heritage of Egypt.",
-    stock: 18,
+    stock: 0,
     specifications: {
       Material: "Brass",
       Dimensions: "6 x 5 inches",
@@ -889,7 +889,7 @@ export const products = [
     reviewsCount: 4,
     description:
       "A beautiful basket made by local Egyptian artisans using natural palm leaves.",
-    stock: 25,
+    stock: 8,
     specifications: {
       Material: "Palm leaves",
       Dimensions: "10 x 6 inches",
@@ -1685,6 +1685,75 @@ export const reviews = [
         rate: 5,
         title: "Exceptional craftsmanship",
         text: "You can tell this was made with care. The brushwork and color tones are excellent. Definitely worth the price!",
+      },
+    ],
+  },
+];
+export const sorting = [
+  {
+    id: "name",
+    filters: [
+      {
+        name: "Name: A to Z",
+        value: "a_to_z",
+      },
+      {
+        name: "Name: Z to A",
+        value: "z_to_a",
+      },
+    ],
+  },
+  {
+    id: "price",
+    filters: [
+      {
+        name: "Price: Low to High",
+        value: "low_to_high",
+      },
+      {
+        name: "Price: High to Low",
+        value: "high_to_low",
+      },
+    ],
+  },
+
+  {
+    id: "status",
+    filters: [
+      {
+        name: "Most Viewed",
+        value: "most_viewed",
+      },
+      {
+        name: "Top Sales",
+        value: "top_sales",
+      },
+    ],
+  },
+
+  {
+    id: "date",
+    filters: [
+      {
+        name: "Newest",
+        value: "newest",
+      },
+      {
+        name: "Oldest",
+        value: "oldest",
+      },
+    ],
+  },
+  {
+    id: "availability",
+    filters: [
+      {
+        name: "In Stock",
+        value: "1",
+      },
+      {
+        name: "Out of Stock",
+        value: "0",
       },
     ],
   },

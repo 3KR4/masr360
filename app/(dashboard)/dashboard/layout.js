@@ -1,9 +1,9 @@
 import { Roboto } from "next/font/google";
-import Header from "@/components/dashboard/Header";
 import SideNav from "@/components/dashboard/SideNav";
 import { MainProvider } from "@/Contexts/mainContext";
 import "@/styles/globals.css";
 import "@/styles/dashboard/globals.css";
+import Navigations from "@/components/Navigations";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
         <MainProvider>
           <div className="dashboard">
             <SideNav />
-            <div className="dash-holder">{children}</div>
+            {children}
           </div>
         </MainProvider>
       </body>

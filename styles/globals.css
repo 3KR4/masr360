@@ -12,10 +12,10 @@
   --body-color: #ffffff;
   --section-color: #f2f2f2;
   --main-color: #ea8c43;
+  --second-color: #ffe3c7;
   --hover-color: #dc7423;
   --title-color: #333;
   --paragraph: #575757;
-  --second-color: #4d68ff;
 }
 body {
   background-color: var(--body-color);
@@ -649,7 +649,6 @@ a {
   position: relative;
   overflow: hidden;
   aspect-ratio: 2.4;
-
 }
 .hero-image-holder img {
   object-fit: cover;
@@ -717,7 +716,6 @@ a {
   .hero-image-holder {
     border-radius: 0 0 28px 28px;
     aspect-ratio: 2;
-
   }
 
   .card .name-link {

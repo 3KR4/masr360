@@ -10,12 +10,22 @@ export default function Navigations({
   return (
     <nav
       className={`navigations ${
-        container !== "main" ? "fluid-container" : "container"
+        container == "no"
+          ? ""
+          : container == "main"
+          ? "container"
+          : "fluid-container"
       }`}
     >
-      <Link href={`${isDashBoard ? "/dashboard" : "/"}`}>
-        {isDashBoard ? "dashboard" : "home"}
-      </Link>
+      {!isDashBoard ? (
+        <Link href={"/"}>home</Link>
+      ) : (
+        <>
+          <Link href={"/"}>masr360</Link>
+          <span className={`separator`}>/ </span>
+          <Link href={"/dashboard"}>dashboard</Link>
+        </>
+      )}
 
       {items.map((item, index) => (
         <React.Fragment key={index}>

@@ -2,11 +2,11 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
 
-const Pagination = ({ pageCount = 10, screenSize, onPageChange }) => {
+const Pagination = ({ pageCount = 10, screenSize, onPageChange, isDashBoard = false }) => {
   return (
     <ReactPaginate
       pageCount={pageCount}
-      marginPagesDisplayed={1}
+      marginPagesDisplayed={isDashBoard ? 2 : 1}
       pageRangeDisplayed={screenSize === "small" ? 1 : 2}
       breakLabel="..."
       nextLabel={`${screenSize !== "small" ? "next" : ""} >`}

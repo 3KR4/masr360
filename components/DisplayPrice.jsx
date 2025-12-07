@@ -1,4 +1,10 @@
-export default function DisplayPrice({ price, sale, stock, qty = 1 }) {
+export default function DisplayPrice({
+  price,
+  sale,
+  stock,
+  qty = 1,
+  dashboard = false,
+}) {
   // Ensure qty is at least 1
   const quantity = Math.max(1, qty);
 
@@ -18,8 +24,12 @@ export default function DisplayPrice({ price, sale, stock, qty = 1 }) {
       {/* Out of Stock */}
       {stock <= 0 ? (
         <p className="out-of-stock">
-          Last price: <span>${totalOriginal}</span> —{" "}
-          <span className="status">Out of stock</span>
+          Last price: <span>${totalOriginal}</span>
+          {!dashboard && (
+            <>
+              — <span className="status">Out of stock</span>
+            </>
+          )}
         </p>
       ) : isOnSale ? (
         // On Sale

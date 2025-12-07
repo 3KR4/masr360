@@ -82,7 +82,7 @@
 }
 
 .game-page .option.selected {
-  background: #ffe3c7;
+  background: var(--second-color);
   border-color: var(--main-color);
 }
 

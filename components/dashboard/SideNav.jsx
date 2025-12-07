@@ -5,15 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { mainContext } from "@/Contexts/mainContext";
 import { RiGovernmentFill } from "react-icons/ri";
+
 import {
   FaPlaceOfWorship,
   FaShoppingCart,
   FaHome,
   FaMoon,
 } from "react-icons/fa";
-import { FaAngleLeft, FaChartPie } from "react-icons/fa6";
-import { IoMenu } from "react-icons/io5";
-import { MdEventNote } from "react-icons/md";
+import { FaAngleLeft, FaChartPie, FaUser } from "react-icons/fa6";
+import { IoMenu, IoLanguage } from "react-icons/io5";
+import { MdEventNote, MdLogout, MdSunny } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
 import "@/styles/dashboard/side-nav.css";
 import { usePathname } from "next/navigation";
@@ -28,10 +29,9 @@ function SideNav() {
       const saved = localStorage.getItem("nav-open");
 
       if (saved === null) {
-        // أول مرة يفتح الموقع
         setIsNavOpen(true);
       } else {
-        setIsNavOpen(saved === "true"); // تحويل من string إلى boolean
+        setIsNavOpen(saved === "true");
       }
     } catch (e) {
       console.error("LocalStorage read error", e);
@@ -50,96 +50,124 @@ function SideNav() {
   if (isNavOpen === null) return null;
   return (
     <div className={`side-nav ${isNavOpen ? "active" : ""}`}>
-      <div
-        className="actions-btns"
-        onClick={() => setIsNavOpen((prev) => !prev)}
-      >
-        <h4>Masr360 Dashboard</h4>
-        {isNavOpen ? (
-          <FaAngleLeft className="menu-ico-close" />
-        ) : (
-          <IoMenu style={{ fontSize: "21px" }} className="menu-ico" />
-        )}
-      </div>
-      <Link
-        href="/dashboard"
-        className={isActive("/dashboard") ? "active" : ""}
-      >
-        <div className="hold">
-          <h4>OverView</h4>
-          <FaHome />
-        </div>
-      </Link>
+      <ul>
+        <li
+          className="actions-btns"
+          onClick={() => setIsNavOpen((prev) => !prev)}
+        >
+          <h4>menu routes</h4>
+          {isNavOpen ? (
+            <FaAngleLeft className="menu-ico-close" />
+          ) : (
+            <IoMenu style={{ fontSize: "21px" }} className="menu-ico" />
+          )}
+        </li>
+        <Link
+          href="/dashboard"
+          className={isActive("/dashboard") ? "active a" : "a"}
+        >
+          <div className="hold">
+            <h4>OverView</h4>
+            <FaHome />
+          </div>
+        </Link>
 
-      <Link
-        href="/dashboard/products"
-        className={isActive("/dashboard/products") ? "active" : ""}
-      >
-        <div className="hold">
-          <h4>products</h4>
-          <FaShoppingCart />
-        </div>
-      </Link>
+        <Link
+          href="/dashboard/products"
+          className={isActive("/dashboard/products") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>products</h4>
+            <FaShoppingCart />
+          </div>
+        </Link>
 
-      <Link
-        href="/dashboard/governorates"
-        className={isActive("/dashboard/governorates") ? "active" : ""}
-      >
-        <div className="hold">
-          <h4>governorates</h4>
-          <RiGovernmentFill />
-        </div>
-      </Link>
+        <Link
+          href="/dashboard/governorates"
+          className={isActive("/dashboard/governorates") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>governorates</h4>
+            <RiGovernmentFill />
+          </div>
+        </Link>
 
-      <Link
-        href="/dashboard/places"
-        className={isActive("/dashboard/places") ? "active" : ""}
-      >
-        <div className="hold">
-          <h4>places</h4>
-          <FaPlaceOfWorship />
-        </div>
-      </Link>
+        <Link
+          href="/dashboard/places"
+          className={isActive("/dashboard/places") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>places</h4>
+            <FaPlaceOfWorship />
+          </div>
+        </Link>
 
-      <Link
-        href="/dashboard/nights"
-        className={isActive("/dashboard/nights") ? "active" : ""}
-      >
-        <div className="hold">
-          <h4>nights</h4>
-          <FaMoon />
-        </div>
-      </Link>
+        <Link
+          href="/dashboard/nights"
+          className={isActive("/dashboard/nights") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>nights</h4>
+            <FaMoon />
+          </div>
+        </Link>
 
-      <Link
-        href="/dashboard/events"
-        className={isActive("/dashboard/events") ? "active" : ""}
-      >
-        <div className="hold">
-          <h4>events</h4>
-          <MdEventNote />
-        </div>
-      </Link>
+        <Link
+          href="/dashboard/events"
+          className={isActive("/dashboard/events") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>events</h4>
+            <MdEventNote />
+          </div>
+        </Link>
 
-      <Link
-        href="/dashboard/games"
-        className={isActive("/dashboard/games") ? "active" : ""}
-      >
-        <div className="hold">
-          <h4>games</h4>
-          <FaChartPie />
-        </div>
-      </Link>
+        <Link
+          href="/dashboard/games"
+          className={isActive("/dashboard/games") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>games</h4>
+            <FaChartPie />
+          </div>
+        </Link>
 
-      <Link
-        href="/dashboard/orders"
-        className={isActive("/dashboard/orders") ? "active" : ""}
-      >
-        <div className="hold">
-          <h4>orders</h4>
-          <HiChartBar />
+        <Link
+          href="/dashboard/orders"
+          className={isActive("/dashboard/orders") ? "active a" : " a"}
+        >
+          <div className="hold">
+            <h4>orders</h4>
+            <HiChartBar />
+          </div>
+        </Link>
+      </ul>
+      <ul>
+        <div href="/dashboard/orders" className={`a a-user`}>
+          <div className="hold">
+            <h4>mahmoud elshazly</h4>
+            <FaUser />
+          </div>
         </div>
-      </Link>
+        <div href="/dashboard/orders" className={`a`}>
+          <div className="hold">
+            <h4>dark theme</h4>
+            <MdSunny />
+          </div>
+        </div>
+        <div href="/dashboard/orders" className={`a`}>
+          <div className="hold">
+            <h4>arabic language</h4>
+            <IoLanguage />
+          </div>
+        </div>
+        <div href="/dashboard/orders" className={`a danger`}>
+          <div className="hold">
+            <h4>log out</h4>
+            <MdLogout />
+          </div>
+        </div>
+      </ul>
     </div>
   );
 }
