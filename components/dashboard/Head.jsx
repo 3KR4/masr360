@@ -134,7 +134,7 @@ function Head() {
                 {activeMenu == "cat" ? (
                   <IoMdClose
                     className="main-ico"
-                    onClick={() => setActiveMenu(false)}
+                    onClick={() => setActiveMenu(null)}
                   />
                 ) : (
                   <IoIosArrowDown
@@ -158,7 +158,8 @@ function Head() {
                         } else {
                           updateFilter("cat", x.name, "categories");
                         }
-                        setActiveMenu(false);
+                        updateFilter("subCat", "", "categories");
+                        setActiveMenu(null);
                         setCatsSearch("");
                       }}
                     >
@@ -195,7 +196,7 @@ function Head() {
                 {activeMenu == "sub-cat" ? (
                   <IoMdClose
                     className="main-ico"
-                    onClick={() => setActiveSubCats(false)}
+                    onClick={() => setActiveMenu(null)}
                   />
                 ) : (
                   <IoIosArrowDown
@@ -221,7 +222,7 @@ function Head() {
                         } else {
                           updateFilter("subCat", x.name, "categories");
                         }
-                        setActiveSubCats(false);
+                        setActiveMenu(null);
                         setCatsSearch("");
                       }}
                     >
@@ -243,7 +244,7 @@ function Head() {
                 {activeMenu == "filters" ? (
                   <IoMdClose
                     className="main-ico"
-                    onClick={() => setActiveSort(false)}
+                    onClick={() => setActiveMenu(null)}
                   />
                 ) : (
                   <IoIosArrowDown
