@@ -9,7 +9,6 @@ export const DashBoardProvider = ({ children }) => {
   const searchParams = useSearchParams();
 
   const [searchText, setSearchText] = useState("");
-  const [activeSort, setActiveSort] = useState(false);
   const [filtersState, setFiltersState] = useState({
     name: "",
     price: "",
@@ -17,11 +16,22 @@ export const DashBoardProvider = ({ children }) => {
     date: "",
     availability: "",
   });
-  const updateFilter = (category, value) => {
-    setFiltersState((prev) => ({
-      ...prev,
-      [category]: value,
-    }));
+  const [selectedCats, setSelectedCats] = useState({
+    cat: "",
+    subCat: "",
+  });
+  const updateFilter = (key, value, type) => {
+    if (type == "filters") {
+      setFiltersState((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+    } else {
+      setSelectedCats((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+    }
   };
   return (
     <dashboard.Provider
@@ -30,10 +40,8 @@ export const DashBoardProvider = ({ children }) => {
         searchParams,
         searchText,
         setSearchText,
-        activeSort,
-        setActiveSort,
+        selectedCats,
         filtersState,
-        setFiltersState,
         updateFilter,
       }}
     >

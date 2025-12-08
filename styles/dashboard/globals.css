@@ -65,6 +65,12 @@
 .dashboard .head .filters:has(.menu.active) {
   width: 320px;
 }
+.dashboard .head .filters.filters.for-cats {
+  width: 220px;
+}
+.dashboard .head .filters.for-cats:has(.menu.active) {
+  width: 320px;
+}
 .dashboard .head .filters .btn {
   border: 2px solid var(--main-color);
   cursor: pointer;
@@ -113,6 +119,9 @@
   position: absolute;
   top: 34px;
   left: 0;
+}
+.dashboard .head .filters.filters.for-cats .menu {
+  gap: 5px;
 }
 .dashboard:has(.products) .head .filters .menu > .hold:last-child {
   grid-column: span 2;
@@ -163,6 +172,30 @@
 .dashboard .head .filters .menu .hold ul li.active {
   background: var(--second-color);
   border: 1px solid var(--main-color);
+}
+.dashboard .head .filters.for-cats {
+}
+.dashboard .head .filters.for-cats button {
+  border-radius: 5px;
+  text-align: left;
+  padding: 4px 8px;
+  font-size: 12px;
+  transition: 0.3s;
+  background: var(--section-color);
+}
+.dashboard .head .filters.for-cats button:hover,
+.dashboard .head .filters.for-cats button.active {
+  background: var(--second-color);
+}
+.dashboard .head .filters.for-cats input {
+  flex: 1;
+  height: 100%;
+  color: var(--paragraph);
+}
+.dashboard .head .filters.for-cats .no-results {
+  color: var(--paragraph);
+  font-weight: 500;
+  font-size: 13px;
 }
 .dashboard .head .main-button {
   height: unset;

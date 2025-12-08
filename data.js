@@ -1124,12 +1124,6 @@ export const tourismCategories = [
     id: 1,
     name: "Ancient Egypt",
     icon: "🏺",
-    subcategories: [
-      { id: 11, name: "Temples" },
-      { id: 12, name: "Tombs & Pyramids" },
-      { id: 13, name: "Archaeological Sites" },
-      { id: 14, name: "Pharaonic Statues" },
-    ],
   },
   {
     id: 2,
@@ -1763,7 +1757,7 @@ export const filters = [
     ],
   },
   {
-    id: "other",
+    id: "main",
     sorting: [
       {
         id: "name",

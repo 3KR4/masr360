@@ -147,78 +147,82 @@ export default function Register() {
               </div>
             </div>
           )}
+          {!isLoginPage && (
+            <div className="box forInput">
+              <label htmlFor="country">Nationality</label>
+              <div className="inputHolder">
+                <div
+                  className="holder nationality"
+                  style={{ padding: "0", border: "none" }}
+                >
+                  <Controller
+                    name="country"
+                    control={control}
+                    rules={{ required: "Please select your country" }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={options}
+                        placeholder="Select your country"
+                        classNamePrefix="custom-select"
+                        styles={{
+                          container: (base) => ({
+                            ...base,
+                            width: "100%",
+                          }),
+                          control: (base, state) => ({
+                            ...base,
+                            backgroundColor: "transparent",
+                            borderColor: "#a6a6a6",
+                            borderRadius: "8px",
+                            padding: "2px 5px",
+                            minHeight: "44px",
+                            boxShadow: "none",
+                            "&:hover": "#a6a6a6",
+                          }),
+                          singleValue: (base) => ({
+                            ...base,
+                            color: "#484848",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#717171ff",
+                            fontSize: "13px",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "white",
+                            borderRadius: "8px",
+                            zIndex: 10,
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            backgroundColor: state.isSelected
+                              ? "#efb034" // background when selected
+                              : state.isFocused
+                              ? "#f0f0f0" // background when hovered
+                              : "white", // default background
+                            color: state.isSelected ? "white" : "#333", // text color
+                            cursor: "pointer",
+                            fontSize: "15px",
+                          }),
+                        }}
+                        value={field.value}
+                        onChange={(selected) => field.onChange(selected)}
+                      />
+                    )}
+                  />
+                </div>
 
-          <div className="box forInput">
-            <label htmlFor="country">Nationality</label>
-            <div className="inputHolder">
-              <div className="holder" style={{ padding: "0", border: "none" }}>
-                <Controller
-                  name="country"
-                  control={control}
-                  rules={{ required: "Please select your country" }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={options}
-                      placeholder="Select your country"
-                      classNamePrefix="custom-select"
-                      styles={{
-                        container: (base) => ({
-                          ...base,
-                          width: "100%",
-                        }),
-                        control: (base, state) => ({
-                          ...base,
-                          backgroundColor: "transparent",
-                          borderColor: "#a6a6a6",
-                          borderRadius: "8px",
-                          padding: "2px 5px",
-                          minHeight: "44px",
-                          boxShadow: "none",
-                          "&:hover": "#a6a6a6",
-                        }),
-                        singleValue: (base) => ({
-                          ...base,
-                          color: "#484848",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#717171ff",
-                          fontSize: "13px",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "white",
-                          borderRadius: "8px",
-                          zIndex: 10,
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          backgroundColor: state.isSelected
-                            ? "#efb034" // background when selected
-                            : state.isFocused
-                            ? "#f0f0f0" // background when hovered
-                            : "white", // default background
-                          color: state.isSelected ? "white" : "#333", // text color
-                          cursor: "pointer",
-                          fontSize: "15px",
-                        }),
-                      }}
-                      value={field.value}
-                      onChange={(selected) => field.onChange(selected)}
-                    />
-                  )}
-                />
+                {errors.country && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.country.message}
+                  </span>
+                )}
               </div>
-
-              {errors.country && (
-                <span className="error">
-                  <CircleAlert />
-                  {errors.country.message}
-                </span>
-              )}
             </div>
-          </div>
+          )}
 
           {/* Email */}
           <div
