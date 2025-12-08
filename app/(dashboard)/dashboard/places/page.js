@@ -16,7 +16,7 @@ import { MdEdit } from "react-icons/md";
 import { FaPlaceOfWorship } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 
-export default function Products() {
+export default function Places() {
   const { screenSize } = useContext(mainContext);
 
   return (

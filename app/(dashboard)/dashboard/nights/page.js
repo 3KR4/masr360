@@ -9,25 +9,28 @@ import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
 import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
-import { governorates } from "@/data";
+import { nights } from "@/data";
 import Link from "next/link";
 import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
 import { FaPlaceOfWorship } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 
-export default function Governorates() {
+export default function Nights() {
   const { screenSize } = useContext(mainContext);
 
   return (
     <div className="dash-holder">
       <div className="body">
-        <div className="table-container governorates">
+        <div className="table-container governorates nights">
           <div className="table-header">
             {screenSize !== "small" ? (
               <>
-                <div className="header-item details">governorate details</div>
+                <div className="header-item details">places details</div>
+                <div className="header-item">categories & subcategories</div>
+                <div className="header-item">reviews</div>
                 <div className="header-item">views count</div>
-                <div className="header-item">places count</div>
+                <div className="header-item">governorate</div>
                 <div className="header-item">Actions</div>
               </>
             ) : (
@@ -38,14 +41,14 @@ export default function Governorates() {
           </div>
 
           <div className="table-items">
-            {governorates.slice(0, 7).map((item) => {
+            {nights.slice(0, 7).map((item) => {
               return (
-                <div key={item.id} className="table-item">
+                <div key={item?.id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
                       <Image
-                        src={item.image}
-                        alt={item.name}
+                        src={item?.image}
+                        alt={item?.name}
                         fill
                         className="product-image"
                       />
@@ -53,31 +56,47 @@ export default function Governorates() {
 
                     <div className="item-details">
                       <Link href={`/`} className="item-name">
-                        {item.name}
+                        {item?.name}
                       </Link>
-                      <p className="description">{item.description}</p>
+                      <p className="description">{item?.description}</p>
                     </div>
                   </div>
-
+                  <div className="categories">
+                    <h4>Ancient Egypt</h4>/<h4>deserts</h4>
+                  </div>
+                  <div className="item-rating">
+                    <h4>{item?.reviewsCount} review</h4>
+                    <div className="row-holder">
+                      <Rating
+                        name="read-only"
+                        value={item?.rate}
+                        precision={0.1}
+                        readOnly
+                        sx={{ color: "#ea8c43", fontSize: "19px" }}
+                      />
+                      <h4>({item?.rate})</h4>
+                    </div>
+                  </div>
                   <div className="item-overview">
                     <h4>
                       15000 <FaEye />
                     </h4>
                   </div>
-                  <div className="item-overview">
-                    <h4 className="green">
-                      83 <FaPlaceOfWorship />
-                    </h4>
-                  </div>
+
+                  <Link
+                    href={`/discover/${item?.govermorate}`}
+                    className="link"
+                  >
+                    <FaLocationDot />
+                    {item?.govermorate}
+                  </Link>
 
                   <div className="actions">
-                    <Link href={`/discover/${item?.id}`}>
+                    <Link href={`/places/${item?.id}`}>
                       <FaEye className="view" />
                     </Link>
                     <hr />
-                    <Link
-                      href={`/dashboard/governorates/form?edit=${item?.id}`}
-                    >
+                    <Link href={`/dashboard/places/form?edit=${item?.id}`}>
                       <MdEdit className="edit" />
                     </Link>
 

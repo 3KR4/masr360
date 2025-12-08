@@ -26,7 +26,7 @@ export default function Products() {
               <>
                 <div className="header-item details">product details</div>
                 <div className="header-item">Price</div>
-                <div className="header-item">rate</div>
+                <div className="header-item">reviews</div>
                 <div className="header-item">status</div>
                 <div className="header-item">stock</div>
                 <div className="header-item">Actions</div>

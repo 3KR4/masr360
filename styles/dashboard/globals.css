@@ -433,7 +433,7 @@ header .actions-btns .userMenu .top {
   grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
 }
 
-.dashboard .table-container.places .categories {
+.dashboard .table-container .categories {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -443,16 +443,21 @@ header .actions-btns .userMenu .top {
   flex-direction: row;
   margin: 0;
 }
-.dashboard .table-container.places .categories h4 {
+.dashboard .table-container .categories h4 {
   color: var(--paragraph);
 }
-.dashboard .table-container.places .categories h4:first-child {
+.dashboard .table-container .categories h4:first-child {
   color: var(--hover-color);
 }
-.dashboard .table-container.places .link:has(svg) {
+.dashboard .table-container .link:has(svg) {
   display: flex;
   align-items: center;
   justify-content: center;
   align-items: center;
   gap: 3px;
+}
+
+.dashboard .table-container.nights .table-header,
+.dashboard .table-container.nights .table-item {
+  grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr 1fr;
 }
