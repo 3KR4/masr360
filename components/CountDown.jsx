@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function CountDown({ eventStartAt }) {
+export default function CountDown({ eventStartAt, text = true }) {
   const [timeLeft, setTimeLeft] = useState("");
   const [label, setLabel] = useState("Time Left");
 
@@ -61,7 +61,8 @@ export default function CountDown({ eventStartAt }) {
 
   return (
     <div className="countdown">
-      <span>{label}:</span>
+      {text && <span>{label}:</span>}
+
       <span className={`${label === "Time Left" ? "main-color" : ""}`}>
         {timeLeft}
       </span>

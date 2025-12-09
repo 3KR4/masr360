@@ -70,7 +70,10 @@
 }
 .dashboard .head .filters.for-cats:has(.menu.active) {
   width: 320px;
+}.dashboard .head .filters.filters.for-cats.gov {
+  width: 220px !important;
 }
+
 .dashboard .head .filters .btn {
   border: 2px solid var(--main-color);
   cursor: pointer;
@@ -122,6 +125,12 @@
 }
 .dashboard .head .filters.filters.for-cats .menu {
   gap: 5px;
+}
+.dashboard .head .filters.filters.for-cats.gov .menu {
+  max-height: 199px;
+  overflow: auto;
+  padding-right: 6px;
+  grid-template-columns: 1fr;
 }
 .dashboard:has(.products) .head .filters .menu > .hold:last-child {
   grid-column: span 2;
@@ -460,4 +469,12 @@ header .actions-btns .userMenu .top {
 .dashboard .table-container.nights .table-header,
 .dashboard .table-container.nights .table-item {
   grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr 1fr;
+}
+.dashboard .table-container.events .table-header,
+.dashboard .table-container.events .table-item {
+  grid-template-columns: 2fr 1.5fr 0.6fr 1fr 1fr 1fr 0.8fr;
+}
+.dashboard .table-container .item-startAt .main-color {
+  color: var(--hover-color);
+  font-size: 16px;
 }

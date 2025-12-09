@@ -9,7 +9,7 @@ import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
 import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
-import { nights } from "@/data";
+import { events } from "@/data";
 import Link from "next/link";
 import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
@@ -23,12 +23,12 @@ export default function Events() {
   return (
     <div className="dash-holder">
       <div className="body">
-        <div className="table-container governorates nights">
+        <div className="table-container governorates  events">
           <div className="table-header">
             {screenSize !== "small" ? (
               <>
                 <div className="header-item details">places details</div>
-                <div className="header-item">category</div>
+                <div className="header-item">categories</div>
                 <div className="header-item">event lasts</div>
                 <div className="header-item">starting time</div>
                 <div className="header-item">views count</div>
@@ -43,7 +43,7 @@ export default function Events() {
           </div>
 
           <div className="table-items">
-            {nights.slice(0, 7).map((item) => {
+            {events.slice(0, 7).map((item) => {
               return (
                 <div key={item?.id} className="table-item">
                   <div className="holder">
@@ -67,11 +67,11 @@ export default function Events() {
                     <h4>Ancient Egypt</h4>/<h4>deserts</h4>
                   </div>
                   <div className="event-lasts">
-                    <h4>{item?.eventStartAt}</h4>
+                    <h4>{item?.eventLasts}</h4>
                   </div>
                   <div className="item-startAt">
                     <h4>
-                      <CountDown eventStartAt={item?.eventStartAt} />
+                      <CountDown eventStartAt={item?.eventStartAt} text={false} />
                     </h4>
                   </div>
 

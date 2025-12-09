@@ -19,6 +19,7 @@ export const DashBoardProvider = ({ children }) => {
   const [selectedCats, setSelectedCats] = useState({
     cat: "",
     subCat: "",
+    gov: "",
   });
   const updateFilter = (key, value, type) => {
     if (type == "filters") {

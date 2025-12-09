@@ -3,7 +3,7 @@ import React, { useState, useRef, useContext } from "react";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import { FaSearch } from "react-icons/fa";
-import { filters, tourismCategories, productCategories } from "@/data";
+import { filters, tourismCategories, productCategories, govs } from "@/data";
 import Link from "next/link";
 import Navigations from "@/components/Navigations";
 import { IoIosClose } from "react-icons/io";
@@ -62,8 +62,16 @@ function Head() {
     return cleanPath + "/form";
   }
 
+  const citys =
+    navigationitems[0]?.name == "places list" ||
+    navigationitems[0]?.name == "events list" ||
+    navigationitems[0]?.name == "nights list"
+      ? govs
+      : [];
   const cats =
-    navigationitems[0]?.name == "places list"
+    navigationitems[0]?.name == "places list" ||
+    navigationitems[0]?.name == "events list" ||
+    navigationitems[0]?.name == "nights list"
       ? tourismCategories
       : navigationitems[0]?.name == "products list"
       ? productCategories
@@ -72,16 +80,17 @@ function Head() {
     (x) => x.name == selectedCats.cat
   )?.subcategories;
 
-  let listedCats = [];
-  if (activeMenu == "cat") {
-    listedCats = cats?.filter((x) =>
-      x.name.toLowerCase().includes(catsSearch.toLowerCase())
-    );
-  } else {
-    listedCats = subCats?.filter((x) =>
-      x.name.toLowerCase().includes(catsSearch.toLowerCase())
-    );
-  }
+  const filteredGovs = govs?.filter((x) =>
+    x.toLowerCase().includes(catsSearch.toLowerCase())
+  );
+
+  const filteredCats = cats?.filter((x) =>
+    x.name.toLowerCase().includes(catsSearch.toLowerCase())
+  );
+
+  const filteredSubCats = subCats?.filter((x) =>
+    x.name.toLowerCase().includes(catsSearch.toLowerCase())
+  );
 
   return (
     <div className="head">
@@ -110,6 +119,65 @@ function Head() {
               )}
             </div>
           )}
+          {citys && (
+            <div className="filters for-cats gov">
+              <div className="btn">
+                <h4
+                  onClick={() => handleActiveMenu("gov")}
+                  className="ellipsis"
+                >
+                  {activeMenu == "gov" ? (
+                    <input
+                      autoFocus
+                      value={catsSearch}
+                      onChange={(e) => setCatsSearch(e.target.value)}
+                      placeholder={"filter by governorates:"}
+                      className="search-input"
+                    />
+                  ) : !selectedCats.gov ? (
+                    "filter by governorates:"
+                  ) : (
+                    `city: ${selectedCats.gov}`
+                  )}
+                </h4>
+                {activeMenu == "gov" ? (
+                  <IoMdClose
+                    className="main-ico"
+                    onClick={() => setActiveMenu(null)}
+                  />
+                ) : (
+                  <IoIosArrowDown
+                    onClick={() => handleActiveMenu("gov")}
+                    className="main-ico"
+                  />
+                )}
+              </div>
+
+              <div className={`menu ${activeMenu == "gov" ? "active" : ""}`}>
+                {filteredGovs?.length > 0 ? (
+                  filteredGovs?.map((x, index) => (
+                    <button
+                      key={index}
+                      className={`${selectedCats.gov == x ? "active" : ""}`}
+                      onClick={() => {
+                        if (selectedCats.gov === x) {
+                          updateFilter("gov", "", "categories");
+                        } else {
+                          updateFilter("gov", x, "categories");
+                        }
+                        setActiveMenu(null);
+                        setCatsSearch("");
+                      }}
+                    >
+                      {x}
+                    </button>
+                  ))
+                ) : (
+                  <div className="no-results">no match results</div>
+                )}
+              </div>
+            </div>
+          )}
           {cats && (
             <div className="filters for-cats">
               <div className="btn">
@@ -128,7 +196,7 @@ function Head() {
                   ) : !selectedCats.cat ? (
                     "filter by categories:"
                   ) : (
-                    selectedCats.cat
+                    `cat: ${selectedCats.cat}`
                   )}
                 </h4>
                 {activeMenu == "cat" ? (
@@ -145,8 +213,8 @@ function Head() {
               </div>
 
               <div className={`menu ${activeMenu == "cat" ? "active" : ""}`}>
-                {listedCats?.length > 0 ? (
-                  listedCats?.map((x, index) => (
+                {filteredCats?.length > 0 ? (
+                  filteredCats?.map((x, index) => (
                     <button
                       key={index}
                       className={`${
@@ -190,7 +258,7 @@ function Head() {
                   ) : !selectedCats.subCat ? (
                     "filter by sub cats:"
                   ) : (
-                    selectedCats.subCat
+                    `sub Cat: ${selectedCats.subCat}`
                   )}
                 </h4>
                 {activeMenu == "sub-cat" ? (
@@ -209,8 +277,8 @@ function Head() {
               <div
                 className={`menu ${activeMenu == "sub-cat" ? "active" : ""}`}
               >
-                {listedCats?.length > 0 ? (
-                  listedCats?.map((x, index) => (
+                {filteredSubCats?.length > 0 ? (
+                  filteredSubCats?.map((x, index) => (
                     <button
                       key={index}
                       className={`${

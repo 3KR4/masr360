@@ -728,7 +728,7 @@ export const events = [
       "https://images.unsplash.com/photo-1534531688091-a458257992d5",
       "https://images.unsplash.com/photo-1523307730650-594bc63c8882",
     ],
-    eventStartAt: "2025-11-28T18:30:00.000Z",
+    eventStartAt: "2025-12-28T18:30:00.000Z",
     eventLasts: "2 hours",
     location: {
       link: "https://maps.app.goo.gl/JdYj8gV9gFDwzjwE7",
@@ -1119,131 +1119,7 @@ export const products = [
     tags: ["candle", "clay", "decor"],
   },
 ];
-export const tourismCategories = [
-  {
-    id: 1,
-    name: "Ancient Egypt",
-    icon: "🏺",
-  },
-  {
-    id: 2,
-    name: "Beaches",
-    icon: "🏖️",
-    subcategories: [
-      { id: 21, name: "Red Sea" },
-      { id: 22, name: "Mediterranean" },
-      { id: 23, name: "Diving Spots" },
-      { id: 24, name: "Resorts" },
-    ],
-  },
-  {
-    id: 3,
-    name: "Cruises",
-    icon: "🚢",
-    subcategories: [
-      { id: 31, name: "Nile Cruises" },
-      { id: 32, name: "Felucca Rides" },
-      { id: 33, name: "Sea Cruises" },
-    ],
-  },
-  {
-    id: 4,
-    name: "Oases & Deserts",
-    icon: "🏜️",
-    subcategories: [
-      { id: 41, name: "Siwa Oasis" },
-      { id: 42, name: "Western Desert" },
-      { id: 43, name: "White Desert" },
-      { id: 44, name: "Safari Tours" },
-    ],
-  },
-  {
-    id: 5,
-    name: "Religious",
-    icon: "🕌",
-    subcategories: [
-      { id: 51, name: "Islamic" },
-      { id: 52, name: "Coptic" },
-      { id: 53, name: "Jewish" },
-      { id: 54, name: "Sacred Sites" },
-    ],
-  },
-  {
-    id: 6,
-    name: "Museums",
-    icon: "🏛️",
-    subcategories: [
-      { id: 61, name: "History Museums" },
-      { id: 62, name: "Art Museums" },
-      { id: 63, name: "Cultural Museums" },
-      { id: 64, name: "Science Museums" },
-    ],
-  },
-  {
-    id: 7,
-    name: "Outdoor Sports",
-    icon: "🎯",
-    subcategories: [
-      { id: 71, name: "Hiking" },
-      { id: 72, name: "Climbing" },
-      { id: 73, name: "Water Sports" },
-      { id: 74, name: "Sandboarding" },
-    ],
-  },
-  {
-    id: 8,
-    name: "Shopping",
-    icon: "🛍️",
-    subcategories: [
-      { id: 81, name: "Bazaars" },
-      { id: 82, name: "Handicrafts" },
-      { id: 83, name: "Malls" },
-      { id: 84, name: "Souvenirs" },
-    ],
-  },
-];
-export const productCategories = [
-  {
-    id: 1,
-    name: "Souvenirs",
-    icon: "🎁",
-  },
-  {
-    id: 2,
-    name: "Local Crafts",
-    icon: "🧵",
-  },
-  {
-    id: 3,
-    name: "Art & Decor",
-    icon: "🖼️",
-  },
-  {
-    id: 4,
-    name: "Traditional Clothes",
-    icon: "👘",
-  },
-  {
-    id: 5,
-    name: "Handmade Jewelry",
-    icon: "💍",
-  },
-  {
-    id: 6,
-    name: "Home Accessories",
-    icon: "🏡",
-  },
-  {
-    id: 7,
-    name: "Spices & Aromas",
-    icon: "🌿",
-  },
-  {
-    id: 8,
-    name: "Leather Goods",
-    icon: "👝",
-  },
-];
+
 export const nightsCategories = [
   {
     name: "Nile Parties",
@@ -1683,6 +1559,131 @@ export const reviews = [
     ],
   },
 ];
+export const tourismCategories = [
+  {
+    id: 1,
+    name: "Ancient Egypt",
+    icon: "🏺",
+  },
+  {
+    id: 2,
+    name: "Beaches",
+    icon: "🏖️",
+    subcategories: [
+      { id: 21, name: "Red Sea" },
+      { id: 22, name: "Mediterranean" },
+      { id: 23, name: "Diving Spots" },
+      { id: 24, name: "Resorts" },
+    ],
+  },
+  {
+    id: 3,
+    name: "Cruises",
+    icon: "🚢",
+    subcategories: [
+      { id: 31, name: "Nile Cruises" },
+      { id: 32, name: "Felucca Rides" },
+      { id: 33, name: "Sea Cruises" },
+    ],
+  },
+  {
+    id: 4,
+    name: "Oases & Deserts",
+    icon: "🏜️",
+    subcategories: [
+      { id: 41, name: "Siwa Oasis" },
+      { id: 42, name: "Western Desert" },
+      { id: 43, name: "White Desert" },
+      { id: 44, name: "Safari Tours" },
+    ],
+  },
+  {
+    id: 5,
+    name: "Religious",
+    icon: "🕌",
+    subcategories: [
+      { id: 51, name: "Islamic" },
+      { id: 52, name: "Coptic" },
+      { id: 53, name: "Jewish" },
+      { id: 54, name: "Sacred Sites" },
+    ],
+  },
+  {
+    id: 6,
+    name: "Museums",
+    icon: "🏛️",
+    subcategories: [
+      { id: 61, name: "History Museums" },
+      { id: 62, name: "Art Museums" },
+      { id: 63, name: "Cultural Museums" },
+      { id: 64, name: "Science Museums" },
+    ],
+  },
+  {
+    id: 7,
+    name: "Outdoor Sports",
+    icon: "🎯",
+    subcategories: [
+      { id: 71, name: "Hiking" },
+      { id: 72, name: "Climbing" },
+      { id: 73, name: "Water Sports" },
+      { id: 74, name: "Sandboarding" },
+    ],
+  },
+  {
+    id: 8,
+    name: "Shopping",
+    icon: "🛍️",
+    subcategories: [
+      { id: 81, name: "Bazaars" },
+      { id: 82, name: "Handicrafts" },
+      { id: 83, name: "Malls" },
+      { id: 84, name: "Souvenirs" },
+    ],
+  },
+];
+export const productCategories = [
+  {
+    id: 1,
+    name: "Souvenirs",
+    icon: "🎁",
+  },
+  {
+    id: 2,
+    name: "Local Crafts",
+    icon: "🧵",
+  },
+  {
+    id: 3,
+    name: "Art & Decor",
+    icon: "🖼️",
+  },
+  {
+    id: 4,
+    name: "Traditional Clothes",
+    icon: "👘",
+  },
+  {
+    id: 5,
+    name: "Handmade Jewelry",
+    icon: "💍",
+  },
+  {
+    id: 6,
+    name: "Home Accessories",
+    icon: "🏡",
+  },
+  {
+    id: 7,
+    name: "Spices & Aromas",
+    icon: "🌿",
+  },
+  {
+    id: 8,
+    name: "Leather Goods",
+    icon: "👝",
+  },
+];
 export const filters = [
   {
     id: "products list",
@@ -1784,4 +1785,33 @@ export const filters = [
       },
     ],
   },
+];
+export const govs = [
+  "Cairo",
+  "Giza",
+  "Alexandria",
+  "Dakahlia",
+  "Red Sea",
+  "Beheira",
+  "Fayoum",
+  "Gharbia",
+  "Ismailia",
+  "Menofia",
+  "Minya",
+  "Qaliubiya",
+  "New Valley",
+  "Suez",
+  "Aswan",
+  "Assiut",
+  "Bani Sweif",
+  "Port Said",
+  "Damietta",
+  "Sharkia",
+  "South Sinai",
+  "Kafr El Sheikh",
+  "Matrouh",
+  "Luxor",
+  "Qena",
+  "North Sinai",
+  "Sohag"
 ];
