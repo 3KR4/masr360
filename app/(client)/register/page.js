@@ -7,6 +7,8 @@ import React, { useState, useMemo, useContext } from "react";
 import Link from "next/link";
 import { useForm, Controller } from "react-hook-form";
 import { mainContext } from "@/Contexts/mainContext";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 
 import {
   LockKeyhole,
@@ -53,12 +55,14 @@ export default function Register() {
   };
 
   const options = useMemo(() => countryList().getData(), []);
-  const [value, setValue] = useState(null);
 
-  const handleChange = (selectedOption) => {
-    setValue(selectedOption);
-  };
+  const [activeNational, setActiveNational] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [countrySearch, setCountrySearch] = useState("");
 
+  const filteredCountries = options.filter((x) =>
+    x.label.toLowerCase().includes(countrySearch.toLowerCase())
+  );
   return (
     <>
       <div className="register">
@@ -148,78 +152,70 @@ export default function Register() {
             </div>
           )}
           {!isLoginPage && (
-            <div className="box forInput">
-              <label htmlFor="country">Nationality</label>
-              <div className="inputHolder">
-                <div
-                  className="holder nationality"
-                  style={{ padding: "0", border: "none" }}
-                >
-                  <Controller
-                    name="country"
-                    control={control}
-                    rules={{ required: "Please select your country" }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={options}
+            <div
+              className="box forInput"
+              onClick={() => document.getElementById("phone").focus()}
+            >
+              <label htmlFor="phone">nationality</label>
+              <div className="filters for-cats">
+                <div className="btn">
+                  <h4
+                    onClick={() => setActiveNational(true)}
+                    className="ellipsis"
+                  >
+                    {activeNational ? (
+                      <input
+                        autoFocus
+                        value={countrySearch}
+                        onChange={(e) => setCountrySearch(e.target.value)}
                         placeholder="Select your country"
-                        classNamePrefix="custom-select"
-                        styles={{
-                          container: (base) => ({
-                            ...base,
-                            width: "100%",
-                          }),
-                          control: (base, state) => ({
-                            ...base,
-                            backgroundColor: "transparent",
-                            borderColor: "#a6a6a6",
-                            borderRadius: "8px",
-                            padding: "2px 5px",
-                            minHeight: "44px",
-                            boxShadow: "none",
-                            "&:hover": "#a6a6a6",
-                          }),
-                          singleValue: (base) => ({
-                            ...base,
-                            color: "#484848",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#717171ff",
-                            fontSize: "13px",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "white",
-                            borderRadius: "8px",
-                            zIndex: 10,
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            backgroundColor: state.isSelected
-                              ? "#efb034" // background when selected
-                              : state.isFocused
-                              ? "#f0f0f0" // background when hovered
-                              : "white", // default background
-                            color: state.isSelected ? "white" : "#333", // text color
-                            cursor: "pointer",
-                            fontSize: "15px",
-                          }),
-                        }}
-                        value={field.value}
-                        onChange={(selected) => field.onChange(selected)}
+                        className="search-input"
                       />
+                    ) : !selectedCountry ? (
+                      "Select your country"
+                    ) : (
+                      `Country: ${selectedCountry}`
                     )}
-                  />
+                  </h4>
+
+                  {activeNational ? (
+                    <IoMdClose
+                      className="main-ico"
+                      onClick={() => setActiveNational(false)}
+                    />
+                  ) : (
+                    <IoIosArrowDown
+                      className="main-ico"
+                      onClick={() => setActiveNational(true)}
+                    />
+                  )}
                 </div>
 
-                {errors.country && (
-                  <span className="error">
-                    <CircleAlert />
-                    {errors.country.message}
-                  </span>
-                )}
+                <div className={`menu ${activeNational ? "active" : ""}`}>
+                  {filteredCountries?.length > 0 ? (
+                    filteredCountries.map((country, index) => (
+                      <button
+                        key={index}
+                        className={`${
+                          selectedCountry === country.label ? "active" : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedCountry(
+                            selectedCountry === country.label
+                              ? ""
+                              : country.label
+                          );
+                          setActiveNational(false);
+                          setCountrySearch("");
+                        }}
+                      >
+                        {country.label}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="no-results">No results</div>
+                  )}
+                </div>
               </div>
             </div>
           )}
