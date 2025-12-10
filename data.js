@@ -823,7 +823,6 @@ export const products = [
     description:
       "Hand-painted papyrus artwork depicting Queen Nefertiti, made using traditional Egyptian papyrus techniques.",
     stock: 20,
-
     specifications: {
       Material: "Papyrus",
       Dimensions: "12 x 16 inches",
@@ -835,7 +834,6 @@ export const products = [
       Artist: "Crafted by local Egyptian artisans in Luxor",
       ProductionTime: "Each piece takes approximately 2 days to complete",
     },
-
     tags: ["papyrus", "nefertiti", "egyptian art"],
   },
   {
@@ -1119,7 +1117,6 @@ export const products = [
     tags: ["candle", "clay", "decor"],
   },
 ];
-
 export const nightsCategories = [
   {
     name: "Nile Parties",

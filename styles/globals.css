@@ -599,16 +599,16 @@ a {
 .box.forInput .inputHolder.password .holder input {
   padding-right: 0;
 }
-.box.forInput .inputHolder .error {
+.error {
   color: red;
   align-items: center;
   gap: 2px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   display: flex;
   margin: 2px 4px -6px;
 }
-.box.forInput .inputHolder .error svg {
+.error svg {
   color: red;
   width: 15px;
 }

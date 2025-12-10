@@ -61,13 +61,14 @@ function Head() {
     const cleanPath = pathname.split("?")[0];
     return cleanPath + "/form";
   }
+console.log(navigationitems[0]?.name);
 
   const citys =
     navigationitems[0]?.name == "places list" ||
     navigationitems[0]?.name == "events list" ||
     navigationitems[0]?.name == "nights list"
       ? govs
-      : [];
+      : undefined;
   const cats =
     navigationitems[0]?.name == "places list" ||
     navigationitems[0]?.name == "events list" ||
@@ -75,12 +76,12 @@ function Head() {
       ? tourismCategories
       : navigationitems[0]?.name == "products list"
       ? productCategories
-      : [];
+      : undefined;
   const subCats = tourismCategories?.find(
     (x) => x.name == selectedCats.cat
   )?.subcategories;
 
-  const filteredGovs = govs?.filter((x) =>
+  const filteredGovs = citys?.filter((x) =>
     x.toLowerCase().includes(catsSearch.toLowerCase())
   );
 
@@ -91,6 +92,11 @@ function Head() {
   const filteredSubCats = subCats?.filter((x) =>
     x.name.toLowerCase().includes(catsSearch.toLowerCase())
   );
+
+  console.log("citys :", citys);
+  console.log("cats :", cats);
+  console.log("subCats :", subCats);
+  
 
   return (
     <div className="head">

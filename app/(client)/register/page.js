@@ -353,7 +353,6 @@ export default function Register() {
             className={`main-button ${loadingSpinner ? "loading" : ""}`}
             type="submit"
           >
-            <div className="lds-dual-ring"></div>
             <span>{isLoginPage ? "Login" : "Create account"}</span>
           </button>
 

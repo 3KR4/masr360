@@ -47,8 +47,6 @@
   color: var(--paragraph);
 }
 
-
-
 .dashboard .head .main-button {
   height: unset;
   padding: 0px 15px;
@@ -321,3 +319,4 @@ header .actions-btns .userMenu .top {
   color: var(--hover-color);
   font-size: 16px;
 }
+
