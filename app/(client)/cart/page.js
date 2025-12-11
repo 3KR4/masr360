@@ -9,7 +9,7 @@ import DisplayPrice from "@/components/DisplayPrice";
 import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
 import "@/styles/forms.css";
-import useCart from "@/hooks/useCart";
+import useCart from "@/hooks/client/useCart";
 import { SlLocationPin } from "react-icons/sl";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import Link from "next/link";
@@ -55,8 +55,7 @@ function Cart() {
     if (currentStep > 0) setCurrentStep(currentStep - 1);
   };
 
-  const applyCoupon = () => {
-  };
+  const applyCoupon = () => {};
 
   const renderStep1 = () => (
     <div className="table-container">

@@ -6,7 +6,7 @@ import "@/styles/pages/tables.css";
 import { FaTrashAlt } from "react-icons/fa";
 import DisplayPrice from "@/components/DisplayPrice";
 import "@/styles/forms.css";
-import useFavoriet from "@/hooks/useFavoriet";
+import useFavoriet from "@/hooks/client/useFavoriet";
 import { FaHeartBroken } from "react-icons/fa";
 import Link from "next/link";
 

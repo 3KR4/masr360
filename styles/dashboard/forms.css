@@ -13,7 +13,7 @@
   gap: 10px;
   display: grid;
 }
-.dashboard form .row-holder.for-tags-specs {
+.dashboard form .row-holder.two-column {
   grid-template-columns: repeat(2, 1fr);
 }
 .dashboard form .main-button[type="submit"] {
@@ -45,7 +45,29 @@
   padding: 10px 13px;
   font-size: 13px;
 }
-
+.filters.for-cats {
+  height: 42px;
+  width: 100% !important;
+}
+.filters .btn {
+  height: 100%;
+  border: 1px solid #a6a6a6;
+  border-radius: 10px;
+}
+.filters.for-cats:has(.menu.active) {
+  width: 100%;
+}
+.filters .menu {
+  top: 42px;
+  padding: 10px 12px;
+}
+.filters .btn svg {
+  height: 40px;
+  width: 55px;
+  background: transparent;
+  color: #a6a6a6;
+  border-left: 1px solid #a6a6a6;
+}
 .box.forInput .inputHolder.tags {
   border: 1px solid #a6a6a6;
   border-radius: 11px;
@@ -178,7 +200,7 @@
   font-size: 13px;
   border-radius: 10px !important;
   background: transparent;
-  color: var(--paragraph);
+  color: #747474;
   border: 1px solid #a7a7a7;
 }
 .box.forInput .spec-list .main-button:hover {
@@ -211,7 +233,7 @@
   min-height: 115px;
 }
 .uploadlabel svg {
-  font-size: 95px;
+  font-size: 73px;
   transition: opacity 0.5s, font-size 0.4s;
   color: #a6a6a6;
 }

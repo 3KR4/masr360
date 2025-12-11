@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 import "@/styles/dashboard/globals.css";
 import Navigations from "@/components/Navigations";
 import Head from "@/components/dashboard/Head";
+import { FormsCompsProvider } from "@/Contexts/forms";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -47,14 +48,16 @@ export default function RootLayout({ children }) {
       <body>
         <MainProvider>
           <DashBoardProvider>
-            <div className="dashboard">
-              <SideNav />
+            <FormsCompsProvider>
+              <div className="dashboard">
+                <SideNav />
 
-              <div className="dash-holder">
-                <Head />
-                {children}
+                <div className="dash-holder">
+                  <Head />
+                  {children}
+                </div>
               </div>
-            </div>
+            </FormsCompsProvider>
           </DashBoardProvider>
         </MainProvider>
       </body>

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import useCart from "@/hooks/useCart";
+import useCart from "@/hooks/client/useCart";
 import { IoIosCloseCircle } from "react-icons/io";
 
 function MiniCart() {

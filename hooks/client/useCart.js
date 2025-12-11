@@ -41,8 +41,6 @@ export default function useCart() {
     return favorites.reduce((total, item) => total + getTotalPrice(item), 0);
   }, [favorites]);
 
-  
-
   return {
     favorites,
     setFavorites,

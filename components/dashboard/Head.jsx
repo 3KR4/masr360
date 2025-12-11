@@ -2,6 +2,7 @@
 import React, { useState, useRef, useContext } from "react";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
+import "@/styles/dashboard/globals.css";
 import { FaSearch } from "react-icons/fa";
 import { filters, tourismCategories, productCategories, govs } from "@/data";
 import Link from "next/link";

@@ -92,8 +92,10 @@
 .side-nav.active svg {
   font-size: 19px;
 }
-.side-nav .a:hover *, 
-.side-nav .a.active *{
+.side-nav .a:hover h4,
+.side-nav .a:hover svg,
+.side-nav .a.active h4,
+.side-nav .a.active svg {
   color: white;
 }
 

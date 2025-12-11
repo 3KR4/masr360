@@ -832,6 +832,9 @@ a {
 .filters.for-cats button.active {
   background: var(--second-color);
 }
+.filters.for-cats button.active {
+  border: 1px solid var(--hover-color);
+}
 .filters.for-cats input {
   flex: 1;
   height: 100%;
