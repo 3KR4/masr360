@@ -154,7 +154,7 @@
   padding-bottom: 12px;
 }
 .box.forInput .spec-list .spec-item {
-  gap: 6px;
+  gap: 7px;
   display: flex;
   align-items: center;
 }
@@ -322,4 +322,71 @@
   font-size: 14px;
   bottom: 7px;
   left: 7px;
+}
+.box.forInput.ticket .spec-list {
+  padding: 12px 9px;
+}
+.ticket-type {
+  gap: 7px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.ticket-type label {
+  border: 1px solid #a6a6a6;
+  border-radius: 7px;
+  padding: 0 10px !important;
+  height: 40px;
+  gap: 3px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-transform: capitalize !important;
+  transition: 0.3s;
+}
+.box.forInput label:hover {
+  background: var(--second-color);
+}
+.box.forInput label.active {
+  background: var(--second-color);
+  border-color: var(--main-color);
+}
+.ticket-type input {
+  flex: unset !important;
+}
+.ticket-type .tickets-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ticket-type .ticket-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.box.forInput.ticket hr {
+  margin: 6px 0 3px;
+}
+.tickets-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.box.forInput.ticket .spec-list svg {
+  height: unset;
+  padding: 0;
+  width: unset;
+  border-radius: unset;
+  font-size: 13px;
+  border: unset;
+}
+.box.forInput.ticket .spec-list svg:hover {
+  background: transparent !important;
+  color: var(--paragraph) !important;
+}
+.box.forInput.ticket .tickets-prices label {
+  text-transform: capitalize;
+  padding-left: 4px;
+  font-size: 12px;
+  margin-bottom: 3px;
+  display: block;
 }

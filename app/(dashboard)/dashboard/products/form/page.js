@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { mainContext } from "@/Contexts/mainContext";
 import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import Images from "@/components/dashboard/forms/Images";
 import Specs from "@/components/dashboard/forms/Specs";
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { forms } from "@/Contexts/forms";
+import { tourismCategories } from "@/data";
 
 export default function CreateProduct() {
   const { setisSubmited, tags, images, specifications, selectedCat } =
@@ -20,7 +21,8 @@ export default function CreateProduct() {
     formState: { errors },
   } = useForm();
 
-  const defaultSpecs = [];
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
 
   // SUBMIT VALIDATION --------------------------------------
   const onSubmit = (data) => {
@@ -28,7 +30,7 @@ export default function CreateProduct() {
       ...data,
       tags,
       images: images,
-      category: selectedCat,
+      category: selectedCategory?.name,
       specifications: specifications.reduce((acc, item) => {
         acc[item.key] = item.value;
         return acc;
@@ -68,7 +70,16 @@ export default function CreateProduct() {
               )}
             </div>
           </div>
-          <SelectOptions />
+          <SelectOptions
+            label="Category"
+            placeholder="Select category"
+            options={tourismCategories}
+            value={selectedCategory?.name}
+            onChange={(cat) => {
+              setSelectedCategory(cat);
+              setSelectedSubCategory("");
+            }}
+          />
         </div>
 
         <div className="row-holder">

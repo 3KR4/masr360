@@ -1,67 +1,81 @@
-import { productCategories } from "@/data";
-import React from "react";
-import { useState, useContext } from "react";
-
+"use client";
+import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
-import { forms } from "@/Contexts/forms";
 
-function SelectOptions() {
-  const { compsInput, selectedCat, setSelectedCat ,updateCompsInput } = useContext(forms);
-  const [activeCat, setActiveCat] = useState(false);
+function SelectOptions({
+  label,
+  placeholder,
+  options = [],
+  value,
+  onChange,
+  searchKey = "name",
+  disabled = false,
+}) {
+  const [active, setActive] = useState(false);
+  const [search, setSearch] = useState("");
 
-  const filteredCategories = productCategories.filter((x) =>
-    x.name.toLowerCase().includes(compsInput.cats.toLowerCase())
+  const filteredOptions = options.filter((item) =>
+    item[searchKey].toLowerCase().includes(search.toLowerCase())
   );
+
+  
+
   return (
-    <div className="box forInput">
-      <label htmlFor="category">Category</label>
+    <div className={`box forInput ${disabled ? "disabled" : ""}`}>
+      <label>{label}</label>
+
       <div className="filters for-cats">
         <div className="btn">
-          <h4 onClick={() => setActiveCat(true)} className="ellipsis">
-            {activeCat ? (
+          <h4
+            className="ellipsis"
+            onClick={() => !disabled && setActive(true)}
+          >
+            {active ? (
               <input
                 autoFocus
-                value={compsInput.cats}
-                onChange={(e) => updateCompsInput("cats", e.target.value)}
-                placeholder="search in categories"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder={`Search ${label.toLowerCase()}`}
                 className="search-input"
-                id="category"
               />
-            ) : !selectedCat ? (
-              "Select product category"
+            ) : value ? (
+              value
             ) : (
-              `category: ${selectedCat}`
+              placeholder
             )}
           </h4>
 
-          {activeCat ? (
+          {active ? (
             <IoMdClose
               className="main-ico"
-              onClick={() => setActiveCat(false)}
+              onClick={() => {
+                setActive(false);
+                setSearch("");
+              }}
             />
           ) : (
             <IoIosArrowDown
               className="main-ico"
-              onClick={() => setActiveCat(true)}
+              onClick={() => !disabled && setActive(true)}
             />
           )}
         </div>
 
-        <div className={`menu ${activeCat ? "active" : ""}`}>
-          {filteredCategories?.length > 0 ? (
-            filteredCategories.map((cat, index) => (
+        <div className={`menu ${active ? "active" : ""}`}>
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((item, index) => (
               <button
                 type="button"
                 key={index}
-                className={`${selectedCat === cat.name ? "active" : ""}`}
+                className={value === item[searchKey] ? "active" : ""}
                 onClick={() => {
-                  setSelectedCat(selectedCat === cat.name ? "" : cat.name);
-                  setActiveCat(false);
-                  updateCompsInput("cats", "");
+                  onChange(item);
+                  setActive(false);
+                  setSearch("");
                 }}
               >
-                {cat.name}
+                {item[searchKey]}
               </button>
             ))
           ) : (
