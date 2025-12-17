@@ -1,14 +1,17 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 export const mainContext = createContext();
 
 export const MainProvider = ({ children }) => {
-  const [screenSize, setScreenSize] = useState(null);
-  const [isReady, setIsReady] = useState(false); // ← جديد
   const pathname = usePathname();
 
+  const [screenSize, setScreenSize] = useState(null);
+  const [isReady, setIsReady] = useState(false);
+  const [locale, setLocale] = useState("en");
+
+  // Screen size
   useEffect(() => {
     function getScreenSize() {
       const width = window.innerWidth;
@@ -18,7 +21,7 @@ export const MainProvider = ({ children }) => {
     }
 
     setScreenSize(getScreenSize());
-    setIsReady(true); // ← نعلن إننا جاهزين
+    setIsReady(true);
 
     const handleResize = () => {
       setScreenSize(getScreenSize());
@@ -28,13 +31,39 @@ export const MainProvider = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 🔥 الحل: منع أي Render لحد ما الشاشة تتحدد
+  // Load locale
+  useEffect(() => {
+    const saved = localStorage.getItem("locale");
+    if (saved) setLocale(saved);
+  }, []);
+
+  // Apply locale
+  useEffect(() => {
+    document.documentElement.setAttribute("lang", locale);
+    document.documentElement.setAttribute(
+      "dir",
+      locale === "ar" ? "rtl" : "ltr"
+    );
+    localStorage.setItem("locale", locale);
+  }, [locale]);
+
+  const toggleLocale = () => setLocale((prev) => (prev === "en" ? "ar" : "en"));
+
+  // ✅ الشرط بعد كل الـ hooks
   if (!isReady) {
-    return null; // أو Loader صغير حسب رغبتك
+    return null; // أو Loader
   }
 
   return (
-    <mainContext.Provider value={{ pathname, screenSize }}>
+    <mainContext.Provider
+      value={{
+        pathname,
+        screenSize,
+        locale,
+        setLocale,
+        toggleLocale,
+      }}
+    >
       {children}
     </mainContext.Provider>
   );

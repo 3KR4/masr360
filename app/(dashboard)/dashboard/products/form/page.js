@@ -3,17 +3,22 @@ import React, { useState, useContext } from "react";
 import { mainContext } from "@/Contexts/mainContext";
 import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
+
 import "@/styles/dashboard/forms.css";
+
 import Tags from "@/components/dashboard/forms/Tags";
 import Images from "@/components/dashboard/forms/Images";
 import Specs from "@/components/dashboard/forms/Specs";
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
+
 import { forms } from "@/Contexts/forms";
 import { tourismCategories } from "@/data";
+import useTranslate from "@/Contexts/useTranslation";
 
 export default function CreateProduct() {
-  const { setisSubmited, tags, images, specifications, selectedCat } =
-    useContext(forms);
+  const t = useTranslate();
+
+  const { setisSubmited, tags, images, specifications } = useContext(forms);
 
   const {
     register,
@@ -22,14 +27,12 @@ export default function CreateProduct() {
   } = useForm();
 
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState("");
 
-  // SUBMIT VALIDATION --------------------------------------
   const onSubmit = (data) => {
     const finalData = {
       ...data,
       tags,
-      images: images,
+      images,
       category: selectedCategory?.name,
       specifications: specifications.reduce((acc, item) => {
         acc[item.key] = item.value;
@@ -43,23 +46,23 @@ export default function CreateProduct() {
   return (
     <div className="body">
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/* ---------- TITLE & CATEGORY ---------- */}
         <div className="row-holder two-column">
           <div className="box forInput">
-            {/* PRODUCT TITLE */}
-            <label htmlFor="title">title</label>
+            <label htmlFor="title">{t.dashboard.forms.title}</label>
             <div className="inputHolder">
               <div className="holder">
                 <input
-                  type="text"
                   id="title"
+                  type="text"
+                  placeholder={t.dashboard.forms.titlePlaceholder}
                   {...register("title", {
-                    required: "the product title is required",
+                    required: t.dashboard.forms.errors.titleRequired,
                     minLength: {
                       value: 3,
-                      message: "the product title must be at least 3 letters",
+                      message: t.dashboard.forms.errors.titleMin,
                     },
                   })}
-                  placeholder="Enter product title"
                 />
               </div>
               {errors.title && (
@@ -70,128 +73,114 @@ export default function CreateProduct() {
               )}
             </div>
           </div>
+
           <SelectOptions
-            label="Category"
-            placeholder="Select category"
+            label={t.dashboard.forms.category}
+            placeholder={t.dashboard.forms.categoryPlaceholder}
             options={tourismCategories}
             value={selectedCategory?.name}
-            onChange={(cat) => {
-              setSelectedCategory(cat);
-              setSelectedSubCategory("");
-            }}
+            onChange={(cat) => setSelectedCategory(cat)}
           />
         </div>
 
+        {/* ---------- STOCK / PRICE / SALE ---------- */}
         <div className="row-holder">
-          {/* STOCK */}
-          <div className="box forInput">
-            <label htmlFor="stock">stock</label>
-            <div className="inputHolder">
-              <div className="holder">
-                <input
-                  type="number"
-                  id="stock"
-                  {...register("stock", {
-                    required: "stock is required",
-                    min: { value: 1, message: "minimum stock is 1" },
-                  })}
-                  placeholder="enter Stock quantity"
-                />
-              </div>
-              {errors.stock && (
-                <span className="error">
-                  <CircleAlert />
-                  {errors.stock.message}
-                </span>
-              )}
-            </div>
-          </div>
+          <InputBox
+            label={t.dashboard.forms.stock}
+            placeholder={t.dashboard.forms.stockPlaceholder}
+            error={errors.stock}
+          >
+            <input
+              type="number"
+              {...register("stock", {
+                required: t.dashboard.forms.errors.stockRequired,
+                min: {
+                  value: 1,
+                  message: t.dashboard.forms.errors.stockMin,
+                },
+              })}
+            />
+          </InputBox>
 
-          {/* PRICE */}
-          <div className="box forInput">
-            <label htmlFor="price">price</label>
-            <div className="inputHolder">
-              <div className="holder">
-                <input
-                  type="number"
-                  id="price"
-                  {...register("price", {
-                    required: "price is required",
-                    min: { value: 1, message: "price must be more than 0" },
-                  })}
-                  placeholder="Enter product price"
-                />
-              </div>
-              {errors.price && (
-                <span className="error">
-                  <CircleAlert />
-                  {errors.price.message}
-                </span>
-              )}
-            </div>
-          </div>
+          <InputBox
+            label={t.dashboard.forms.price}
+            placeholder={t.dashboard.forms.pricePlaceholder}
+            error={errors.price}
+          >
+            <input
+              type="number"
+              {...register("price", {
+                required: t.dashboard.forms.errors.priceRequired,
+                min: {
+                  value: 1,
+                  message: t.dashboard.forms.errors.priceMin,
+                },
+              })}
+            />
+          </InputBox>
 
-          {/* SALE */}
-          <div className="box forInput">
-            <label htmlFor="sale">sale (%)</label>
-            <div className="inputHolder">
-              <div className="holder">
-                <input
-                  type="number"
-                  id="sale"
-                  {...register("sale", {
-                    validate: (v) =>
-                      v == "" || v <= 90 || "sale cannot exceed 90%",
-                  })}
-                  placeholder="Enter sale percentage"
-                />
-              </div>
-              {errors.sale && (
-                <span className="error">
-                  <CircleAlert />
-                  {errors.sale.message}
-                </span>
-              )}
-            </div>
-          </div>
+          <InputBox
+            label={t.dashboard.forms.sale}
+            placeholder={t.dashboard.forms.salePlaceholder}
+            error={errors.sale}
+          >
+            <input
+              type="number"
+              {...register("sale", {
+                validate: (v) =>
+                  v === "" || v <= 90 || t.dashboard.forms.errors.saleMax,
+              })}
+            />
+          </InputBox>
         </div>
 
-        {/* DESCRIPTION */}
+        {/* ---------- DESCRIPTION ---------- */}
         <div className="box forInput">
-          <label htmlFor="description">description</label>
-          <div className="inputHolder">
-            <div className="holder">
-              <textarea
-                id="description"
-                {...register("description")}
-                placeholder="Enter product description"
-              />
-            </div>
-          </div>
+          <label>{t.dashboard.forms.description}</label>
+          <textarea
+            placeholder={t.dashboard.forms.descriptionPlaceholder}
+            {...register("description")}
+          />
         </div>
 
+        {/* ---------- TAGS / SPECS / IMAGES ---------- */}
         <div className="row-holder two-column">
           <div className="column-holder">
             <Tags />
-
-            {/* SPECIFICATIONS */}
             <Specs />
           </div>
-
           <Images />
         </div>
 
-        {/* SUBMIT */}
+        {/* ---------- SUBMIT ---------- */}
         <button
-          className="main-button"
           type="submit"
-          onClick={() => {
-            setisSubmited(true);
-          }}
+          className="main-button"
+          onClick={() => setisSubmited(true)}
         >
-          <span>Create product</span>
+          <span>{t.dashboard.forms.createProduct}</span>
         </button>
       </form>
+    </div>
+  );
+}
+
+/* ---------- Reusable Input ---------- */
+function InputBox({ label, placeholder, error, children }) {
+  return (
+    <div className="box forInput">
+      <label>{label}</label>
+      <div className="inputHolder">
+        <div className="holder">
+          {React.cloneElement(children, { placeholder })}
+        </div>
+        {error && (
+          <span className="error">
+            <CircleAlert />
+            {error.message}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

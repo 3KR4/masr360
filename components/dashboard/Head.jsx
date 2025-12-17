@@ -3,15 +3,18 @@ import React, { useState, useRef, useContext } from "react";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import "@/styles/dashboard/globals.css";
+
 import { FaSearch } from "react-icons/fa";
-import { filters, tourismCategories, productCategories, govs } from "@/data";
+import { IoIosClose, IoIosArrowDown } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
+
 import Link from "next/link";
 import Navigations from "@/components/Navigations";
-import { IoIosClose } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
-import { IoMdClose } from "react-icons/io";
+
+import { filters, tourismCategories, productCategories, govs } from "@/data";
 import { dashboard } from "@/Contexts/dashboard";
-import { getBreadcrumbItems } from "@/utlies/getBreadcrumbItems ";
+import { getBreadcrumbItems } from "@/utlies/getBreadcrumbItems";
+import useTranslate from "@/Contexts/useTranslation";
 
 function Head() {
   const {
@@ -24,6 +27,7 @@ function Head() {
     updateFilter,
   } = useContext(dashboard);
 
+  const t = useTranslate();
   const inputRef = useRef(null);
   const navigationitems = getBreadcrumbItems(pathname, searchParams);
 
@@ -35,6 +39,7 @@ function Head() {
     setCatsSearch("");
   };
 
+  /* ---------- Filters logic ---------- */
   const currentFilters =
     navigationitems.length === 0
       ? []
@@ -45,6 +50,7 @@ function Head() {
     if (!name) return "";
     return name.replace(" list", "").trim();
   }
+
   function canCreate(name) {
     const base = getBaseName(name);
     const allowed = [
@@ -58,28 +64,27 @@ function Head() {
     ];
     return allowed.some((word) => base.includes(word));
   }
-  function getCreateLink(pathname) {
-    const cleanPath = pathname.split("?")[0];
-    return cleanPath + "/form";
-  }
-console.log(navigationitems[0]?.name);
 
-  const citys =
-    navigationitems[0]?.name == "places list" ||
-    navigationitems[0]?.name == "events list" ||
-    navigationitems[0]?.name == "nights list"
-      ? govs
-      : undefined;
-  const cats =
-    navigationitems[0]?.name == "places list" ||
-    navigationitems[0]?.name == "events list" ||
-    navigationitems[0]?.name == "nights list"
-      ? tourismCategories
-      : navigationitems[0]?.name == "products list"
-      ? productCategories
-      : undefined;
+  function getCreateLink(pathname) {
+    return pathname.split("?")[0] + "/form";
+  }
+
+  const citys = ["places list", "events list", "nights list"].includes(
+    navigationitems[0]?.name
+  )
+    ? govs
+    : undefined;
+
+  const cats = ["places list", "events list", "nights list"].includes(
+    navigationitems[0]?.name
+  )
+    ? tourismCategories
+    : navigationitems[0]?.name === "products list"
+    ? productCategories
+    : undefined;
+
   const subCats = tourismCategories?.find(
-    (x) => x.name == selectedCats.cat
+    (x) => x.name === selectedCats.cat
   )?.subcategories;
 
   const filteredGovs = citys?.filter((x) =>
@@ -94,280 +99,153 @@ console.log(navigationitems[0]?.name);
     x.name.toLowerCase().includes(catsSearch.toLowerCase())
   );
 
-  console.log("citys :", citys);
-  console.log("cats :", cats);
-  console.log("subCats :", subCats);
-  
-
   return (
     <div className="head">
-      <Navigations items={navigationitems} container="no" isDashBoard={true} />
+      <Navigations items={navigationitems} container="no" isDashBoard />
+
       {!pathname.includes("/form") && (
         <div className="right">
+          {/* ---------- Search ---------- */}
           {navigationitems[0] && (
             <div className="search">
               <input
                 ref={inputRef}
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
-                placeholder={`search in ${navigationitems[0]?.name}`}
+                placeholder={`${t.head.searchIn} ${navigationitems[0]?.name}`}
               />
-              {searchText !== "" ? (
+              {searchText ? (
                 <IoIosClose
                   className="main-ico"
                   onClick={() => setSearchText("")}
                 />
               ) : (
                 <FaSearch
-                  onClick={() => inputRef.current?.focus()}
                   className="main-ico"
-                  style={{ padding: "7px" }}
+                  onClick={() => inputRef.current?.focus()}
                 />
               )}
             </div>
           )}
+
+          {/* ---------- Governorates ---------- */}
           {citys && (
-            <div className="filters for-cats gov">
-              <div className="btn">
-                <h4
-                  onClick={() => handleActiveMenu("gov")}
-                  className="ellipsis"
-                >
-                  {activeMenu == "gov" ? (
-                    <input
-                      autoFocus
-                      value={catsSearch}
-                      onChange={(e) => setCatsSearch(e.target.value)}
-                      placeholder={"filter by governorates:"}
-                      className="search-input"
-                    />
-                  ) : !selectedCats.gov ? (
-                    "filter by governorates:"
-                  ) : (
-                    `city: ${selectedCats.gov}`
-                  )}
-                </h4>
-                {activeMenu == "gov" ? (
-                  <IoMdClose
-                    className="main-ico"
-                    onClick={() => setActiveMenu(null)}
-                  />
-                ) : (
-                  <IoIosArrowDown
-                    onClick={() => handleActiveMenu("gov")}
-                    className="main-ico"
-                  />
-                )}
-              </div>
-
-              <div className={`menu ${activeMenu == "gov" ? "active" : ""}`}>
-                {filteredGovs?.length > 0 ? (
-                  filteredGovs?.map((x, index) => (
-                    <button
-                      key={index}
-                      className={`${selectedCats.gov == x ? "active" : ""}`}
-                      onClick={() => {
-                        if (selectedCats.gov === x) {
-                          updateFilter("gov", "", "categories");
-                        } else {
-                          updateFilter("gov", x, "categories");
-                        }
-                        setActiveMenu(null);
-                        setCatsSearch("");
-                      }}
-                    >
-                      {x}
-                    </button>
-                  ))
-                ) : (
-                  <div className="no-results">no match results</div>
-                )}
-              </div>
-            </div>
+            <FilterMenu
+              label={t.head.filterGov}
+              active={activeMenu === "gov"}
+              value={selectedCats.gov}
+              search={catsSearch}
+              setSearch={setCatsSearch}
+              onOpen={() => handleActiveMenu("gov")}
+              onClose={() => setActiveMenu(null)}
+            >
+              {filteredGovs?.length ? (
+                filteredGovs.map((x, i) => (
+                  <button
+                    key={i}
+                    className={selectedCats.gov === x ? "active" : ""}
+                    onClick={() => {
+                      updateFilter(
+                        "gov",
+                        selectedCats.gov === x ? "" : x,
+                        "categories"
+                      );
+                      setActiveMenu(null);
+                    }}
+                  >
+                    {x}
+                  </button>
+                ))
+              ) : (
+                <div className="no-results">{t.head.noResults}</div>
+              )}
+            </FilterMenu>
           )}
+
+          {/* ---------- Categories ---------- */}
           {cats && (
-            <div className="filters for-cats">
-              <div className="btn">
-                <h4
-                  onClick={() => handleActiveMenu("cat")}
-                  className="ellipsis"
-                >
-                  {activeMenu == "cat" ? (
-                    <input
-                      autoFocus
-                      value={catsSearch}
-                      onChange={(e) => setCatsSearch(e.target.value)}
-                      placeholder={"filter by categories:"}
-                      className="search-input"
-                    />
-                  ) : !selectedCats.cat ? (
-                    "filter by categories:"
-                  ) : (
-                    `cat: ${selectedCats.cat}`
-                  )}
-                </h4>
-                {activeMenu == "cat" ? (
-                  <IoMdClose
-                    className="main-ico"
-                    onClick={() => setActiveMenu(null)}
-                  />
-                ) : (
-                  <IoIosArrowDown
-                    onClick={() => handleActiveMenu("cat")}
-                    className="main-ico"
-                  />
-                )}
-              </div>
-
-              <div className={`menu ${activeMenu == "cat" ? "active" : ""}`}>
-                {filteredCats?.length > 0 ? (
-                  filteredCats?.map((x, index) => (
-                    <button
-                      key={index}
-                      className={`${
-                        selectedCats.cat == x.name ? "active" : ""
-                      }`}
-                      onClick={() => {
-                        if (selectedCats.cat === x.name) {
-                          updateFilter("cat", "", "categories");
-                        } else {
-                          updateFilter("cat", x.name, "categories");
-                        }
-                        updateFilter("subCat", "", "categories");
-                        setActiveMenu(null);
-                        setCatsSearch("");
-                      }}
-                    >
-                      {x.icon} {x.name}
-                    </button>
-                  ))
-                ) : (
-                  <div className="no-results">no match results</div>
-                )}
-              </div>
-            </div>
+            <FilterMenu
+              label={t.head.filterCat}
+              active={activeMenu === "cat"}
+              value={selectedCats.cat}
+              search={catsSearch}
+              setSearch={setCatsSearch}
+              onOpen={() => handleActiveMenu("cat")}
+              onClose={() => setActiveMenu(null)}
+            >
+              {filteredCats?.length ? (
+                filteredCats.map((x, i) => (
+                  <button
+                    key={i}
+                    className={selectedCats.cat === x.name ? "active" : ""}
+                    onClick={() => {
+                      updateFilter(
+                        "cat",
+                        selectedCats.cat === x.name ? "" : x.name,
+                        "categories"
+                      );
+                      updateFilter("subCat", "", "categories");
+                      setActiveMenu(null);
+                    }}
+                  >
+                    {x.icon} {x.name}
+                  </button>
+                ))
+              ) : (
+                <div className="no-results">{t.head.noResults}</div>
+              )}
+            </FilterMenu>
           )}
-          {subCats && (
-            <div className="filters for-cats sub-cats">
-              <div className="btn">
-                <h4
-                  onClick={() => handleActiveMenu("sub-cat")}
-                  className="ellipsis"
-                >
-                  {activeMenu == "sub-cat" ? (
-                    <input
-                      autoFocus
-                      value={catsSearch}
-                      onChange={(e) => setCatsSearch(e.target.value)}
-                      placeholder={"filter by sub cats:"}
-                      className="search-input"
-                    />
-                  ) : !selectedCats.subCat ? (
-                    "filter by sub cats:"
-                  ) : (
-                    `sub Cat: ${selectedCats.subCat}`
-                  )}
-                </h4>
-                {activeMenu == "sub-cat" ? (
-                  <IoMdClose
-                    className="main-ico"
-                    onClick={() => setActiveMenu(null)}
-                  />
-                ) : (
-                  <IoIosArrowDown
-                    onClick={() => handleActiveMenu("sub-cat")}
-                    className="main-ico"
-                  />
-                )}
-              </div>
 
-              <div
-                className={`menu ${activeMenu == "sub-cat" ? "active" : ""}`}
-              >
-                {filteredSubCats?.length > 0 ? (
-                  filteredSubCats?.map((x, index) => (
-                    <button
-                      key={index}
-                      className={`${
-                        selectedCats.subCat == x.name ? "active" : ""
-                      }`}
-                      onClick={() => {
-                        if (selectedCats.subCat === x.name) {
-                          updateFilter("subCat", "", "categories");
-                        } else {
-                          updateFilter("subCat", x.name, "categories");
-                        }
-                        setActiveMenu(null);
-                        setCatsSearch("");
-                      }}
-                    >
-                      {x.name}
-                    </button>
-                  ))
-                ) : (
-                  <div className="no-results">no match results</div>
-                )}
-              </div>
-            </div>
-          )}
-          {currentFilters.length !== 0 && (
-            <div className="filters">
-              <div className="btn">
-                <h4 onClick={() => handleActiveMenu("filters")}>
-                  Sorting and filters:
-                </h4>
-                {activeMenu == "filters" ? (
-                  <IoMdClose
-                    className="main-ico"
-                    onClick={() => setActiveMenu(null)}
-                  />
-                ) : (
-                  <IoIosArrowDown
-                    onClick={() => handleActiveMenu("filters")}
-                    className="main-ico"
-                  />
-                )}
-              </div>
-
-              <div
-                className={`menu ${activeMenu == "filters" ? "active" : ""}`}
-              >
-                {currentFilters?.map((x, index) => (
-                  <div className="hold" key={index}>
-                    <h5>
-                      {x.id}:{" "}
-                      {filtersState[x.id] && (
-                        <IoMdClose
-                          onClick={() => updateFilter(x.id, "", "filters")}
-                        />
-                      )}
-                    </h5>
-
-                    <ul>
-                      {x.filters.map((y, i) => (
-                        <li
-                          key={i}
-                          className={
-                            filtersState[x.id] === y.value ? "active" : ""
-                          }
-                          onClick={() => updateFilter(x.id, y.value, "filters")}
-                        >
-                          {y.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* ---------- Create ---------- */}
           {canCreate(navigationitems[0]?.name) && (
             <Link href={getCreateLink(pathname)} className="main-button">
-              Create {getBaseName(navigationitems[0]?.name)}
+              {t.head.create} {getBaseName(navigationitems[0]?.name)}
             </Link>
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+/* ---------- Reusable Filter Wrapper ---------- */
+function FilterMenu({
+  label,
+  active,
+  value,
+  search,
+  setSearch,
+  onOpen,
+  onClose,
+  children,
+}) {
+  return (
+    <div className="filters for-cats">
+      <div className="btn">
+        <h4 onClick={onOpen} className="ellipsis">
+          {active ? (
+            <input
+              autoFocus
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={label}
+              className="search-input"
+            />
+          ) : value ? (
+            `${label} ${value}`
+          ) : (
+            label
+          )}
+        </h4>
+        {active ? (
+          <IoMdClose className="main-ico" onClick={onClose} />
+        ) : (
+          <IoIosArrowDown className="main-ico" onClick={onOpen} />
+        )}
+      </div>
+
+      <div className={`menu ${active ? "active" : ""}`}>{children}</div>
     </div>
   );
 }

@@ -5,8 +5,10 @@ import { CircleAlert } from "lucide-react";
 import { FaCloudUploadAlt, FaHashtag, FaLink } from "react-icons/fa";
 import Image from "next/image";
 import { forms } from "@/Contexts/forms";
+import useTranslate from "@/Contexts/useTranslation";
 
 function Images() {
+  const t = useTranslate();
   const { images, setImages, isSubmited } = useContext(forms);
 
   const inputFileRef = useRef(null);
@@ -34,7 +36,7 @@ function Images() {
   };
   return (
     <div className="box forInput">
-      <label>Images</label>
+      <label htmlFor="">{t.dashboard.forms.images}</label>
       <div className="productImages">
         <div
           className={`uploadlabel ${isDrag ? "active" : null}`}
@@ -67,14 +69,14 @@ function Images() {
               color: images.length === 0 && isSubmited ? "red" : "#9b9b9b",
             }}
           >
-            click or drop images her
+            {t.dashboard.forms.imagesHint}
           </p>
           <h1
             style={{
               color: images.length === 0 && isSubmited ? "#df3a3a" : "#9b9b9b",
             }}
           >
-            {isDrag ? "drop her" : "click her"}
+            {isDrag ? t.dashboard.forms.dropHere : t.dashboard.forms.clickHere}
           </h1>
         </div>
         <input
@@ -88,7 +90,7 @@ function Images() {
         {images.length === 0 && isSubmited && (
           <span className="error">
             <CircleAlert />
-            you must upload at least 1 image
+            {t.dashboard.forms.errors.imagesRequired}
           </span>
         )}
         <div className="imgHolder">

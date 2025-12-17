@@ -3,8 +3,10 @@ import { IoClose } from "react-icons/io5";
 import { CircleAlert } from "lucide-react";
 import { forms } from "@/Contexts/forms";
 import { useContext } from "react";
-
+import useTranslate from "@/Contexts/useTranslation";
 function Specs() {
+const t = useTranslate();
+
   const { specifications, setSpecifications, compsErrors, updateCompsError } =
     useContext(forms);
 
@@ -53,20 +55,20 @@ function Specs() {
 
   return (
     <div className="box forInput">
-      <label>specifications</label>
+      <label>{t.dashboard.forms.specifications}</label>
 
       <ul className="spec-list">
         {specifications?.map((spec, i) => (
           <li className="spec-item" key={i}>
             <input
               type="text"
-              placeholder="key"
+              placeholder={t.dashboard.forms.specKey}
               value={spec.key}
               onChange={(e) => updateSpec(i, "key", e.target.value)}
             />
             <input
               type="text"
-              placeholder="value"
+              placeholder={t.dashboard.forms.specValue}
               value={spec.value}
               onChange={(e) => updateSpec(i, "value", e.target.value)}
             />
@@ -86,7 +88,7 @@ function Specs() {
           className="main-button for-specs"
           onClick={addSpecification}
         >
-          Add specification
+          {t.dashboard.forms.addSpecification}
         </button>
       </ul>
     </div>

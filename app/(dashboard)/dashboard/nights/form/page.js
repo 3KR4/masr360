@@ -1,135 +1,185 @@
 "use client";
-import React, { useContext, useState, useRef } from "react";
-import Rating from "@mui/material/Rating";
-import Pagination from "@/components/settings/Pagination";
+import React, { useState, useContext } from "react";
+import { CircleAlert } from "lucide-react";
+import { useForm } from "react-hook-form";
+import "@/styles/dashboard/forms.css";
+import Images from "@/components/dashboard/forms/Images";
+import SelectOptions from "@/components/dashboard/forms/SelectOptions";
+import { forms } from "@/Contexts/forms";
+import useTranslate from "@/Contexts/useTranslation";
 
-import Image from "next/image";
-import "@/styles/pages/cart.css";
-import "@/styles/pages/tables.css";
-import { FaTrashAlt, FaEye } from "react-icons/fa";
-import DisplayPrice from "@/components/DisplayPrice";
-import { mainContext } from "@/Contexts/mainContext";
-import { products } from "@/data";
-import Link from "next/link";
-import { BiSolidPurchaseTagAlt } from "react-icons/bi";
-import { MdEdit } from "react-icons/md";
+export default function CreateNights() {
+  const { setisSubmited, images, selectedCat } = useContext(forms);
+  const t = useTranslate();
 
-export default function Products() {
-  const { screenSize } = useContext(mainContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
+  const [selectedGov, setSelectedGov] = useState("");
+  // SUBMIT VALIDATION --------------------------------------
+
+  const onSubmit = (data) => {
+    const finalData = {
+      ...data,
+      images: images,
+      category: selectedCat,
+      subCategory: selectedCat,
+      Governorate: selectedCat,
+    };
+    console.log("FINAL DATA:", finalData);
+  };
 
   return (
-    <div className="dash-holder">
-      <div className="body">
-        <div className="table-container">
-          <div className="table-header">
-            {screenSize !== "small" ? (
-              <>
-                <div className="header-item details">product details</div>
-                <div className="header-item">Price</div>
-                <div className="header-item">rate</div>
-                <div className="header-item">status</div>
-                <div className="header-item">stock</div>
-                <div className="header-item">Actions</div>
-              </>
-            ) : (
-              <div className="header-item" style={{ fontSize: "17px" }}>
-                cart items
+    <div className="body">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="row-holder two-column">
+          <div className="box forInput">
+            <label htmlFor="title">{t.dashboard.forms.title}</label>
+            <div className="inputHolder">
+              <div className="holder">
+                <input
+                  type="text"
+                  id="title"
+                  {...register("title", {
+                    required: t.dashboard.forms.errors.titleRequired,
+                    minLength: {
+                      value: 3,
+                      message: t.dashboard.forms.errors.titleMinLength,
+                    },
+                  })}
+                  placeholder={t.dashboard.forms.titlePlaceholder}
+                />
               </div>
-            )}
+              {errors.title && (
+                <span className="error">
+                  <CircleAlert />
+                  {errors.title.message}
+                </span>
+              )}
+            </div>
           </div>
 
-          <div className="table-items">
-            {products.slice(0, 10).map((item) => {
-              return (
-                <div key={item.id} className="table-item">
-                  <div className="holder">
-                    <Link href={`/`} className="item-image">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        className="product-image"
-                      />
-                    </Link>
+          <SelectOptions
+            label={t.dashboard.forms.governorate}
+            placeholder={t.dashboard.forms.selectGovernorate}
+            options={govs.map((g) => ({ name: g }))}
+            value={selectedGov}
+            onChange={(g) => setSelectedGov(g.name)}
+          />
+        </div>
 
-                    <div className="item-details">
-                      <Link href={`/`} className="item-name">
-                        {item.name}
-                      </Link>
-                      {screenSize !== "small" && (
-                        <>
-                          <Link href={`/`} className="link">
-                            <span>Category:</span> {item.category}
-                          </Link>
-                        </>
-                      )}
-                    </div>
-                  </div>
+        <div className="row-holder two-column">
+          <SelectOptions
+            label={t.dashboard.forms.category}
+            placeholder={t.dashboard.forms.selectCategory}
+            options={tourismCategories}
+            value={selectedCategory?.name}
+            onChange={(cat) => {
+              setSelectedCategory(cat);
+              setSelectedSubCategory("");
+            }}
+          />
+          <SelectOptions
+            label={t.dashboard.forms.subCategory}
+            placeholder={t.dashboard.forms.selectSubCategory}
+            options={selectedCategory?.subcategories || []}
+            value={selectedSubCategory}
+            disabled={!selectedCategory}
+            onChange={(sub) => setSelectedSubCategory(sub.name)}
+          />
+        </div>
 
-                  <div className="item-price">
-                    <DisplayPrice
-                      price={item?.price}
-                      sale={item?.sale}
-                      stock={item?.stock}
-                      qty={item?.quantity}
-                      dashboard={true}
-                    />
-                  </div>
-                  <div className="item-rating">
-                    <h4>{item?.reviewsCount} review</h4>
-                    <div className="row-holder">
-                      <Rating
-                        name="read-only"
-                        value={item.rate}
-                        precision={0.1}
-                        readOnly
-                        sx={{ color: "#ea8c43", fontSize: "19px" }}
-                      />
-                      <h4>({item?.rate})</h4>
-                    </div>
-                  </div>
-                  <div className="item-overview">
-                    <h4>
-                      3000 <FaEye />
-                    </h4>
-                    <h4>
-                      1500 <BiSolidPurchaseTagAlt />
-                    </h4>
-                  </div>
-                  <div className="item-stock">
-                    <h4
-                      className={`${
-                        item?.stock == 0 ? "out" : item?.stock < 10 ? "low" : ""
-                      }`}
-                    >
-                      {item?.stock}
-                    </h4>
-                  </div>
-
-                  <div className="actions">
-                    <Link href={`/marketplace/${item?.id}`}>
-                      <FaEye className="view" />
-                    </Link>
-                    <hr />
-                    <Link href={`/dashboard/products/form?edit=${item?.id}`}>
-                      <MdEdit className="edit" />
-                    </Link>
-
-                    <hr />
-                    <FaTrashAlt className="delete" />
-                  </div>
-                </div>
-              );
-            })}
+        <div className="box forInput">
+          <label htmlFor="description">{t.dashboard.forms.description}</label>
+          <div className="inputHolder">
+            <div className="holder">
+              <textarea
+                id="description"
+                {...register("description")}
+                placeholder={t.dashboard.forms.descriptionPlaceholder}
+              />
+            </div>
           </div>
         </div>
-        <Pagination
-          pageCount={50}
-          screenSize={screenSize}
-          onPageChange={() => {}}
-          isDashBoard={true}
-        />
-      </div>
+
+        <div className="row-holder two-column">
+          <div className="column-holder">
+            <div className="box forInput">
+              <label htmlFor="locationLink">
+                {t.dashboard.forms.googleMapsLink}
+              </label>
+              <div className="inputHolder">
+                <div className="holder">
+                  <input
+                    type="url"
+                    id="locationLink"
+                    placeholder={t.dashboard.forms.googleMapsLinkPlaceholder}
+                    {...register("location.link", {
+                      required: t.dashboard.forms.errors.googleMapsLinkRequired,
+                      pattern: {
+                        value: /^https?:\/\/(www\.)?maps\.app\.goo\.gl\/.+$/i,
+                        message: t.dashboard.forms.errors.googleMapsLinkInvalid,
+                      },
+                    })}
+                  />
+                </div>
+                {errors?.location?.link && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.location.link.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="box forInput">
+              <label htmlFor="locationIframe">
+                {t.dashboard.forms.googleMapsIframe}
+              </label>
+              <div className="inputHolder">
+                <div className="holder">
+                  <input
+                    type="url"
+                    id="locationIframe"
+                    placeholder={t.dashboard.forms.googleMapsIframePlaceholder}
+                    {...register("location.iFrame", {
+                      required:
+                        t.dashboard.forms.errors.googleMapsIframeRequired,
+                      pattern: {
+                        value:
+                          /^https?:\/\/www\.google\.com\/maps\/embed\?pb=.*/i,
+                        message:
+                          t.dashboard.forms.errors.googleMapsIframeInvalid,
+                      },
+                    })}
+                  />
+                </div>
+                {errors?.location?.iFrame && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.location.iFrame.message}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+          <Images />
+        </div>
+
+        <button
+          className="main-button"
+          type="submit"
+          onClick={() => setisSubmited(true)}
+        >
+          <span>{t.dashboard.forms.CreateNights}</span>
+        </button>
+      </form>
     </div>
   );
 }
+import { FaCheck } from "react-icons/fa";
+import { govs, tourismCategories } from "@/data";

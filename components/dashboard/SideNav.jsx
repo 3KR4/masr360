@@ -2,11 +2,11 @@
 import "@/styles/components/header.css";
 import "@/styles/dashboard/side-nav.css";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// icons …
+// Icons
 import {
   FaHome,
   FaPlaceOfWorship,
@@ -17,24 +17,26 @@ import {
 import { FaAngleLeft, FaChartPie, FaUser } from "react-icons/fa6";
 import { RiGovernmentFill } from "react-icons/ri";
 import { PiCardsFill } from "react-icons/pi";
-import { FaHeadset } from "react-icons/fa6";
+import { FaHeadset } from "react-icons/fa";
 import { MdEventNote, MdLogout, MdSunny } from "react-icons/md";
 import { IoMenu, IoLanguage } from "react-icons/io5";
 import { HiChartBar } from "react-icons/hi2";
 
+import { mainContext } from "@/Contexts/mainContext";
+import useTranslate from "@/Contexts/useTranslation";
+
 function SideNav() {
   const pathname = usePathname();
+  const { toggleLocale } = useContext(mainContext);
+  const t = useTranslate();
 
-  // --- Active Logic ---
+  // ---------- Active link ----------
   const isActive = (paths) => {
-    if (!Array.isArray(paths)) {
-      paths = [paths];
-    }
-
-    return paths.includes(pathname); // أو pathname من usePathname()
+    if (!Array.isArray(paths)) paths = [paths];
+    return paths.includes(pathname);
   };
 
-  // --- Nav open/close with localStorage ---
+  // ---------- Open / Close nav ----------
   const [isNavOpen, setIsNavOpen] = useState(null);
 
   useEffect(() => {
@@ -52,163 +54,138 @@ function SideNav() {
 
   return (
     <div className={`side-nav ${isNavOpen ? "active" : ""}`}>
+      {/* ---------- TOP NAV ---------- */}
       <ul>
         <li className="actions-btns" onClick={() => setIsNavOpen((p) => !p)}>
-          <h4>menu routes</h4>
+          <h4>{t.sideNav.menuRoutes}</h4>
           {isNavOpen ? (
             <FaAngleLeft className="menu-ico-close" />
           ) : (
-            <IoMenu style={{ fontSize: "21px" }} className="menu-ico" />
+            <IoMenu className="menu-ico" />
           )}
         </li>
 
-        <Link
-          className={isActive(["/dashboard"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard"
-        >
-          <div className="hold">
-            <h4>OverView</h4>
-            <FaHome />
-          </div>
-        </Link>
+          active={isActive("/dashboard")}
+          icon={<FaHome />}
+          text={t.sideNav.overview}
+        />
 
-        <Link
-          className={isActive(["/dashboard/slieds"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/slieds"
-        >
-          <div className="hold">
-            <h4>slieds</h4>
-            <PiCardsFill />
-          </div>
-        </Link>
+          active={isActive("/dashboard/slieds")}
+          icon={<PiCardsFill />}
+          text={t.sideNav.slides}
+        />
 
-        <Link
-          className={isActive(["/dashboard/users"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/users"
-        >
-          <div className="hold">
-            <h4>users</h4>
-            <FaUsers />
-          </div>
-        </Link>
+          active={isActive("/dashboard/users")}
+          icon={<FaUsers />}
+          text={t.sideNav.users}
+        />
 
-        <Link
-          className={isActive(["/dashboard/governorates"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/governorates"
-        >
-          <div className="hold">
-            <h4>governorates</h4>
-            <RiGovernmentFill />
-          </div>
-        </Link>
+          active={isActive("/dashboard/governorates")}
+          icon={<RiGovernmentFill />}
+          text={t.sideNav.governorates}
+        />
 
-        <Link
-          className={isActive(["/dashboard/places"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/places"
-        >
-          <div className="hold">
-            <h4>places</h4>
-            <FaPlaceOfWorship />
-          </div>
-        </Link>
+          active={isActive("/dashboard/places")}
+          icon={<FaPlaceOfWorship />}
+          text={t.sideNav.places}
+        />
 
-        <Link
-          className={isActive(["/dashboard/nights"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/nights"
-        >
-          <div className="hold">
-            <h4>nights</h4>
-            <FaMoon />
-          </div>
-        </Link>
+          active={isActive("/dashboard/nights")}
+          icon={<FaMoon />}
+          text={t.sideNav.nights}
+        />
 
-        <Link
-          className={isActive(["/dashboard/events"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/events"
-        >
-          <div className="hold">
-            <h4>events</h4>
-            <MdEventNote />
-          </div>
-        </Link>
+          active={isActive("/dashboard/events")}
+          icon={<MdEventNote />}
+          text={t.sideNav.events}
+        />
 
-        <Link
-          className={isActive(["/dashboard/games"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/games"
-        >
-          <div className="hold">
-            <h4>games</h4>
-            <FaChartPie />
-          </div>
-        </Link>
+          active={isActive("/dashboard/games")}
+          icon={<FaChartPie />}
+          text={t.sideNav.games}
+        />
 
-        <Link
-          className={isActive(["/dashboard/orders"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/orders"
-        >
-          <div className="hold">
-            <h4>orders</h4>
-            <HiChartBar />
-          </div>
-        </Link>
+          active={isActive("/dashboard/orders")}
+          icon={<HiChartBar />}
+          text={t.sideNav.orders}
+        />
 
-        {/* -------- PRODUCTS with form detection -------- */}
-        <Link
+        <NavLink
           href="/dashboard/products"
-          className={
-            isActive(["/dashboard/products", "/dashboard/products/form"])
-              ? "active a"
-              : "a"
-          }
-        >
-          <div className="hold">
-            <h4>products</h4>
-            <FaShoppingCart />
-          </div>
-        </Link>
+          active={isActive(["/dashboard/products", "/dashboard/products/form"])}
+          icon={<FaShoppingCart />}
+          text={t.sideNav.products}
+        />
 
-        <Link
-          className={isActive(["/dashboard/support"]) ? "active a" : "a"}
+        <NavLink
           href="/dashboard/support"
-        >
-          <div className="hold">
-            <h4>support</h4>
-            <FaHeadset />
-          </div>
-        </Link>
+          active={isActive("/dashboard/support")}
+          icon={<FaHeadset />}
+          text={t.sideNav.support}
+        />
       </ul>
 
-      {/* bottom section */}
+      {/* ---------- BOTTOM ---------- */}
       <ul>
-        <div className="a a-user">
+        <li className="a a-user">
           <div className="hold">
-            <h4>mahmoud elshazly</h4>
+            <h4>Mahmoud el-shazly</h4>
             <FaUser />
           </div>
-        </div>
+        </li>
 
-        <div className="a">
+        <li className="a">
           <div className="hold">
-            <h4>dark theme</h4>
+            <h4>{t.sideNav.darkTheme}</h4>
             <MdSunny />
           </div>
-        </div>
+        </li>
 
-        <div className="a">
+        <li className="a" onClick={toggleLocale}>
           <div className="hold">
-            <h4>arabic language</h4>
+            <h4>{t.sideNav.language}</h4>
             <IoLanguage />
           </div>
-        </div>
+        </li>
 
-        <div className="a danger">
+        <li className="a danger">
           <div className="hold">
-            <h4>log out</h4>
+            <h4>{t.sideNav.logout}</h4>
             <MdLogout />
           </div>
-        </div>
+        </li>
       </ul>
     </div>
+  );
+}
+
+/* ---------- Reusable Nav Link ---------- */
+function NavLink({ href, active, icon, text }) {
+  return (
+    <Link href={href} className={active ? "active a" : "a"}>
+      <div className="hold">
+        <h4>{text}</h4>
+        {icon}
+      </div>
+    </Link>
   );
 }
 

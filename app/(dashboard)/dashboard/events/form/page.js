@@ -4,10 +4,10 @@ import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
 import "@/styles/dashboard/forms.css";
 import Images from "@/components/dashboard/forms/Images";
-import Tickets from "@/components/dashboard/forms/Tickets";
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { forms } from "@/Contexts/forms";
 import useTranslate from "@/Contexts/useTranslation";
+import { govs, tourismCategories } from "@/data";
 
 export default function CreatePlace() {
   const { setisSubmited, tags, images, specifications, selectedCat } =
@@ -20,7 +20,28 @@ const t = useTranslate();
     formState: { errors },
   } = useForm();
 
- 
+  const [tickets, setTickets] = useState({
+    free: false,
+    students: { egyptian: "", foreigner: "" },
+    adults: { egyptian: "", foreigner: "" },
+    seniors: { egyptian: "", foreigner: "" },
+  });
+
+  const selectTicketType = (isFree) => {
+    if (isFree) {
+      setTickets({
+        free: true,
+        students: { egyptian: "", foreigner: "" },
+        adults: { egyptian: "", foreigner: "" },
+        seniors: { egyptian: "", foreigner: "" },
+      });
+    } else {
+      setTickets((prev) => ({
+        ...prev,
+        free: false,
+      }));
+    }
+  };
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [selectedGov, setSelectedGov] = useState("");
@@ -174,9 +195,66 @@ const t = useTranslate();
         </div>
 
         <div className="row-holder two-column">
+          <div className="box forInput ticket">
+            <label>{t.dashboard.forms.tickets}</label>
+            <div className="row-holder two-column spec-list">
+              <div className="ticket-type">
+                <label
+                  className={`ticket-option ${!tickets.free ? "active" : ""}`}
+                  onClick={() => selectTicketType(false)}
+                >
+                  {!tickets.free && <span>✔</span>}
+                  {t.dashboard.forms.paidTickets}
+                </label>
+                <label
+                  className={`ticket-option ${tickets.free ? "active" : ""}`}
+                  onClick={() => selectTicketType(true)}
+                >
+                  {tickets.free && <span>✔</span>}
+                  {t.dashboard.forms.freeEntry}
+                </label>
+              </div>
 
+              {!tickets.free && <hr />}
 
-          <Tickets />
+              {!tickets.free && (
+                <div className="tickets-prices">
+                  {["students", "adults", "seniors"].map((group) => (
+                    <div className="ticket-group" key={group}>
+                      <label>{t.dashboard.forms[group]}</label>
+                      <div className="spec-item">
+                        <input
+                          type="number"
+                          placeholder={t.dashboard.forms.egyptian}
+                          value={tickets[group].egyptian}
+                          onChange={(e) =>
+                            handleTicketChange(
+                              group,
+                              "egyptian",
+                              e.target.value
+                            )
+                          }
+                        />
+                        <input
+                          type="number"
+                          placeholder={t.dashboard.forms.foreigner}
+                          value={tickets[group].foreigner}
+                          onChange={(e) =>
+                            handleTicketChange(
+                              group,
+                              "foreigner",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
           <Images />
         </div>
 
@@ -191,5 +269,3 @@ const t = useTranslate();
     </div>
   );
 }
-import { FaCheck } from "react-icons/fa";
-import { govs, tourismCategories } from "@/data";

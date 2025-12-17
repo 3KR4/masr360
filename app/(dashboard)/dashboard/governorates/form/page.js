@@ -6,8 +6,10 @@ import "@/styles/dashboard/forms.css";
 import Images from "@/components/dashboard/forms/Images";
 import { forms } from "@/Contexts/forms";
 
+import useTranslate from "@/Contexts/useTranslation";
 export default function Governorate() {
   const { setisSubmited, images } = useContext(forms);
+const t = useTranslate();
 
   const {
     register,
@@ -30,22 +32,22 @@ export default function Governorate() {
         <div className="row-holder two-column">
           <div className="column-holder">
             <div className="box forInput">
-              {/* PRODUCT TITLE */}
-              <label htmlFor="name">name</label>
+              <label htmlFor="name">{t.dashboard.forms.governorateName}</label>
               <div className="inputHolder">
                 <div className="holder">
                   <input
                     type="text"
                     id="name"
                     {...register("name", {
-                      required: "the Governorate name is required",
+                      required:
+                        t.dashboard.forms.errors.governorateNameRequired,
                       minLength: {
                         value: 3,
                         message:
-                          "the Governorate name must be at least 3 letters",
+                          t.dashboard.forms.errors.governorateNameMinLength,
                       },
                     })}
-                    placeholder="Enter Governorate name"
+                    placeholder={t.dashboard.forms.governorateNamePlaceholder}
                   />
                 </div>
                 {errors.name && (
@@ -57,15 +59,18 @@ export default function Governorate() {
               </div>
             </div>
 
-            {/* DESCRIPTION */}
             <div className="box forInput">
-              <label htmlFor="description">description</label>
+              <label htmlFor="description">
+                {t.dashboard.forms.description}
+              </label>
               <div className="inputHolder">
                 <div className="holder">
                   <textarea
                     id="description"
                     {...register("description")}
-                    placeholder="Enter governorate description"
+                    placeholder={
+                      t.dashboard.forms.governorateDescriptionPlaceholder
+                    }
                   />
                 </div>
               </div>
@@ -78,11 +83,9 @@ export default function Governorate() {
         <button
           className="main-button"
           type="submit"
-          onClick={() => {
-            setisSubmited(true);
-          }}
+          onClick={() => setisSubmited(true)}
         >
-          <span>Create Governorates</span>
+          <span>{t.dashboard.forms.createGovernorate}</span>
         </button>
       </form>
     </div>

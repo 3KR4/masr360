@@ -4,25 +4,35 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as MdIcons from "react-icons/md";
-import { FaAngleRight, FaAngleDown } from "react-icons/fa6";
 import { mainContext } from "@/Contexts/mainContext";
 import { IoMenu, IoClose } from "react-icons/io5";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaRegMoon } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
+import { FiSun } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { usePathname } from "next/navigation";
-import { FaCartShopping, FaUser } from "react-icons/fa6";
+import {
+  FaCartShopping,
+  FaUser,
+  FaAngleRight,
+  FaAngleDown,
+} from "react-icons/fa6";
+import { GrLanguage } from "react-icons/gr";
+
 import MiniCart from "@/components/MiniCart";
 import { navLinks } from "@/data";
+import useTranslate from "@/Contexts/useTranslation";
 
 function Header() {
+  const { screenSize, locale, toggleLocale } = useContext(mainContext);
+  const t = useTranslate();
+
   const pathname = usePathname();
 
   useEffect(() => {
     setActiveNav(null);
   }, [pathname]);
 
-  const { screenSize } = useContext(mainContext);
   const [isLogin, setIsLogin] = useState(true);
   const [activeNav, setActiveNav] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -178,6 +188,13 @@ function Header() {
                     <li>
                       <Link href={`/Messages`}>Messages</Link>
                     </li>
+
+                    <li className="lang" onClick={toggleLocale}>
+                      <Link href={`/`} className="btn">
+                        <GrLanguage />
+                        {t.actions.lang}
+                      </Link>
+                    </li>
                     <li className="danger" onClick={() => setIsLogin(false)}>
                       <MdLogout />
                       log out
@@ -187,9 +204,15 @@ function Header() {
               </button>
             </>
           ) : (
-            <Link href={"/register"} className="main-button">
-              Create Account
-            </Link>
+            <>
+              <button className="lang" onClick={toggleLocale}>
+                <GrLanguage />
+                {t.actions.lang}
+              </button>
+              <Link href={"/register"} className="main-button">
+                Create Account
+              </Link>
+            </>
           )}
           {screenSize !== "large" && (
             <div className="menuHandler">
