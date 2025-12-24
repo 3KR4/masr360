@@ -262,7 +262,7 @@
 }
 .single-page.forPlace .holds:not(.noTikets) .details-holder .description {
   padding: 14px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
 }
 .single-page.forPlace .tickets {
@@ -374,7 +374,7 @@
 }
 
 .single-page.forPlace .tickets-list {
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
   margin-top: 6px;
 }
@@ -382,7 +382,7 @@
   align-items: center;
   gap: 10px;
   display: flex;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
 }
 .single-page.forPlace .tickets-list > div:last-child {
   border-bottom: 0;
@@ -390,7 +390,7 @@
 .single-page.forPlace .tickets-list h5 {
   color: var(--paragraph);
   text-align: center;
-  border-right: 1px solid #e0e0e0;
+  border-right: 1px solid var(--border-color);
   align-items: center;
   min-width: 97px;
   height: 48px;

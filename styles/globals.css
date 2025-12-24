@@ -16,6 +16,7 @@
   --hover-color: #dc7423;
   --title-color: #333;
   --paragraph: #575757;
+  --border-color: #e0e0e0;
 }
 body {
   background-color: var(--body-color);
@@ -405,7 +406,7 @@ a {
   color: white !important;
 }
 .card .time-holder {
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   padding: 11px 0;
   border-radius: 9px;
 }
@@ -426,7 +427,7 @@ a {
 }
 .card .time-holder hr {
   margin: 9px 0;
-  background: #e0e0e0;
+  background: var(--border-color);
 }
 .css-stars {
   display: inline-flex;
@@ -486,7 +487,6 @@ a {
   gap: 5px;
   font-size: 14px;
   display: flex;
-  padding-left: 10px;
 }
 .navigations a {
   color: var(--paragraph);
@@ -575,7 +575,7 @@ a {
   position: relative;
   display: flex;
   align-items: center;
-  border: 1px solid #a6a6a6;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
 }
 .box.forInput .inputHolder .holder.nationality {
@@ -746,7 +746,7 @@ a {
   opacity: 0;
   z-index: -1;
   background: var(--body-color);
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   border-radius: 7px;
   gap: 12px;
   width: 100%;

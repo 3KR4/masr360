@@ -5,7 +5,7 @@ header {
   top: 0;
   background: var(--body-color);
   border-bottom: 1.5px solid var(--border-color);
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
 }
 header .container {
   display: flex;
@@ -109,7 +109,7 @@ header .routs-menu {
   width: 80%;
   transform: translateX(-50%);
   border-radius: 0 0 22px 22px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   border-top: 0;
   transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
 }
@@ -672,7 +672,7 @@ header .cartMenu .btns a {
     transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
     position: absolute;
     min-height: 63px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-color);
     border-top: 0;
   }
   header nav.active {
@@ -686,7 +686,7 @@ header .cartMenu .btns a {
   }
   header .routs-menu {
     top: 63px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-color);
     width: 94% !important;
     padding: 16px 0;
   }

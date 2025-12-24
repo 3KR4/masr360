@@ -1,0 +1,98 @@
+.support {
+}
+.support form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.support form h4 {
+  text-transform: capitalize;
+  font-size: 17px;
+  color: var(--paragraph);
+  margin-bottom: 3px;
+}
+.support form .hold {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.support form .hold .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+.support form .hold .grid.second {
+  grid-template-columns: repeat(2, 1fr);
+}
+.support form .hold .option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  height: 120px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.support form .hold .option.active,
+.support form .hold .option:hover {
+  background: var(--second-color) !important;
+  border-color: var(--main-color);
+}
+.support form .hold .box.forInput {
+  width: 100%;
+}
+.support form .hold .option svg {
+  font-size: 28px;
+  color: var(--paragraph);
+}
+.support form .hold .option h5 {
+  font-size: 16px;
+  color: var(--paragraph);
+}
+
+.support form .hold .option.active svg,
+.support form .hold .option:hover svg {
+  color: var(--title-color);
+}
+.support form .hold .option.active h5,
+.support form .hold .option:hover h5 {
+  color: var(--title-color);
+}
+.support form .main-button {
+  width: 100%;
+  height: 50px;
+  font-size: 15px;
+}
+.support .box.forInput .inputHolder .holder input {
+  padding-left: 10px;
+}
+.support .error {
+  margin: 0;
+  margin-bottom: -10px;
+}
+
+@media (max-width: 768px) {
+  .support form .hold .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .support form .hold.contact .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .support form .hold .option {
+    gap: 5px;
+  }
+  .support form .hold.contact .option {
+    height: 95px;
+  }
+  .support form .hold .option svg {
+    font-size: 25px;
+  }
+  .support form .hold .option h5 {
+    font-size: 14px;
+  }
+}

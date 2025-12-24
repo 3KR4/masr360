@@ -109,7 +109,7 @@
 }
 .swiper-pagination.backhome {
   position: relative;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   transform: unset !important;
   left: unset !important;
   margin: 2px auto 0;
