@@ -134,7 +134,7 @@ export default function Support() {
 
         {/* ===== Description ===== */}
         <div className="hold">
-          <h4>type your problem</h4>
+          <h4>choose the problem type</h4>
           <div className="box forInput">
             <div className="inputHolder">
               <div className="holder">
@@ -146,9 +146,7 @@ export default function Support() {
                       message: "Minimum 5 characters",
                     },
                   })}
-                  placeholder={
-                    t.dashboard.forms.titlePlaceholder || "your problem type"
-                  }
+                  placeholder={"your problem type"}
                 />
               </div>
             </div>
@@ -156,10 +154,7 @@ export default function Support() {
           <div className="box forInput">
             <div className="inputHolder">
               <div className="holder">
-                <textarea
-                  id="description"
-                  placeholder={t.dashboard.forms.descriptionPlaceholder}
-                />
+                <textarea id="details" placeholder={"your problem details"} />
               </div>
             </div>
           </div>

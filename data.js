@@ -1982,7 +1982,7 @@ export const users = [
 export const tickets = [
   {
     id: "T-1001",
-    userId: users[0].id,
+    user: users[0],
     category: "Technical Issue",
     title: "Map not loading",
     description:

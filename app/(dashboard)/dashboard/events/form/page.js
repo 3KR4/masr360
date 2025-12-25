@@ -12,7 +12,7 @@ import { govs, tourismCategories } from "@/data";
 export default function CreatePlace() {
   const { setisSubmited, tags, images, specifications, selectedCat } =
     useContext(forms);
-const t = useTranslate();
+  const t = useTranslate();
 
   const {
     register,
@@ -120,6 +120,47 @@ const t = useTranslate();
             disabled={!selectedCategory}
             onChange={(sub) => setSelectedSubCategory(sub.name)}
           />
+        </div>
+        <div className="row-holder two-column">
+          <div className="box forInput">
+            <label htmlFor="startDate">Start Date</label>
+            <div className="inputHolder">
+              <div className="holder">
+                <input
+                  type="datetime-local"
+                  id="startDate"
+                  {...register("startDate", {
+                    required: "Start date is required",
+                  })}
+                />
+              </div>
+              {errors.startDate && (
+                <span className="error">
+                  <CircleAlert />
+                  {errors.startDate.message}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="box forInput">
+            <label htmlFor="endDate">End Date</label>
+            <div className="inputHolder">
+              <div className="holder">
+                <input
+                  type="datetime-local"
+                  id="endDate"
+                  {...register("endDate", { required: "End date is required" })}
+                />
+              </div>
+              {errors.endDate && (
+                <span className="error">
+                  <CircleAlert />
+                  {errors.endDate.message}
+                </span>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="box forInput">
