@@ -7,72 +7,159 @@ input:-webkit-autofill:focus {
   transition: background-color 9999s ease-in-out 0s;
 }
 
-.register {
-  height: 93vh;
+body:has(.form-holder) header,
+body:has(.form-holder) footer {
+  display: none;
+}
+
+.form-holder {
   width: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin: 20px 0;
 }
-body:has(.register) footer {
+body:has(.form-holder) footer {
   margin-top: 0;
 }
-.register .registerBackground {
+.form-holder .form-holderBackground {
   position: relative !important;
 }
-.register form {
-  background: #fff;
+.form-holder form {
+  background: var(--body-color);
   border-radius: 28px;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   width: 600px;
   max-width: 95%;
   height: fit-content;
-  padding: 32px;
+  padding: 20px 26px;
   display: flex;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  box-shadow: 0 1px 10px #00000023;
 }
-.register form h1 {
+.form-holder form .top {
+  position: relative;
+}
+.form-holder form h1 {
   color: var(--paragraph);
   text-align: center;
   font-weight: 800;
-  font-size: 27px;
+  font-size: 28px;
   line-height: 1.2;
+  margin-bottom: 4px;
 }
-.register form .rowHolder {
+.form-holder form p {
+  text-align: center;
+  color: var(--paragraph);
+  margin-bottom: -3px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.form-holder form .top svg {
+  width: 38px;
+  height: 38px;
+  color: var(--paragraph);
+  border-radius: 50%;
+  padding: 9px;
+  position: absolute;
+  top: 0;
+}
+.form-holder form .top svg:hover {
+  background: var(--hover-color);
+}
+.form-holder form .steps-holder {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.filters .btn h4 {
+  color: var(--paragraph);
+
+  padding: 0 9px 0 0;
+}
+.form-holder form .steps-holder .step-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1; /* 👈 كل خطوة تاخد نفس العرض */
+}
+.form-holder form .steps-holder .step-wrapper:last-child {
+  flex: 0;
+}
+.form-holder form .steps-holder .step {
+  color: var(--paragraph);
+  border: 1px solid var(--border-color);
+  z-index: 2;
+  background: #fff;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 33px;
+  height: 33px;
+  display: flex;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.form-holder form .steps-holder .step.current {
+  background: var(--hover-color);
+  border-color: var(--main-color);
+}
+
+.form-holder form .steps-holder .step.done {
+  background: var(--main-color);
+  color: #fff;
+  border-color: var(--main-color);
+}
+
+/* الخط الواصل */
+.form-holder form .steps-holder .bar {
+  flex: 1; /* 👈 يملأ المسافة */
+  height: 3px;
+  background: var(--border-color);
+  border-radius: 5px;
+}
+.form-holder form .steps-holder .step-wrapper:has(.step.done) .bar {
+  background: var(--main-color);
+}
+.form-holder form .rowHolder {
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(2, 1fr);
 }
 
-.register form .main-button {
+.form-holder form .main-button {
   width: 100%;
-  margin-top: 10px;
-  border-radius: 10px !important;
-  font-size: 16px;
-  font-family: "Roboto";
+  height: 46px;
+  margin-top: 5px;
+  font-size: 14px;
   font-weight: 700;
+  border-radius: 10px !important;
 }
-.register form .otherWay {
+.form-holder.create-ad form .main-button {
+  margin-top: 0;
+}
+.form-holder form .otherWay {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 4px 0;
+  margin: 0 8px;
 }
 
-.register form .otherWay span {
+.form-holder form .otherWay span {
   min-width: max-content;
   color: var(--paragraph);
   font-size: 15px;
 }
-.register form .social-btns {
+.form-holder form .social-btns {
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 7px;
   display: grid;
 }
-.register form .social-btns .btn {
+.form-holder form .social-btns .btn {
   color: var(--paragraph);
   cursor: pointer;
   border: 1px solid var(--border-color);
@@ -85,7 +172,7 @@ body:has(.register) footer {
   font-weight: 700;
   display: flex;
 }
-.register form .didntHasAccount {
+.form-holder form .have-problem {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,67 +180,216 @@ body:has(.register) footer {
   font-size: 15px;
   font-weight: 500;
   color: var(--paragraph);
+  line-height: 1;
+  cursor: pointer;
 }
-p.didntHasAccount {
+p.have-problem {
   justify-content: flex-start;
   transform: translateX(8px);
 }
-.register form .mineLink {
+.form-holder form .mineLink {
   color: var(--main-color);
   font-weight: 700;
   cursor: pointer;
   font-size: 14px;
   text-decoration: underline;
 }
-.filters .btn {
-  height: 44px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
+.form-holder .filters .btn {
+  height: 44px !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 10px !important;
 }
-.filters.filters.for-cats,
-.filters.for-cats:has(.menu.active) {
+.form-holder .filters.filters.for-cats {
+  width: 100% !important;
+  border: none;
+}
+.form-holder .filters.filters.for-cats,
+.form-holder .filters.for-cats:has(.menu.active) {
   width: 100%;
 }
-.filters .menu {
+.form-holder .filters .menu {
   grid-template-columns: 1fr;
   top: 44px;
 }
-.filters.for-cats .menu {
+.form-holder .filters.for-cats .menu {
   max-height: 216px;
   overflow: auto;
 }
-.filters.for-cats button {
+.form-holder .filters.for-cats button {
   padding: 6px 8px;
   font-size: 14px;
 }
-.filters .btn svg {
+.form-holder .filters .btn svg {
   width: 38px;
   height: 44px;
   padding: 7px;
   background: transparent;
   color: var(--paragraph);
 }
+.form-holder .filters .btn svg:first-child {
+  width: 35px;
+  padding: 8px;
+  margin-left: 2px;
+}
+.form-holder .options-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  display: grid;
+  margin: 5px 0 2px;
+}
+.form-holder .options-grid.verfiyMethod {
+  grid-template-columns: repeat(2, 1fr);
+}
+.form-holder .options-grid > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+.form-holder .options-grid.flex {
+  flex-wrap: wrap;
+  display: flex;
+  margin: 0;
+}
+.form-holder .options-grid.flex .option-box {
+  flex: 1;
+  font-size: 13px;
+  min-width: 23%;
+}
+.form-holder .options-grid .cat-card h4 {
+  font-size: 14px;
+}
+.form-holder .options-grid .cat-card svg {
+  font-size: 25px;
+}
+.form-holder .option-box {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.3s;
+  display: flex;
+  height: 86px;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.form-holder .option-box:hover {
+  background: var(--second-color);
+  border: 1px solid var(--main-color);
+}
+.form-holder .option-box.active {
+  background: var(--main-color);
+  border: 1px solid var(--main-color);
+}
+.form-holder .option-box.disable {
+  opacity: 0.5;
+  cursor: no-drop;
+}
+.form-holder .option-box.small {
+  height: 44px;
+  color: var(--paragraph);
+  font-weight: 600;
+  border-color: var(--border-color);
+}
 
+.form-holder .option-box svg {
+  font-size: 22px;
+  color: var(--paragraph);
+}
+.form-holder .option-box span {
+  color: var(--paragraph);
+  text-align: center;
+  transition: 0.3s;
+}
+.form-holder .option-box.active > * {
+  color: white;
+}
+.form-holder .option-box .check {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 12px;
+}
+.form-holder .filters.for-cats .menu {
+  max-height: 256px;
+}
+.otp-wrapper {
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  display: grid;
+  width: 65%;
+  margin: 0 auto;
+}
+.otp-wrapper .box.forInput {
+  aspect-ratio: 1.2;
+}
+.otp-wrapper .box.forInput .inputHolder,
+.otp-wrapper .box.forInput .inputHolder .holder,
+.otp-wrapper .box.forInput .inputHolder .holder input {
+  height: 100%;
+}
+.otp-wrapper .box.forInput .inputHolder .holder input {
+  flex: unset;
+  height: 44px;
+  padding: unset;
+  width: 100%;
+  text-align: center;
+  font-size: 23px;
+  color: var(--main-color);
+  font-weight: 800;
+  font-family: cursive;
+}
+.form-holder .big-ico {
+  background: var(--second-color);
+  width: 115px;
+  height: 70px;
+  color: var(--main-color);
+  border-radius: 14px;
+  margin: 0 auto;
+  padding: 8px;
+}
+/*! CREATE - AD */
+
+.form-holder.create-ad input {
+  padding: 10px !important;
+}
+.form-holder.create-ad textarea {
+  height: 160px;
+}
+.form-holder .filters.for-cats input {
+  padding: 0 !important;
+}
 @media (max-width: 992px) {
-  .register .registerBackground {
+  .form-holder .form-holderBackground {
     object-fit: cover;
   }
-  .register form {
+  .form-holder form {
     padding: 22px;
   }
 }
 @media (max-width: 768px) {
-  .register {
-    width: 100%;
-    height: unset;
+  .form-holder form {
+    border-radius: 18px;
+
+    padding: 19px 15px;
   }
-  .register form {
-    padding: 24px 16px;
-    border-radius: 0;
-    max-width: 100%;
-    position: relative;
-    left: unset;
-    top: unset;
-    transform: unset;
+  .form-holder .options-grid {
+    margin: 0;
+  }
+  .form-holder .option-box {
+    height: 80px;
+  }
+  .form-holder .option-box svg {
+    font-size: 18px;
+  }
+  .form-holder .option-box span {
+    font-size: 13px;
+  }
+  .form-holder form h1 {
+    line-height: 1;
+    margin-bottom: 7px;
+    font-size: 26px;
   }
 }

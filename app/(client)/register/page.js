@@ -2,13 +2,15 @@
 import "@/styles/forms.css";
 import Image from "next/image";
 import countryList from "react-select-country-list";
-import Select from "react-select";
-import React, { useState, useMemo, useContext } from "react";
-import Link from "next/link";
-import { useForm, Controller } from "react-hook-form";
-import { mainContext } from "@/Contexts/mainContext";
-import { IoIosArrowDown } from "react-icons/io";
-import { IoMdClose } from "react-icons/io";
+import React, { useState, useEffect, useMemo } from "react";
+import { useForm } from "react-hook-form";
+import useTranslate from "@/Contexts/useTranslation";
+import { GrLanguage } from "react-icons/gr";
+
+import { FaRegCircleUser } from "react-icons/fa6";
+
+import OtpInputs from "@/components/Otp";
+import { MdMarkEmailUnread } from "react-icons/md";
 
 import {
   LockKeyhole,
@@ -19,69 +21,197 @@ import {
   EyeOff,
   CircleAlert,
 } from "lucide-react";
+import { IoIosArrowDown, IoMdClose } from "react-icons/io";
 
 export default function Register() {
-  const { screenSize } = useContext(mainContext);
+  const t = useTranslate();
+  const auth = t.auth;
 
-  const [isLoginPage, setIsLoginPage] = useState(false);
-  const [passEye, setPassEye] = useState({ password: false, confirm: false });
-  const [loadingSpinner, setLoadingSpinner] = useState(false);
+  console.log(t);
+
+  const STEPS = {
+    ACCOUNT: 1,
+    LOGIN: 2,
+    EMAIL_VERIFY: 3,
+    FORGET_PASS_VERIFY: 4,
+    VIEW_OR_UPDATE_PASS: 5,
+  };
+  const options = useMemo(() => countryList().getData(), []);
+  const [step, setStep] = useState(STEPS.ACCOUNT);
+
+  const [activeNational, setActiveNational] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [countrySearch, setCountrySearch] = useState("");
+  const filteredCountries = options.filter((x) =>
+    x.label.toLowerCase().includes(countrySearch.toLowerCase())
+  );
 
   const {
     register,
     handleSubmit,
     watch,
-    control,
     formState: { errors },
     reset,
   } = useForm();
 
   const password = watch("password", "");
+  const [passEye, setPassEye] = useState({ password: false, confirm: false });
+  const newPassValue = watch("newPass");
 
-  function iconChanging(input) {
-    setPassEye((prevState) => ({ ...prevState, [input]: !prevState[input] }));
-  }
+  const OTP_LENGTH = 5;
+  const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
 
+  useEffect(() => {
+    if (step === STEPS.PHONE_VERIFY || step === STEPS.EMAIL_VERIFY) {
+      setOtp(Array(OTP_LENGTH).fill(""));
+    }
+  }, [step]);
+
+  /* ================= SUBMIT ================= */
   const onSubmit = (data) => {
-    if (!value) {
-      setError("country", {
-        type: "manual",
-        message: "Please select your country",
-      });
+    if (step === STEPS.LOGIN) {
+      console.log("LOGIN DATA", data);
       return;
     }
 
-    console.log("Form Data Submitted:", { ...data, country: value.label });
+    if (step === STEPS.ACCOUNT) {
+      setStep(STEPS.EMAIL_VERIFY);
+      return;
+    }
+    if (step === STEPS.FORGET_PASS_VERIFY) {
+      setStep(STEPS.VIEW_OR_UPDATE_PASS);
+      return;
+    }
+
+    console.log("FINAL REQUEST", {
+      userData: data,
+    });
   };
 
-  const options = useMemo(() => countryList().getData(), []);
+  const titles = {
+    [STEPS.ACCOUNT]: auth.createAccount,
+    [STEPS.LOGIN]: auth.loginToAccount,
+    [STEPS.EMAIL_VERIFY]: auth.verifyEmail,
+    [STEPS.FORGET_PASS_VERIFY]: auth.forgetPass,
+    [STEPS.VIEW_OR_UPDATE_PASS]: auth.userVerified,
+  };
 
-  const [activeNational, setActiveNational] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [countrySearch, setCountrySearch] = useState("");
+  const descriptions = {
+    [STEPS.ACCOUNT]: auth.accountDescription,
+    [STEPS.LOGIN]: auth.loginDescription || "",
+    [STEPS.EMAIL_VERIFY]: auth.emailDescription,
+    [STEPS.FORGET_PASS_VERIFY]: auth.emailDescription,
+    [STEPS.VIEW_OR_UPDATE_PASS]: auth.userVerifiedDescription,
+  };
 
-  const filteredCountries = options.filter((x) =>
-    x.label.toLowerCase().includes(countrySearch.toLowerCase())
-  );
+  const buttonLabels = {
+    [STEPS.ACCOUNT]: auth.createAccountBtn,
+    [STEPS.LOGIN]: auth.login,
+    [STEPS.EMAIL_VERIFY]: auth.verifyEmailBtn,
+    [STEPS.FORGET_PASS_VERIFY]: auth.forgetPassBtn,
+    [STEPS.VIEW_OR_UPDATE_PASS]: newPassValue
+      ? auth.update_pass_and_continue
+      : auth.login,
+  };
+
   return (
-    <>
-      <div className="register">
-        {screenSize !== "small" && (
-          <Image
-            className="registerBackground"
-            src={`/Slides/slide-002.jpg`}
-            fill
-            alt="background image"
-          />
+    <div className="form-holder">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {[STEPS.EMAIL_VERIFY, STEPS.FORGET_PASS_VERIFY].includes(step) && (
+          <MdMarkEmailUnread className="big-ico" />
+        )}
+        <div className="top">
+          <h1>{titles[step]}</h1>
+          <p>{descriptions[step]}</p>
+        </div>
+
+        {/* ================= LOGIN ================= */}
+        {step === STEPS.LOGIN && (
+          <>
+            <div
+              className="box forInput"
+              onClick={() => document.getElementById("email").focus()}
+            >
+              <label htmlFor="email">Email Address</label>
+              <div className="inputHolder">
+                <div className="holder">
+                  <Mail />
+                  <input
+                    type="email"
+                    id="email"
+                    {...register("email", {
+                      required: "Email address is required",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        message: "Enter a valid email address",
+                      },
+                    })}
+                    placeholder="Enter your email address"
+                  />
+                </div>
+                {errors.email && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.email.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="box forInput">
+              <label>{auth.password}</label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+                  <input
+                    type={passEye.password ? "text" : "password"}
+                    {...register("loginPassword", {
+                      required: auth.errors.requiredPassword,
+                    })}
+                    placeholder={auth.placeholders.password}
+                  />
+                  {passEye.password ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: true }))
+                      }
+                    />
+                  )}
+                </div>
+                {errors.loginPassword && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.loginPassword.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div
+              className="have-problem"
+              onClick={() => {
+                setStep(STEPS.FORGET_PASS_VERIFY);
+                reset();
+              }}
+            >
+              {auth.forgetPassword}{" "}
+              <span className="mineLink">{auth.password}</span>
+            </div>
+          </>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>
-            {isLoginPage ? "Login into your account" : "Create your account"}
-          </h1>
-
-          {/* Full name */}
-          {!isLoginPage && (
+        {/* ================= REGISTER STEP 1 ================= */}
+        {step === STEPS.ACCOUNT && (
+          <>
+            {/* Full name */}
             <div
               className="box forInput"
               onClick={() => document.getElementById("fullname").focus()}
@@ -115,10 +245,8 @@ export default function Register() {
                 )}
               </div>
             </div>
-          )}
 
-          {/* Phone */}
-          {!isLoginPage && (
+            {/* Phone */}
             <div
               className="box forInput"
               onClick={() => document.getElementById("phone").focus()}
@@ -150,15 +278,14 @@ export default function Register() {
                 )}
               </div>
             </div>
-          )}
-          {!isLoginPage && (
             <div
               className="box forInput"
-              onClick={() => document.getElementById("phone").focus()}
+              onClick={() => document.getElementById("nationality").focus()}
             >
               <label htmlFor="phone">nationality</label>
               <div className="filters for-cats">
                 <div className="btn">
+                  <GrLanguage />
                   <h4
                     onClick={() => setActiveNational(true)}
                     className="ellipsis"
@@ -170,6 +297,7 @@ export default function Register() {
                         onChange={(e) => setCountrySearch(e.target.value)}
                         placeholder="Select your country"
                         className="search-input"
+                        id="nationality"
                       />
                     ) : !selectedCountry ? (
                       "Select your country"
@@ -218,84 +346,85 @@ export default function Register() {
                 </div>
               </div>
             </div>
-          )}
 
-          {/* Email */}
-          <div
-            className="box forInput"
-            onClick={() => document.getElementById("email").focus()}
-          >
-            <label htmlFor="email">Email Address</label>
-            <div className="inputHolder">
-              <div className="holder">
-                <Mail />
-                <input
-                  type="email"
-                  id="email"
-                  {...register("email", {
-                    required: "Email address is required",
-                    pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                      message: "Enter a valid email address",
-                    },
-                  })}
-                  placeholder="Enter your email address"
-                />
-              </div>
-              {errors.email && (
-                <span className="error">
-                  <CircleAlert />
-                  {errors.email.message}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Password */}
-          <div
-            className="box forInput"
-            onClick={() => document.getElementById("password").focus()}
-          >
-            <label htmlFor="password">Password</label>
-            <div className="inputHolder password">
-              <div className="holder">
-                <LockKeyhole />
-
-                <input
-                  type={passEye.password ? "text" : "password"}
-                  id="password"
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Password must be at least 8 characters long",
-                    },
-                  })}
-                  placeholder="Enter your password"
-                />
-                {passEye.password ? (
-                  <Eye
-                    className="eye"
-                    onClick={() => iconChanging("password")}
+            {/* Email */}
+            <div
+              className="box forInput"
+              onClick={() => document.getElementById("email").focus()}
+            >
+              <label htmlFor="email">Email Address</label>
+              <div className="inputHolder">
+                <div className="holder">
+                  <Mail />
+                  <input
+                    type="email"
+                    id="email"
+                    {...register("email", {
+                      required: "Email address is required",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        message: "Enter a valid email address",
+                      },
+                    })}
+                    placeholder="Enter your email address"
                   />
-                ) : (
-                  <EyeOff
-                    className="eye"
-                    onClick={() => iconChanging("password")}
-                  />
+                </div>
+                {errors.email && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.email.message}
+                  </span>
                 )}
               </div>
-              {errors.password && (
-                <span className="error">
-                  <CircleAlert />
-                  {errors.password.message}
-                </span>
-              )}
             </div>
-          </div>
 
-          {/* Confirm Password */}
-          {!isLoginPage && (
+            <div
+              className="box forInput"
+              onClick={() => document.getElementById("password").focus()}
+            >
+              <label htmlFor="password">Password</label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+
+                  <input
+                    type={passEye.password ? "text" : "password"}
+                    id="password"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters long",
+                      },
+                    })}
+                    placeholder="Enter your password"
+                  />
+                  {passEye.password ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: true }))
+                      }
+                    />
+                  )}
+                </div>
+                {errors.password && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.password.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
             <div
               className="box forInput"
               onClick={() =>
@@ -320,12 +449,16 @@ export default function Register() {
                   {passEye.confirm ? (
                     <Eye
                       className="eye"
-                      onClick={() => iconChanging("confirm")}
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, confirm: false }))
+                      }
                     />
                   ) : (
                     <EyeOff
                       className="eye"
-                      onClick={() => iconChanging("confirm")}
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, confirm: true }))
+                      }
                     />
                   )}
                 </div>
@@ -337,64 +470,146 @@ export default function Register() {
                 )}
               </div>
             </div>
-          )}
+          </>
+        )}
 
-          {/* Forgot Password */}
-          {isLoginPage && (
-            <p className="didntHasAccount">
-              Forgot your password?
-              <button className="mineLink">reset password</button>
-            </p>
-          )}
+        {/* ================= VIEW/UPDATE PASSWORD ================= */}
+        {step === STEPS.VIEW_OR_UPDATE_PASS && (
+          <>
+            <div className="box forInput">
+              <label>{auth.viewYourCurrentPassword}</label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+                  <input
+                    type={passEye.password ? "text" : "password"}
+                    value={"Aa123456@"}
+                    readOnly
+                  />
+                  {passEye.password ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: true }))
+                      }
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="box forInput">
+              <label>
+                {auth.makeNewPassword} <span>({auth.optional})</span>
+              </label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+                  <input
+                    type={passEye.password ? "text" : "password"}
+                    {...register("newPass", {
+                      pattern: {
+                        value:
+                          /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?~\-]).{8,}$/,
+                        message: t.auth.errors.passwordWeak,
+                      },
+                    })}
+                    placeholder={auth.placeholders.newPassword}
+                  />
+                  {passEye.password ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: true }))
+                      }
+                    />
+                  )}
+                </div>
+                {errors.newPass && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.newPass.message}
+                  </span>
+                )}
+              </div>
+            </div>
+          </>
+        )}
 
-          {/* Buttons */}
+        {/* ================= OTP VERIFICATION ================= */}
+        {(step === STEPS.EMAIL_VERIFY || step === STEPS.FORGET_PASS_VERIFY) && (
+          <>
+            <OtpInputs length={OTP_LENGTH} value={otp} onChange={setOtp} />
+          </>
+        )}
 
-          <button
-            className={`main-button ${loadingSpinner ? "loading" : ""}`}
-            type="submit"
+        {/* ================= SUBMIT BUTTON ================= */}
+        <button type="submit" className="main-button">
+          {buttonLabels[step]}
+        </button>
+
+        {/* ================= SOCIAL LOGIN ================= */}
+        {(step === STEPS.ACCOUNT || step === STEPS.LOGIN) && (
+          <>
+            <div className="otherWay">
+              <hr />
+              <span>
+                {step === STEPS.LOGIN ? auth.orLoginWith : auth.orContinueWith}
+              </span>
+              <hr />
+            </div>
+            <div className="social-btns">
+              <div className="btn">
+                <Image
+                  src={`/google-icon.png`}
+                  width={22}
+                  height={22}
+                  alt="google icon"
+                />
+                {auth.google}
+              </div>
+              <div className="btn">
+                <Image
+                  src={`/facebook-icon.png`}
+                  width={24}
+                  height={24}
+                  alt="facebook icon"
+                />
+                Facebook
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ================= SWITCH BETWEEN LOGIN/REGISTER ================= */}
+        {(step === STEPS.ACCOUNT || step === STEPS.LOGIN) && (
+          <div
+            className="have-problem"
+            onClick={() => {
+              setStep(step === STEPS.ACCOUNT ? STEPS.LOGIN : STEPS.ACCOUNT);
+              reset();
+            }}
           >
-            <span>{isLoginPage ? "Login" : "Create account"}</span>
-          </button>
-
-          <div className="otherWay">
-            <hr />
-            <span>Or continue with</span>
-            <hr />
+            {step === STEPS.LOGIN ? auth.noAccount : auth.haveAccount}{" "}
+            <span className="mineLink">
+              {step === STEPS.LOGIN ? auth.createAccountBtn : auth.login}
+            </span>
           </div>
-          <div className="social-btns">
-            <div className="btn">
-              <Image
-                src={`/google-icon.png`}
-                width={24}
-                height={24}
-                alt="google icon"
-              />
-              Google
-            </div>
-            <div className="btn">
-              <Image
-                src={`/facebook-icon.png`}
-                width={24}
-                height={24}
-                alt="facebook icon"
-              />
-              Facebook
-            </div>
-          </div>
-          <div className="didntHasAccount">
-            {isLoginPage ? "Didnt" : "Already"} have an account?{" "}
-            <div
-              className="mineLink"
-              onClick={() => {
-                setIsLoginPage((prev) => !prev);
-                reset();
-              }}
-            >
-              {isLoginPage ? "Create account" : "Log in"}
-            </div>
-          </div>
-        </form>
-      </div>
-    </>
+        )}
+      </form>
+    </div>
   );
 }

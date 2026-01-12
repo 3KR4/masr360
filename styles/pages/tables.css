@@ -332,6 +332,9 @@
   }
 }
 @media (max-width: 992px) {
+  .booking .table-header {
+    display: none;
+  }
   .booking .table-header,
   .booking .table-item {
     grid-template-columns: 2.4fr 1fr 1fr 1fr 1fr 1fr;
@@ -374,6 +377,9 @@
     gap: 7px;
     padding: 0;
     border: none;
+  }
+  .table-container .table-items > * {
+    padding: 0 0 4px 0 !important;
   }
   .table-header {
     display: flex;
