@@ -46,7 +46,7 @@ body:has(.form-holder) footer {
 .form-holder form h1 {
   color: var(--paragraph);
   text-align: center;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 28px;
   line-height: 1.2;
   margin-bottom: 4px;
@@ -80,6 +80,9 @@ body:has(.form-holder) footer {
   color: var(--paragraph);
 
   padding: 0 9px 0 0;
+}
+[lang="ar"] .filters .btn h4 {
+  padding: 0;
 }
 .form-holder form .steps-holder .step-wrapper {
   display: flex;
@@ -338,7 +341,7 @@ p.have-problem {
   text-align: center;
   font-size: 23px;
   color: var(--main-color);
-  font-weight: 800;
+  font-weight: 700;
   font-family: cursive;
 }
 .form-holder .big-ico {

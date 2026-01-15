@@ -1,3 +1,7 @@
+import useTranslate from "@/Contexts/useTranslation";
+import { mainContext } from "@/Contexts/mainContext";
+import { useContext } from "react";
+
 export default function DisplayPrice({
   price,
   sale,
@@ -5,6 +9,10 @@ export default function DisplayPrice({
   qty = 1,
   dashboard = false,
 }) {
+  const { locale } = useContext(mainContext);
+
+  const t = useTranslate();
+
   // Ensure qty is at least 1
   const quantity = Math.max(1, qty);
 
@@ -24,10 +32,10 @@ export default function DisplayPrice({
       {/* Out of Stock */}
       {stock <= 0 ? (
         <p className="out-of-stock">
-          Last price: <span>${totalOriginal}</span>
+          {t.mainCard.lastPrice}: <span>${totalOriginal}</span>
           {!dashboard && (
             <>
-              — <span className="status">Out of stock</span>
+              - <span className="status">{t.mainCard.outOfStock}</span>
             </>
           )}
         </p>
@@ -36,7 +44,10 @@ export default function DisplayPrice({
         <p className="on-sale">
           <span className="new-price">${totalDiscounted}</span>
           <span className="old-price">${totalOriginal}</span>
-          <span className="discount">-{sale}% OFF</span>
+          <span className="discount">
+            {locale == "ar" ? "- " : "-"}
+            {sale}% {t.mainCard.discount}
+          </span>
         </p>
       ) : (
         // Normal Price

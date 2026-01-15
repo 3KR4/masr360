@@ -51,7 +51,6 @@ function Header() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   const nav = () => (
     <nav className={mobileMenu ? "active" : ""}>
       <ul>
@@ -59,32 +58,18 @@ function Header() {
         {navLinks.map((x, index) => (
           <li
             key={index}
-            className={activeNav === index ? `active` : ``}
-            onMouseEnter={() => {
-              setActiveNav(index);
-            }}
+            className={activeNav === index ? "active" : ""}
+            onMouseEnter={() => setActiveNav(index)}
             onMouseLeave={() => setActiveNav(null)}
           >
             {x.departments ? (
               <>
-                {x.title === "Masr 360 Nights"
-                  ? screenSize === "large"
-                    ? "Masr 360 Nights"
-                    : "Nights"
-                  : x.title === "Marketplace"
-                  ? screenSize === "large"
-                    ? "Marketplace"
-                    : "Market"
-                  : x.title.trim().toLowerCase() === "about us"
-                  ? screenSize === "large"
-                    ? "about us"
-                    : "about"
-                  : x.title}
+                {screenSize === "large" ? x.title[locale] : x.title[locale]}
                 <FaAngleDown />
               </>
             ) : (
               <Link className="page-route" href={x.link}>
-                {x.title}
+                {x.title[locale]}
               </Link>
             )}
           </li>
@@ -93,34 +78,35 @@ function Header() {
         {/* Routes Menu */}
         {navLinks[activeNav]?.departments && (
           <div
-            className={`routs-menu`}
-            onMouseEnter={() => {
-              setActiveNav(activeNav);
-            }}
+            className="routs-menu"
+            onMouseEnter={() => setActiveNav(activeNav)}
             onMouseLeave={() => setActiveNav(null)}
           >
-            <div className={`container`}>
-              {navLinks[activeNav]?.departments?.map((dept, index) => {
+            <div className="container">
+              {navLinks[activeNav].departments.map((dept, index) => {
                 const Icon = dept.icon ? MdIcons[dept.icon] : null;
+
                 return (
                   <div key={index}>
                     <h4>
-                      {Icon && <Icon />} {/* render only if icon exists */}
-                      <Link href={`/${dept.link}`}>{dept.name}</Link>
-                      <FaAngleRight className="arrow-right" />
+                      {Icon && <Icon />}
+                      <Link href={dept.link}>{dept.name[locale]}</Link>
+                      <FaAngleRight className="arrow-right side-arrow" />
                     </h4>
-                    <ul>
-                      {dept.categories?.map((cat, idx) => (
-                        <Link href={`/`} key={idx}>
-                          {cat}
-                        </Link>
-                      ))}
-                    </ul>
+
+                    {dept.categories && (
+                      <ul>
+                        {dept.categories.map((cat, idx) => (
+                          <li key={idx}>{cat[locale]}</li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 );
               })}
-              <Link href={navLinks[activeNav]?.link} className="main-button">
-                See All
+
+              <Link href={navLinks[activeNav].link} className="main-button">
+                {locale === "ar" ? "عرض الكل" : "See All"}
               </Link>
             </div>
           </div>
@@ -133,71 +119,72 @@ function Header() {
     <header>
       <div className="container">
         <Link href="/" className="logo">
-          <Image src={`/logo.png`} fill alt="Masr 360" />
+          <Image src={`/logo.png`} fill alt={t.header.logo_alt} />
         </Link>
 
         {screenSize === "large" && nav()}
         <div className="actions-btns">
           <div className="search-holder">
             <div className={`input ${searchActive ? "active" : ""}`}>
-              <input type="text" placeholder="Explore Egypt" />
+              <input type="text" placeholder={t.header.search_placeholder} />
               {searchActive ? (
                 <IoIosClose
                   className="close"
-                  title="close"
+                  title={t.header.close_search}
                   onClick={() => setSearchActive(false)}
                 />
               ) : (
                 <FaSearch
-                  title="Search"
+                  title={t.header.search}
                   onClick={() => setSearchActive(true)}
                 />
               )}
             </div>
             <div className="results">
-              <Link href={""}>Private Events</Link>
-              <Link href={""}>Night Tours</Link>
-              <Link href={""}>Dinner Cruises</Link>
-              <Link href={""}>Private Events</Link>
-              <Link href={""}>Night Tours</Link>
+              <Link href={""}>{t.header.search_results.private_events}</Link>
+              <Link href={""}>{t.header.search_results.night_tours}</Link>
+              <Link href={""}>{t.header.search_results.dinner_cruises}</Link>
+              <Link href={""}>{t.header.search_results.private_events}</Link>
+              <Link href={""}>{t.header.search_results.night_tours}</Link>
               <Link className="main-button" href={""}>
-                See More results
+                {t.header.search_results.see_more}
               </Link>
             </div>
           </div>
           {isLogin ? (
             <>
               <button className="btn cart">
-                <FaCartShopping title="Cart" />
+                <FaCartShopping title={t.header.cart} />
                 <MiniCart />
               </button>
               <button className="btn user">
-                <FaUser title="Login / Register" />
+                <FaUser title={t.header.user_menu} />
                 <div className="userMenu menu">
-                  <div className="top">Mahmoud Elshzly</div>
+                  <div className="top">{t.header.welcome_user}</div>
                   <ul>
                     <li>
-                      <Link href={`/booking`}>Bookings</Link>
+                      <Link href={`/booking`}>{t.header.my_bookings}</Link>
                     </li>
                     <li>
-                      <Link href={`/orders`}>Orders</Link>
+                      <Link href={`/orders`}>{t.header.my_orders}</Link>
                     </li>
                     <li>
-                      <Link href={`/favorites`}>favorites</Link>
+                      <Link href={`/favorites`}>{t.header.favorites}</Link>
                     </li>
                     <li>
-                      <Link href={`/Messages`}>Messages</Link>
+                      <Link href={`/support`}>{t.header.support}</Link>
                     </li>
 
-                    <li className="lang" onClick={toggleLocale}>
-                      <Link href={`/`} className="btn">
-                        <GrLanguage />
-                        {t.actions.lang}
-                      </Link>
+                    <li className="lang not-link" onClick={toggleLocale}>
+                      <GrLanguage />
+                      {t.header.change_language}
                     </li>
-                    <li className="danger" onClick={() => setIsLogin(false)}>
+                    <li
+                      className="not-link danger"
+                      onClick={() => setIsLogin(false)}
+                    >
                       <MdLogout />
-                      log out
+                      {t.header.logout}
                     </li>
                   </ul>
                 </div>
@@ -206,11 +193,13 @@ function Header() {
           ) : (
             <>
               <button className="lang" onClick={toggleLocale}>
-                <GrLanguage />
-                {t.actions.lang}
+                <span className="lang-span">
+                  <GrLanguage />
+                  {locale === "en" ? t.header.english : t.header.arabic}
+                </span>
               </button>
               <Link href={"/register"} className="main-button">
-                Create Account
+                {t.header.sign_up}
               </Link>
             </>
           )}

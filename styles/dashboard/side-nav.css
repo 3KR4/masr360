@@ -7,6 +7,11 @@
   top: 0;
   height: 100vh;
 }
+[lang = "ar"] .side-nav {
+  border-left: 1px solid var(--border-color);
+  border-right: 0;
+
+}
 .side-nav h4 {
   font-size: 15px;
   transition: 0.3s;

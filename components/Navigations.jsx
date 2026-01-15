@@ -2,11 +2,14 @@
 import Link from "next/link";
 import React from "react";
 
+import useTranslate from "@/Contexts/useTranslation";
 export default function Navigations({
   items = [],
   container = "fluid",
   isDashBoard = false,
 }) {
+  const t = useTranslate();
+
   return (
     <nav
       className={`navigations ${
@@ -18,12 +21,12 @@ export default function Navigations({
       }`}
     >
       {!isDashBoard ? (
-        <Link href={"/"}>home</Link>
+        <Link href={"/"}>{t.header.home}</Link>
       ) : (
         <>
-          <Link href={"/"}>masr360</Link>
+          <Link href={"/"}>{t.header.logo_alt}</Link>
           <span className={`separator`}>/ </span>
-          <Link href={"/dashboard"}>dashboard</Link>
+          <Link href={"/dashboard"}>{t.header.dashboard}</Link>
         </>
       )}
 

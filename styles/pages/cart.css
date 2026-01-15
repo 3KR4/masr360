@@ -30,7 +30,6 @@
   min-width: 37px;
   max-width: 37px;
   height: 37px;
-  padding: 4px 12px;
   font-size: 15px;
   font-weight: 600;
 }
@@ -223,7 +222,7 @@
 .form-section .box.forInput .inputHolder .holder textarea {
   height: 100%;
 }
-.form-section .box.forInput .inputHolder .holder {
+.form-section .box.forInput .inputHolder .holder:has(textarea) {
   padding: 14px 10px;
   border-color: #d4d4d4;
 }
@@ -239,20 +238,27 @@
   padding: 13px;
   border-right: 0;
 }
+[lang="ar"] .coupon-section.box.forInput .inputHolder .holder input {
+  border-right: 1px solid #d4d4d4;
+  border-radius: 0 11px 11px 0;
+  border-left: 0;
+}
 .apply-coupon-btn {
   color: #fff;
   cursor: pointer;
   background: #ea8c43;
   width: 86px;
-  height: 50px;
+  height: 44px;
   transition: background-color 0.3s;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.3px;
   border: 1px solid var(--main-color);
   border-radius: 0 12px 12px 0;
 }
-
+[lang="ar"] .apply-coupon-btn {
+  border-radius: 12px 0 0 12px;
+}
 .apply-coupon-btn:hover {
   background: #d87c33;
 }

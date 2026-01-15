@@ -8,8 +8,10 @@ import Navigations from "@/components/Navigations";
 import Pagination from "@/components/settings/Pagination";
 import "@/styles/pages/discover.css";
 import { mainContext } from "@/Contexts/mainContext";
+import useTranslate from "@/Contexts/useTranslation";
 
 function Page() {
+  const t = useTranslate();
   const { screenSize } = useContext(mainContext);
 
   return (
@@ -17,19 +19,16 @@ function Page() {
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
-          explore games
+          {t.sectionsTitles.explore_games.mainTitle}
           <hr />
         </h1>
-        <p className="sub-title">
-          explore hidden details only seen on-site, and earn coins you can
-          redeem for real rewards in our marketplace
-        </p>
+        <p className="sub-title">{t.sectionsTitles.explore_games.subTitle}</p>
       </div>
 
       <Navigations
         items={[
           {
-            name: "games",
+            name: t.sideNav.games,
             href: "",
           },
         ]}

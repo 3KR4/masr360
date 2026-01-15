@@ -3,23 +3,23 @@ import Link from "next/link";
 import { nights } from "@/data";
 
 import CardItem from "@/components/CardItem";
-
+import useTranslate from "@/Contexts/useTranslation";
 function Nights() {
+const t = useTranslate();
+
   return (
     <div className="nights">
       <div className="title-holder container">
         <h1 className="main-title">
           <hr />
-          masr nights
+          {t.sectionsTitles.masr_nights.title}
           <hr />
         </h1>
         <p className="sub-title">
-          Discover the vibrant nightlife of Egypt — from lively evening events
-          and cultural shows to riverside cruises and hidden gems waiting to be
-          explored after dark.
+          {t.sectionsTitles.masr_nights.subtitle}
         </p>
         <Link href={`/nights`} className="main-button">
-          Explore More
+          {t.sectionsTitles.masr_nights.btn}
         </Link>
       </div>
 

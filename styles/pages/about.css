@@ -59,7 +59,7 @@
 .about .about-section h5 {
   margin-top: 19px;
 }
-.about .about-section li:before {
+.about .about-section li::before {
   content: "•";
   color: var(--paragraph);
   font-size: 20px;
@@ -68,7 +68,10 @@
   left: -12px;
   transform: translateY(-50%);
 }
-
+[lang="ar"] .about .about-section li::before {
+  left: unset;
+  right: -15px;
+}
 .about .vision-mission {
   flex-direction: column;
   gap: 29px;
@@ -112,6 +115,11 @@
   left: -15px;
   transform: translateY(-50%);
 }
+[lang="ar"] .about .vision-mission .mission ul li:before {
+  left: unset;
+  right: -15px;
+}
+
 .about .game-center {
   background: var(--second-color);
   border-radius: 30px;

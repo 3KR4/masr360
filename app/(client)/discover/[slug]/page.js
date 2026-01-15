@@ -7,7 +7,10 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getService } from "@/services/api/getService";
 
+import useTranslate from "@/Contexts/useTranslation";
 export default function governorateDetails() {
+  const t = useTranslate();
+
   const { slug } = useParams();
   const [governorate, setgovernorate] = useState(null);
 
@@ -43,15 +46,11 @@ export default function governorateDetails() {
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
-          {`${governorate?.name} places`}
+          {t.sectionsTitles.governorate_places(governorate?.name).mainTitle}
           <hr />
         </h1>
-
         <p className="sub-title">
-          Explore the beauty and attractions of{" "}
-          <strong>{governorate?.name}</strong>. <br />
-          Discover its history, landmarks, and hidden treasures only on Masr
-          360.
+          {t.sectionsTitles.governorate_places(governorate?.name).subTitle}
         </p>
       </div>
       {governorate?.places && (

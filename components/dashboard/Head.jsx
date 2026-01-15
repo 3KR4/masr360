@@ -95,9 +95,6 @@ function Head() {
     x.name.toLowerCase().includes(catsSearch.toLowerCase())
   );
 
-  const filteredSubCats = subCats?.filter((x) =>
-    x.name.toLowerCase().includes(catsSearch.toLowerCase())
-  );
 
   return (
     <div className="head">

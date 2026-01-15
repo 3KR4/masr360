@@ -2,7 +2,6 @@
 import React, { useContext, useState, useRef } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
-
 import Image from "next/image";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
@@ -15,9 +14,11 @@ import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
 import { FaPlaceOfWorship } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import useTranslate from "@/Contexts/useTranslation";
 
 export default function Places() {
   const { screenSize } = useContext(mainContext);
+  const t = useTranslate();
 
   return (
     <div className="dash-holder">
@@ -26,15 +27,23 @@ export default function Places() {
           <div className="table-header">
             {screenSize !== "small" ? (
               <>
-                <div className="header-item details">places details</div>
-                <div className="header-item">categories & subcategories</div>
-                <div className="header-item">views count</div>
-                <div className="header-item">governorate</div>
-                <div className="header-item">Actions</div>
+                <div className="header-item details">
+                  {t.dashboard.tables.placeDetails}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.categoriesAndSubcategories}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.viewsCount}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.governorate}
+                </div>
+                <div className="header-item">{t.dashboard.tables.actions}</div>
               </>
             ) : (
               <div className="header-item" style={{ fontSize: "17px" }}>
-                cart items
+                {t.dashboard.tables.cartItems}
               </div>
             )}
           </div>
@@ -61,7 +70,8 @@ export default function Places() {
                     </div>
                   </div>
                   <div className="categories">
-                    <h4>Ancient Egypt</h4>/<h4>deserts</h4>
+                    <h4>{t.dashboard.tables.ancientEgypt}</h4> /{" "}
+                    <h4>{t.dashboard.tables.deserts}</h4>
                   </div>
                   <div className="item-overview">
                     <h4>
@@ -79,15 +89,21 @@ export default function Places() {
 
                   <div className="actions">
                     <Link href={`/places/${item?.id}`}>
-                      <FaEye className="view" />
+                      <FaEye className="view" title={t.dashboard.tables.view} />
                     </Link>
                     <hr />
                     <Link href={`/dashboard/places/form?edit=${item?.id}`}>
-                      <MdEdit className="edit" />
+                      <MdEdit
+                        className="edit"
+                        title={t.dashboard.tables.edit}
+                      />
                     </Link>
-
                     <hr />
-                    <FaTrashAlt className="delete" />
+                    <FaTrashAlt
+                      className="delete"
+                      title={t.dashboard.tables.delete}
+                      onClick={() => console.log("Delete item", item.id)}
+                    />
                   </div>
                 </div>
               );
@@ -99,6 +115,10 @@ export default function Places() {
           screenSize={screenSize}
           onPageChange={() => {}}
           isDashBoard={true}
+          nextText={t.dashboard.tables.next}
+          prevText={t.dashboard.tables.prev}
+          firstText={t.dashboard.tables.first}
+          lastText={t.dashboard.tables.last}
         />
       </div>
     </div>

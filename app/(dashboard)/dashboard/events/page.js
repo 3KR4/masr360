@@ -1,43 +1,52 @@
 "use client";
-import React, { useContext, useState, useRef } from "react";
-import Rating from "@mui/material/Rating";
+import React, { useContext } from "react";
 import Pagination from "@/components/settings/Pagination";
-
 import Image from "next/image";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
-import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
 import { events } from "@/data";
 import Link from "next/link";
-import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
-import { FaPlaceOfWorship } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import CountDown from "@/components/CountDown";
+import useTranslate from "@/Contexts/useTranslation";
 
 export default function Events() {
   const { screenSize } = useContext(mainContext);
+  const t = useTranslate();
 
   return (
     <div className="dash-holder">
       <div className="body">
-        <div className="table-container governorates  events">
+        <div className="table-container governorates events">
           <div className="table-header">
             {screenSize !== "small" ? (
               <>
-                <div className="header-item details">places details</div>
-                <div className="header-item">categories</div>
-                <div className="header-item">event lasts</div>
-                <div className="header-item">starting time</div>
-                <div className="header-item">views count</div>
-                <div className="header-item">governorate</div>
-                <div className="header-item">Actions</div>
+                <div className="header-item details">
+                  {t.dashboard.tables.eventDetails}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.categories}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.eventLasts}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.startingTime}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.viewsCount}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.governorate}
+                </div>
+                <div className="header-item">{t.dashboard.tables.actions}</div>
               </>
             ) : (
               <div className="header-item" style={{ fontSize: "17px" }}>
-                cart items
+                {t.dashboard.tables.events}
               </div>
             )}
           </div>
@@ -47,7 +56,7 @@ export default function Events() {
               return (
                 <div key={item?.id} className="table-item">
                   <div className="holder">
-                    <Link href={`/`} className="item-image">
+                    <Link href={`/events/${item?.id}`} className="item-image">
                       <Image
                         src={item?.image}
                         alt={item?.name}
@@ -57,21 +66,26 @@ export default function Events() {
                     </Link>
 
                     <div className="item-details">
-                      <Link href={`/`} className="item-name">
+                      <Link href={`/events/${item?.id}`} className="item-name">
                         {item?.name}
                       </Link>
                       <p className="description">{item?.description}</p>
                     </div>
                   </div>
                   <div className="categories">
-                    <h4>Ancient Egypt</h4>/<h4>deserts</h4>
+                    <h4>{t.dashboard.tables.ancientEgypt}</h4>/
+                    <h4>{t.dashboard.tables.deserts}</h4>
                   </div>
                   <div className="event-lasts">
                     <h4>{item?.eventLasts}</h4>
                   </div>
                   <div className="item-startAt">
                     <h4>
-                      <CountDown eventStartAt={item?.eventStartAt} text={false} />
+                      <CountDown
+                        eventStartAt={item?.eventStartAt}
+                        text={false}
+                        startLabel={t.dashboard.tables.startsIn}
+                      />
                     </h4>
                   </div>
 
@@ -90,16 +104,22 @@ export default function Events() {
                   </Link>
 
                   <div className="actions">
-                    <Link href={`/places/${item?.id}`}>
-                      <FaEye className="view" />
+                    <Link href={`/events/${item?.id}`}>
+                      <FaEye className="view" title={t.dashboard.tables.view} />
                     </Link>
                     <hr />
-                    <Link href={`/dashboard/places/form?edit=${item?.id}`}>
-                      <MdEdit className="edit" />
+                    <Link href={`/dashboard/events/form?edit=${item?.id}`}>
+                      <MdEdit
+                        className="edit"
+                        title={t.dashboard.tables.edit}
+                      />
                     </Link>
-
                     <hr />
-                    <FaTrashAlt className="delete" />
+                    <FaTrashAlt
+                      className="delete"
+                      title={t.dashboard.tables.delete}
+                      onClick={() => console.log("Delete event", item?.id)}
+                    />
                   </div>
                 </div>
               );
@@ -111,6 +131,10 @@ export default function Events() {
           screenSize={screenSize}
           onPageChange={() => {}}
           isDashBoard={true}
+          nextText={t.dashboard.tables.next}
+          prevText={t.dashboard.tables.prev}
+          firstText={t.dashboard.tables.first}
+          lastText={t.dashboard.tables.last}
         />
       </div>
     </div>

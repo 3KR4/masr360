@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import CardItem from "@/components/CardItem";
 import Filters from "@/components/settings/Filters";
 import Pagination from "@/components/settings/Pagination";
@@ -8,25 +8,31 @@ import { IoIosClose } from "react-icons/io";
 import { mainContext } from "@/Contexts/mainContext";
 import { getService } from "@/services/api/getService";
 import { nights, products } from "@/data";
+import useTranslate from "@/Contexts/useTranslation";
 
 export default function DisplayContent({ type, isSharedData, shared }) {
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
+  const t = useTranslate();
 
   const [data, setData] = useState([]);
-
   const [openFilters, setOpenFilters] = useState(false);
+
   const [availability, setAvailability] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 10000]);
+
   const [selectedCategory, setSelectedCategory] = useState({
-    cat: null,
-    subCat: null,
+    catId: null,
+    subCatId: null,
+    catLabel: null,
+    subCatLabel: null,
   });
 
-  // Fetch data based on type
+  /* ===================== FETCH DATA ===================== */
   useEffect(() => {
+    let response;
+
     const fetchData = async () => {
       try {
-        let response;
         if (type === "gov") response = await getService.getGovernorates();
         else if (type === "place" && !isSharedData)
           response = await getService.getPlaces();
@@ -34,25 +40,41 @@ export default function DisplayContent({ type, isSharedData, shared }) {
         else if (type === "night") response = { data: nights };
         else response = { data: shared };
 
-        console.log(shared);
-
-        setData(response.data || []);
-      } catch (err) {
-        console.error(`Failed to fetch ${type}:`, err);
+        setData(response?.data || []);
+      } catch (error) {
+        console.error("Fetch error:", error);
         setData([]);
       }
     };
 
     fetchData();
-  }, [type]);
+  }, [type, isSharedData, shared]);
 
+  /* ===================== REMOVE FILTER ===================== */
   const handleRemoveFilter = (filter) => {
     if (filter === "availability") setAvailability(null);
     if (filter === "price") setPriceRange([0, 10000]);
-    if (filter === "cat") setSelectedCategory({ cat: null, subCat: null });
+    if (filter === "cat")
+      setSelectedCategory({
+        catId: null,
+        subCatId: null,
+        catLabel: null,
+        subCatLabel: null,
+      });
     if (filter === "subCat")
-      setSelectedCategory((prev) => ({ ...prev, subCat: null }));
+      setSelectedCategory((prev) => ({
+        ...prev,
+        subCatId: null,
+        subCatLabel: null,
+      }));
   };
+
+  const hasActiveFilters =
+    availability ||
+    priceRange[0] !== 0 ||
+    priceRange[1] !== 10000 ||
+    selectedCategory.catId ||
+    selectedCategory.subCatId;
 
   return (
     <div className="fluid-container big-holder">
@@ -64,7 +86,6 @@ export default function DisplayContent({ type, isSharedData, shared }) {
           setAvailability={setAvailability}
           setPriceRange={setPriceRange}
           setSelectedCategory={setSelectedCategory}
-          handleRemoveFilter={handleRemoveFilter}
           showAvailability={type === "product"}
           catsType={type}
           screenSize={screenSize}
@@ -74,51 +95,44 @@ export default function DisplayContent({ type, isSharedData, shared }) {
       )}
 
       <div className="holder">
-        {type !== "gov" &&
-          (screenSize !== "large" ||
-            availability ||
-            selectedCategory.cat ||
-            selectedCategory.subCat ||
-            priceRange[0] !== 0 ||
-            priceRange[1] !== 10000) && (
-            <div className="selected-filters">
-              <strong
-                onClick={() => {
-                  if (screenSize !== "large") setOpenFilters(true);
-                }}
-                className={screenSize !== "large" ? "main-button" : ""}
-              >
-                Selected Filters
-              </strong>
+        {type !== "gov" && (screenSize !== "large" || hasActiveFilters) && (
+          <div className="selected-filters">
+            <strong
+              onClick={() => screenSize !== "large" && setOpenFilters(true)}
+              className={screenSize !== "large" ? "main-button" : ""}
+            >
+              {t.marketplace.selected_filters}
+            </strong>
 
-              {availability && (
-                <p onClick={() => handleRemoveFilter("availability")}>
-                  Availability: {availability} <IoIosClose className="remove" />
-                </p>
-              )}
+            {availability && (
+              <p onClick={() => handleRemoveFilter("availability")}>
+                {t.marketplace.availability}: {availability}
+                <IoIosClose className="remove" />
+              </p>
+            )}
 
-              {(priceRange[0] !== 0 || priceRange[1] !== 10000) && (
-                <p onClick={() => handleRemoveFilter("price")}>
-                  Price: {priceRange[0]} - {priceRange[1]}{" "}
-                  <IoIosClose className="remove" />
-                </p>
-              )}
+            {(priceRange[0] !== 0 || priceRange[1] !== 10000) && (
+              <p onClick={() => handleRemoveFilter("price")}>
+                {t.dashboard.forms.price}: {priceRange[0]} - {priceRange[1]}
+                <IoIosClose className="remove" />
+              </p>
+            )}
 
-              {selectedCategory.cat && (
-                <p onClick={() => handleRemoveFilter("cat")}>
-                  cat: {selectedCategory.cat}
-                  <IoIosClose className="remove" />
-                </p>
-              )}
+            {selectedCategory.catLabel && (
+              <p onClick={() => handleRemoveFilter("cat")}>
+                {t.dashboard.forms.category}: {selectedCategory.catLabel}
+                <IoIosClose className="remove" />
+              </p>
+            )}
 
-              {selectedCategory.subCat && (
-                <p onClick={() => handleRemoveFilter("subCat")}>
-                  sub cat: {selectedCategory.subCat}
-                  <IoIosClose className="remove" />
-                </p>
-              )}
-            </div>
-          )}
+            {selectedCategory.subCatLabel && (
+              <p onClick={() => handleRemoveFilter("subCat")}>
+                {t.dashboard.forms.subCategory}: {selectedCategory.subCatLabel}
+                <IoIosClose className="remove" />
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="grid-holder">
           {data.map((item) => (

@@ -12,7 +12,7 @@ import useTranslate from "@/Contexts/useTranslation";
 export default function CreatePlace() {
   const { setisSubmited, tags, images, specifications, selectedCat } =
     useContext(forms);
-const t = useTranslate();
+  const t = useTranslate();
 
   const {
     register,
@@ -20,7 +20,6 @@ const t = useTranslate();
     formState: { errors },
   } = useForm();
 
- 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [selectedGov, setSelectedGov] = useState("");
@@ -174,8 +173,6 @@ const t = useTranslate();
         </div>
 
         <div className="row-holder two-column">
-
-
           <Tickets />
           <Images />
         </div>

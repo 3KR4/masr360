@@ -4,8 +4,10 @@ import Link from "next/link";
 import CardItem from "@/components/CardItem";
 import { FaArrowRight } from "react-icons/fa6";
 import { getService } from "@/services/api/getService";
+import useTranslate from "@/Contexts/useTranslation";
 
 function governorates() {
+  const t = useTranslate();
   const [governorates, setgovernorates] = useState([]);
   console.log(governorates[0]?.img);
 
@@ -27,14 +29,12 @@ function governorates() {
       <div className="title-holder container">
         <h1 className="main-title">
           <hr />
-          discover egypt
+          {t.sectionsTitles.discover_egypt.title}
           <hr />
         </h1>
-        <p className="sub-title">
-          Take a look at the most famous governorates in Egypt
-        </p>
+        <p className="sub-title">{t.sectionsTitles.discover_egypt.subtitle}</p>
         <Link href={`/discover`} className="main-button">
-          See All
+          {t.sectionsTitles.discover_egypt.btn}
         </Link>
       </div>
 

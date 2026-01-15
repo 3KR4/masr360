@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import "@/styles/pages/support.css";
-import useTranslate from "@/Contexts/useTranslation";
 import "@/styles/dashboard/forms.css";
+
+import useTranslate from "@/Contexts/useTranslation";
+
 import { CircleAlert } from "lucide-react";
 
 import { GrTechnology } from "react-icons/gr";
@@ -19,17 +21,17 @@ import { LuLayoutGrid } from "react-icons/lu";
 /* ================== DATA ================== */
 
 const problemCategories = [
-  { id: "technical", label: "Technical Issue", icon: <GrTechnology /> },
-  { id: "account", label: "Account Problem", icon: <FaRegUser /> },
-  { id: "payment", label: "Payment Issue", icon: <TbCashRegister /> },
-  { id: "suggestion", label: "Suggestion", icon: <FaRegCommentDots /> },
-  { id: "other", label: "something else", icon: <LuLayoutGrid /> },
+  { id: "technical", icon: <GrTechnology /> },
+  { id: "account", icon: <FaRegUser /> },
+  { id: "payment", icon: <TbCashRegister /> },
+  { id: "suggestion", icon: <FaRegCommentDots /> },
+  { id: "other", icon: <LuLayoutGrid /> },
 ];
 
 const contactMethods = [
-  { id: "whatsapp", label: "WhatsApp", icon: <FaWhatsapp /> },
-  { id: "email", label: "Email", icon: <MdMailOutline /> },
-  { id: "phone", label: "Phone Call", icon: <FiPhone /> },
+  { id: "whatsapp", icon: <FaWhatsapp /> },
+  { id: "email", icon: <MdMailOutline /> },
+  { id: "phone", icon: <FiPhone /> },
 ];
 
 /* ================== COMPONENT ================== */
@@ -80,21 +82,18 @@ export default function Support() {
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
-          need a help ?!
+          {t.support.hero_title}
           <hr />
         </h1>
 
-        <p className="sub-title">
-          you can choose one of the problem types and describe it, then select a
-          contact method
-        </p>
+        <p className="sub-title">{t.support.hero_subtitle}</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="holder container">
         {/* ===== Categories ===== */}
         <div className="hold">
-          <h4>problem categories</h4>
-          <div className="grid ">
+          <h4>{t.support.categories_title}</h4>
+          <div className="grid">
             {problemCategories.slice(0, 3).map((item) => (
               <div
                 key={item.id}
@@ -105,7 +104,7 @@ export default function Support() {
                 }}
               >
                 {item.icon}
-                <h5>{item.label}</h5>
+                <h5>{t.support.categories[item.id]}</h5>
               </div>
             ))}
           </div>
@@ -120,7 +119,7 @@ export default function Support() {
                 }}
               >
                 {item.icon}
-                <h5>{item.label}</h5>
+                <h5>{t.support.categories[item.id]}</h5>
               </div>
             ))}
           </div>
@@ -134,30 +133,35 @@ export default function Support() {
 
         {/* ===== Description ===== */}
         <div className="hold">
-          <h4>choose the problem type</h4>
+          <h4>{t.support.description_title}</h4>
           <div className="box forInput">
             <div className="inputHolder">
               <div className="holder">
                 <input
                   {...register("title", {
-                    required: "problem title is required",
+                    required: t.support.errors.title_required,
                     minLength: {
                       value: 5,
-                      message: "Minimum 5 characters",
+                      message: t.support.errors.title_minLength,
                     },
                   })}
-                  placeholder={"your problem type"}
+                  placeholder={t.support.description_placeholder_title}
                 />
               </div>
             </div>
           </div>
+
           <div className="box forInput">
             <div className="inputHolder">
               <div className="holder">
-                <textarea id="details" placeholder={"your problem details"} />
+                <textarea
+                  {...register("description")}
+                  placeholder={t.support.description_placeholder_details}
+                />
               </div>
             </div>
           </div>
+
           {errors.title && (
             <span className="error">
               <CircleAlert />
@@ -168,7 +172,7 @@ export default function Support() {
 
         {/* ===== Contact Method ===== */}
         <div className="hold contact">
-          <h4>choose the contact method</h4>
+          <h4>{t.support.contact_title}</h4>
           <div className="grid">
             {contactMethods.map((item) => (
               <div
@@ -180,7 +184,7 @@ export default function Support() {
                 }}
               >
                 {item.icon}
-                <h5>{item.label}</h5>
+                <h5>{t.support.contact_methods[item.id]}</h5>
               </div>
             ))}
           </div>
@@ -192,26 +196,20 @@ export default function Support() {
           )}
         </div>
 
-        {/* ===== Submit Error ===== */}
-
+        {/* ===== Submit Button ===== */}
         <button
           type="submit"
           className="main-button submit-btn"
           onClick={() => {
-            if (!cat) {
-              setCategoryError("Please select your problem type");
-            }
-            if (!method) {
-              setContactError("Please select your contact method");
-            }
+            if (!cat) setCategoryError(t.support.errors.category_required);
+            if (!method) setContactError(t.support.errors.contact_required);
           }}
         >
-          Submit your{" "}
-          {cat == "other"
-            ? "problem"
-            : cat
-            ? problemCategories.find((x) => x.id == cat).label
-            : "problem"}
+          {cat
+            ? cat === "other"
+              ? t.support.submit_btn.other
+              : `${t.support.submit_btn.default} (${t.support.categories[cat]})`
+            : t.support.submit_btn.default}
         </button>
       </form>
     </div>

@@ -16,7 +16,7 @@ import formatCurrency from "@/utlies/curancy";
 import { getService } from "@/services/api/getService";
 
 export default function ProductDetails() {
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
   SwiperCore.use([Autoplay, EffectFade, Navigation]);
   const { slug } = useParams();
 
@@ -163,6 +163,8 @@ export default function ProductDetails() {
           </div>
 
           <Swiper
+            key={locale}
+            dir={locale === "ar" ? "rtl" : "ltr"}
             modules={[Autoplay, EffectFade]}
             slidesPerView={2}
             spaceBetween={8}

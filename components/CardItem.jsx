@@ -11,10 +11,13 @@ import React, { useContext } from "react";
 import { mainContext } from "@/Contexts/mainContext";
 
 import Rating from "@mui/material/Rating";
-import DisplayPrice from "@/components/DisplayPrice"; // optional, only for product
+import DisplayPrice from "@/components/DisplayPrice";
 import CountDown from "@/components/CountDown";
 
+import useTranslate from "@/Contexts/useTranslation";
+
 export default function CardItem({ item, type }) {
+  const t = useTranslate();
   const { screenSize } = useContext(mainContext);
 
   const isProduct = type === "product";
@@ -23,6 +26,18 @@ export default function CardItem({ item, type }) {
   const isGame = type === "game";
   const isNight = type === "night";
   const isEvent = type === "event";
+
+  // دالة للحصول على نص الزر بناءً على النوع
+  const getButtonText = () => {
+    if (isProduct) return t.mainCard.seeProduct;
+    if (isGame) return t.mainCard.startJourney;
+    return t.mainCard.seeDetails;
+  };
+
+  // دالة للحصول على نص المكافأة
+  const getRewardText = () => {
+    return `${item?.reward || 0} ${t.mainCard.reward}`;
+  };
 
   return (
     <div key={item?._id} className={`card ${type}`}>
@@ -64,15 +79,7 @@ export default function CardItem({ item, type }) {
           alt={item?.name}
           fill
         />
-        {!isGov && (
-          <button className="main-button">
-            {isProduct
-              ? "See Product"
-              : isGame
-              ? "Start the journey"
-              : "See Details"}
-          </button>
-        )}
+        {!isGov && <button className="main-button">{getButtonText()}</button>}
       </Link>
 
       {/* 📝 TEXT SECTION */}
@@ -96,7 +103,13 @@ export default function CardItem({ item, type }) {
           >
             {item?.name}
           </Link>
-          {isGame && <p>/ {item?.questions?.length} questions</p>}
+
+          {isGame && (
+            <p>
+              / {item?.questions?.length || 0} {t.mainCard.questions}
+            </p>
+          )}
+
           {(isPlace || isNight || isEvent) && (
             <Link
               href={`/${isPlace ? "places" : "nights"}/${item?._id}${
@@ -105,33 +118,38 @@ export default function CardItem({ item, type }) {
               className="location"
             >
               <FaLocationDot />
-              {item?.governorate?.name}
+              {item?.governorate}
             </Link>
           )}
 
           {isGov && (
             <Link className="explore" href={`/discover/${item?._id}`}>
-              {screenSize !== "small" ? "Explore" : ""} {item?.count} places{" "}
+              {screenSize !== "small" ? t.mainCard.explore : ""}{" "}
+              {item?.count || 0} {t.mainCard.places}{" "}
               <FaArrowRight className="arrow" />
             </Link>
           )}
         </div>
+
         {isGame && (
           <Link href={`/games/${item?._id}`} className="main-button rewards">
-            {item?.reward} coin reward
+            {getRewardText()}
           </Link>
         )}
+
         {/* ⭐ RATING */}
         {(isProduct || isNight) && (
           <div className="reviews">
             <Rating
               name="read-only"
-              value={item?.rate}
+              value={item?.rate || 0}
               precision={0.1}
               readOnly
               sx={{ color: "#ea8c43", fontSize: "18px" }}
             />
-            <span className="count">{item?.reviewsCount} Review</span>
+            <span className="count">
+              {item?.reviewsCount || 0} {t.mainCard.reviews}
+            </span>
           </div>
         )}
 
@@ -143,14 +161,20 @@ export default function CardItem({ item, type }) {
             stock={item?.stock}
           />
         )}
+
         {item?.desc && <p className="ellipsis">{item?.desc}</p>}
 
         {isEvent && (
           <div className="time-holder">
-            <CountDown eventStartAt={item.eventStartAt} />
+            <CountDown
+              eventStartAt={item.eventStartAt}
+              startLabel={t.mainCard.startAt}
+              lastsLabel={t.mainCard.lasts}
+            />
             <hr />
             <div>
-              <span>event time:</span> <span>{item.eventLasts}</span>
+              <span>{t.mainCard.eventTime}:</span>{" "}
+              <span>{item.eventLasts}</span>
             </div>
           </div>
         )}

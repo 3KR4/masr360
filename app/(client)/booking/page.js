@@ -8,9 +8,11 @@ import { bookings } from "@/data";
 import { FaBoxOpen } from "react-icons/fa";
 import Link from "next/link";
 import { mainContext } from "@/Contexts/mainContext";
+import useTranslate from "@/Contexts/useTranslation";
 
 function Bookings() {
   const { screenSize } = useContext(mainContext);
+  const t = useTranslate();
 
   return (
     <div className="booking">
@@ -19,13 +21,10 @@ function Bookings() {
           <div className="title-holder pages container">
             <h1 className="main-title">
               <hr />
-              your bookings list
+              {t.booking.yourBookingsList}
               <hr />
             </h1>
-            <p className="sub-title">
-              View all your booked trips and site visits, check payment details,
-              and see when your visit is scheduled.
-            </p>
+            <p className="sub-title">{t.booking.subtitle}</p>
           </div>
 
           <div className="container">
@@ -33,16 +32,18 @@ function Bookings() {
               <div className="table-header">
                 {screenSize !== "small" ? (
                   <>
-                    <div className="header-item details">place details</div>
-                    <div className="header-item">ticket price</div>
-                    <div className="header-item">people count</div>
-                    <div className="header-item">total paid</div>
-                    <div className="header-item">booking date</div>
-                    <div className="header-item">visit date</div>
+                    <div className="header-item details">
+                      {t.booking.placeDetails}
+                    </div>
+                    <div className="header-item">{t.booking.ticketPrice}</div>
+                    <div className="header-item">{t.booking.peopleCount}</div>
+                    <div className="header-item">{t.booking.totalPaid}</div>
+                    <div className="header-item">{t.booking.bookingDate}</div>
+                    <div className="header-item">{t.booking.visitDate}</div>
                   </>
                 ) : (
                   <div className="header-item" style={{ fontSize: "17px" }}>
-                    booking list
+                    {t.booking.bookingList}
                   </div>
                 )}
               </div>
@@ -70,7 +71,7 @@ function Bookings() {
                           {item.place.name}
                         </Link>
                         <Link href={`/discover/1`} className="link">
-                          in {item.place.govermorate}
+                          {t.booking.in} {item.place.govermorate}
                         </Link>
                       </div>
                     </div>
@@ -78,7 +79,7 @@ function Bookings() {
                     {/* سعر التذكرة */}
                     <p className="price">
                       {screenSize == "small" ? (
-                        <span>ticket price:</span>
+                        <span>{t.booking.ticketPrice}:</span>
                       ) : null}
                       ${item.ticketPrice.toFixed(2)}
                     </p>
@@ -86,26 +87,28 @@ function Bookings() {
                     {/* عدد الأفراد */}
                     <p className="people-count">
                       {screenSize == "small" ? (
-                        <span>people count:</span>
+                        <span>{t.booking.peopleCount}:</span>
                       ) : null}
                       {item.peopleCount}{" "}
                       {screenSize === "small"
                         ? null
                         : item.peopleCount > 1
-                        ? "people"
-                        : "person"}
+                        ? t.booking.people
+                        : t.booking.person}
                     </p>
 
                     {/* الإجمالي */}
                     <p className="price">
-                      {screenSize == "small" ? <span>total paid:</span> : null}$
-                      {item.totalPaid.toFixed(2)}
+                      {screenSize == "small" ? (
+                        <span>{t.booking.totalPaid}:</span>
+                      ) : null}
+                      ${item.totalPaid.toFixed(2)}
                     </p>
 
                     {/* تاريخ الحجز */}
                     <p className="date">
                       {screenSize == "small" ? (
-                        <span>booking date:</span>
+                        <span>{t.booking.bookingDate}:</span>
                       ) : null}
                       {new Date(item.bookingDate).toLocaleDateString("en-US", {
                         month: "short",
@@ -116,7 +119,9 @@ function Bookings() {
 
                     {/* تاريخ الزيارة */}
                     <p className="date">
-                      {screenSize == "small" ? <span>visit date:</span> : null}
+                      {screenSize == "small" ? (
+                        <span>{t.booking.visitDate}:</span>
+                      ) : null}
                       {new Date(item.visitDate).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
@@ -132,14 +137,11 @@ function Bookings() {
       ) : (
         <div className="error-page container">
           <FaBoxOpen />
-          <h4>Your bookings list is empty</h4>
-          <p>
-            You haven’t booked any trips or site visits yet. Start exploring
-            Egypt’s top destinations and book your next adventure now!
-          </p>
+          <h4>{t.booking.emptyBookings}</h4>
+          <p>{t.booking.emptyMessage}</p>
           <div className="btns">
             <Link href={`/places`} className="main-button">
-              Explore places
+              {t.booking.explorePlaces}
             </Link>
           </div>
         </div>

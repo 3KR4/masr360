@@ -10,21 +10,22 @@ import { products } from "@/data";
 
 import CardItem from "@/components/CardItem";
 
+import useTranslate from "@/Contexts/useTranslation";
 function Products() {
+    const t = useTranslate();
   return (
     <div className="products">
       <div className="title-holder container">
         <h1 className="main-title">
           <hr />
-          popular products
+          {t.sectionsTitles.popular_products.title}
           <hr />
         </h1>
         <p className="sub-title">
-          Discover Egypt’s most loved handmade creations — crafted with passion,
-          tradition, and authentic local artistry.
+          {t.sectionsTitles.popular_products.subtitle}
         </p>
         <Link href={`/marketplace`} className="main-button">
-          Explore More
+          {t.sectionsTitles.popular_products.btn}
         </Link>
       </div>
 

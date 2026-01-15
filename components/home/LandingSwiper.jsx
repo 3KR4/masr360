@@ -1,20 +1,25 @@
 "use client";
 import React from "react";
+import { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
 import { slides } from "@/data";
-
+import { mainContext } from "@/Contexts/mainContext";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { motion } from "framer-motion";
 
 function LandingSwiper() {
+  const { locale } = useContext(mainContext);
+
   return (
     <div className="landing">
       <Swiper
+        key={locale}
+        dir={locale === "ar" ? "rtl" : "ltr"}
         modules={[Autoplay, Pagination, EffectFade]}
         slidesPerView={1}
         loop={true}
@@ -31,21 +36,21 @@ function LandingSwiper() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0 }}
               >
-                {slide.small}
+                {slide.small[locale]}
               </motion.span>
               <motion.h1
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0 }}
               >
-                {slide.title}
+                {slide.title[locale]}
               </motion.h1>
               <motion.h2
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0 }}
               >
-                {slide.paragraph}
+                {slide.paragraph[locale]}
               </motion.h2>
 
               <Link href={slide.link}>
@@ -55,7 +60,7 @@ function LandingSwiper() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.3 }}
                 >
-                  {slide.btnText}
+                  {slide.btnText[locale]}
                 </motion.button>
               </Link>
             </div>

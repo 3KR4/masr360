@@ -17,7 +17,7 @@ import ReviewSection from "@/components/reviews/ReviewSection";
 import Rating from "@mui/material/Rating";
 
 export default function ProductDetails() {
-  const { screenSize } = useContext(mainContext);
+  const { locale } = useContext(mainContext);
   SwiperCore.use([Autoplay, EffectFade, Navigation]);
   const { slug } = useParams();
   const place = nights.find((g) => g.id == slug.toLowerCase());
@@ -86,6 +86,8 @@ export default function ProductDetails() {
           </div>
 
           <Swiper
+            key={locale}
+            dir={locale === "ar" ? "rtl" : "ltr"}
             modules={[Autoplay, EffectFade]}
             slidesPerView={2}
             spaceBetween={8}

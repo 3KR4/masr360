@@ -1,13 +1,16 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import "@/styles/pages/tables.css";
 import "@/styles/forms.css";
 import { orders } from "@/data";
 import Link from "next/link";
 import { FaBoxOpen } from "react-icons/fa";
+import useTranslate from "@/Contexts/useTranslation";
 
 function Orders() {
+  const t = useTranslate();
+
   return (
     <div className="orders">
       {orders.length > 0 ? (
@@ -15,38 +18,44 @@ function Orders() {
           <div className="title-holder pages container">
             <h1 className="main-title">
               <hr />
-              your orders list
+              {t.orders.yourOrdersList}
               <hr />
             </h1>
-            <p className="sub-title">
-              Here you can view all your previous and current orders, track
-              their status, and review important details like delivery date,
-              payment method, and total cost.ٍ
-            </p>
+            <p className="sub-title">{t.orders.subtitle}</p>
           </div>
 
           <div className="container">
             {orders.length > 0 && (
               <div className="table-container order-table">
                 <div className="table-header">
-                  <div className="header-item">products</div>
-                  <div className="header-item">tootal price</div>
-                  <div className="header-item">products quantity</div>
-
-                  <div className="header-item">payment method</div>
-                  <div className="header-item">shipping</div>
-                  <div className="header-item">status</div>
-                  <div className="header-item">date</div>
+                  <div className="header-item">{t.orders.products}</div>
+                  <div className="header-item">{t.orders.totalPrice}</div>
+                  <div className="header-item">{t.orders.productsQuantity}</div>
+                  <div className="header-item">{t.orders.paymentMethod}</div>
+                  <div className="header-item">{t.orders.shipping}</div>
+                  <div className="header-item">{t.orders.status}</div>
+                  <div className="header-item">{t.orders.date}</div>
                 </div>
 
                 <div className="table-items">
                   {orders.map((item) => {
+                    // تحضير القيم للترجمة
+                    const paymentKey = item?.payment
+                      ?.toLowerCase()
+                      .replace(/\s+/g, "_");
+                    const shippingKey = item?.shipping
+                      ?.toLowerCase()
+                      .replace(/\s+/g, "_");
+                    const statusKey = item?.orderStatus
+                      ?.toLowerCase()
+                      .replace(/\s+/g, "_");
+
                     return (
                       <div key={item?.id} className="table-item">
                         <div className="images">
                           {item.cart.slice(0, 3).map((x, index) => (
                             <Image
-                            key={index}
+                              key={index}
                               src={x?.image}
                               alt={x?.name}
                               fill
@@ -63,18 +72,21 @@ function Orders() {
                           ${item?.cartTotalPrice.toFixed(2)}
                         </div>
                         <p className="total-quantity">
-                          {`${item?.totalItems < 10 ? "0" : ""}${
+                          {t.orders.itemsCount.replace(
+                            "{count}",
                             item?.totalItems
-                          } items`}
+                          )}
                         </p>
-                        <p className={`payment ${item?.payment}`}>
-                          {item?.payment}
+                        <p className={`payment `}>
+                          {t.orders.paymentTypes?.[paymentKey] || item?.payment}
                         </p>
-                        <p className={`shipping ${item?.shipping}`}>
-                          {item?.shipping}
+                        <p className={`shipping ${shippingKey}`}>
+                          {t.orders.shippingTypes?.[shippingKey] ||
+                            item?.shipping}
                         </p>
-                        <p className={`status ${item?.orderStatus}`}>
-                          {item?.orderStatus}
+                        <p className={`status ${statusKey}`}>
+                          {t.orders.statusTypes?.[statusKey] ||
+                            item?.orderStatus}
                         </p>
                         <div className="date">
                           {new Date(item?.orderDate).toLocaleDateString(
@@ -97,15 +109,11 @@ function Orders() {
       ) : (
         <div className="error-page container">
           <FaBoxOpen />
-          <h4>Your orders list is empty</h4>
-          <p>
-            You haven’t placed any orders yet. Start exploring our marketplace
-            and discover unique handcrafted Egyptian products — once you make a
-            purchase, your orders will appear here for easy tracking.
-          </p>
+          <h4>{t.orders.emptyOrders}</h4>
+          <p>{t.orders.emptyMessage}</p>
           <div className="btns">
             <Link href={`/market`} className="main-button">
-              Explore the marketplace
+              {t.orders.exploreMarketplace}
             </Link>
           </div>
         </div>

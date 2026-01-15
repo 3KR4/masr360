@@ -2,11 +2,10 @@
   border-radius: 12px;
   width: 300px;
   height: fit-content;
-  padding: 20px 2px 13px;
+  padding: 12px 2px;
   position: sticky;
   top: 88px;
   transition: 0.3s;
-
   box-shadow: 0 0 5px #d3d3d3;
 }
 .filters .close {
@@ -157,6 +156,9 @@
   font-weight: 500;
   transition: all 0.3s;
   display: flex;
+}
+[lang="ar"] .selected-filters p {
+  padding: 3px 10px 3px 4px;
 }
 .selected-filters p:hover {
   color: white;

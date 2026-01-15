@@ -22,13 +22,12 @@
   display: flex;
   letter-spacing: 0.3px;
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--paragraph);
 }
 .table-item {
   display: grid;
   grid-template-columns: 1.5fr 1.4fr 1fr 1fr;
-
   gap: 30px;
   position: relative;
   align-items: center;
@@ -59,7 +58,10 @@
   padding: 9px 20px;
   font-size: 14px;
   font-weight: 500;
-  transform: translateX(8px);
+  transform: translateX(12px);
+}
+[lang="ar"] .tableTitle {
+  transform: translateX(-12px);
 }
 .container:has(.table-container) {
   margin-top: 36px;
@@ -85,6 +87,9 @@
   display: -webkit-box;
   overflow: hidden;
   font-size: 14px;
+}
+[lang = "ar"] .table-container p.description {
+  text-align: right;
 }
 .table-container .price,
 .table-item .item-price .price-holder .regular-price {
@@ -143,6 +148,10 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+.item-rating > span,
+.item-rating > .row-holder > span {
+  direction: ltr !important;
 }
 .item-rating.center {
   gap: 0.2rem;
@@ -238,18 +247,18 @@
   display: flex;
 }
 
-.order-table .table-items .shipping.Express {
+.order-table .table-items .shipping.express {
   color: var(--main-color);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 16px;
 }
-.order-table .table-items .status.Cancelled {
+.order-table .table-items .status.cancelled {
   color: #d94452;
 }
-.order-table .table-items .status.Delivered {
+.order-table .table-items .status.delivered {
   color: var(--main-color);
 }
-.order-table .table-items .status.Shipped {
+.order-table .table-items .status.shipped {
   color: #2a84ff;
 }
 .order-table .table-items .date {

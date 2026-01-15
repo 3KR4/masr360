@@ -1,4 +1,5 @@
 "use client";
+
 import "@/styles/forms.css";
 import Image from "next/image";
 import countryList from "react-select-country-list";
@@ -6,8 +7,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import useTranslate from "@/Contexts/useTranslation";
 import { GrLanguage } from "react-icons/gr";
-
-import { FaRegCircleUser } from "react-icons/fa6";
 
 import OtpInputs from "@/components/Otp";
 import { MdMarkEmailUnread } from "react-icons/md";
@@ -27,8 +26,6 @@ export default function Register() {
   const t = useTranslate();
   const auth = t.auth;
 
-  console.log(t);
-
   const STEPS = {
     ACCOUNT: 1,
     LOGIN: 2,
@@ -36,9 +33,9 @@ export default function Register() {
     FORGET_PASS_VERIFY: 4,
     VIEW_OR_UPDATE_PASS: 5,
   };
+
   const options = useMemo(() => countryList().getData(), []);
   const [step, setStep] = useState(STEPS.ACCOUNT);
-
   const [activeNational, setActiveNational] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [countrySearch, setCountrySearch] = useState("");
@@ -55,25 +52,23 @@ export default function Register() {
   } = useForm();
 
   const password = watch("password", "");
-  const [passEye, setPassEye] = useState({ password: false, confirm: false });
   const newPassValue = watch("newPass");
+  const [passEye, setPassEye] = useState({ password: false, confirm: false });
 
   const OTP_LENGTH = 5;
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
 
   useEffect(() => {
-    if (step === STEPS.PHONE_VERIFY || step === STEPS.EMAIL_VERIFY) {
+    if (step === STEPS.EMAIL_VERIFY || step === STEPS.FORGET_PASS_VERIFY) {
       setOtp(Array(OTP_LENGTH).fill(""));
     }
   }, [step]);
 
-  /* ================= SUBMIT ================= */
   const onSubmit = (data) => {
     if (step === STEPS.LOGIN) {
       console.log("LOGIN DATA", data);
       return;
     }
-
     if (step === STEPS.ACCOUNT) {
       setStep(STEPS.EMAIL_VERIFY);
       return;
@@ -82,10 +77,7 @@ export default function Register() {
       setStep(STEPS.VIEW_OR_UPDATE_PASS);
       return;
     }
-
-    console.log("FINAL REQUEST", {
-      userData: data,
-    });
+    console.log("FINAL REQUEST", { userData: data });
   };
 
   const titles = {
@@ -98,7 +90,7 @@ export default function Register() {
 
   const descriptions = {
     [STEPS.ACCOUNT]: auth.accountDescription,
-    [STEPS.LOGIN]: auth.loginDescription || "",
+    [STEPS.LOGIN]: auth.loginDescription || "", // اذا مش موجود هتضيفه في ملف الترجمة
     [STEPS.EMAIL_VERIFY]: auth.emailDescription,
     [STEPS.FORGET_PASS_VERIFY]: auth.emailDescription,
     [STEPS.VIEW_OR_UPDATE_PASS]: auth.userVerifiedDescription,
@@ -117,9 +109,12 @@ export default function Register() {
   return (
     <div className="form-holder">
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/* ================= ICON FOR OTP STEPS ================= */}
         {[STEPS.EMAIL_VERIFY, STEPS.FORGET_PASS_VERIFY].includes(step) && (
           <MdMarkEmailUnread className="big-ico" />
         )}
+
+        {/* ================= TITLE & DESCRIPTION ================= */}
         <div className="top">
           <h1>{titles[step]}</h1>
           <p>{descriptions[step]}</p>
@@ -128,26 +123,23 @@ export default function Register() {
         {/* ================= LOGIN ================= */}
         {step === STEPS.LOGIN && (
           <>
-            <div
-              className="box forInput"
-              onClick={() => document.getElementById("email").focus()}
-            >
-              <label htmlFor="email">Email Address</label>
+            {/* EMAIL */}
+            <div className="box forInput">
+              <label>{auth.email}</label>
               <div className="inputHolder">
                 <div className="holder">
                   <Mail />
                   <input
                     type="email"
-                    id="email"
                     {...register("email", {
-                      required: "Email address is required",
+                      required: auth.errors.requiredEmail,
                       pattern: {
                         value:
                           /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                        message: "Enter a valid email address",
+                        message: auth.errors.invalidEmail,
                       },
                     })}
-                    placeholder="Enter your email address"
+                    placeholder={auth.placeholders.email}
                   />
                 </div>
                 {errors.email && (
@@ -159,6 +151,7 @@ export default function Register() {
               </div>
             </div>
 
+            {/* PASSWORD */}
             <div className="box forInput">
               <label>{auth.password}</label>
               <div className="inputHolder password">
@@ -195,6 +188,7 @@ export default function Register() {
                 )}
               </div>
             </div>
+
             <div
               className="have-problem"
               onClick={() => {
@@ -208,33 +202,26 @@ export default function Register() {
           </>
         )}
 
-        {/* ================= REGISTER STEP 1 ================= */}
+        {/* ================= REGISTER ================= */}
         {step === STEPS.ACCOUNT && (
           <>
-            {/* Full name */}
-            <div
-              className="box forInput"
-              onClick={() => document.getElementById("fullname").focus()}
-            >
-              <label htmlFor="fullname">Full Name</label>
+            {/* FULL NAME */}
+            <div className="box forInput">
+              <label>{auth.fullName}</label>
               <div className="inputHolder">
                 <div className="holder">
                   <UserRound />
                   <input
-                    type="text"
-                    id="fullname"
                     {...register("fullname", {
-                      required: "Your Full Name is required",
+                      required: auth.errors.requiredFullName,
                       validate: (value) => {
                         const words = value.trim().split(/\s+/);
                         if (words.length < 2)
-                          return "Please enter at least two words";
-                        if (words.some((word) => word.length < 2))
-                          return "Each word must have at least 2 letters";
+                          return auth.errors.fullNameTwoWords;
                         return true;
                       },
                     })}
-                    placeholder="Enter your full name"
+                    placeholder={auth.placeholders.fullName}
                   />
                 </div>
                 {errors.fullname && (
@@ -246,28 +233,22 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Phone */}
-            <div
-              className="box forInput"
-              onClick={() => document.getElementById("phone").focus()}
-            >
-              <label htmlFor="phone">Phone Number</label>
+            {/* PHONE */}
+            <div className="box forInput">
+              <label>{auth.phone}</label>
               <div className="inputHolder">
                 <div className="holder">
                   <Phone />
                   <input
                     type="tel"
-                    id="phone"
                     {...register("phone", {
-                      required: "Phone number is required",
+                      required: auth.errors.requiredPhone,
                       pattern: {
-                        // ✅ يقبل + و أي رقم (صيغ دولية مثل +20, +1, +44)
                         value: /^\+?[0-9\s-()]{7,20}$/,
-                        message:
-                          "Enter a valid phone number (e.g. +20 100 123 4567)",
+                        message: auth.errors.invalidPhone,
                       },
                     })}
-                    placeholder="Enter your phone number"
+                    placeholder={auth.placeholders.phone}
                   />
                 </div>
                 {errors.phone && (
@@ -278,11 +259,10 @@ export default function Register() {
                 )}
               </div>
             </div>
-            <div
-              className="box forInput"
-              onClick={() => document.getElementById("nationality").focus()}
-            >
-              <label htmlFor="phone">nationality</label>
+
+            {/* NATIONALITY */}
+            <div className="box forInput">
+              <label>{auth.chooseNationality}</label>
               <div className="filters for-cats">
                 <div className="btn">
                   <GrLanguage />
@@ -295,17 +275,15 @@ export default function Register() {
                         autoFocus
                         value={countrySearch}
                         onChange={(e) => setCountrySearch(e.target.value)}
-                        placeholder="Select your country"
+                        placeholder={auth.chooseNationality}
                         className="search-input"
-                        id="nationality"
                       />
                     ) : !selectedCountry ? (
-                      "Select your country"
+                      auth.chooseNationality
                     ) : (
-                      `Country: ${selectedCountry}`
+                      selectedCountry
                     )}
                   </h4>
-
                   {activeNational ? (
                     <IoMdClose
                       className="main-ico"
@@ -318,7 +296,6 @@ export default function Register() {
                     />
                   )}
                 </div>
-
                 <div className={`menu ${activeNational ? "active" : ""}`}>
                   {filteredCountries?.length > 0 ? (
                     filteredCountries.map((country, index) => (
@@ -341,33 +318,31 @@ export default function Register() {
                       </button>
                     ))
                   ) : (
-                    <div className="no-results">No results</div>
+                    <div className="no-results">
+                      {auth.noResults || "No results"}
+                    </div>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Email */}
-            <div
-              className="box forInput"
-              onClick={() => document.getElementById("email").focus()}
-            >
-              <label htmlFor="email">Email Address</label>
+            {/* EMAIL */}
+            <div className="box forInput">
+              <label>{auth.email}</label>
               <div className="inputHolder">
                 <div className="holder">
                   <Mail />
                   <input
                     type="email"
-                    id="email"
                     {...register("email", {
-                      required: "Email address is required",
+                      required: auth.errors.requiredEmail,
                       pattern: {
                         value:
                           /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                        message: "Enter a valid email address",
+                        message: auth.errors.invalidEmail,
                       },
                     })}
-                    placeholder="Enter your email address"
+                    placeholder={auth.placeholders.email}
                   />
                 </div>
                 {errors.email && (
@@ -379,26 +354,22 @@ export default function Register() {
               </div>
             </div>
 
-            <div
-              className="box forInput"
-              onClick={() => document.getElementById("password").focus()}
-            >
-              <label htmlFor="password">Password</label>
+            {/* PASSWORD */}
+            <div className="box forInput">
+              <label>{auth.password}</label>
               <div className="inputHolder password">
                 <div className="holder">
                   <LockKeyhole />
-
                   <input
                     type={passEye.password ? "text" : "password"}
-                    id="password"
                     {...register("password", {
-                      required: "Password is required",
+                      required: auth.errors.requiredPassword,
                       minLength: {
                         value: 8,
-                        message: "Password must be at least 8 characters long",
+                        message: auth.errors.passwordWeak,
                       },
                     })}
-                    placeholder="Enter your password"
+                    placeholder={auth.placeholders.password}
                   />
                   {passEye.password ? (
                     <Eye
@@ -425,26 +396,20 @@ export default function Register() {
               </div>
             </div>
 
-            <div
-              className="box forInput"
-              onClick={() =>
-                document.getElementById("passwordConfirmation").focus()
-              }
-            >
-              <label htmlFor="confirm">Confirm Password</label>
+            {/* CONFIRM PASSWORD */}
+            <div className="box forInput">
+              <label>{auth.confirmPassword}</label>
               <div className="inputHolder password">
                 <div className="holder">
                   <LockKeyhole />
-
                   <input
                     type={passEye.confirm ? "text" : "password"}
-                    id="passwordConfirmation"
                     {...register("passwordConfirmation", {
-                      required: "Please confirm your password",
+                      required: auth.errors.passwordMismatch,
                       validate: (value) =>
-                        value === password || "Passwords do not match",
+                        value === password || auth.errors.passwordMismatch,
                     })}
-                    placeholder="Confirm your password"
+                    placeholder={auth.placeholders.confirmPassword}
                   />
                   {passEye.confirm ? (
                     <Eye
@@ -473,7 +438,7 @@ export default function Register() {
           </>
         )}
 
-        {/* ================= VIEW/UPDATE PASSWORD ================= */}
+        {/* ================= VIEW OR UPDATE PASSWORD ================= */}
         {step === STEPS.VIEW_OR_UPDATE_PASS && (
           <>
             <div className="box forInput">
@@ -504,6 +469,7 @@ export default function Register() {
                 </div>
               </div>
             </div>
+
             <div className="box forInput">
               <label>
                 {auth.makeNewPassword} <span>({auth.optional})</span>
@@ -517,7 +483,7 @@ export default function Register() {
                       pattern: {
                         value:
                           /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?~\-]).{8,}$/,
-                        message: t.auth.errors.passwordWeak,
+                        message: auth.errors.passwordWeak,
                       },
                     })}
                     placeholder={auth.placeholders.newPassword}
@@ -549,11 +515,9 @@ export default function Register() {
           </>
         )}
 
-        {/* ================= OTP VERIFICATION ================= */}
+        {/* ================= OTP ================= */}
         {(step === STEPS.EMAIL_VERIFY || step === STEPS.FORGET_PASS_VERIFY) && (
-          <>
-            <OtpInputs length={OTP_LENGTH} value={otp} onChange={setOtp} />
-          </>
+          <OtpInputs length={OTP_LENGTH} value={otp} onChange={setOtp} />
         )}
 
         {/* ================= SUBMIT BUTTON ================= */}
@@ -581,20 +545,12 @@ export default function Register() {
                 />
                 {auth.google}
               </div>
-              <div className="btn">
-                <Image
-                  src={`/facebook-icon.png`}
-                  width={24}
-                  height={24}
-                  alt="facebook icon"
-                />
-                Facebook
-              </div>
+              <div className="btn">Facebook</div>
             </div>
           </>
         )}
 
-        {/* ================= SWITCH BETWEEN LOGIN/REGISTER ================= */}
+        {/* ================= SWITCH LOGIN/REGISTER ================= */}
         {(step === STEPS.ACCOUNT || step === STEPS.LOGIN) && (
           <div
             className="have-problem"

@@ -14,9 +14,12 @@ import Link from "next/link";
 import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
 import { FaPlaceOfWorship } from "react-icons/fa";
+import useTranslate from "@/Contexts/useTranslation";
 
 export default function Governorates() {
   const { screenSize } = useContext(mainContext);
+
+  const t = useTranslate();
 
   return (
     <div className="dash-holder">
@@ -25,10 +28,16 @@ export default function Governorates() {
           <div className="table-header">
             {screenSize !== "small" ? (
               <>
-                <div className="header-item details">governorate details</div>
-                <div className="header-item">views count</div>
-                <div className="header-item">places count</div>
-                <div className="header-item">Actions</div>
+                <div className="header-item details">
+                  {t.dashboard.tables.governorate_details}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.views_count}
+                </div>
+                <div className="header-item">
+                  {t.dashboard.tables.places_count}
+                </div>
+                <div className="header-item">{t.dashboard.tables.actions}</div>
               </>
             ) : (
               <div className="header-item" style={{ fontSize: "17px" }}>

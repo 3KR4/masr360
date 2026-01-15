@@ -1,120 +1,234 @@
 export const navLinks = [
   {
-    title: "governorates",
+    title: {
+      en: "Governorates",
+      ar: "المحافظات",
+    },
     link: "/discover",
     departments: [
       {
-        name: "Cairo",
+        name: {
+          en: "Cairo",
+          ar: "القاهرة",
+        },
         link: "/",
       },
       {
-        name: "Alexandria",
+        name: {
+          en: "Alexandria",
+          ar: "الإسكندرية",
+        },
         link: "/",
       },
       {
-        name: "Giza",
+        name: {
+          en: "Giza",
+          ar: "الجيزة",
+        },
         link: "/",
       },
       {
-        name: "Luxor",
+        name: {
+          en: "Luxor",
+          ar: "الأقصر",
+        },
         link: "/",
       },
       {
-        name: "Aswan",
+        name: {
+          en: "Aswan",
+          ar: "أسوان",
+        },
         link: "/",
       },
     ],
   },
   {
-    title: "places",
+    title: {
+      en: "Places",
+      ar: "المزارات",
+    },
     link: "/places",
     departments: [
       {
-        name: "The Egyptian Museum",
+        name: {
+          en: "The Egyptian Museum",
+          ar: "المتحف المصري",
+        },
         link: "/",
       },
       {
-        name: "The Pyramids of Giza",
+        name: {
+          en: "The Pyramids of Giza",
+          ar: "أهرامات الجيزة",
+        },
         link: "/",
       },
       {
-        name: "Abu Simbel Temples",
+        name: {
+          en: "Abu Simbel Temples",
+          ar: "معابد أبو سمبل",
+        },
         link: "/",
       },
     ],
   },
   {
-    title: "Masr 360 Nights",
+    title: {
+      en: "Masr Nights",
+      ar: "ليالي مصر",
+    },
     link: "/nights",
     departments: [
       {
-        name: "Nile Parties",
+        name: {
+          en: "Nile Parties",
+          ar: "حفلات النيل",
+        },
         icon: "MdOutlineCelebration",
         link: "/",
       },
       {
-        name: "Safari Nights",
+        name: {
+          en: "Safari Nights",
+          ar: "ليالي السفاري",
+        },
         icon: "MdOutlineNightlife",
         link: "/",
       },
       {
-        name: "Restaurants & Cafes",
+        name: {
+          en: "Restaurants & Cafes",
+          ar: "مطاعم وكافيهات",
+        },
         icon: "MdRestaurant",
         link: "/",
       },
       {
-        name: "Cultural Events",
+        name: {
+          en: "Cultural Events",
+          ar: "فعاليات ثقافية",
+        },
         icon: "MdLocalActivity",
         link: "/",
       },
     ],
   },
   {
-    title: "Marketplace",
+    title: {
+      en: "Marketplace",
+      ar: "المتجر",
+    },
     link: "/marketplace",
     departments: [
-      { name: "Souvenirs", icon: "MdShoppingBag", link: "/" },
-      { name: "Local Crafts", icon: "MdHandyman", link: "/" },
-      { name: "Art & Decor", icon: "MdBrush", link: "/" },
-      { name: "Traditional Clothes", icon: "MdCheckroom", link: "/" },
+      {
+        name: {
+          en: "Souvenirs",
+          ar: "هدايا تذكارية",
+        },
+        icon: "MdShoppingBag",
+        link: "/",
+      },
+      {
+        name: {
+          en: "Local Crafts",
+          ar: "حرف يدوية محلية",
+        },
+        icon: "MdHandyman",
+        link: "/",
+      },
+      {
+        name: {
+          en: "Art & Decor",
+          ar: "فن وديكور",
+        },
+        icon: "MdBrush",
+        link: "/",
+      },
+      {
+        name: {
+          en: "Traditional Clothes",
+          ar: "ملابس تراثية",
+        },
+        icon: "MdCheckroom",
+        link: "/",
+      },
     ],
   },
   {
-    title: "games",
+    title: {
+      en: "Games",
+      ar: "الألعاب",
+    },
     link: "/games",
   },
   {
-    title: "about us",
+    title: {
+      en: "About Us",
+      ar: "من نحن",
+    },
     link: "/about",
   },
 ];
 export const slides = [
   {
     image: "/Slides/slide-003.jpg",
-    small: "Discover Egypt",
-    paragraph:
-      "Explore hidden gems, exciting night spots, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
-    title: "Live the Full Experience",
-    btnText: "Explore Now",
+    small: {
+      en: "Discover Egypt",
+      ar: "اكتشف مصر",
+    },
+    paragraph: {
+      en: "Explore hidden gems, exciting night spots, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
+      ar: "اكتشف الأماكن الخفية، والسهرات المميزة، والثقافة المصرية الحقيقية مع Masr360. رحلتك تبدأ من هنا — ممتعة، محلية، ولا تُنسى.",
+    },
+    title: {
+      en: "Live the Full Experience",
+      ar: "عِش التجربة كاملة",
+    },
+    btnText: {
+      en: "Explore Now",
+      ar: "استكشف الآن",
+    },
     link: "/discover",
   },
   {
     image: "/Slides/slide-005.jpg",
-    small: "Play • Explore • Win",
-    paragraph:
-      "Complete fun challenges at iconic places, earn points, and unlock real rewards — restaurants, handcrafts, and more!",
-    title: "Make Every Step a Game",
-    btnText: "See Events",
+    small: {
+      en: "Play • Explore • Win",
+      ar: "العب • استكشف • اكسب",
+    },
+    paragraph: {
+      en: "Complete fun challenges at iconic places, earn points, and unlock real rewards — restaurants, handcrafts, and more!",
+      ar: "أنجز تحديات ممتعة في أماكن أيقونية، اجمع النقاط، وافتح مكافآت حقيقية — مطاعم، حرف يدوية، والمزيد!",
+    },
+    title: {
+      en: "Make Every Step a Game",
+      ar: "حوّل كل خطوة للعبة",
+    },
+    btnText: {
+      en: "See Events",
+      ar: "شاهد الفعاليات",
+    },
     link: "/nights",
   },
   {
     image: "/Slides/slide-001.jpg",
-
-    small: "Explore Egypt Differently",
-    paragraph:
-      "Find hidden gems, unique experiences, and special rewards across all Egyptian governorates. Masr360 is your smart guide to explore, play, and enjoy every part of Egypt.",
-    title: "Discover the Real Egypt",
-    btnText: "Visit Marketplace",
+    small: {
+      en: "Explore Egypt Differently",
+      ar: "اكتشف مصر بشكل مختلف",
+    },
+    paragraph: {
+      en: "Find hidden gems, unique experiences, and special rewards across all Egyptian governorates. Masr360 is your smart guide to explore, play, and enjoy every part of Egypt.",
+      ar: "اكتشف أماكن خفية، وتجارب فريدة، ومكافآت مميزة في جميع محافظات مصر. Masr360 هو دليلك الذكي للاستكشاف واللعب والاستمتاع بكل جزء من مصر.",
+    },
+    title: {
+      en: "Discover the Real Egypt",
+      ar: "اكتشف مصر الحقيقية",
+    },
+    btnText: {
+      en: "Visit Marketplace",
+      ar: "زور المتجر",
+    },
     link: "/marketplace",
   },
 ];
@@ -1117,48 +1231,7 @@ export const products = [
     tags: ["candle", "clay", "decor"],
   },
 ];
-export const nightsCategories = [
-  {
-    name: "Nile Parties",
-    icon: "🚤",
-    link: "/night-events/nile-parties",
-  },
-  {
-    name: "Safari Nights",
-    icon: "🏜️",
-    link: "/night-events/safari-nights",
-  },
-  {
-    name: "Restaurants & Cafes",
-    icon: "🍽️",
-    link: "/night-events/restaurants-cafes",
-  },
-  {
-    name: "Cultural Events",
-    icon: "🎭",
-    link: "/night-events/cultural-events",
-  },
-  {
-    name: "Concerts & Live Music",
-    icon: "🎵",
-    link: "/night-events/live-music",
-  },
-  {
-    name: "Night Clubs & Lounges",
-    icon: "🍸",
-    link: "/night-events/night-clubs",
-  },
-  {
-    name: "Night Markets",
-    icon: "🛍️",
-    link: "/night-events/night-markets",
-  },
-  {
-    name: "Cinema & Outdoor Movies",
-    icon: "🎬",
-    link: "/night-events/outdoor-cinema",
-  },
-];
+
 export const orders = [
   {
     id: 1,
@@ -1559,128 +1632,171 @@ export const reviews = [
 export const tourismCategories = [
   {
     id: 1,
-    name: "Ancient Egypt",
+    name: { en: "Ancient Egypt", ar: "مصر القديمة" },
     icon: "🏺",
   },
   {
     id: 2,
-    name: "Beaches",
+    name: { en: "Beaches", ar: "الشواطئ" },
     icon: "🏖️",
     subcategories: [
-      { id: 21, name: "Red Sea" },
-      { id: 22, name: "Mediterranean" },
-      { id: 23, name: "Diving Spots" },
-      { id: 24, name: "Resorts" },
+      { id: 21, name: { en: "Red Sea", ar: "البحر الأحمر" } },
+      { id: 22, name: { en: "Mediterranean", ar: "البحر المتوسط" } },
+      { id: 23, name: { en: "Diving Spots", ar: "مواقع الغوص" } },
+      { id: 24, name: { en: "Resorts", ar: "المنتجعات" } },
     ],
   },
   {
     id: 3,
-    name: "Cruises",
+    name: { en: "Cruises", ar: "الرحلات النيلية" },
     icon: "🚢",
     subcategories: [
-      { id: 31, name: "Nile Cruises" },
-      { id: 32, name: "Felucca Rides" },
-      { id: 33, name: "Sea Cruises" },
+      { id: 31, name: { en: "Nile Cruises", ar: "رحلات نيلية" } },
+      { id: 32, name: { en: "Felucca Rides", ar: "الفلوكة" } },
+      { id: 33, name: { en: "Sea Cruises", ar: "رحلات بحرية" } },
     ],
   },
   {
     id: 4,
-    name: "Oases & Deserts",
+    name: { en: "Oases & Deserts", ar: "الواحات والصحارى" },
     icon: "🏜️",
     subcategories: [
-      { id: 41, name: "Siwa Oasis" },
-      { id: 42, name: "Western Desert" },
-      { id: 43, name: "White Desert" },
-      { id: 44, name: "Safari Tours" },
+      { id: 41, name: { en: "Siwa Oasis", ar: "واحة سيوة" } },
+      { id: 42, name: { en: "Western Desert", ar: "الصحراء الغربية" } },
+      { id: 43, name: { en: "White Desert", ar: "الصحراء البيضاء" } },
+      { id: 44, name: { en: "Safari Tours", ar: "رحلات السفاري" } },
     ],
   },
   {
     id: 5,
-    name: "Religious",
+    name: { en: "Religious", ar: "سياحة دينية" },
     icon: "🕌",
     subcategories: [
-      { id: 51, name: "Islamic" },
-      { id: 52, name: "Coptic" },
-      { id: 53, name: "Jewish" },
-      { id: 54, name: "Sacred Sites" },
+      { id: 51, name: { en: "Islamic", ar: "إسلامية" } },
+      { id: 52, name: { en: "Coptic", ar: "قبطية" } },
+      { id: 53, name: { en: "Jewish", ar: "يهودية" } },
+      { id: 54, name: { en: "Sacred Sites", ar: "مواقع مقدسة" } },
     ],
   },
   {
     id: 6,
-    name: "Museums",
+    name: { en: "Museums", ar: "المتاحف" },
     icon: "🏛️",
     subcategories: [
-      { id: 61, name: "History Museums" },
-      { id: 62, name: "Art Museums" },
-      { id: 63, name: "Cultural Museums" },
-      { id: 64, name: "Science Museums" },
+      { id: 61, name: { en: "History Museums", ar: "متاحف تاريخية" } },
+      { id: 62, name: { en: "Art Museums", ar: "متاحف فنية" } },
+      { id: 63, name: { en: "Cultural Museums", ar: "متاحف ثقافية" } },
+      { id: 64, name: { en: "Science Museums", ar: "متاحف علمية" } },
     ],
   },
   {
     id: 7,
-    name: "Outdoor Sports",
+    name: { en: "Outdoor Sports", ar: "رياضات خارجية" },
     icon: "🎯",
     subcategories: [
-      { id: 71, name: "Hiking" },
-      { id: 72, name: "Climbing" },
-      { id: 73, name: "Water Sports" },
-      { id: 74, name: "Sandboarding" },
+      { id: 71, name: { en: "Hiking", ar: "المشي الجبلي" } },
+      { id: 72, name: { en: "Climbing", ar: "التسلق" } },
+      { id: 73, name: { en: "Water Sports", ar: "رياضات مائية" } },
+      { id: 74, name: { en: "Sandboarding", ar: "التزلج على الرمال" } },
     ],
   },
   {
     id: 8,
-    name: "Shopping",
+    name: { en: "Shopping", ar: "التسوق" },
     icon: "🛍️",
     subcategories: [
-      { id: 81, name: "Bazaars" },
-      { id: 82, name: "Handicrafts" },
-      { id: 83, name: "Malls" },
-      { id: 84, name: "Souvenirs" },
+      { id: 81, name: { en: "Bazaars", ar: "بازارات" } },
+      { id: 82, name: { en: "Handicrafts", ar: "حرف يدوية" } },
+      { id: 83, name: { en: "Malls", ar: "مولات" } },
+      { id: 84, name: { en: "Souvenirs", ar: "هدايا تذكارية" } },
     ],
   },
 ];
 export const productCategories = [
   {
     id: 1,
-    name: "Souvenirs",
+    name: { en: "Souvenirs", ar: "هدايا تذكارية" },
     icon: "🎁",
   },
   {
     id: 2,
-    name: "Local Crafts",
+    name: { en: "Local Crafts", ar: "حرف محلية" },
     icon: "🧵",
   },
   {
     id: 3,
-    name: "Art & Decor",
+    name: { en: "Art & Decor", ar: "فن وديكور" },
     icon: "🖼️",
   },
   {
     id: 4,
-    name: "Traditional Clothes",
+    name: { en: "Traditional Clothes", ar: "ملابس تقليدية" },
     icon: "👘",
   },
   {
     id: 5,
-    name: "Handmade Jewelry",
+    name: { en: "Handmade Jewelry", ar: "مجوهرات يدوية" },
     icon: "💍",
   },
   {
     id: 6,
-    name: "Home Accessories",
+    name: { en: "Home Accessories", ar: "إكسسوارات منزلية" },
     icon: "🏡",
   },
   {
     id: 7,
-    name: "Spices & Aromas",
+    name: { en: "Spices & Aromas", ar: "توابل وعطور" },
     icon: "🌿",
   },
   {
     id: 8,
-    name: "Leather Goods",
+    name: { en: "Leather Goods", ar: "منتجات جلدية" },
     icon: "👝",
   },
 ];
+export const nightsCategories = [
+  {
+    name: { en: "Nile Parties", ar: "حفلات النيل" },
+    icon: "🚤",
+    link: "/night-events/nile-parties",
+  },
+  {
+    name: { en: "Safari Nights", ar: "ليالي السفاري" },
+    icon: "🏜️",
+    link: "/night-events/safari-nights",
+  },
+  {
+    name: { en: "Restaurants & Cafes", ar: "مطاعم وكافيهات" },
+    icon: "🍽️",
+    link: "/night-events/restaurants-cafes",
+  },
+  {
+    name: { en: "Cultural Events", ar: "فعاليات ثقافية" },
+    icon: "🎭",
+    link: "/night-events/cultural-events",
+  },
+  {
+    name: { en: "Concerts & Live Music", ar: "حفلات وموسيقى مباشرة" },
+    icon: "🎵",
+    link: "/night-events/live-music",
+  },
+  {
+    name: { en: "Night Clubs & Lounges", ar: "نوادي ليلية ولاونجات" },
+    icon: "🍸",
+    link: "/night-events/night-clubs",
+  },
+  {
+    name: { en: "Night Markets", ar: "أسواق ليلية" },
+    icon: "🛍️",
+    link: "/night-events/night-markets",
+  },
+  {
+    name: { en: "Cinema & Outdoor Movies", ar: "سينما وعروض خارجية" },
+    icon: "🎬",
+    link: "/night-events/outdoor-cinema",
+  },
+];
+
 export const filters = [
   {
     id: "products list",
@@ -1810,7 +1926,7 @@ export const govs = [
   "Luxor",
   "Qena",
   "North Sinai",
-  "Sohag"
+  "Sohag",
 ];
 export const users = [
   {

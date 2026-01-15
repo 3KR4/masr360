@@ -34,7 +34,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 45%;
-  box-shadow: 0 0 400px 121px #0000006b;
+  box-shadow: 0 0 250px 82px #000000af;
 }
 .swiper .slide-content div {
   display: flex;
@@ -52,6 +52,9 @@
 .swiper .slide-content h1 {
   font-size: 75px;
   color: white;
+}
+[lang="ar"] .swiper .slide-content h1 {
+  margin-top: -13px;
 }
 .swiper .slide-content h2 {
   font-weight: 400;

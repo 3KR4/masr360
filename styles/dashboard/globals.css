@@ -142,6 +142,7 @@ header .actions-btns .userMenu .top {
   flex-direction: column;
   gap: 2px;
 }
+
 .dashboard .item-rating .row-holder {
   display: flex;
   align-items: center;

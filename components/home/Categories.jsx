@@ -11,12 +11,13 @@ import SwiperCore from "swiper";
 import "swiper/css";
 import "swiper/css/effect-fade";
 
+import useTranslate from "@/Contexts/useTranslation";
 function Categories() {
+  const t = useTranslate();
   SwiperCore.use([Autoplay, EffectFade, Pagination]);
 
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
   const swiperRef = useRef(null);
-
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.params.pagination.el = ".custom-pagination";
@@ -31,15 +32,15 @@ function Categories() {
       <div className="title-holder">
         <h1 className="main-title">
           <hr />
-          Categories
+          {t.sectionsTitles.categories.title}
           <hr />
         </h1>
-        <p className="sub-title">
-          From ancient temples to sunlit shores — your journey starts here
-        </p>
+        <p className="sub-title">{t.sectionsTitles.categories.subtitle}</p>
       </div>
 
       <Swiper
+        key={locale}
+        dir={locale === "ar" ? "rtl" : "ltr"}
         ref={swiperRef}
         modules={[Autoplay, Pagination, EffectFade]}
         slidesPerView={5}

@@ -12,10 +12,13 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import CardItem from "@/components/CardItem";
 
+import useTranslate from "@/Contexts/useTranslation";
 function Events() {
+  const t = useTranslate();
+
   SwiperCore.use([Autoplay, EffectFade, Pagination]);
 
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
   const swiperRef = useRef(null);
 
   useEffect(() => {
@@ -32,18 +35,20 @@ function Events() {
       <div className="title-holder container">
         <h1 className="main-title">
           <hr />
-          upcoming events
+          {t.sectionsTitles.upcoming_events.title}
           <hr />
         </h1>
         <p className="sub-title">
-          Check out the latest upcoming events happening soon!
+          {t.sectionsTitles.upcoming_events.subtitle}
         </p>
         <Link href={`/nights`} className="main-button">
-          Explore More
+          {t.sectionsTitles.upcoming_events.btn}
         </Link>
       </div>
 
       <Swiper
+        key={locale}
+        dir={locale === "ar" ? "rtl" : "ltr"}
         ref={swiperRef}
         modules={[Autoplay, Pagination, EffectFade]}
         slidesPerView={5}

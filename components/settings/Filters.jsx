@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import Slider from "@mui/material/Slider";
 import { tourismCategories, productCategories, nightsCategories } from "@/data";
 import "@/styles/components/filters.css";
 import { IoIosClose } from "react-icons/io";
+import useTranslate from "@/Contexts/useTranslation";
+import { mainContext } from "@/Contexts/mainContext";
 
 const Filters = ({
   availability,
@@ -18,36 +20,39 @@ const Filters = ({
   active,
   setActive,
 }) => {
+  const t = useTranslate();
+  const { locale } = useContext(mainContext);
+
+  const cats =
+    catsType === "product"
+      ? productCategories
+      : catsType === "night"
+      ? nightsCategories
+      : tourismCategories;
+  const handlePriceChange = (_, newValue) => {
+    setPriceRange(newValue);
+  };
   const handleAvailabilityClick = (status) => {
     setAvailability((prev) => (prev === status ? null : status));
   };
 
-  const handlePriceChange = (_, newValue) => {
-    setPriceRange(newValue);
+  const handleCategoryClick = (cat, sub = null) => {
+    if (!sub) {
+      setSelectedCategory((prev) => ({
+        catId: prev.catId === cat.id ? null : cat.id,
+        subCatId: null,
+        catLabel: prev.catId === cat.id ? null : cat.name[locale],
+        subCatLabel: null,
+      }));
+    } else {
+      setSelectedCategory((prev) => ({
+        ...prev,
+        subCatId: prev.subCatId === sub.id ? null : sub.id,
+        subCatLabel: prev.subCatId === sub.id ? null : sub.name[locale],
+      }));
+    }
   };
 
-  const handleCategoryClick = (type, name) => {
-    setSelectedCategory((prev) => {
-      if (type === "main") {
-        return {
-          cat: prev.cat === name ? null : name,
-          subCat: null,
-        };
-      } else {
-        return {
-          ...prev,
-          subCat: prev.subCat === name ? null : name,
-        };
-      }
-    });
-  };
-
-  const cats =
-    catsType == "product"
-      ? productCategories
-      : catsType == "night"
-      ? nightsCategories
-      : tourismCategories;
   return (
     <div className={`filters ${active ? "active" : ""}`}>
       {screenSize !== "large" && (
@@ -58,7 +63,7 @@ const Filters = ({
       {showAvailability && (
         <>
           <div className="holder availability">
-            <h4>Filter by Availability</h4>
+            <h4>{t.marketplace.filter_by_availability}</h4>
             <ul>
               {["inStock", "outOfStock"].map((status) => (
                 <li
@@ -75,24 +80,31 @@ const Filters = ({
                     />
                     <span className="custom-checkbox"></span>
                   </label>
-                  {status === "inStock" ? "In Stock" : "Out of Stock"}
+                  {status === "inStock"
+                    ? t.marketplace.in_stock
+                    : t.marketplace.out_of_stock}
                 </li>
               ))}
             </ul>
           </div>
+
           <hr />
+
           <div className="holder">
-            <h4>Filter by Price</h4>
-            <p>Enter min and max price</p>
+            <h4>{t.marketplace.filter_by_price}</h4>
+            <p>{t.marketplace.enter_price_range}</p>
+
             <div className="price-input">
               <div className="field">
-                <span>min</span>
+                <span>{t.marketplace.min}</span>
                 <h3>{priceRange[0]}</h3>
               </div>
+
               <hr className="separator" />
+
               <div className="field">
                 <h3>{priceRange[1]}</h3>
-                <span>max</span>
+                <span>{t.marketplace.max}</span>
               </div>
             </div>
 
@@ -114,39 +126,36 @@ const Filters = ({
               }}
             />
           </div>
+
           <hr />
         </>
       )}
-      {/* Price Filter */}
 
-      {/* Categories Filter */}
       <div className="holder">
-        <h4>Filter by Categories</h4>
+        <h4>{t.marketplace.filter_by_categories}</h4>
         <ul>
           {cats.map((cat) => (
             <li key={cat.id}>
-              {/* Main Category */}
               <div
                 className={`main-cat ${
-                  selectedCategory.cat === cat.name ? "active" : ""
+                  selectedCategory.catId === cat.id ? "active" : ""
                 }`}
-                onClick={() => handleCategoryClick("main", cat.name)}
+                onClick={() => handleCategoryClick(cat)}
               >
-                <span>{cat.icon}</span> {cat.name}
+                <span>{cat.icon}</span> {cat.name[locale]}
               </div>
 
-              {/* Sub Categories (لو موجودة) */}
-              {cat.subcategories && selectedCategory.cat === cat.name && (
+              {cat.subcategories && selectedCategory.catId === cat.id && (
                 <div className="sub-cats">
                   {cat.subcategories.map((sub) => (
                     <div
                       key={sub.id}
                       className={`sub-cat ${
-                        selectedCategory.subCat === sub.name ? "active" : ""
+                        selectedCategory.subCatId === sub.id ? "active" : ""
                       }`}
-                      onClick={() => handleCategoryClick("sub", sub.name)}
+                      onClick={() => handleCategoryClick(cat, sub)}
                     >
-                      ▸ {sub.name}
+                      ▸ {sub.name[locale]}
                     </div>
                   ))}
                 </div>

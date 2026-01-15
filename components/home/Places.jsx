@@ -9,8 +9,10 @@ import { FaHeart } from "react-icons/fa";
 import { places } from "@/data";
 import CardItem from "@/components/CardItem";
 import { getService } from "@/services/api/getService";
-
+import useTranslate from "@/Contexts/useTranslation";
 function Places() {
+const t = useTranslate();
+
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
@@ -32,15 +34,14 @@ function Places() {
       <div className="title-holder container">
         <h1 className="main-title">
           <hr />
-          top attractions
+          {t.sectionsTitles.top_attractions.title}
           <hr />
         </h1>
         <p className="sub-title">
-          Step into history and explore Egypt’s most breathtaking landmarks —
-          from ancient wonders to timeless treasures.
+          {t.sectionsTitles.top_attractions.subtitle}
         </p>
         <Link href={`/places`} className="main-button">
-          See More
+          {t.sectionsTitles.top_attractions.btn}
         </Link>
       </div>
 

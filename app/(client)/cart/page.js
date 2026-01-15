@@ -14,9 +14,11 @@ import { SlLocationPin } from "react-icons/sl";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import Link from "next/link";
 import { mainContext } from "@/Contexts/mainContext";
+import useTranslate from "@/Contexts/useTranslation";
 
 function Cart() {
   const { screenSize } = useContext(mainContext);
+  const t = useTranslate();
 
   const {
     favorites,
@@ -28,7 +30,6 @@ function Cart() {
   } = useCart();
   const {
     register,
-
     formState: { errors },
   } = useForm();
 
@@ -62,14 +63,14 @@ function Cart() {
       <div className="table-header">
         {screenSize !== "small" ? (
           <>
-            <div className="header-item details">product details</div>
-            <div className="header-item">Price</div>
-            <div className="header-item">Quantity</div>
-            <div className="header-item">Remove</div>
+            <div className="header-item details">{t.cart.productDetails}</div>
+            <div className="header-item">{t.cart.price}</div>
+            <div className="header-item">{t.cart.quantity}</div>
+            <div className="header-item">{t.cart.remove}</div>
           </>
         ) : (
           <div className="header-item" style={{ fontSize: "17px" }}>
-            cart items
+            {t.cart.cartItems}
           </div>
         )}
       </div>
@@ -99,7 +100,7 @@ function Cart() {
                   {screenSize !== "small" && (
                     <>
                       <Link href={``} className="link">
-                        <span>Category:</span> {item.category}
+                        <span>{t.cart.category}:</span> {item.category}
                       </Link>
                       <div className="item-rating">
                         <Rating
@@ -121,6 +122,11 @@ function Cart() {
                   sale={item?.sale}
                   stock={item?.stock}
                   qty={item?.quantity}
+                  priceLabel={t.cart.price}
+                  saleLabel={t.cart.sale}
+                  outOfStockLabel={t.cart.outOfStock}
+                  lastPriceLabel={t.cart.lastPrice}
+                  discountLabel={t.cart.discount}
                 />
               </div>
               <div className="item-quantity">
@@ -168,16 +174,17 @@ function Cart() {
       </div>
     </div>
   );
+
   const renderStep2 = () => (
     <div className="order-information  ">
       <form className="form-section ">
-        <h3 className="section-title">Order Information</h3>
+        <h3 className="section-title">{t.cart.orderInformation}</h3>
 
         <div
           className="box forInput"
           onClick={() => document.getElementById("address").focus()}
         >
-          <label htmlFor="address">Delivery Address</label>
+          <label htmlFor="address">{t.cart.deliveryAddress}</label>
           <div className="inputHolder">
             <div className="holder">
               <SlLocationPin />
@@ -185,9 +192,9 @@ function Cart() {
                 type="text"
                 id="address"
                 {...register("address", {
-                  required: "Please enter your delivery address",
+                  required: t.cart.addressRequired,
                 })}
-                placeholder="e.g. 15 Ahmed Orabi St, Nasr City, Cairo"
+                placeholder={t.cart.addressPlaceholder}
               />
             </div>
             {errors.address && (
@@ -202,13 +209,13 @@ function Cart() {
           className="box forInput"
           onClick={() => document.getElementById("instructions").focus()}
         >
-          <label htmlFor="instructions">Delivery Instructions (Optional)</label>
+          <label htmlFor="instructions">{t.cart.deliveryInstructions}</label>
           <div className="inputHolder">
             <div className="holder">
               <textarea
                 id="instructions"
                 {...register("instructions")}
-                placeholder="e.g. Call me when you arrive, or leave the package at the gate"
+                placeholder={t.cart.instructionsPlaceholder}
               />
             </div>
           </div>
@@ -216,7 +223,7 @@ function Cart() {
       </form>
 
       <div className="summary-section">
-        <h3 className="section-title">Order Summary</h3>
+        <h3 className="section-title">{t.cart.orderSummary}</h3>
 
         <div className="summary-items">
           {favorites.map((item) => {
@@ -234,7 +241,9 @@ function Cart() {
                 </div>
                 <div className="summary-item-details">
                   <h4 className="summary-item-name">{item.name}</h4>
-                  <p className="summary-item-quantity">Qty: x{item.quantity}</p>
+                  <p className="summary-item-quantity">
+                    {t.cart.quantityLabel} x{item.quantity}
+                  </p>
                 </div>
                 <div className="summary-item-price">
                   ${totalPrice.toFixed(2)}
@@ -245,13 +254,13 @@ function Cart() {
         </div>
         <div className="summary-total">
           <div className="total-line">
-            <span>Shipping:</span>
+            <span>{t.cart.shipping}:</span>
             <span>$18.00</span>
           </div>
         </div>
         <div className="coupon-section box forInput">
           <div className="hold">
-            <label htmlFor="coupon">Coupon Code</label>
+            <label htmlFor="coupon">{t.cart.couponCode}</label>
             <div className="inputHolder">
               <div className="holder coupon-holder">
                 <input
@@ -259,10 +268,10 @@ function Cart() {
                   name="coupon"
                   value={formData.coupon}
                   onChange={handleInputChange}
-                  placeholder="Enter coupon code"
+                  placeholder={t.cart.couponPlaceholder}
                 />
                 <button onClick={applyCoupon} className="apply-coupon-btn">
-                  Apply
+                  {t.cart.apply}
                 </button>
               </div>
             </div>
@@ -271,12 +280,11 @@ function Cart() {
       </div>
     </div>
   );
+
   const renderStep3 = () => (
     <div className="payment-method">
-      <h1 className="payment-title">Payment Method</h1>
-      <p className="payment-subtitle">
-        Payment integration will be implemented in the next phase.
-      </p>
+      <h1 className="payment-title">{t.cart.paymentMethod}</h1>
+      <p className="payment-subtitle">{t.cart.paymentIntegration}</p>
     </div>
   );
 
@@ -285,13 +293,10 @@ function Cart() {
       {favorites.length === 0 ? (
         <div className="error-page container">
           <MdRemoveShoppingCart />
-          <h4>Your cart is empty</h4>
-          <p>
-            Add some products you love — they’ll show up here when you’re ready
-            to check out!
-          </p>
+          <h4>{t.cart.emptyCart}</h4>
+          <p>{t.cart.emptyMessage}</p>
           <Link href={`/market`} className={`main-button`}>
-            Explore the marketplace
+            {t.cart.exploreMarketplace}
           </Link>
         </div>
       ) : (
@@ -299,9 +304,9 @@ function Cart() {
           <div className="title-holder pages container">
             <h1 className="main-title">
               <hr />
-              {currentStep === 0 && "Shopping Cart"}
-              {currentStep === 1 && "Checkout details"}
-              {currentStep === 2 && "Payment method"}
+              {currentStep === 0 && t.cart.shoppingCart}
+              {currentStep === 1 && t.cart.checkoutDetails}
+              {currentStep === 2 && t.cart.paymentMethod}
               <hr />
             </h1>
           </div>
@@ -316,6 +321,7 @@ function Cart() {
                   onClick={() => setCurrentStep(0)}
                 >
                   <span className="step-number">1</span>
+                  <span className="step-label">{t.cart.step1}</span>
                 </div>
                 <div
                   className={`progress-step ${
@@ -324,6 +330,7 @@ function Cart() {
                   onClick={() => setCurrentStep(1)}
                 >
                   <span className="step-number">2</span>
+                  <span className="step-label">{t.cart.step2}</span>
                 </div>
                 <div
                   className={`progress-step ${
@@ -332,6 +339,7 @@ function Cart() {
                   onClick={() => setCurrentStep(2)}
                 >
                   <span className="step-number">3</span>
+                  <span className="step-label">{t.cart.step3}</span>
                 </div>
               </div>
             </div>
@@ -351,10 +359,10 @@ function Cart() {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >
-                Previous
+                {t.cart.previous}
               </button>
               <div className="navigation-total">
-                <span className="total-label">Total:</span>
+                <span className="total-label">{t.cart.total}:</span>
                 <span className="total-amount">${grandTotal.toFixed(2)}</span>
               </div>
               <button
@@ -365,7 +373,7 @@ function Cart() {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >
-                Next
+                {t.cart.next}
               </button>
             </div>
           </div>

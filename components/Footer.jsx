@@ -1,27 +1,29 @@
 "use client";
-import "@/styles/components/footer.css";
 
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AiFillInstagram } from "react-icons/ai";
+import { FaFacebookF, FaLinkedinIn, FaTiktok } from "react-icons/fa";
+import useTranslate from "@/Contexts/useTranslation";
+import '@/styles/components/footer.css'
+export default function Footer() {
+  const t = useTranslate();
 
-import { FaTiktok, FaFacebookF, FaLinkedinIn } from "react-icons/fa6";
-
-const Footer = () => {
   return (
     <footer>
+      {/* Background */}
       <Image
         src="/footer-bg.png"
         alt="Footer Background"
         fill
         className="footer-bg"
       />
-      <p className="paragraph">
-        Discover the beauty, history, and culture of Egypt — all in one place.
-      </p>
+
+      {/* Description */}
+      <p className="paragraph">{t.footer.description}</p>
+
       <div className="container">
-        {/* Logo Section */}
+        {/* Logo */}
         <Image
           className="logo"
           src="/logo-transparent.png"
@@ -30,18 +32,22 @@ const Footer = () => {
         />
 
         <div className="hold">
-          {/* About Section */}
+          {/* Contact */}
           <div className="about">
-            <h4>Contact Us</h4>
+            <h4>{t.footer.contact_title}</h4>
             <p>
-              Email: <a href="mailto:info@masr360.com">info@masr360.com</a>
+              {t.footer.email_label}:{" "}
+              <a href="mailto:info@masr360.com">info@masr360.com</a>
             </p>
             <p>
-              Phone: <a href="tel:+201000000000">+20 100 000 0000</a>
+              {t.footer.phone_label}:{" "}
+              <a href="tel:+201000000000">+20 100 000 0000</a>
             </p>
           </div>
+
+          {/* Social */}
           <div className="social">
-            <h4>Social</h4>
+            <h4>{t.footer.social_title}</h4>
             <div className="holder">
               <a
                 href="https://www.instagram.com/masr360.eg/"
@@ -75,39 +81,36 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Navigation Links */}
+        {/* Links */}
         <div className="navlinks">
-          <h4>Quick Links</h4>
+          <h4>{t.footer.quick_links}</h4>
           <ul>
             <li>
-              <Link href="/">Home</Link>
+              <Link href="/">{t.footer.links.home}</Link>
             </li>
             <li>
-              <Link href="/governorates">governorates</Link>
+              <Link href="/governorates">{t.footer.links.governorates}</Link>
             </li>
             <li>
-              <Link href="/places">Top Attractions</Link>
+              <Link href="/places">{t.footer.links.places}</Link>
             </li>
             <li>
-              <Link href="/products">Local Products</Link>
+              <Link href="/products">{t.footer.links.products}</Link>
             </li>
             <li>
-              <Link href="/contact">Contact</Link>
+              <Link href="/contact">{t.footer.links.contact}</Link>
             </li>
           </ul>
         </div>
       </div>
 
-      {/* Privacy & Rights */}
+      {/* Rights */}
       <p className="privacy">
-        © {new Date().getFullYear()} Masr360. All rights reserved. |
+        © {new Date().getFullYear()} Masr360. {t.footer.rights} |{" "}
         <Link href="/privacy" className="privacy-link">
-          {""}
-          Privacy Policy
+          {t.footer.privacy}
         </Link>
       </p>
     </footer>
   );
-};
-
-export default Footer;
+}

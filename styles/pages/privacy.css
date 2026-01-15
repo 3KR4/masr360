@@ -10,32 +10,32 @@
 }
 
 .document-section h1 {
-text-align: center;
-    margin-bottom: 10px;
-    font-size: 34px;
-    font-weight: 800;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 34px;
+  font-weight: 700;
 }
 
 .document-section h2 {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 22px;
-    font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 600;
 }
 
 .document-section h3 {
-    font-size: 18px;
+  font-size: 18px;
   font-weight: bold;
   margin-top: 15px;
   margin-bottom: 6px;
 }
 
 .metadata {
-    text-align: center;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .metadata p {
@@ -45,14 +45,20 @@ text-align: center;
 .legal-document p {
   margin-bottom: 5px;
   text-align: left;
-      font-size: 16px;
+  font-size: 16px;
+}
+[lang="ar"] .legal-document p {
+  text-align: right;
 }
 .legal-document ul {
   padding-left: 30px;
 }
-.legal-document li {
-    margin-bottom: 8px;
-    position: relative;
-    list-style: disc;
+[lang="ar"] .legal-document ul {
+  padding-left: unset;
+  padding-right: 30px;
 }
-
+.legal-document li {
+  margin-bottom: 8px;
+  position: relative;
+  list-style: disc;
+}

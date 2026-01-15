@@ -68,6 +68,9 @@
   color: var(--border-color);
   border-left: 1px solid var(--border-color);
 }
+.filters .btn svg:first-child {
+  border: none;
+}
 .box.forInput .inputHolder.tags {
   border: 1px solid var(--border-color);
   border-radius: 11px;
