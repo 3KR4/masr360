@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
+import { mainContext } from "@/Contexts/mainContext";
 
 function SelectOptions({
   label,
@@ -12,14 +13,14 @@ function SelectOptions({
   searchKey = "name",
   disabled = false,
 }) {
+  const { locale } = useContext(mainContext);
+
   const [active, setActive] = useState(false);
   const [search, setSearch] = useState("");
 
   const filteredOptions = options.filter((item) =>
-    item[searchKey].toLowerCase().includes(search.toLowerCase())
+    item[searchKey][locale].toLowerCase().includes(search.toLowerCase())
   );
-
-  
 
   return (
     <div className={`box forInput ${disabled ? "disabled" : ""}`}>
@@ -27,10 +28,7 @@ function SelectOptions({
 
       <div className="filters for-cats">
         <div className="btn">
-          <h4
-            className="ellipsis"
-            onClick={() => !disabled && setActive(true)}
-          >
+          <h4 className="ellipsis" onClick={() => !disabled && setActive(true)}>
             {active ? (
               <input
                 autoFocus
@@ -68,14 +66,14 @@ function SelectOptions({
               <button
                 type="button"
                 key={index}
-                className={value === item[searchKey] ? "active" : ""}
+                className={value === item[searchKey][locale] ? "active" : ""}
                 onClick={() => {
                   onChange(item);
                   setActive(false);
                   setSearch("");
                 }}
               >
-                {item[searchKey]}
+                {item[searchKey][locale]}
               </button>
             ))
           ) : (

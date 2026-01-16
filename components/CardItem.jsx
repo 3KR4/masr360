@@ -6,9 +6,11 @@ import {
   FaCartShopping,
   FaLocationDot,
   FaArrowRight,
+  FaArrowLeft,
 } from "react-icons/fa6";
 import React, { useContext } from "react";
 import { mainContext } from "@/Contexts/mainContext";
+import { governoratesAr, governoratesEn } from "@/data";
 
 import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice";
@@ -17,8 +19,8 @@ import CountDown from "@/components/CountDown";
 import useTranslate from "@/Contexts/useTranslation";
 
 export default function CardItem({ item, type }) {
+  const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
-  const { screenSize } = useContext(mainContext);
 
   const isProduct = type === "product";
   const isPlace = type === "place";
@@ -38,9 +40,15 @@ export default function CardItem({ item, type }) {
   const getRewardText = () => {
     return `${item?.reward || 0} ${t.mainCard.reward}`;
   };
+  const currentGovernorate =
+    locale == "en"
+      ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
+      : governoratesAr?.find((x) => x.id == item?.governorate?.id);
+
+  console.log(currentGovernorate);
 
   return (
-    <div key={item?._id} className={`card ${type}`}>
+    <div key={item?.id} className={`card ${type}`}>
       {/* ❤️ ACTION ICONS */}
       {(isProduct || isPlace) && (
         <div className="actions-icon">
@@ -53,25 +61,27 @@ export default function CardItem({ item, type }) {
       <Link
         href={
           isProduct
-            ? `/marketplace/${item?._id}`
+            ? `/marketplace/${item?.id}`
             : isPlace
-            ? `/places/${item?._id}`
+            ? `/places/${item?.id}`
             : isGame
-            ? `/games/${item?._id}`
+            ? `/games/${item?.id}`
             : isNight
-            ? `/nights/${item?._id}`
+            ? `/nights/${item?.id}`
             : isEvent
-            ? `/nights/${item?._id}?event=true`
+            ? `/nights/${item?.id}?event=true`
             : isGov
-            ? `/discover/${item?._id}`
+            ? `/discover/${item?.id}`
             : ``
         }
         className="image-holder"
       >
         <Image
           src={
-            isGov || isPlace
-              ? item.img
+            isPlace || isNight || isEvent || isProduct
+              ? item.images[0]
+              : isGov
+              ? item.image
               : isGame
               ? item?.place?.image
               : item?.image
@@ -88,16 +98,16 @@ export default function CardItem({ item, type }) {
           <Link
             href={
               isProduct
-                ? `/marketplace/${item?._id}`
+                ? `/marketplace/${item?.id}`
                 : isPlace
-                ? `/places/${item?._id}`
+                ? `/places/${item?.id}`
                 : isGame
-                ? `/games/${item?._id}`
+                ? `/games/${item?.id}`
                 : isNight
-                ? `/nights/${item?._id}`
+                ? `/nights/${item?.id}`
                 : isEvent
-                ? `/nights/${item?._id}?isEvent=true`
-                : `/discover/${item?._id}`
+                ? `/nights/${item?.id}?isEvent=true`
+                : `/discover/${item?.id}`
             }
             className="name-link ellipsis"
           >
@@ -112,27 +122,31 @@ export default function CardItem({ item, type }) {
 
           {(isPlace || isNight || isEvent) && (
             <Link
-              href={`/${isPlace ? "places" : "nights"}/${item?._id}${
-                isEvent ? "?isEvent=true" : ""
-              }`}
+              href={`/${isPlace ? "places" : "nights"}/${
+                currentGovernorate?.id
+              }${isEvent ? "?isEvent=true" : ""}`}
               className="location"
             >
               <FaLocationDot />
-              {item?.governorate}
+              {currentGovernorate?.name}
             </Link>
           )}
 
           {isGov && (
-            <Link className="explore" href={`/discover/${item?._id}`}>
+            <Link className="explore" href={`/discover/${item?.id}`}>
               {screenSize !== "small" ? t.mainCard.explore : ""}{" "}
               {item?.count || 0} {t.mainCard.places}{" "}
-              <FaArrowRight className="arrow" />
+              {locale == "en" ? (
+                <FaArrowRight className="arrow" />
+              ) : (
+                <FaArrowLeft className="arrow" />
+              )}
             </Link>
           )}
         </div>
 
         {isGame && (
-          <Link href={`/games/${item?._id}`} className="main-button rewards">
+          <Link href={`/games/${item?.id}`} className="main-button rewards">
             {getRewardText()}
           </Link>
         )}
@@ -162,7 +176,7 @@ export default function CardItem({ item, type }) {
           />
         )}
 
-        {item?.desc && <p className="ellipsis">{item?.desc}</p>}
+        {item?.description && <p className="ellipsis">{item?.description}</p>}
 
         {isEvent && (
           <div className="time-holder">

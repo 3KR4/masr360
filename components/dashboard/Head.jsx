@@ -15,6 +15,7 @@ import { filters, tourismCategories, productCategories, govs } from "@/data";
 import { dashboard } from "@/Contexts/dashboard";
 import { getBreadcrumbItems } from "@/utlies/getBreadcrumbItems";
 import useTranslate from "@/Contexts/useTranslation";
+import { mainContext } from "@/Contexts/mainContext";
 
 function Head() {
   const {
@@ -26,6 +27,7 @@ function Head() {
     selectedCats,
     updateFilter,
   } = useContext(dashboard);
+  const { locale } = useContext(mainContext);
 
   const t = useTranslate();
   const inputRef = useRef(null);
@@ -43,8 +45,8 @@ function Head() {
   const currentFilters =
     navigationitems.length === 0
       ? []
-      : filters?.find((x) => x.id == navigationitems[0]?.name)?.sorting ||
-        filters?.find((x) => x.id === "main")?.sorting;
+      : filters?.find((x) => x.id == navigationitems[0]?.name[locale])
+          ?.sorting || filters?.find((x) => x.id === "main")?.sorting;
 
   function getBaseName(name) {
     if (!name) return "";
@@ -70,21 +72,21 @@ function Head() {
   }
 
   const citys = ["places list", "events list", "nights list"].includes(
-    navigationitems[0]?.name
+    navigationitems[0]?.name[locale]
   )
     ? govs
     : undefined;
 
   const cats = ["places list", "events list", "nights list"].includes(
-    navigationitems[0]?.name
+    navigationitems[0]?.name[locale]
   )
     ? tourismCategories
-    : navigationitems[0]?.name === "products list"
+    : navigationitems[0]?.name[locale] === "products list"
     ? productCategories
     : undefined;
 
   const subCats = tourismCategories?.find(
-    (x) => x.name === selectedCats.cat
+    (x) => x.name[locale] === selectedCats.cat
   )?.subcategories;
 
   const filteredGovs = citys?.filter((x) =>
@@ -92,9 +94,8 @@ function Head() {
   );
 
   const filteredCats = cats?.filter((x) =>
-    x.name.toLowerCase().includes(catsSearch.toLowerCase())
+    x.name[locale].toLowerCase().includes(catsSearch.toLowerCase())
   );
-
 
   return (
     <div className="head">
@@ -174,18 +175,22 @@ function Head() {
                 filteredCats.map((x, i) => (
                   <button
                     key={i}
-                    className={selectedCats.cat === x.name ? "active" : ""}
+                    className={
+                      selectedCats.cat === x.name[locale] ? "active" : ""
+                    }
                     onClick={() => {
                       updateFilter(
                         "cat",
-                        selectedCats.cat === x.name ? "" : x.name,
+                        selectedCats.cat === x.name[locale]
+                          ? ""
+                          : x.name[locale],
                         "categories"
                       );
                       updateFilter("subCat", "", "categories");
                       setActiveMenu(null);
                     }}
                   >
-                    {x.icon} {x.name}
+                    {x.icon} {x.name[locale]}
                   </button>
                 ))
               ) : (

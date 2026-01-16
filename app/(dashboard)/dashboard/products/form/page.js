@@ -16,6 +16,8 @@ import { tourismCategories } from "@/data";
 import useTranslate from "@/Contexts/useTranslation";
 
 export default function CreateProduct() {
+  const { locale } = useContext(mainContext);
+
   const t = useTranslate();
 
   const { setisSubmited, tags, images, specifications } = useContext(forms);
@@ -33,7 +35,7 @@ export default function CreateProduct() {
       ...data,
       tags,
       images,
-      category: selectedCategory?.name,
+      category: selectedCategory,
       specifications: specifications.reduce((acc, item) => {
         acc[item.key] = item.value;
         return acc;
@@ -78,7 +80,7 @@ export default function CreateProduct() {
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
             options={tourismCategories}
-            value={selectedCategory?.name}
+            value={selectedCategory?.name[locale]}
             onChange={(cat) => setSelectedCategory(cat)}
           />
         </div>

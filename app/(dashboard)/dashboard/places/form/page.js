@@ -8,8 +8,11 @@ import Tickets from "@/components/dashboard/forms/Tickets";
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { forms } from "@/Contexts/forms";
 import useTranslate from "@/Contexts/useTranslation";
+import { mainContext } from "@/Contexts/mainContext";
 
 export default function CreatePlace() {
+    const { locale } = useContext(mainContext);
+
   const { setisSubmited, tags, images, specifications, selectedCat } =
     useContext(forms);
   const t = useTranslate();
@@ -70,21 +73,21 @@ export default function CreatePlace() {
             </div>
           </div>
 
-          <SelectOptions
+          {/* <SelectOptions
             label={t.dashboard.forms.governorate}
             placeholder={t.dashboard.forms.selectGovernorate}
             options={govs.map((g) => ({ name: g }))}
             value={selectedGov}
-            onChange={(g) => setSelectedGov(g.name)}
-          />
+            onChange={(g) => setSelectedGov(g)}
+          /> */}
         </div>
 
         <div className="row-holder two-column">
           <SelectOptions
             label={t.dashboard.forms.category}
-            placeholder={t.dashboard.forms.selectCategory}
+            placeholder={t.dashboard.forms.categoryPlaceholder}
             options={tourismCategories}
-            value={selectedCategory?.name}
+            value={selectedCategory?.name[locale]}
             onChange={(cat) => {
               setSelectedCategory(cat);
               setSelectedSubCategory("");
@@ -96,7 +99,7 @@ export default function CreatePlace() {
             options={selectedCategory?.subcategories || []}
             value={selectedSubCategory}
             disabled={!selectedCategory}
-            onChange={(sub) => setSelectedSubCategory(sub.name)}
+            onChange={(sub) => setSelectedSubCategory(sub)}
           />
         </div>
 

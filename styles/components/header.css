@@ -58,7 +58,7 @@ header nav > ul > li {
   position: relative;
   line-height: 1;
 }
-header nav > ul > li > svg {
+[lang="ar"] header nav > ul > li > svg {
   transform: translateY(2px);
 }
 header nav > ul > li::before {
@@ -374,6 +374,10 @@ header .actions-btns a {
   font-weight: 400;
   display: flex;
   cursor: auto;
+}
+[lang="ar"] header .actions-btns .btn,
+[lang="ar"] header .actions-btns a {
+  font-family: "Segoe UI";
 }
 header .actions-btns .search-holder .results a:not(.main-button) {
   border-radius: 6px;

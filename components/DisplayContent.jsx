@@ -7,7 +7,13 @@ import "@/styles/pages/discover.css";
 import { IoIosClose } from "react-icons/io";
 import { mainContext } from "@/Contexts/mainContext";
 import { getService } from "@/services/api/getService";
-import { nights, products } from "@/data";
+import {
+  nightsEn,
+  nightsAr,
+  products,
+  governoratesEn,
+  governoratesAr,
+} from "@/data";
 import useTranslate from "@/Contexts/useTranslation";
 
 export default function DisplayContent({ type, isSharedData, shared }) {
@@ -33,11 +39,17 @@ export default function DisplayContent({ type, isSharedData, shared }) {
 
     const fetchData = async () => {
       try {
-        if (type === "gov") response = await getService.getGovernorates();
+        if (type === "gov")
+          response = (await getService.getGovernorates()) || {
+            data: locale == "en" ? governoratesEn : governoratesAr,
+          };
         else if (type === "place" && !isSharedData)
-          response = await getService.getPlaces();
+          response = (await getService.getPlaces()) || {
+            data: locale == "en" ? placesEn : placesAr,
+          };
         else if (type === "product") response = { data: products };
-        else if (type === "night") response = { data: nights };
+        else if (type === "night")
+          response = { data: locale == "en" ? nightsEn : nightsAr };
         else response = { data: shared };
 
         setData(response?.data || []);

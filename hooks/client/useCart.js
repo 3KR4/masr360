@@ -1,8 +1,13 @@
 "use client";
-import { useState, useMemo } from "react";
-import { products } from "@/data";
+import { useState, useMemo, useContext } from "react";
+import { productsEn, productsAr } from "@/data";
+import { mainContext } from "@/Contexts/mainContext";
 
 export default function useCart() {
+  const { screenSize, locale } = useContext(mainContext);
+
+  const products = locale == "en" ? productsEn : productsAr;
+
   const [favorites, setFavorites] = useState(
     products.slice(0, 6).map((product) => ({
       ...product,

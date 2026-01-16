@@ -1,28 +1,33 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import CardItem from "@/components/CardItem";
 import { FaArrowRight } from "react-icons/fa6";
 import { getService } from "@/services/api/getService";
 import useTranslate from "@/Contexts/useTranslation";
+import { governoratesAr, governoratesEn } from "@/data";
+import { mainContext } from "@/Contexts/mainContext";
 
-function governorates() {
+function Governorates() {
+  const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
   const [governorates, setgovernorates] = useState([]);
-  console.log(governorates[0]?.img);
 
   useEffect(() => {
     const fetchgovernorates = async () => {
-      try {
-        const { data } = await getService.getGovernorates(6);
-        setgovernorates(data || []);
-      } catch (err) {
-        console.error("Failed to fetch governorates:", err);
-        setgovernorates([]);
-      }
+      // try {
+      //   const { data } = await getService.getGovernorates(6);
+      //   setgovernorates(
+      //     data || locale == "en" ? governoratesEn : governoratesAr
+      //   );
+      // } catch (err) {
+      //   console.error("Failed to fetch governorates:", err);
+      //   setgovernorates(locale == "en" ? governoratesEn : governoratesAr);
+      // }
+      setgovernorates(locale == "en" ? governoratesEn : governoratesAr);
     };
     fetchgovernorates();
-  }, []);
+  }, [locale]);
 
   return (
     <div className="governorates">
@@ -47,4 +52,4 @@ function governorates() {
   );
 }
 
-export default governorates;
+export default Governorates;

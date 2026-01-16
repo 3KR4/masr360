@@ -26,7 +26,7 @@ function MiniCart() {
             {favorites.map((item) => (
               <div key={item?.id} className="item">
                 <Image
-                  src={item?.image}
+                  src={item?.images[0]}
                   alt={item?.name}
                   width={64}
                   height={60}
