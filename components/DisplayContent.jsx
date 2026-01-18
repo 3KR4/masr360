@@ -19,7 +19,7 @@ import {
 } from "@/data";
 import useTranslate from "@/Contexts/useTranslation";
 
-export default function DisplayContent({ type, isSharedData, shared }) {
+export default function DisplayContent({ type, isSharedData = false, shared }) {
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
 
@@ -67,6 +67,8 @@ export default function DisplayContent({ type, isSharedData, shared }) {
       response = locale === "en" ? governoratesEn : governoratesAr;
     } else if (type === "place" && !isSharedData) {
       response = locale === "en" ? placesEn : placesAr;
+    } else if (type === "place" && isSharedData) {
+      response = locale === "en" ? placesEn : placesAr;
     } else if (type === "product") {
       response = locale === "en" ? productsEn : productsAr;
     } else if (type === "night") {
@@ -74,11 +76,18 @@ export default function DisplayContent({ type, isSharedData, shared }) {
     } else {
       response = locale === "en" ? governoratesEn : governoratesAr;
     }
+console.log(response);
 
-    setData(response);
+    setData(
+      isSharedData
+        ? response.filter((x) => x.governorate.id == shared)
+        : response
+    );
 
     // fetchData();
   }, [type, isSharedData, shared]);
+
+  console.log("data", data);
 
   /* ===================== REMOVE FILTER ===================== */
   const handleRemoveFilter = (filter) => {
