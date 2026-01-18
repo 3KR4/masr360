@@ -268,18 +268,19 @@ const en = {
     preview: "preview",
     step: "step",
     purchase_and_play_now: "purchase and play now",
-
   },
   head: {
     searchIn: "Search in",
     filterGov: "Filter by governorate:",
     filterCat: "Filter by category:",
-    filterSubCat: "Filter by sub category:",
+    filterSubCat: "Filter by sub-cat:",
     noResults: "No matching results",
     create: "Create",
   },
   dashboard: {
     tables: {
+      governorate_details: "governorate details",
+      places_count: "place count",
       placeDetails: "place details",
       categoriesAndSubcategories: "categories & subcategories",
       reviews: "reviews",
@@ -338,6 +339,7 @@ const en = {
       descriptionPlaceholder: "Enter product description",
 
       createProduct: "Create Product",
+      createNightPlace: "create Night Place",
       tags: "Tags",
       tagsPlaceholder: "Enter your tags",
       add: "Add",

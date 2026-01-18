@@ -9,13 +9,17 @@ import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { forms } from "@/Contexts/forms";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
+import {
+  govsEn,
+  govsAr,
+  tourismCategoriesEn,
+  tourismCategoriesAr,
+} from "@/data";
 
 export default function CreatePlace() {
-    const { locale } = useContext(mainContext);
-
-  const { setisSubmited, tags, images, specifications, selectedCat } =
-    useContext(forms);
+  const { locale } = useContext(mainContext);
   const t = useTranslate();
+  const { setisSubmited, images, specifications } = useContext(forms);
 
   const {
     register,
@@ -23,17 +27,26 @@ export default function CreatePlace() {
     formState: { errors },
   } = useForm();
 
+  // ----------------- State -----------------
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState("");
-  const [selectedGov, setSelectedGov] = useState("");
-  // SUBMIT VALIDATION --------------------------------------
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+  const [selectedGov, setSelectedGov] = useState(null);
+
+  // ----------------- Data -----------------
+  const govs = locale === "en" ? govsEn : govsAr;
+  const tourismCategories =
+    locale === "en" ? tourismCategoriesEn : tourismCategoriesAr;
+
+  const subCategories = selectedCategory?.subcategories || [];
+
+  // ----------------- Submit -----------------
   const onSubmit = (data) => {
     const finalData = {
       ...data,
       images: images,
-      category: selectedCat,
-      subCategory: selectedCat,
-      Governorate: selectedCat,
+      category: selectedCategory?.id || null,
+      subCategory: selectedSubCategory?.id || null,
+      governorate: selectedGov?.id || null,
       specifications: specifications.reduce((acc, item) => {
         acc[item.key] = item.value;
         return acc;
@@ -46,6 +59,7 @@ export default function CreatePlace() {
   return (
     <div className="body">
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/* ----------------- Title ----------------- */}
         <div className="row-holder two-column">
           <div className="box forInput">
             <label htmlFor="title">{t.dashboard.forms.title}</label>
@@ -73,36 +87,39 @@ export default function CreatePlace() {
             </div>
           </div>
 
-          {/* <SelectOptions
+          {/* ----------------- Governorate ----------------- */}
+          <SelectOptions
             label={t.dashboard.forms.governorate}
             placeholder={t.dashboard.forms.selectGovernorate}
-            options={govs.map((g) => ({ name: g }))}
+            options={govs.map((g, i) => ({ id: i, name: g }))}
             value={selectedGov}
-            onChange={(g) => setSelectedGov(g)}
-          /> */}
+            onChange={(gov) => setSelectedGov(gov)}
+          />
         </div>
 
+        {/* ----------------- Category & Subcategory ----------------- */}
         <div className="row-holder two-column">
           <SelectOptions
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
             options={tourismCategories}
-            value={selectedCategory?.name[locale]}
+            value={selectedCategory}
             onChange={(cat) => {
               setSelectedCategory(cat);
-              setSelectedSubCategory("");
+              setSelectedSubCategory(null);
             }}
           />
           <SelectOptions
             label={t.dashboard.forms.subCategory}
             placeholder={t.dashboard.forms.selectSubCategory}
-            options={selectedCategory?.subcategories || []}
+            options={subCategories}
             value={selectedSubCategory}
             disabled={!selectedCategory}
             onChange={(sub) => setSelectedSubCategory(sub)}
           />
         </div>
 
+        {/* ----------------- Description ----------------- */}
         <div className="box forInput">
           <label htmlFor="description">{t.dashboard.forms.description}</label>
           <div className="inputHolder">
@@ -116,6 +133,7 @@ export default function CreatePlace() {
           </div>
         </div>
 
+        {/* ----------------- Google Maps ----------------- */}
         <div className="row-holder two-column">
           <div className="box forInput">
             <label htmlFor="locationLink">
@@ -175,11 +193,13 @@ export default function CreatePlace() {
           </div>
         </div>
 
+        {/* ----------------- Tickets & Images ----------------- */}
         <div className="row-holder two-column">
           <Tickets />
           <Images />
         </div>
 
+        {/* ----------------- Submit ----------------- */}
         <button
           className="main-button"
           type="submit"
@@ -191,5 +211,3 @@ export default function CreatePlace() {
     </div>
   );
 }
-import { FaCheck } from "react-icons/fa";
-import { govs, tourismCategories } from "@/data";

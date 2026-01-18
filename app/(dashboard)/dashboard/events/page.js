@@ -1,21 +1,40 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
+
 import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
 import { mainContext } from "@/Contexts/mainContext";
-import { events } from "@/data";
 import Link from "next/link";
 import { MdEdit } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import CountDown from "@/components/CountDown";
 import useTranslate from "@/Contexts/useTranslation";
+import { eventsAr, eventsEn, governoratesEn, governoratesAr } from "@/data";
 
 export default function Events() {
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
+
   const t = useTranslate();
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const fetchevents = async () => {
+      // try {
+      //   const { data } = await getService.getEvents(6);
+      //   setEvents(
+      //     data || locale == "en" ? eventsEn : eventsAr
+      //   );
+      // } catch (err) {
+      //   console.error("Failed to fetch governorates:", err);
+      //   setEvents(locale == "en" ? eventsEn : eventsAr);
+      // }
+      setEvents(locale == "en" ? eventsEn : eventsAr);
+    };
+    fetchevents();
+  }, [locale]);
 
   return (
     <div className="dash-holder">
@@ -53,12 +72,16 @@ export default function Events() {
 
           <div className="table-items">
             {events.slice(0, 7).map((item) => {
+              const placeGov =
+                locale == "en"
+                  ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
+                  : governoratesAr?.find((x) => x.id == item?.governorate?.id);
               return (
                 <div key={item?.id} className="table-item">
                   <div className="holder">
                     <Link href={`/events/${item?.id}`} className="item-image">
                       <Image
-                        src={item?.image}
+                        src={item?.images[0]}
                         alt={item?.name}
                         fill
                         className="product-image"
@@ -95,12 +118,9 @@ export default function Events() {
                     </h4>
                   </div>
 
-                  <Link
-                    href={`/discover/${item?.govermorate}`}
-                    className="link"
-                  >
+                  <Link href={`/discover/${placeGov?.id}`} className="link">
                     <FaLocationDot />
-                    {item?.govermorate}
+                    {placeGov?.name}
                   </Link>
 
                   <div className="actions">

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 import Rating from "@mui/material/Rating";
 import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaHeartBroken } from "react-icons/fa";
@@ -9,9 +9,17 @@ import "@/styles/forms.css";
 import useFavoriet from "@/hooks/client/useFavoriet";
 import Link from "next/link";
 import useTranslate from "@/Contexts/useTranslation";
-
+import { mainContext } from "@/Contexts/mainContext";
+import {
+  governoratesAr,
+  governoratesEn,
+  productCategoriesEn,
+  productCategoriesAr,
+} from "@/data";
 function Favorites() {
   const { favoritesProducts, favoritesPlaces, removeItem } = useFavoriet();
+  const { screenSize, locale } = useContext(mainContext);
+
   const t = useTranslate();
   const text = t.favorites; // سيستخدم favoritesTextAR أو favoritesTextEN حسب اللغة
 
@@ -57,64 +65,77 @@ function Favorites() {
                   </div>
 
                   <div className="table-items">
-                    {favoritesProducts.map((item) => (
-                      <div key={item?.id} className="table-item">
-                        <div className="holder">
-                          <Link
-                            href={`/market/${item?.id}`}
-                            className="item-image"
-                          >
-                            <Image
-                              src={item?.image}
-                              alt={item?.name}
-                              width={128}
-                              height={100}
-                              className="product-image"
+                    {favoritesProducts.map((item) => {
+                      const productCat =
+                        locale == "en"
+                          ? productCategoriesEn?.find(
+                              (x) => x.id == item?.category
+                            )
+                          : productCategoriesAr?.find(
+                              (x) => x.id == item?.category
+                            );
+                      return (
+                        <div key={item?.id} className="table-item">
+                          <div className="holder">
+                            <Link
+                              href={`/market/${item?.id}`}
+                              className="item-image"
+                            >
+                              <Image
+                                src={item?.images[0]}
+                                alt={item?.name}
+                                width={128}
+                                height={100}
+                                className="product-image"
+                              />
+                            </Link>
+                            <Link
+                              href={`/market/${item?.id}`}
+                              className="item-name"
+                            >
+                              {item?.name}
+                            </Link>
+                          </div>
+                          <div className="item-price">
+                            <DisplayPrice
+                              price={item?.price}
+                              sale={item?.sale}
+                              stock={item?.stock}
+                              inStockText={text.tableHeaders.product.inStock}
+                              outOfStockText={
+                                text.tableHeaders.product.outOfStock
+                              }
                             />
-                          </Link>
+                          </div>
                           <Link
-                            href={`/market/${item?.id}`}
-                            className="item-name"
+                            href={`/places?cat=${productCat?.id}`}
+                            className="link"
                           >
-                            {item?.name}
+                            {productCat.name}
                           </Link>
+                          <div className="item-rating center">
+                            <Rating
+                              name="read-only"
+                              value={item?.rate}
+                              precision={0.1}
+                              readOnly
+                              sx={{ color: "#ea8c43", fontSize: "18px" }}
+                            />
+                            <span className="reviews-count">
+                              ({item?.reviewsCount}) {t.mainCard.reviews}
+                            </span>
+                          </div>
+                          <div className="item-remove">
+                            <button
+                              onClick={() => removeItem("product", item?.id)}
+                              className="remove-btn"
+                            >
+                              <FaTrashAlt />
+                            </button>
+                          </div>
                         </div>
-                        <div className="item-price">
-                          <DisplayPrice
-                            price={item?.price}
-                            sale={item?.sale}
-                            stock={item?.stock}
-                            inStockText={text.tableHeaders.product.inStock}
-                            outOfStockText={
-                              text.tableHeaders.product.outOfStock
-                            }
-                          />
-                        </div>
-                        <Link href={`/places?cat=${item?.id}`} className="link">
-                          {item?.category}
-                        </Link>
-                        <div className="item-rating center">
-                          <Rating
-                            name="read-only"
-                            value={item?.rate}
-                            precision={0.1}
-                            readOnly
-                            sx={{ color: "#ea8c43", fontSize: "18px" }}
-                          />
-                          <span className="reviews-count">
-                            ({item?.reviewsCount}) review
-                          </span>
-                        </div>
-                        <div className="item-remove">
-                          <button
-                            onClick={() => removeItem("product", item?.id)}
-                            className="remove-btn"
-                          >
-                            <FaTrashAlt />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </>
@@ -138,44 +159,57 @@ function Favorites() {
                   </div>
 
                   <div className="table-items forPlace">
-                    {favoritesPlaces.map((item) => (
-                      <div key={item?.id} className="table-item">
-                        <div className="holder">
-                          <Link
-                            href={`/places/${item?.id}`}
-                            className="item-image"
-                          >
-                            <Image
-                              src={item?.image}
-                              alt={item?.name}
-                              width={128}
-                              height={100}
-                              className="product-image"
-                            />
-                          </Link>
-                          <div className="item-details">
+                    {favoritesPlaces.map((item) => {
+                      const placeGov =
+                        locale == "en"
+                          ? governoratesEn?.find(
+                              (x) => x.id == item?.governorate?.id
+                            )
+                          : governoratesAr?.find(
+                              (x) => x.id == item?.governorate?.id
+                            );
+                      return (
+                        <div key={item?.id} className="table-item">
+                          <div className="holder">
                             <Link
                               href={`/places/${item?.id}`}
-                              className="item-name"
+                              className="item-image"
                             >
-                              {item?.name}
+                              <Image
+                                src={item?.images[0]}
+                                alt={item?.name}
+                                width={128}
+                                height={100}
+                                className="product-image"
+                              />
                             </Link>
-                            <p className="description">{item?.description}</p>
+                            <div className="item-details">
+                              <Link
+                                href={`/places/${item?.id}`}
+                                className="item-name"
+                              >
+                                {item?.name}
+                              </Link>
+                              <p className="description">{item?.description}</p>
+                            </div>
+                          </div>
+                          <Link
+                            href={`/discover/${placeGov?.id}`}
+                            className="link"
+                          >
+                            {placeGov?.name}
+                          </Link>
+                          <div className="item-remove">
+                            <button
+                              onClick={() => removeItem("place", item?.id)}
+                              className="remove-btn"
+                            >
+                              <FaTrashAlt />
+                            </button>
                           </div>
                         </div>
-                        <Link href={`/discover/1`} className="link">
-                          {item?.govermorate}
-                        </Link>
-                        <div className="item-remove">
-                          <button
-                            onClick={() => removeItem("place", item?.id)}
-                            className="remove-btn"
-                          >
-                            <FaTrashAlt />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </>

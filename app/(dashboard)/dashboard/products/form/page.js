@@ -12,7 +12,7 @@ import Specs from "@/components/dashboard/forms/Specs";
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 
 import { forms } from "@/Contexts/forms";
-import { tourismCategories } from "@/data";
+import { tourismCategoriesEn, tourismCategoriesAr } from "@/data";
 import useTranslate from "@/Contexts/useTranslation";
 
 export default function CreateProduct() {
@@ -27,6 +27,9 @@ export default function CreateProduct() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const tourismCategories =
+    locale == "en" ? tourismCategoriesEn : tourismCategoriesAr;
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -80,8 +83,10 @@ export default function CreateProduct() {
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
             options={tourismCategories}
-            value={selectedCategory?.name[locale]}
-            onChange={(cat) => setSelectedCategory(cat)}
+            value={selectedCategory}
+            onChange={(cat) => {
+              setSelectedCategory(cat);
+            }}
           />
         </div>
 
@@ -138,11 +143,16 @@ export default function CreateProduct() {
 
         {/* ---------- DESCRIPTION ---------- */}
         <div className="box forInput">
-          <label>{t.dashboard.forms.description}</label>
-          <textarea
-            placeholder={t.dashboard.forms.descriptionPlaceholder}
-            {...register("description")}
-          />
+          <label htmlFor="description">{t.dashboard.forms.description}</label>
+          <div className="inputHolder">
+            <div className="holder">
+              <textarea
+                id="description"
+                {...register("description")}
+                placeholder={t.dashboard.forms.descriptionPlaceholder}
+              />
+            </div>
+          </div>
         </div>
 
         {/* ---------- TAGS / SPECS / IMAGES ---------- */}

@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { mainContext } from "@/Contexts/mainContext";
+import useTranslate from "@/Contexts/useTranslation";
 
 function SelectOptions({
   label,
@@ -14,13 +15,16 @@ function SelectOptions({
   disabled = false,
 }) {
   const { locale } = useContext(mainContext);
+  const t = useTranslate();
 
   const [active, setActive] = useState(false);
   const [search, setSearch] = useState("");
 
-  const filteredOptions = options.filter((item) =>
-    item[searchKey][locale].toLowerCase().includes(search.toLowerCase())
-  );
+  // فلترة الخيارات بناءً على البحث
+  const filteredOptions = options.filter((item) => {
+    const itemName = item[searchKey] || "";
+    return itemName.toLowerCase().includes(search.toLowerCase());
+  });
 
   return (
     <div className={`box forInput ${disabled ? "disabled" : ""}`}>
@@ -34,11 +38,11 @@ function SelectOptions({
                 autoFocus
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder={`Search ${label.toLowerCase()}`}
+                placeholder={t.header.search_placeholder}
                 className="search-input"
               />
             ) : value ? (
-              value
+              value?.name
             ) : (
               placeholder
             )}
@@ -62,22 +66,22 @@ function SelectOptions({
 
         <div className={`menu ${active ? "active" : ""}`}>
           {filteredOptions.length > 0 ? (
-            filteredOptions.map((item, index) => (
+            filteredOptions.map((item) => (
               <button
                 type="button"
-                key={index}
-                className={value === item[searchKey][locale] ? "active" : ""}
+                key={item.id}
+                className={value?.name === item[searchKey] ? "active" : ""}
                 onClick={() => {
                   onChange(item);
                   setActive(false);
                   setSearch("");
                 }}
               >
-                {item[searchKey][locale]}
+                {item[searchKey]}
               </button>
             ))
           ) : (
-            <div className="no-results">No results</div>
+            <div className="no-results">{t.dashboard.forms.noResults}</div>
           )}
         </div>
       </div>

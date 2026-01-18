@@ -38,6 +38,25 @@ function Header() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const mobileMenuRef = useRef(null);
+  console.log("activeNav", activeNav);
+
+  const shortTitlesEn = {
+    Governorates: "Govs",
+    "Masr Nights": "Nights",
+    Marketplace: "Market",
+    "About Us": "About",
+  };
+  const getNavTitle = (titleObj) => {
+    if (screenSize === "large") return titleObj[locale];
+
+    // اختصارات EN فقط
+    if (locale === "en") {
+      return shortTitlesEn[titleObj.en] || titleObj.en;
+    }
+
+    // العربي يفضل يفضل كامل
+    return titleObj[locale];
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -64,12 +83,12 @@ function Header() {
           >
             {x.departments ? (
               <>
-                {screenSize === "large" ? x.title[locale] : x.title[locale]}
+                {getNavTitle(x.title)}
                 <FaAngleDown />
               </>
             ) : (
               <Link className="page-route" href={x.link}>
-                {x.title[locale]}
+                {getNavTitle(x.title)}
               </Link>
             )}
           </li>

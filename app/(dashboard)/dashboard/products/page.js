@@ -1,7 +1,7 @@
 "use client";
-import React, { useContext, useState, useRef } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
+import useTranslate from "@/Contexts/useTranslation";
 
 import Image from "next/image";
 import "@/styles/pages/cart.css";
@@ -9,13 +9,39 @@ import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
 import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
-import { products } from "@/data";
 import Link from "next/link";
 import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
+import React, { useContext, useState, useEffect } from "react";
+
+import {
+  productsEn,
+  productsAr,
+  productCategoriesEn,
+  productCategoriesAr,
+} from "@/data";
 
 export default function Products() {
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
+
+  const t = useTranslate();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchevents = async () => {
+      // try {
+      //   const { data } = await getService.getProducts(6);
+      //   setProducts(
+      //     data || locale == "en" ? productsEn : productsAr
+      //   );
+      // } catch (err) {
+      //   console.error("Failed to fetch governorates:", err);
+      //   setProducts(locale == "en" ? productsEn : productsAr);
+      // }
+      setProducts(locale == "en" ? productsEn : productsAr);
+    };
+    fetchevents();
+  }, [locale]);
 
   return (
     <div className="dash-holder">
@@ -24,12 +50,14 @@ export default function Products() {
           <div className="table-header">
             {screenSize !== "small" ? (
               <>
-                <div className="header-item details">product details</div>
-                <div className="header-item">Price</div>
-                <div className="header-item">reviews</div>
-                <div className="header-item">status</div>
-                <div className="header-item">stock</div>
-                <div className="header-item">Actions</div>
+                <div className="header-item details">
+                  {t.favorites.tableHeaders.product.details}
+                </div>
+                <div className="header-item">{t.dashboard.forms.price}</div>
+                <div className="header-item">{t.dashboard.tables.reviews}</div>
+                <div className="header-item">{t.orders.status}</div>
+                <div className="header-item">{t.dashboard.forms.stock}</div>
+                <div className="header-item">{t.dashboard.tables.actions}</div>
               </>
             ) : (
               <div className="header-item" style={{ fontSize: "17px" }}>
@@ -40,26 +68,40 @@ export default function Products() {
 
           <div className="table-items">
             {products.slice(0, 10).map((item) => {
+              const productCat =
+                locale == "en"
+                  ? productCategoriesEn?.find(
+                      (x) => x.id == item?.category
+                    )
+                  : productCategoriesAr?.find(
+                      (x) => x.id == item?.category
+                    );
               return (
-                <div key={item.id} className="table-item">
+                <div key={item?.id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
                       <Image
-                        src={item.image}
-                        alt={item.name}
+                        src={item?.images[0]}
+                        alt={item?.name}
                         fill
                         className="product-image"
                       />
                     </Link>
 
                     <div className="item-details">
-                      <Link href={`/`} className="item-name">
-                        {item.name}
+                      <Link href={`/market/${item?.id}`} className="item-name">
+                        {item?.name}
                       </Link>
                       {screenSize !== "small" && (
                         <>
-                          <Link href={`/`} className="link">
-                            <span>Category:</span> {item.category}
+                          <Link
+                            href={`/market?cat=${productCat?.id}`}
+                            className="link"
+                          >
+                            <span>
+                              {t.favorites.tableHeaders.product.category}:
+                            </span>{" "}
+                            {productCat?.name}
                           </Link>
                         </>
                       )}
@@ -80,7 +122,7 @@ export default function Products() {
                     <div className="row-holder">
                       <Rating
                         name="read-only"
-                        value={item.rate}
+                        value={item?.rate}
                         precision={0.1}
                         readOnly
                         sx={{ color: "#ea8c43", fontSize: "19px" }}

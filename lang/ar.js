@@ -264,7 +264,6 @@ const ar = {
     step: "خطوة",
     preview: "معاينة",
     purchase_and_play_now: "اشتري والعب الان",
-
   },
   head: {
     searchIn: "بحث في",
@@ -276,6 +275,8 @@ const ar = {
   },
   dashboard: {
     tables: {
+      governorate_details: "تفاصيل المحافظة",
+      places_count: "عدد المزارات",
       placeDetails: "تفاصيل المكان",
       categoriesAndSubcategories: "التصنيفات والتصنيفات الفرعية",
       reviews: "التقييمات",
@@ -334,6 +335,8 @@ const ar = {
       descriptionPlaceholder: "أدخل وصف المنتج",
 
       createProduct: "إضافة منتج",
+      createNightPlace: "اضافة مزار ليلي",
+
       tags: "الوسوم",
       tagsPlaceholder: "أدخل الوسوم",
       add: "إضافة",

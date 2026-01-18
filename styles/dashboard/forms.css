@@ -345,7 +345,7 @@
   text-transform: capitalize !important;
   transition: 0.3s;
 }
-.box.forInput label:hover {
+.box.forInput.ticket .spec-list label:hover {
   background: var(--second-color);
 }
 .box.forInput label.active {

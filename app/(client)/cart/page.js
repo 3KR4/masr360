@@ -86,7 +86,7 @@ function Cart() {
               <div className="holder">
                 <Link href={``} className="item-image">
                   <Image
-                    src={item.image}
+                    src={item.images[0]}
                     alt={item.name}
                     fill
                     className="product-image"
@@ -110,6 +110,9 @@ function Cart() {
                           readOnly
                           sx={{ color: "#ea8c43", fontSize: "18px" }}
                         />
+                        <span className="reviews-count">
+                          ({item?.reviewsCount}) {t.mainCard.reviews}
+                        </span>
                       </div>
                     </>
                   )}
@@ -232,7 +235,7 @@ function Cart() {
               <div key={item.id} className="summary-item">
                 <div className="summary-item-image">
                   <Image
-                    src={item.image}
+                    src={item.images[0]}
                     alt={item.name}
                     width={50}
                     height={50}

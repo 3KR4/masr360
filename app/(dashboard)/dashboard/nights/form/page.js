@@ -7,20 +7,34 @@ import Images from "@/components/dashboard/forms/Images";
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { forms } from "@/Contexts/forms";
 import useTranslate from "@/Contexts/useTranslation";
+import { FaCheck } from "react-icons/fa";
+import { mainContext } from "@/Contexts/mainContext";
 
+import {
+  govsEn,
+  govsAr,
+  tourismCategoriesEn,
+  tourismCategoriesAr,
+} from "@/data";
 export default function CreateNights() {
   const { setisSubmited, images, selectedCat } = useContext(forms);
   const t = useTranslate();
-
+  const { locale } = useContext(mainContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const tourismCategories =
+    locale == "en" ? tourismCategoriesEn : tourismCategoriesAr;
+  const govs = locale === "en" ? govsEn : govsAr;
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [selectedGov, setSelectedGov] = useState("");
+
+  const subCategories = selectedCategory?.subcategories || [];
+
   // SUBMIT VALIDATION --------------------------------------
 
   const onSubmit = (data) => {
@@ -67,30 +81,30 @@ export default function CreateNights() {
           <SelectOptions
             label={t.dashboard.forms.governorate}
             placeholder={t.dashboard.forms.selectGovernorate}
-            options={govs.map((g) => ({ name: g }))}
+            options={govs.map((g, i) => ({ id: i, name: g }))}
             value={selectedGov}
-            onChange={(g) => setSelectedGov(g.name)}
+            onChange={(gov) => setSelectedGov(gov)}
           />
         </div>
 
         <div className="row-holder two-column">
           <SelectOptions
             label={t.dashboard.forms.category}
-            placeholder={t.dashboard.forms.selectCategory}
+            placeholder={t.dashboard.forms.categoryPlaceholder}
             options={tourismCategories}
-            value={selectedCategory?.name}
+            value={selectedCategory}
             onChange={(cat) => {
               setSelectedCategory(cat);
-              setSelectedSubCategory("");
+              setSelectedSubCategory(null);
             }}
           />
           <SelectOptions
             label={t.dashboard.forms.subCategory}
             placeholder={t.dashboard.forms.selectSubCategory}
-            options={selectedCategory?.subcategories || []}
+            options={subCategories}
             value={selectedSubCategory}
             disabled={!selectedCategory}
-            onChange={(sub) => setSelectedSubCategory(sub.name)}
+            onChange={(sub) => setSelectedSubCategory(sub)}
           />
         </div>
 
@@ -175,11 +189,9 @@ export default function CreateNights() {
           type="submit"
           onClick={() => setisSubmited(true)}
         >
-          <span>{t.dashboard.forms.CreateNights}</span>
+          <span>{t.dashboard.forms.createNightPlace}</span>
         </button>
       </form>
     </div>
   );
 }
-import { FaCheck } from "react-icons/fa";
-import { govs, tourismCategories } from "@/data";

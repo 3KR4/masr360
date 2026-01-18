@@ -4,8 +4,7 @@ import { MainProvider } from "@/Contexts/mainContext";
 import { DashBoardProvider } from "@/Contexts/dashboard";
 import "@/styles/globals.css";
 import "@/styles/dashboard/globals.css";
-import Navigations from "@/components/Navigations";
-// import Head from "@/components/dashboard/Head";
+import Head from "@/components/dashboard/Head";
 import { FormsCompsProvider } from "@/Contexts/forms";
 
 const roboto = Roboto({
@@ -53,7 +52,7 @@ export default function RootLayout({ children }) {
                 <SideNav />
 
                 <div className="dash-holder">
-                  {/* <Head /> */}
+                  <Head />
                   {children}
                 </div>
               </div>

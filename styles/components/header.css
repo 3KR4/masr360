@@ -454,10 +454,7 @@ header .actions-btns .btn:hover .menu {
   left: -20px;
   right: unset;
 }
-[lang="ar"] header .actions-btns .btn:hover .menu {
-  left: -20px;
-  right: unset;
-}
+
 header .actions-btns .menu::before {
   content: "";
   width: 100%;
@@ -716,7 +713,8 @@ header .cartMenu .btns a {
     visibility: hidden;
     transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
     position: absolute;
-    min-height: 63px;
+    min-height: unset;
+    max-height: 61px;
     border: 1px solid var(--border-color);
     border-top: 0;
   }
@@ -730,7 +728,7 @@ header .cartMenu .btns a {
     font-weight: 500;
   }
   header .routs-menu {
-    top: 63px;
+    top: 58px;
     border: 1px solid var(--border-color);
     width: 94% !important;
     padding: 16px 0;
@@ -742,6 +740,12 @@ header .cartMenu .btns a {
     height: unset;
     padding: 7px 11px;
     font-size: 12px;
+  }
+  header .actions-btns .menu {
+    right: 0px;
+  }
+  [lang="ar"] header .actions-btns .menu {
+    left: 0px;
   }
 }
 @media (max-width: 900px) {
@@ -772,9 +776,17 @@ header .cartMenu .btns a {
   header nav {
     width: 96%;
   }
-  header nav > ul > li {
-    padding: 23px 6px;
+  header nav ul {
+    padding: 0;
+    width: 93%;
+    justify-content: space-between;
   }
+
+  header nav > ul > li {
+    padding: 23px 4px;
+    font-size: 12px;
+  }
+
   header .actions-btns svg {
     width: 36px;
     height: 30px;

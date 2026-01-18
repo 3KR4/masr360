@@ -120,7 +120,7 @@
 }
 
 .item-image .product-image {
-  object-fit: fill;
+  object-fit: cover;
   border-radius: 12px;
   position: relative !important;
   width: 115px !important;

@@ -1,24 +1,38 @@
 "use client";
-import React, { useContext, useState, useRef } from "react";
-import Rating from "@mui/material/Rating";
+import React, { useContext, useState, useEffect } from "react";
 import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
-import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
-import { places } from "@/data";
+import { placesAr, placesEn, governoratesEn, governoratesAr } from "@/data";
 import Link from "next/link";
-import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
-import { FaPlaceOfWorship } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
 
 export default function Places() {
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
+
   const t = useTranslate();
+  const [places, setPlaces] = useState([]);
+
+  useEffect(() => {
+    const fetchplaces = async () => {
+      // try {
+      //   const { data } = await getService.getPlaces(6);
+      //   setPlaces(
+      //     data || locale == "en" ? placesEn : placesAr
+      //   );
+      // } catch (err) {
+      //   console.error("Failed to fetch governorates:", err);
+      //   setPlaces(locale == "en" ? placesEn : placesAr);
+      // }
+      setPlaces(locale == "en" ? placesEn : placesAr);
+    };
+    fetchplaces();
+  }, [locale]);
 
   return (
     <div className="dash-holder">
@@ -50,13 +64,17 @@ export default function Places() {
 
           <div className="table-items">
             {places.slice(0, 7).map((item) => {
+              const placeGov =
+                locale == "en"
+                  ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
+                  : governoratesAr?.find((x) => x.id == item?.governorate?.id);
               return (
-                <div key={item.id} className="table-item">
+                <div key={item?.id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
                       <Image
-                        src={item.image}
-                        alt={item.name}
+                        src={item?.images[0]}
+                        alt={item?.name}
                         fill
                         className="product-image"
                       />
@@ -64,9 +82,9 @@ export default function Places() {
 
                     <div className="item-details">
                       <Link href={`/`} className="item-name">
-                        {item.name}
+                        {item?.name}
                       </Link>
-                      <p className="description">{item.description}</p>
+                      <p className="description">{item?.description}</p>
                     </div>
                   </div>
                   <div className="categories">
@@ -80,11 +98,11 @@ export default function Places() {
                   </div>
 
                   <Link
-                    href={`/discover/${item?.govermorate}`}
+                    href={`/discover/${placeGov?.id}`}
                     className="link"
                   >
                     <FaLocationDot />
-                    {item?.govermorate}
+                    {placeGov?.name}
                   </Link>
 
                   <div className="actions">
@@ -102,7 +120,7 @@ export default function Places() {
                     <FaTrashAlt
                       className="delete"
                       title={t.dashboard.tables.delete}
-                      onClick={() => console.log("Delete item", item.id)}
+                      onClick={() => console.log("Delete item", item?.id)}
                     />
                   </div>
                 </div>

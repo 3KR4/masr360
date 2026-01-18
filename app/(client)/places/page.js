@@ -9,8 +9,6 @@ export default function DiscoverContent() {
 
   return (
     <div className="discover">
-
-
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
@@ -19,8 +17,6 @@ export default function DiscoverContent() {
         </h1>
         <p className="sub-title">{t.sectionsTitles.discover_places.subTitle}</p>
       </div>
-
-     
 
       <Navigations
         items={[

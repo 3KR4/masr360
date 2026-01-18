@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
@@ -7,15 +7,33 @@ import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
 import { mainContext } from "@/Contexts/mainContext";
-import { nights } from "@/data";
+import { nightsAr, nightsEn, governoratesEn, governoratesAr } from "@/data";
 import Link from "next/link";
 import { MdEdit } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
 
 export default function Nights() {
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
+
   const t = useTranslate();
+  const [nights, setNights] = useState([]);
+
+  useEffect(() => {
+    const fetchnights = async () => {
+      // try {
+      //   const { data } = await getService.getNights(6);
+      //   setNights(
+      //     data || locale == "en" ? nightsEn : nightsAr
+      //   );
+      // } catch (err) {
+      //   console.error("Failed to fetch governorates:", err);
+      //   setNights(locale == "en" ? nightsEn : nightsAr);
+      // }
+      setNights(locale == "en" ? nightsEn : nightsAr);
+    };
+    fetchnights();
+  }, [locale]);
 
   return (
     <div className="dash-holder">
@@ -48,12 +66,16 @@ export default function Nights() {
 
           <div className="table-items">
             {nights.slice(0, 7).map((item) => {
+              const placeGov =
+                locale == "en"
+                  ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
+                  : governoratesAr?.find((x) => x.id == item?.governorate?.id);
               return (
                 <div key={item?.id} className="table-item">
                   <div className="holder">
                     <Link href={`/nights/${item?.id}`} className="item-image">
                       <Image
-                        src={item?.image}
+                        src={item?.images[0]}
                         alt={item?.name}
                         fill
                         className="product-image"
@@ -93,11 +115,11 @@ export default function Nights() {
                   </div>
 
                   <Link
-                    href={`/discover/${item?.govermorate}`}
+                    href={`/discover/${placeGov?.id}`}
                     className="link"
                   >
                     <FaLocationDot />
-                    {item?.govermorate}
+                    {placeGov?.name}
                   </Link>
 
                   <div className="actions">

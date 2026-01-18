@@ -2622,7 +2622,7 @@ export const orders = [
     id: 1,
     cart: [1, 2, 3, 4, 5, 6],
     totalItems: 12,
-    cartTotalPrice: 387, // بعد خصم العروض تقريبًا
+    cartTotalPrice: 45, // بعد خصم العروض تقريبًا
     customer: {
       id: 101,
       name: "John Doe",
@@ -2642,7 +2642,7 @@ export const orders = [
     cart: [4, 5, 6, 7, 8, 9],
 
     totalItems: 6,
-    cartTotalPrice: 465, // خصم 25% من 620 + شحن
+    cartTotalPrice: 37, // خصم 25% من 620 + شحن
     customer: {
       id: 102,
       name: "Sarah Ahmed",
@@ -2663,7 +2663,7 @@ export const orders = [
     cart: [10, 11, 12, 13, 14, 15],
 
     totalItems: 3,
-    cartTotalPrice: 518,
+    cartTotalPrice: 51,
     customer: {
       id: 103,
       name: "Mohamed Elsayed",
@@ -2683,7 +2683,7 @@ export const orders = [
     cart: [2, 8, 4, 14],
 
     totalItems: 5,
-    cartTotalPrice: 573,
+    cartTotalPrice: 63,
     customer: {
       id: 104,
       name: "Emily Brown",
@@ -2704,7 +2704,7 @@ export const orders = [
     cart: [8],
 
     totalItems: 1,
-    cartTotalPrice: 476,
+    cartTotalPrice: 47,
     customer: {
       id: 105,
       name: "Omar Hassan",
@@ -2724,7 +2724,7 @@ export const orders = [
     cart: [9, 11],
 
     totalItems: 2,
-    cartTotalPrice: 873,
+    cartTotalPrice: 87,
     customer: {
       id: 106,
       name: "Lina Khaled",
@@ -3165,75 +3165,43 @@ export const nightsCategoriesAr = [
     link: "/night-events/outdoor-cinema",
   },
 ];
-export const filters = [
+export const filtersEn = [
   {
     id: "products list",
     sorting: [
       {
         id: "name",
         filters: [
-          {
-            name: "Name: A to Z",
-            value: "a_to_z",
-          },
-          {
-            name: "Name: Z to A",
-            value: "z_to_a",
-          },
+          { name: "Name: A to Z", value: "a_to_z" },
+          { name: "Name: Z to A", value: "z_to_a" },
         ],
       },
       {
         id: "price",
         filters: [
-          {
-            name: "Price: Low to High",
-            value: "low_to_high",
-          },
-          {
-            name: "Price: High to Low",
-            value: "high_to_low",
-          },
+          { name: "Price: Low to High", value: "low_to_high" },
+          { name: "Price: High to Low", value: "high_to_low" },
         ],
       },
-
       {
         id: "status",
         filters: [
-          {
-            name: "Most Viewed",
-            value: "most_viewed",
-          },
-          {
-            name: "Top Sales",
-            value: "top_sales",
-          },
+          { name: "Most Viewed", value: "most_viewed" },
+          { name: "Top Sales", value: "top_sales" },
         ],
       },
-
       {
         id: "date",
         filters: [
-          {
-            name: "Newest",
-            value: "newest",
-          },
-          {
-            name: "Oldest",
-            value: "oldest",
-          },
+          { name: "Newest", value: "newest" },
+          { name: "Oldest", value: "oldest" },
         ],
       },
       {
         id: "availability",
         filters: [
-          {
-            name: "In Stock",
-            value: "1",
-          },
-          {
-            name: "Out of Stock",
-            value: "0",
-          },
+          { name: "In Stock", value: "1" },
+          { name: "Out of Stock", value: "0" },
         ],
       },
     ],
@@ -3244,30 +3212,77 @@ export const filters = [
       {
         id: "name",
         filters: [
-          {
-            name: "Name: A to Z",
-            value: "a_to_z",
-          },
-          {
-            name: "Name: Z to A",
-            value: "z_to_a",
-          },
+          { name: "Name: A to Z", value: "a_to_z" },
+          { name: "Name: Z to A", value: "z_to_a" },
         ],
       },
-
       {
         id: "status",
-        filters: [
-          {
-            name: "Most Viewed",
-            value: "most_viewed",
-          },
-        ],
+        filters: [{ name: "Most Viewed", value: "most_viewed" }],
       },
     ],
   },
 ];
-export const govs = [
+export const filtersAr = [
+  {
+    id: "products list",
+    sorting: [
+      {
+        id: "name",
+        filters: [
+          { name: "الاسم: من أ إلى ي", value: "a_to_z" },
+          { name: "الاسم: من ي إلى أ", value: "z_to_a" },
+        ],
+      },
+      {
+        id: "price",
+        filters: [
+          { name: "السعر: من الأقل إلى الأعلى", value: "low_to_high" },
+          { name: "السعر: من الأعلى إلى الأقل", value: "high_to_low" },
+        ],
+      },
+      {
+        id: "status",
+        filters: [
+          { name: "الأكثر مشاهدة", value: "most_viewed" },
+          { name: "الأعلى مبيعًا", value: "top_sales" },
+        ],
+      },
+      {
+        id: "date",
+        filters: [
+          { name: "الأحدث", value: "newest" },
+          { name: "الأقدم", value: "oldest" },
+        ],
+      },
+      {
+        id: "availability",
+        filters: [
+          { name: "متوفر", value: "1" },
+          { name: "غير متوفر", value: "0" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "main",
+    sorting: [
+      {
+        id: "name",
+        filters: [
+          { name: "الاسم: من أ إلى ي", value: "a_to_z" },
+          { name: "الاسم: من ي إلى أ", value: "z_to_a" },
+        ],
+      },
+      {
+        id: "status",
+        filters: [{ name: "الأكثر مشاهدة", value: "most_viewed" }],
+      },
+    ],
+  },
+];
+
+export const govsEn = [
   "Cairo",
   "Giza",
   "Alexandria",
@@ -3295,7 +3310,36 @@ export const govs = [
   "Qena",
   "North Sinai",
   "Sohag",
+];export const govsAr = [
+  "القاهرة",
+  "الجيزة",
+  "الإسكندرية",
+  "الدقهلية",
+  "البحر الأحمر",
+  "البحيرة",
+  "الفيوم",
+  "الغربية",
+  "الإسماعيلية",
+  "المنوفية",
+  "المنيا",
+  "القليوبية",
+  "الوادي الجديد",
+  "السويس",
+  "أسوان",
+  "أسيوط",
+  "بني سويف",
+  "بورسعيد",
+  "دمياط",
+  "الشرقية",
+  "جنوب سيناء",
+  "كفر الشيخ",
+  "مطروح",
+  "الأقصر",
+  "قنا",
+  "شمال سيناء",
+  "سوهاج",
 ];
+
 export const users = [
   {
     id: "u_001",

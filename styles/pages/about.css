@@ -197,6 +197,7 @@
   color: var(--paragraph);
   font-weight: 500;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
 }
 .about .closing p {

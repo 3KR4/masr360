@@ -1,19 +1,24 @@
 "use client";
-import { useState, useMemo, useContext } from "react";
+import { useState, useMemo, useContext, useEffect } from "react";
 import { productsEn, productsAr } from "@/data";
 import { mainContext } from "@/Contexts/mainContext";
 
 export default function useCart() {
-  const { screenSize, locale } = useContext(mainContext);
+  const { locale } = useContext(mainContext);
 
-  const products = locale == "en" ? productsEn : productsAr;
+  const products = locale === "en" ? productsEn : productsAr;
 
-  const [favorites, setFavorites] = useState(
-    products.slice(0, 6).map((product) => ({
-      ...product,
-      quantity: 1,
-    }))
-  );
+  const [favorites, setFavorites] = useState([]);
+
+  // 🔁 تحديث السلة عند تغيير اللغة
+  useEffect(() => {
+    setFavorites(
+      products.slice(0, 6).map((product) => ({
+        ...product,
+        quantity: 1,
+      }))
+    );
+  }, [locale]); // 👈 المفتاح هنا
 
   // تحديث الكمية
   const updateQuantity = (id, newQuantity) => {

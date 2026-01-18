@@ -7,7 +7,14 @@ import Images from "@/components/dashboard/forms/Images";
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { forms } from "@/Contexts/forms";
 import useTranslate from "@/Contexts/useTranslation";
-import { govs, tourismCategories } from "@/data";
+import { mainContext } from "@/Contexts/mainContext";
+
+import {
+  govsEn,
+  govsAr,
+  tourismCategoriesEn,
+  tourismCategoriesAr,
+} from "@/data";
 
 export default function CreatePlace() {
   const { setisSubmited, tags, images, specifications, selectedCat } =
@@ -20,12 +27,17 @@ export default function CreatePlace() {
     formState: { errors },
   } = useForm();
 
+  const { locale } = useContext(mainContext);
   const [tickets, setTickets] = useState({
     free: false,
     students: { egyptian: "", foreigner: "" },
     adults: { egyptian: "", foreigner: "" },
     seniors: { egyptian: "", foreigner: "" },
   });
+
+  const tourismCategories =
+    locale == "en" ? tourismCategoriesEn : tourismCategoriesAr;
+  const govs = locale === "en" ? govsEn : govsAr;
 
   const selectTicketType = (isFree) => {
     if (isFree) {
@@ -45,6 +57,9 @@ export default function CreatePlace() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [selectedGov, setSelectedGov] = useState("");
+
+  const subCategories = selectedCategory?.subcategories || [];
+
   // SUBMIT VALIDATION --------------------------------------
   const onSubmit = (data) => {
     const finalData = {
@@ -95,30 +110,30 @@ export default function CreatePlace() {
           <SelectOptions
             label={t.dashboard.forms.governorate}
             placeholder={t.dashboard.forms.selectGovernorate}
-            options={govs.map((g) => ({ name: g }))}
+            options={govs.map((g, i) => ({ id: i, name: g }))}
             value={selectedGov}
-            onChange={(g) => setSelectedGov(g.name)}
+            onChange={(gov) => setSelectedGov(gov)}
           />
         </div>
 
         <div className="row-holder two-column">
           <SelectOptions
             label={t.dashboard.forms.category}
-            placeholder={t.dashboard.forms.selectCategory}
+            placeholder={t.dashboard.forms.categoryPlaceholder}
             options={tourismCategories}
-            value={selectedCategory?.name}
+            value={selectedCategory}
             onChange={(cat) => {
               setSelectedCategory(cat);
-              setSelectedSubCategory("");
+              setSelectedSubCategory(null);
             }}
           />
           <SelectOptions
             label={t.dashboard.forms.subCategory}
             placeholder={t.dashboard.forms.selectSubCategory}
-            options={selectedCategory?.subcategories || []}
+            options={subCategories}
             value={selectedSubCategory}
             disabled={!selectedCategory}
-            onChange={(sub) => setSelectedSubCategory(sub.name)}
+            onChange={(sub) => setSelectedSubCategory(sub)}
           />
         </div>
         <div className="row-holder two-column">

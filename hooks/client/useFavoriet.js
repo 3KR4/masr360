@@ -1,15 +1,28 @@
 "use client";
-import { useState, useMemo } from "react";
-import { products, places } from "@/data";
+import { useState, useContext, useEffect } from "react";
+import { productsEn, productsAr, placesEn, placesAr } from "@/data";
+import { mainContext } from "@/Contexts/mainContext";
 
 export default function useFavoriet() {
-  const [favoritesProducts, setFavoritesProducts] = useState(
-    products.slice(0, 4).map((product) => ({
-      ...product,
-      quantity: 1,
-    }))
-  );
-  const [favoritesPlaces, setFavoritesPlaces] = useState(places.slice(0, 3));
+  const { locale } = useContext(mainContext);
+
+  const products = locale === "en" ? productsEn : productsAr;
+  const places = locale === "en" ? placesEn : placesAr;
+
+  const [favoritesProducts, setFavoritesProducts] = useState([]);
+  const [favoritesPlaces, setFavoritesPlaces] = useState([]);
+
+  // 🔁 تحديث البيانات عند تغيير اللغة
+  useEffect(() => {
+    setFavoritesProducts(
+      products.slice(0, 4).map((product) => ({
+        ...product,
+        quantity: 1,
+      }))
+    );
+
+    setFavoritesPlaces(places.slice(0, 3));
+  }, [locale]); // 👈 المفتاح هنا
 
   const removeItem = (type, id) => {
     if (type === "place") {

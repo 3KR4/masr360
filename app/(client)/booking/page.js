@@ -4,16 +4,22 @@ import React from "react";
 import "@/styles/pages/tables.css";
 import { useContext } from "react";
 import "@/styles/forms.css";
-import { bookings } from "@/data";
+import {
+  bookings,
+  governoratesAr,
+  governoratesEn,
+  placesEn,
+  placesAr,
+} from "@/data";
 import { FaBoxOpen } from "react-icons/fa";
 import Link from "next/link";
 import { mainContext } from "@/Contexts/mainContext";
 import useTranslate from "@/Contexts/useTranslation";
 
 function Bookings() {
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
-
+  const dateLocale = locale === "ar" ? "ar-EG" : "en-US";
   return (
     <div className="booking">
       {bookings.length > 0 ? (
@@ -49,87 +55,116 @@ function Bookings() {
               </div>
 
               <div className="table-items">
-                {bookings.map((item) => (
-                  <div key={item.id} className="table-item">
-                    <div className="holder">
-                      {/* صورة المكان */}
-                      <Link href={`/places/${item?.id}`} className="item-image">
-                        <Image
-                          src={item.place.image}
-                          alt={item.place.name}
-                          fill
-                          className="product-image"
-                        />
-                      </Link>
+                {bookings.map((item) => {
+                  const place =
+                    locale == "en"
+                      ? placesEn?.find((x) => x.id == item.place.id)
+                      : placesAr?.find((x) => x.id == item.place.id);
+                  console.log(place);
 
-                      {/* اسم المحافظة */}
-                      <div className="item-details">
+                  const placeGov =
+                    locale == "en"
+                      ? governoratesEn?.find(
+                          (x) => x.id == place?.governorate?.id
+                        )
+                      : governoratesAr?.find(
+                          (x) => x.id == place?.governorate?.id
+                        );
+                  console.log(placeGov);
+
+                  return (
+                    <div key={item.id} className="table-item">
+                      <div className="holder">
+                        {/* صورة المكان */}
                         <Link
-                          href={`/places/${item?.id}`}
-                          className="item-name"
+                          href={`/places/${place?.id}`}
+                          className="item-image"
                         >
-                          {item.place.name}
+                          <Image
+                            src={place.images[0]}
+                            alt={place.name}
+                            fill
+                            className="product-image"
+                          />
                         </Link>
-                        <Link href={`/discover/1`} className="link">
-                          {t.booking.in} {item.place.govermorate}
-                        </Link>
+
+                        {/* اسم المحافظة */}
+                        <div className="item-details">
+                          <Link
+                            href={`/places/${item?.id}`}
+                            className="item-name"
+                          >
+                            {place.name}
+                          </Link>
+                          <Link
+                            href={`/discover/${placeGov?.id}`}
+                            className="link"
+                          >
+                            {t.booking.in} {placeGov?.name}
+                          </Link>
+                        </div>
                       </div>
+
+                      {/* سعر التذكرة */}
+                      <p className="price">
+                        {screenSize == "small" ? (
+                          <span>{t.booking.ticketPrice}:</span>
+                        ) : null}
+                        ${item.ticketPrice.toFixed(2)}
+                      </p>
+
+                      {/* عدد الأفراد */}
+                      <p className="people-count">
+                        {screenSize == "small" ? (
+                          <span>{t.booking.peopleCount}:</span>
+                        ) : null}
+                        {item.peopleCount}{" "}
+                        {screenSize === "small"
+                          ? null
+                          : item.peopleCount > 1
+                          ? t.booking.people
+                          : t.booking.person}
+                      </p>
+
+                      {/* الإجمالي */}
+                      <p className="price">
+                        {screenSize == "small" ? (
+                          <span>{t.booking.totalPaid}:</span>
+                        ) : null}
+                        ${item.totalPaid.toFixed(2)}
+                      </p>
+
+                      <p className="date">
+                        {screenSize === "small" && (
+                          <span>{t.booking.bookingDate}:</span>
+                        )}
+                        {new Date(item.bookingDate).toLocaleDateString(
+                          dateLocale,
+                          {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          }
+                        )}
+                      </p>
+
+                      {/* تاريخ الزيارة */}
+                      <p className="date">
+                        {screenSize === "small" && (
+                          <span>{t.booking.visitDate}:</span>
+                        )}
+                        {new Date(item.visitDate).toLocaleDateString(
+                          dateLocale,
+                          {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          }
+                        )}
+                      </p>
                     </div>
-
-                    {/* سعر التذكرة */}
-                    <p className="price">
-                      {screenSize == "small" ? (
-                        <span>{t.booking.ticketPrice}:</span>
-                      ) : null}
-                      ${item.ticketPrice.toFixed(2)}
-                    </p>
-
-                    {/* عدد الأفراد */}
-                    <p className="people-count">
-                      {screenSize == "small" ? (
-                        <span>{t.booking.peopleCount}:</span>
-                      ) : null}
-                      {item.peopleCount}{" "}
-                      {screenSize === "small"
-                        ? null
-                        : item.peopleCount > 1
-                        ? t.booking.people
-                        : t.booking.person}
-                    </p>
-
-                    {/* الإجمالي */}
-                    <p className="price">
-                      {screenSize == "small" ? (
-                        <span>{t.booking.totalPaid}:</span>
-                      ) : null}
-                      ${item.totalPaid.toFixed(2)}
-                    </p>
-
-                    {/* تاريخ الحجز */}
-                    <p className="date">
-                      {screenSize == "small" ? (
-                        <span>{t.booking.bookingDate}:</span>
-                      ) : null}
-                      {new Date(item.bookingDate).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </p>
-
-                    {/* تاريخ الزيارة */}
-                    <p className="date">
-                      {screenSize == "small" ? (
-                        <span>{t.booking.visitDate}:</span>
-                      ) : null}
-                      {new Date(item.visitDate).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

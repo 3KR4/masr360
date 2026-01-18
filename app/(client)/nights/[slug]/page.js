@@ -124,7 +124,7 @@ export default function ProductDetails() {
 
         <div className="location">
           <div className="top">
-            <h4>Location in {place?.govermorate}</h4>
+            <h4>Location in {place?.governorate}</h4>
             <div className="actions">
               <div className="hold">
                 <button className="main-button forFavoriet">

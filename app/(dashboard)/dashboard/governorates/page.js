@@ -1,25 +1,39 @@
 "use client";
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
-
 import Image from "next/image";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
-import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
-import { governorates } from "@/data";
+import { governoratesEn, governoratesAr } from "@/data";
 import Link from "next/link";
-import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
 import { FaPlaceOfWorship } from "react-icons/fa";
 import useTranslate from "@/Contexts/useTranslation";
 
 export default function Governorates() {
-  const { screenSize } = useContext(mainContext);
+  const { locale, screenSize } = useContext(mainContext);
 
   const t = useTranslate();
+  const [governorates, setgovernorates] = useState([]);
+
+  useEffect(() => {
+    const fetchgovernorates = async () => {
+      // try {
+      //   const { data } = await getService.getGovernorates(6);
+      //   setgovernorates(
+      //     data || locale == "en" ? governoratesEn : governoratesAr
+      //   );
+      // } catch (err) {
+      //   console.error("Failed to fetch governorates:", err);
+      //   setgovernorates(locale == "en" ? governoratesEn : governoratesAr);
+      // }
+      setgovernorates(locale == "en" ? governoratesEn : governoratesAr);
+    };
+    fetchgovernorates();
+  }, [locale]);
 
   return (
     <div className="dash-holder">
@@ -32,7 +46,7 @@ export default function Governorates() {
                   {t.dashboard.tables.governorate_details}
                 </div>
                 <div className="header-item">
-                  {t.dashboard.tables.views_count}
+                  {t.dashboard.tables.viewsCount}
                 </div>
                 <div className="header-item">
                   {t.dashboard.tables.places_count}
