@@ -1,4 +1,296 @@
+/*! games-card */
+.game {
+  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: 15px;
+  flex-direction: column;
+  overflow: hidden;
+}
+.game > img {
+  width: 100% !important;
+  height: unset !important;
+  aspect-ratio: 2;
+  position: relative !important;
+}
+.game .text-holder {
+  flex-direction: column;
+  gap: 7px;
+  padding: 15px 12px;
+  display: flex;
+}
+.game .text-holder span.color {
+  color: var(--paragraph);
+  font-size: 15px;
+}
+.game .text-holder .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.game .text-holder .top h4 {
+  color: var(--paragraph);
+  font-size: 17px;
+  letter-spacing: 0.4px;
+}
+.game .text-holder .top .steps {
+  color: var(--main-color);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  font-size: 15px;
+}
+.game .text-holder .reviews {
+  margin: -1px 0 -3px;
+}
+.game .text-holder .difficulty {
+  padding: 0 4px;
+}
+.game .text-holder .holder {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 2px solid var(--main-color);
+  background: var(--second-color);
+  border-style: dotted;
+  border-radius: 5px;
+  justify-content: center;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  gap: 6px !important;
+}
+.game .text-holder .holder .hold {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.game .text-holder .holder .color {
+  font-size: 13px;
+}
+.game .text-holder .price-holder p {
+  justify-content: center;
+}
+.game .text-holder .price-holder .old-price {
+  color: #767676;
+}
+.game .text-holder .description {
+  -webkit-line-clamp: 2;
+  padding: 0 4px;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.game .text-holder .description.no-clamp {
+  -webkit-line-clamp: unset;
+}
+.game .text-holder .main-button {
+  width: 100%;
+  height: 44px;
+  font-size: 13px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+/*! preview-game */
+.big-holder.for-games {
+  flex-direction: column;
+}
+.discover .for-games > .holder {
+  flex-direction: row;
+  margin: 35px 0;
+  gap: 10px;
+}
+.discover .pruche-now {
+  background: radial-gradient(black, transparent);
+  height: fit-content;
+  position: sticky;
+  top: 88px;
+}
+.discover .steps-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  gap: 28px;
+  min-width: 55%;
+}
+
+/* كل خطوة */
+.discover .steps-list .step {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* الخط العمودي */
+.discover .steps-list .step .line {
+  background: var(--second-color);
+  width: 7px;
+  height: 28px;
+  position: absolute;
+  top: -28px;
+  border: 2px solid var(--main-color);
+  border-style: dotted;
+}
+
+/* الايقونة = السنتر */
+.discover .steps-list .icon-wrapper {
+  border: 2px solid var(--main-color);
+  border-style: outset;
+  z-index: 2;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  position: relative;
+}
+.discover .steps-list .step.left .icon-wrapper {
+  border-style: inset;
+}
+/* العنوان */
+.discover .steps-list .title {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 250px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--paragraph);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  background: var(--section-color);
+  padding: 5px 12px;
+  border-radius: 7px;
+}
+
+/* الكوينز */
+.discover .steps-list .coins {
+  white-space: nowrap;
+  color: var(--main-color);
+  background: var(--section-color);
+  border-radius: 7px;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 12px;
+  font-weight: 700;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  height: 27px;
+}
+
+/* ===== الاتجاه ===== */
+
+/* خطوة شمال */
+.discover .steps-list .step.left .title {
+  right: calc(50% + 34px);
+  text-align: right;
+}
+
+.discover .steps-list .step.left .coins {
+  left: calc(50% + 34px);
+}
+
+/* خطوة يمين */
+.discover .steps-list .step.right .title {
+  left: calc(50% + 34px);
+  text-align: left;
+}
+
+.discover .steps-list .step.right .coins {
+  right: calc(50% + 34px);
+}
+
+[lang="ar"] .discover .steps-list .step.left .title {
+  right: unset;
+  left: calc(50% + 34px);
+  text-align: left;
+}
+
+[lang="ar"] .discover .steps-list .step.left .coins {
+  left: unset;
+  right: calc(50% + 34px);
+}
+
+/* خطوة يمين */
+[lang="ar"] .discover .steps-list .step.right .title {
+  left: unset;
+  right: calc(50% + 34px);
+  text-align: right;
+}
+
+[lang="ar"] .discover .steps-list .step.right .coins {
+  right: unset;
+  left: calc(50% + 34px);
+}
+
 /*! single-game */
+
+.steps-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.steps-accordion .step-item {
+}
+.steps-accordion .step-item .step-header {
+  background: var(--section-color);
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  color: var(--paragraph);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.steps-accordion .step-item .step-header:hover {
+  background: var(--second-color);
+}
+.steps-accordion .step-item.active .step-header {
+  border-radius: 12px 12px 0 0;
+  background: var(--main-color);
+}
+.steps-accordion .step-item.active .step-header > * {
+  color: white !important;
+  font-weight: 500;
+}
+.steps-accordion .step-item .step-header h4 {
+  color: var(--paragraph);
+  transition: 0.3s;
+}
+.steps-accordion .step-item .step-header span {
+  transition: 0.3s;
+}
+.steps-accordion .step-item .step-header .coins {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 800;
+  color: var(--hover-color);
+}
+.steps-accordion .step-item .step-content {
+  border: 1px solid var(--border-color);
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+  padding: 12px;
+}
+.steps-accordion .step-item .step-content:has(.location-image) {
+  padding-top: 8px;
+}
+.steps-accordion .step-item .step-content .location-image {
+  position: relative;
+  aspect-ratio: 2;
+  border-radius: 20px ;
+  overflow: hidden;
+  object-fit: cover;
+  margin: 10px 0;
+}
 .single-game {
   flex: 1;
   display: flex;
@@ -60,8 +352,8 @@
 }
 .game-page .options {
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin: 16px 0 18px;
+  gap: 9px 7px;
+  margin: 10px 0 7px;
   display: grid;
 }
 
@@ -125,6 +417,13 @@
     padding: 0;
   }
 }
+@media (max-width: 992px) {
+  .discover .for-games > .holder {
+    gap: 30px;
+    flex-direction: column-reverse;
+    margin: 0;
+  }
+}
 @media (max-width: 768px) {
   .single-game {
     padding: 15px;
@@ -153,6 +452,10 @@
   }
   .game-page .option {
     font-size: 12px;
+  }
+  .discover .steps-list .title {
+    padding: 5px 8px;
+    font-size: 14px;
   }
 }
 @media (max-width: 400px) {

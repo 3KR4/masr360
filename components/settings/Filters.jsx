@@ -1,7 +1,14 @@
 "use client";
 import React, { useContext } from "react";
 import Slider from "@mui/material/Slider";
-import { tourismCategories, productCategories, nightsCategories } from "@/data";
+import {
+  tourismCategoriesEn,
+  tourismCategoriesAr,
+  productCategoriesEn,
+  productCategoriesAr,
+  nightsCategoriesEn,
+  nightsCategoriesAr,
+} from "@/data";
 import "@/styles/components/filters.css";
 import { IoIosClose } from "react-icons/io";
 import useTranslate from "@/Contexts/useTranslation";
@@ -25,10 +32,16 @@ const Filters = ({
 
   const cats =
     catsType === "product"
-      ? productCategories
+      ? locale == "en"
+        ? productCategoriesEn
+        : productCategoriesAr
       : catsType === "night"
-      ? nightsCategories
-      : tourismCategories;
+      ? locale == "en"
+        ? nightsCategoriesEn
+        : nightsCategoriesAr
+      : locale == "en"
+      ? tourismCategoriesEn
+      : tourismCategoriesAr;
   const handlePriceChange = (_, newValue) => {
     setPriceRange(newValue);
   };
@@ -41,14 +54,14 @@ const Filters = ({
       setSelectedCategory((prev) => ({
         catId: prev.catId === cat.id ? null : cat.id,
         subCatId: null,
-        catLabel: prev.catId === cat.id ? null : cat.name[locale],
+        catLabel: prev.catId === cat.id ? null : cat.name,
         subCatLabel: null,
       }));
     } else {
       setSelectedCategory((prev) => ({
         ...prev,
         subCatId: prev.subCatId === sub.id ? null : sub.id,
-        subCatLabel: prev.subCatId === sub.id ? null : sub.name[locale],
+        subCatLabel: prev.subCatId === sub.id ? null : sub.name,
       }));
     }
   };
@@ -142,7 +155,7 @@ const Filters = ({
                 }`}
                 onClick={() => handleCategoryClick(cat)}
               >
-                <span>{cat.icon}</span> {cat.name[locale]}
+                <span>{cat.icon}</span> {cat.name}
               </div>
 
               {cat.subcategories && selectedCategory.catId === cat.id && (
@@ -155,7 +168,7 @@ const Filters = ({
                       }`}
                       onClick={() => handleCategoryClick(cat, sub)}
                     >
-                      ▸ {sub.name[locale]}
+                      ▸ {sub.name}
                     </div>
                   ))}
                 </div>

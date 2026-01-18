@@ -15,10 +15,9 @@ import { governoratesAr, governoratesEn } from "@/data";
 import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice";
 import CountDown from "@/components/CountDown";
-
 import useTranslate from "@/Contexts/useTranslation";
 
-export default function CardItem({ item, type }) {
+export default function CardItem({ item, type, previewGame = false }) {
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
 
@@ -29,70 +28,58 @@ export default function CardItem({ item, type }) {
   const isNight = type === "night";
   const isEvent = type === "event";
 
-  // دالة للحصول على نص الزر بناءً على النوع
   const getButtonText = () => {
     if (isProduct) return t.mainCard.seeProduct;
     if (isGame) return t.mainCard.startJourney;
     return t.mainCard.seeDetails;
   };
 
-  // دالة للحصول على نص المكافأة
-  const getRewardText = () => {
-    return `${item?.reward || 0} ${t.mainCard.reward}`;
-  };
   const currentGovernorate =
-    locale == "en"
-      ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
-      : governoratesAr?.find((x) => x.id == item?.governorate?.id);
+    locale === "en"
+      ? governoratesEn?.find((x) => x.id === item?.governorate?.id)
+      : governoratesAr?.find((x) => x.id === item?.governorate?.id);
 
-  console.log(currentGovernorate);
+  const currentGamePlace =
+    locale === "en"
+      ? governoratesEn?.find((x) => x.id === item?.place?.id)
+      : governoratesAr?.find((x) => x.id === item?.place?.id);
 
   return (
     <div key={item?.id} className={`card ${type}`}>
-      {/* ❤️ ACTION ICONS */}
       {(isProduct || isPlace) && (
         <div className="actions-icon">
-          {!isGame && <FaHeart className="wish-icon" />}
+          <FaHeart className="wish-icon" />
           {isProduct && <FaCartShopping className="cart-icon" />}
         </div>
       )}
 
-      {/* 🖼 IMAGE + BUTTON */}
       <Link
         href={
           isProduct
             ? `/marketplace/${item?.id}`
             : isPlace
-            ? `/places/${item?.id}`
-            : isGame
-            ? `/games/${item?.id}`
-            : isNight
-            ? `/nights/${item?.id}`
-            : isEvent
-            ? `/nights/${item?.id}?event=true`
-            : isGov
-            ? `/discover/${item?.id}`
-            : ``
+              ? `/places/${item?.id}`
+              : isGame
+                ? `/games/preview/${item?.id}`
+                : isNight
+                  ? `/nights/${item?.id}`
+                  : isEvent
+                    ? `/nights/${item?.id}?event=true`
+                    : isGov
+                      ? `/discover/${item?.id}`
+                      : ""
         }
         className="image-holder"
       >
         <Image
-          src={
-            isPlace || isNight || isEvent || isProduct
-              ? item.images[0]
-              : isGov
-              ? item.image
-              : isGame
-              ? item?.place?.image
-              : item?.image
-          }
+          src={isGov || isGame ? item?.image : item?.images?.[0]}
           alt={item?.name}
           fill
         />
-        {!isGov && <button className="main-button">{getButtonText()}</button>}
+        {(!isGov && !previewGame) && <button className="main-button">{getButtonText()}</button>}
       </Link>
 
-      {/* 📝 TEXT SECTION */}
+      {/* TEXT CONTENT */}
       <div className="text-holder">
         <div className="top">
           <Link
@@ -100,25 +87,19 @@ export default function CardItem({ item, type }) {
               isProduct
                 ? `/marketplace/${item?.id}`
                 : isPlace
-                ? `/places/${item?.id}`
-                : isGame
-                ? `/games/${item?.id}`
-                : isNight
-                ? `/nights/${item?.id}`
-                : isEvent
-                ? `/nights/${item?.id}?isEvent=true`
-                : `/discover/${item?.id}`
+                  ? `/places/${item?.id}`
+                  : isGame
+                    ? `/games/${item?.id}`
+                    : isNight
+                      ? `/nights/${item?.id}`
+                      : isEvent
+                        ? `/nights/${item?.id}?isEvent=true`
+                        : `/discover/${item?.id}`
             }
             className="name-link ellipsis"
           >
             {item?.name}
           </Link>
-
-          {isGame && (
-            <p>
-              / {item?.questions?.length || 0} {t.mainCard.questions}
-            </p>
-          )}
 
           {(isPlace || isNight || isEvent) && (
             <Link
@@ -136,23 +117,22 @@ export default function CardItem({ item, type }) {
             <Link className="explore" href={`/discover/${item?.id}`}>
               {screenSize !== "small" ? t.mainCard.explore : ""}{" "}
               {item?.count || 0} {t.mainCard.places}{" "}
-              {locale == "en" ? (
+              {locale === "en" ? (
                 <FaArrowRight className="arrow" />
               ) : (
                 <FaArrowLeft className="arrow" />
               )}
             </Link>
           )}
+          {isGame && (
+            <span className="steps">
+              {item?.totalSteps} {t.games.step}
+            </span>
+          )}
         </div>
 
-        {isGame && (
-          <Link href={`/games/${item?.id}`} className="main-button rewards">
-            {getRewardText()}
-          </Link>
-        )}
-
-        {/* ⭐ RATING */}
-        {(isProduct || isNight) && (
+        {/* RATING */}
+        {(isProduct || isNight || isGame) && !previewGame && (
           <div className="reviews">
             <Rating
               name="read-only"
@@ -166,8 +146,10 @@ export default function CardItem({ item, type }) {
             </span>
           </div>
         )}
-
-        {/* 💰 PRICE for product only */}
+        {isGame && (
+          <span className="difficulty color">{t.games[item?.difficulty]}</span>
+        )}
+        {/* PRICE */}
         {isProduct && (
           <DisplayPrice
             price={item?.price}
@@ -176,8 +158,38 @@ export default function CardItem({ item, type }) {
           />
         )}
 
-        {item?.description && <p className="ellipsis">{item?.description}</p>}
+        {/* GAME DETAILS */}
+        {isGame && (
+          <div className="holder">
+            <div className="hold">
+              <span className="color">{t.dashboard.forms.price}:</span>
+              <DisplayPrice price={item?.price} sale={item?.sale} />
+            </div>
+            <div className="hold">
+              <span className="color">{t.games.timeToFinish}:</span>
+              <span className="estimatedTime color">{item?.estimatedTime}</span>
+            </div>
+            <div className="hold">
+              <span className="color">{t.games.totalCoins}:</span>
+              <span className="estimatedTime color">
+                {item?.totalCoins} {t.games.credits}
+              </span>
+            </div>
+          </div>
+        )}
 
+        {item?.description && (
+          <p
+            className={`"ellipsis description ${previewGame ? "no-clamp" : ""}`}
+          >
+            {item?.description}
+          </p>
+        )}
+        {previewGame && (
+          <putton className={`main-button`}>purchase and play now</putton>
+        )}
+
+        {/* EVENT */}
         {isEvent && (
           <div className="time-holder">
             <CountDown

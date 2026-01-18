@@ -10,7 +10,10 @@ import { getService } from "@/services/api/getService";
 import {
   nightsEn,
   nightsAr,
-  products,
+  placesEn,
+  placesAr,
+  productsEn,
+  productsAr,
   governoratesEn,
   governoratesAr,
 } from "@/data";
@@ -37,29 +40,44 @@ export default function DisplayContent({ type, isSharedData, shared }) {
   useEffect(() => {
     let response;
 
-    const fetchData = async () => {
-      try {
-        if (type === "gov")
-          response = (await getService.getGovernorates()) || {
-            data: locale == "en" ? governoratesEn : governoratesAr,
-          };
-        else if (type === "place" && !isSharedData)
-          response = (await getService.getPlaces()) || {
-            data: locale == "en" ? placesEn : placesAr,
-          };
-        else if (type === "product") response = { data: products };
-        else if (type === "night")
-          response = { data: locale == "en" ? nightsEn : nightsAr };
-        else response = { data: shared };
+    // const fetchData = async () => {
+    //   try {
+    //     if (type === "gov")
+    //       response = (await getService.getGovernorates()) || {
+    //         data: locale == "en" ? governoratesEn : governoratesAr,
+    //       };
+    //     else if (type === "place" && !isSharedData)
+    //       response = (await getService.getPlaces()) || {
+    //         data: locale == "en" ? placesEn : placesAr,
+    //       };
+    //     else if (type === "product")
+    //       response = { data: locale == "en" ? productsEn : productsAr };
+    //     else if (type === "night")
+    //       response = { data: locale == "en" ? nightsEn : nightsAr };
+    //     else response = { data: shared };
 
-        setData(response?.data || []);
-      } catch (error) {
-        console.error("Fetch error:", error);
-        setData([]);
-      }
-    };
+    //     setData(response?.data || []);
+    //   } catch (error) {
+    //     console.error("Fetch error:", error);
+    //     setData([]);
+    //   }
+    // };
 
-    fetchData();
+    if (type === "gov") {
+      response = locale === "en" ? governoratesEn : governoratesAr;
+    } else if (type === "place" && !isSharedData) {
+      response = locale === "en" ? placesEn : placesAr;
+    } else if (type === "product") {
+      response = locale === "en" ? productsEn : productsAr;
+    } else if (type === "night") {
+      response = locale === "en" ? nightsEn : nightsAr;
+    } else {
+      response = locale === "en" ? governoratesEn : governoratesAr;
+    }
+
+    setData(response);
+
+    // fetchData();
   }, [type, isSharedData, shared]);
 
   /* ===================== REMOVE FILTER ===================== */

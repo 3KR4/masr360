@@ -30,6 +30,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 8px;
@@ -953,6 +954,7 @@ svg.main-ico {
   .title-holder {
     width: 100%;
     padding: 0 15px !important;
+    margin: 20px auto 15px;
   }
   .main-title {
     font-size: 30px;
@@ -1040,7 +1042,7 @@ svg.main-ico {
 }
 @media (max-width: 400px) {
   .main-title {
-    font-size: 26px;
+    font-size: 23px;
   }
   .sub-title {
     font-size: 14px;

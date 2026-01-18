@@ -141,6 +141,7 @@ const en = {
       mainTitle: "Explore Games",
       subTitle:
         "Explore hidden details only seen on-site, and earn coins you can redeem for real rewards in our marketplace.",
+      btn: "see all",
     },
   },
   sideNav: {
@@ -256,6 +257,18 @@ const en = {
     max: "Max",
 
     filter_by_categories: "Filter by Categories",
+  },
+  games: {
+    easy: "A smooth and fast experience with no pressure 🌴",
+    medium: "A balanced experience with light challenges 🧭",
+    hard: "A challenging experience full of obstacles 🔥",
+    timeToFinish: "time to finish",
+    totalCoins: "total coins",
+    credits: "credits",
+    preview: "preview",
+    step: "step",
+    purchase_and_play_now: "purchase and play now",
+
   },
   head: {
     searchIn: "Search in",

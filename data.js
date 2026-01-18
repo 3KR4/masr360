@@ -2680,7 +2680,7 @@ export const orders = [
   },
   {
     id: 4,
-    cart: [2,8,4,14],
+    cart: [2, 8, 4, 14],
 
     totalItems: 5,
     cartTotalPrice: 573,
@@ -2721,7 +2721,7 @@ export const orders = [
   },
   {
     id: 6,
-    cart: [9,11],
+    cart: [9, 11],
 
     totalItems: 2,
     cartTotalPrice: 873,
@@ -2740,211 +2740,7 @@ export const orders = [
     notes: "Customer requested to be notified before delivery.",
   },
 ];
-export const games = [
-  {
-    id: 1,
-    place: { id: 3 }, // The Egyptian Museum
-    name: "The Egyptian Museum Challenge",
-    reward: 130,
-    questions: [
-      {
-        id: 1,
-        question:
-          "In the first floor, at the end of the left corridor, what type of artifact is displayed?",
-        options: ["Statue", "Mummy", "Sarcophagus", "Jewelry"],
-        correctAnswer: "Sarcophagus",
-      },
-      {
-        id: 2,
-        question:
-          "Who was the famous boy king whose treasures are displayed here?",
-        options: ["Tutankhamun", "Ramses II", "Akhenaten", "Khufu"],
-        correctAnswer: "Tutankhamun",
-      },
-      {
-        id: 3,
-        question:
-          "Which material was commonly used for statues in the Old Kingdom?",
-        options: ["Granite", "Wood", "Limestone", "Gold"],
-        correctAnswer: "Limestone",
-      },
-      {
-        id: 4,
-        question: "Which goddess is often shown with outstretched wings?",
-        options: ["Isis", "Hathor", "Bastet", "Nephthys"],
-        correctAnswer: "Isis",
-      },
-      {
-        id: 5,
-        question: "What is the main color used in the Tutankhamun mask?",
-        options: ["Silver", "Gold", "Bronze", "Blue"],
-        correctAnswer: "Gold",
-      },
-    ],
-  },
-  {
-    id: 2,
-    place: { id: 5 }, // The Pyramids of Giza
-    name: "Pyramids Explorer",
-    reward: 150,
-    questions: [
-      {
-        id: 1,
-        question: "Which pyramid is the largest in Giza?",
-        options: ["Khufu", "Khafre", "Menkaure", "Djoser"],
-        correctAnswer: "Khufu",
-      },
-      {
-        id: 2,
-        question: "What mythical creature guards the Pyramids?",
-        options: ["Sphinx", "Anubis", "Phoenix", "Scarab"],
-        correctAnswer: "Sphinx",
-      },
-      {
-        id: 3,
-        question: "The pyramids were built during which period?",
-        options: ["Old Kingdom", "New Kingdom", "Middle Kingdom", "Roman Era"],
-        correctAnswer: "Old Kingdom",
-      },
-      {
-        id: 4,
-        question: "What is inside the Great Pyramid?",
-        options: ["King’s Chamber", "Mummy of Ramses II", "Jewels", "Nothing"],
-        correctAnswer: "King’s Chamber",
-      },
-      {
-        id: 5,
-        question: "The pyramids were built mainly from what material?",
-        options: ["Limestone", "Granite", "Sandstone", "Mud bricks"],
-        correctAnswer: "Limestone",
-      },
-    ],
-  },
-  {
-    id: 3,
-    place: { id: 6 }, // The High Dam
-    name: "High Dam Quiz",
-    reward: 100,
-    questions: [
-      {
-        id: 1,
-        question: "In which city is the High Dam located?",
-        options: ["Luxor", "Cairo", "Aswan", "Alexandria"],
-        correctAnswer: "Aswan",
-      },
-      {
-        id: 2,
-        question: "What does the High Dam control?",
-        options: ["Nile floods", "Electricity", "Tourism", "Sandstorms"],
-        correctAnswer: "Nile floods",
-      },
-      {
-        id: 3,
-        question: "When was the dam completed?",
-        options: ["1960", "1970", "1955", "1980"],
-        correctAnswer: "1970",
-      },
-      {
-        id: 4,
-        question: "What lake was formed behind the dam?",
-        options: ["Lake Tana", "Lake Nasser", "Lake Victoria", "Lake Qarun"],
-        correctAnswer: "Lake Nasser",
-      },
-      {
-        id: 5,
-        question: "Which leader inaugurated the High Dam?",
-        options: ["Nasser", "Sadat", "Mubarak", "King Farouk"],
-        correctAnswer: "Nasser",
-      },
-    ],
-  },
-  {
-    id: 4,
-    place: { id: 8 }, // Philae Temple
-    name: "Philae Temple Knowledge Test",
-    reward: 120,
-    questions: [
-      {
-        id: 1,
-        question: "Philae Temple is dedicated to which goddess?",
-        options: ["Isis", "Hathor", "Mut", "Nephthys"],
-        correctAnswer: "Isis",
-      },
-      {
-        id: 2,
-        question: "On which island is Philae Temple located now?",
-        options: ["Agilkia", "Elephantine", "Sahel", "Abu"],
-        correctAnswer: "Agilkia",
-      },
-      {
-        id: 3,
-        question: "When was the temple relocated?",
-        options: ["1960s", "1980s", "1950s", "1970s"],
-        correctAnswer: "1960s",
-      },
-      {
-        id: 4,
-        question: "Which civilization built Philae Temple?",
-        options: ["Greek", "Roman", "Egyptian", "Persian"],
-        correctAnswer: "Egyptian",
-      },
-      {
-        id: 5,
-        question: "What is the temple’s main architectural feature?",
-        options: [
-          "Columns with floral capitals",
-          "Pyramids",
-          "Obelisks",
-          "Domes",
-        ],
-        correctAnswer: "Columns with floral capitals",
-      },
-    ],
-  },
-  {
-    id: 5,
-    place: { id: 3 }, // Luxor Temple
-    name: "Luxor Temple Adventure",
-    reward: 140,
-    questions: [
-      {
-        id: 1,
-        question: "Luxor Temple is dedicated to which god?",
-        options: ["Amun", "Ra", "Osiris", "Anubis"],
-        correctAnswer: "Amun",
-      },
-      {
-        id: 2,
-        question: "Which Pharaoh started building Luxor Temple?",
-        options: ["Amenhotep III", "Ramses II", "Tutankhamun", "Seti I"],
-        correctAnswer: "Amenhotep III",
-      },
-      {
-        id: 3,
-        question: "Where is Luxor Temple located?",
-        options: ["East bank", "West bank", "Desert", "Island"],
-        correctAnswer: "East bank",
-      },
-      {
-        id: 4,
-        question: "Which structure connects Luxor Temple to Karnak Temple?",
-        options: [
-          "Avenue of Sphinxes",
-          "Bridge of Kings",
-          "Path of Ra",
-          "Valley of Queens",
-        ],
-        correctAnswer: "Avenue of Sphinxes",
-      },
-      {
-        id: 5,
-        question: "At night, the temple is famous for its?",
-        options: ["Light show", "Boat rides", "Statues", "Market"],
-        correctAnswer: "Light show",
-      },
-    ],
-  },
-];
+
 export const reviews = [
   {
     productId: 1,
@@ -3739,4 +3535,1226 @@ export const tickets = [
     status: "open",
     createdAt: "2025-01-14T08:10:00",
   },
+];
+
+export const gamesEn = [
+  {
+    id: "cairo_adventure",
+    name: "Cairo Time Traveler",
+    image: "/governorates/cairo.jpg",
+    description:
+      "Embark on a journey through Cairo's rich history, from the Pyramids to Islamic Cairo. Explore ancient wonders, vibrant bazaars, and modern attractions.",
+    totalSteps: 17,
+    totalCoins: 850,
+    price: 10,
+    sale: 15,
+    rate: 4.8,
+    reviewsCount: 16,
+    governorate: { id: 1 },
+    difficulty: "medium",
+    estimatedTime: "4-5 hours",
+    steps: [
+      {
+        stepNumber: 1,
+        title: "Giza Pyramids Discovery",
+        type: "interactive",
+        coins: 60,
+        feature: "archaeological-sites",
+        interactiveData: {
+          title: "Visit the Great Pyramid",
+          description:
+            "Go to the Giza Pyramid Complex and find the Great Pyramid of Khufu, the oldest and largest of the three pyramids.",
+          locationImage: "/locations/giza-pyramid.jpg",
+          location: "Giza Plateau, Al Haram, Giza",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["pyramid"],
+            minQuality: 0.7,
+            locationCheck: true,
+          },
+        },
+      },
+      {
+        stepNumber: 2,
+        title: "Egyptian Museum Quiz",
+        type: "question",
+        coins: 40,
+        feature: "museums",
+        questionData: {
+          question: "What is the most famous artifact in the Egyptian Museum?",
+          correctAnswer: "tutankhamun-mask",
+          options: [
+            { id: "tutankhamun-mask", text: "Mask of Tutankhamun" },
+            { id: "rosetta-stone", text: "Rosetta Stone" },
+            { id: "nefertiti-bust", text: "Bust of Nefertiti" },
+            { id: "narmer-palette", text: "Narmer Palette" },
+          ],
+        },
+      },
+      {
+        stepNumber: 3,
+        title: "Khan El Khalili Experience",
+        type: "interactive",
+        coins: 45,
+        feature: "photography-spots",
+        interactiveData: {
+          title: "Explore Khan El Khalili Bazaar",
+          description:
+            "Visit the historic market established in the 14th century and find El Fishawi Café, known as the oldest café in Cairo.",
+          locationImage: "/locations/khan-el-khalili.jpg",
+          location: "El-Gamaleya, El Gamaliya, Cairo",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["market", "traditional shop"],
+            tags: ["traditional", "souvenir", "historic"],
+          },
+        },
+      },
+      {
+        stepNumber: 4,
+        title: "Islamic Cairo Architecture",
+        type: "question",
+        coins: 35,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "Which famous mosque in Cairo is also known as the Alabaster Mosque?",
+          correctAnswer: "mosque-of-muhammad-ali",
+          options: [
+            { id: "mosque-of-muhammad-ali", text: "Mosque of Muhammad Ali" },
+            { id: "al-azhar-mosque", text: "Al-Azhar Mosque" },
+            { id: "sultan-hasan-mosque", text: "Sultan Hassan Mosque" },
+            { id: "ibn-tulun-mosque", text: "Ibn Tulun Mosque" },
+          ],
+        },
+      },
+      {
+        stepNumber: 5,
+        title: "Citadel Visit",
+        type: "interactive",
+        coins: 55,
+        feature: "monuments",
+        interactiveData: {
+          title: "Explore Cairo Citadel",
+          description:
+            "Visit the medieval Islamic fortification built by Salah El-Din and enjoy panoramic views of Cairo.",
+          locationImage: "/locations/citadel.jpg",
+          location: "Al Abageyah, El Khalifa, Cairo",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["fortress", "minaret"],
+            orientation: "landscape",
+            locationCheck: true,
+          },
+        },
+      },
+      {
+        stepNumber: 6,
+        title: "Nile River Knowledge",
+        type: "question",
+        coins: 30,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "What is the length of the Nile River, the longest river in the world?",
+          correctAnswer: "6650-km",
+          options: [
+            { id: "6650-km", text: "6,650 km" },
+            { id: "5895-km", text: "5,895 km" },
+            { id: "4200-km", text: "4,200 km" },
+            { id: "7250-km", text: "7,250 km" },
+          ],
+        },
+      },
+      {
+        stepNumber: 7,
+        title: "Coptic Cairo Exploration",
+        type: "interactive",
+        coins: 50,
+        feature: "temples",
+        interactiveData: {
+          title: "Visit the Hanging Church",
+          description:
+            "Explore one of the oldest churches in Egypt, built in the 3rd century AD in the Coptic Cairo area.",
+          locationImage: "/locations/hanging-church.jpg",
+          location: "3 Mari Gerges, Kom Ghorab, Cairo",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["church", "wooden roof"],
+            tags: ["religious", "historic", "coptic"],
+          },
+        },
+      },
+      {
+        stepNumber: 8,
+        title: "Cairo Tower Challenge",
+        type: "question",
+        coins: 40,
+        feature: "monuments",
+        questionData: {
+          question: "How tall is Cairo Tower, one of Cairo's modern landmarks?",
+          correctAnswer: "187-meters",
+          options: [
+            { id: "187-meters", text: "187 meters" },
+            { id: "210-meters", text: "210 meters" },
+            { id: "165-meters", text: "165 meters" },
+            { id: "195-meters", text: "195 meters" },
+          ],
+        },
+      },
+      {
+        stepNumber: 9,
+        title: "Al-Azhar Park Visit",
+        type: "interactive",
+        coins: 35,
+        feature: "photography-spots",
+        interactiveData: {
+          title: "Relax in Al-Azhar Park",
+          description:
+            "Visit this modern park built on a historic landfill site, offering great views of Islamic Cairo.",
+          locationImage: "/locations/al-azhar-park.jpg",
+          location: "Salah Salem St, El-Darb El-Ahmar, Cairo",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["garden", "city view"],
+            timeOfDay: "daytime",
+          },
+        },
+      },
+      {
+        stepNumber: 10,
+        title: "Pharaonic History",
+        type: "question",
+        coins: 45,
+        feature: "historical-questions",
+        questionData: {
+          question: "Which pharaoh built the Great Pyramid of Giza?",
+          correctAnswer: "khufu",
+          options: [
+            { id: "khufu", text: "Khufu" },
+            { id: "khafre", text: "Khafre" },
+            { id: "menkaure", text: "Menkaure" },
+            { id: "ramses-ii", text: "Ramses II" },
+          ],
+        },
+      },
+      {
+        stepNumber: 11,
+        title: "Manial Palace Discovery",
+        type: "interactive",
+        coins: 55,
+        feature: "museums",
+        interactiveData: {
+          title: "Explore Manial Palace Museum",
+          description:
+            "Visit the former palace of Prince Mohamed Ali Tewfik with its unique blend of architectural styles.",
+          locationImage: "/locations/manial-palace.jpg",
+          location: "1 Saray El Manial, El Manial, Cairo",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["palace", "garden"],
+            tags: ["royal", "historic", "architecture"],
+          },
+        },
+      },
+      {
+        stepNumber: 12,
+        title: "Cairo's Population",
+        type: "question",
+        coins: 30,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "Approximately what is the population of Greater Cairo metropolitan area?",
+          correctAnswer: "20-million",
+          options: [
+            { id: "20-million", text: "20 million" },
+            { id: "10-million", text: "10 million" },
+            { id: "15-million", text: "15 million" },
+            { id: "25-million", text: "25 million" },
+          ],
+        },
+      },
+      {
+        stepNumber: 13,
+        title: "Sound and Light Show",
+        type: "interactive",
+        coins: 60,
+        feature: "night-tours",
+        interactiveData: {
+          title: "Attend Pyramids Sound & Light Show",
+          description:
+            "Experience the evening sound and light show at the Giza pyramids (ticket required).",
+          locationImage: "/locations/sound-light.jpg",
+          location: "Giza Plateau, Al Haram, Giza",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["pyramids", "night"],
+            tags: ["show", "night", "entertainment"],
+          },
+        },
+      },
+      {
+        stepNumber: 14,
+        title: "Modern Cairo",
+        type: "question",
+        coins: 35,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "Which modern district in Cairo is known for its upscale shopping and restaurants?",
+          correctAnswer: "zamalek",
+          options: [
+            { id: "zamalek", text: "Zamalek" },
+            { id: "helwan", text: "Helwan" },
+            { id: "shubra", text: "Shubra" },
+            { id: "nasr-city", text: "Nasr City" },
+          ],
+        },
+      },
+      {
+        stepNumber: 15,
+        title: "Nilometer Exploration",
+        type: "interactive",
+        coins: 40,
+        feature: "archaeological-sites",
+        interactiveData: {
+          title: "Visit the Nilometer on Rhoda Island",
+          description:
+            "Find the ancient structure used to measure the Nile's water levels and clarity.",
+          locationImage: "/locations/nilometer.jpg",
+          location: "Al Manial, Rhoda Island, Cairo",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["stone structure", "water"],
+            historic: true,
+          },
+        },
+      },
+      {
+        stepNumber: 16,
+        title: "Egyptian Cuisine",
+        type: "question",
+        coins: 45,
+        feature: "restaurants",
+        questionData: {
+          question:
+            "What is the name of the traditional Egyptian bean dish typically eaten for breakfast?",
+          correctAnswer: "ful-medames",
+          options: [
+            { id: "ful-medames", text: "Ful Medames" },
+            { id: "koshari", text: "Koshari" },
+            { id: "molokhia", text: "Molokhia" },
+            { id: "taameya", text: "Ta'ameya" },
+          ],
+        },
+      },
+      {
+        stepNumber: 17,
+        title: "Final Cairo Memory",
+        type: "interactive",
+        coins: 75,
+        feature: "photography-challenges",
+        interactiveData: {
+          title: "Capture Your Favorite Cairo View",
+          description:
+            "Take one last photo of your favorite spot in Cairo as a memory of your journey.",
+          locationImage: "/locations/cairo-view.jpg",
+          location: "Anywhere in Cairo",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["cairo landmark"],
+            personal: true,
+            creative: true,
+          },
+        },
+      },
+    ],
+  },
+  {
+    id: "alexandria_explorer",
+    name: "Alexandria Coastal Quest",
+    image: "/governorates/alexandria.jpg",
+    description:
+      "Discover the Mediterranean gem from ancient libraries to modern corniche. Explore Greco-Roman ruins, historic citadels, and coastal wonders.",
+    totalSteps: 12,
+    totalCoins: 600,
+    price: 9,
+    rate: 4,
+    reviewsCount: 7,
+    governorate: { id: 2 },
+    difficulty: "easy",
+    estimatedTime: "3-4 hours",
+    steps: [
+      {
+        stepNumber: 1,
+        title: "Citadel of Qaitbay Visit",
+        type: "interactive",
+        coins: 55,
+        feature: "monuments",
+        interactiveData: {
+          title: "Explore Qaitbay Citadel",
+          description:
+            "Visit the 15th-century fortress built on the site of the ancient Lighthouse of Alexandria, one of the Seven Wonders.",
+          locationImage: "/locations/qaitbay-citadel.jpg",
+          location: "As Sayalah Sharq, Qesm Al Gomrok, Alexandria",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["fortress", "sea"],
+            orientation: "landscape",
+            locationCheck: true,
+          },
+        },
+      },
+      {
+        stepNumber: 2,
+        title: "Alexandria Library History",
+        type: "question",
+        coins: 40,
+        feature: "historical-questions",
+        questionData: {
+          question: "What famous ancient library was located in Alexandria?",
+          correctAnswer: "library-of-alexandria",
+          options: [
+            { id: "library-of-alexandria", text: "Library of Alexandria" },
+            { id: "library-of-egypt", text: "Library of Egypt" },
+            { id: "mediterranean-library", text: "Mediterranean Library" },
+            { id: "ptolemy-library", text: "Ptolemy's Library" },
+          ],
+        },
+      },
+      {
+        stepNumber: 3,
+        title: "Bibliotheca Alexandrina",
+        type: "interactive",
+        coins: 50,
+        feature: "libraries",
+        interactiveData: {
+          title: "Visit the Modern Library",
+          description:
+            "Explore the Bibliotheca Alexandrina, the modern revival of the ancient library with its distinctive tilted disc design.",
+          locationImage: "/locations/bibliotheca.jpg",
+          location: "Al Azaritah WA Ash Shatebi, Bab Sharqi, Alexandria",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["library building", "distinctive architecture"],
+            tags: ["modern", "cultural", "education"],
+          },
+        },
+      },
+      {
+        stepNumber: 4,
+        title: "Pompey's Pillar",
+        type: "question",
+        coins: 35,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "Pompey's Pillar in Alexandria is actually dedicated to which Roman emperor?",
+          correctAnswer: "diocletian",
+          options: [
+            { id: "diocletian", text: "Diocletian" },
+            { id: "augustus", text: "Augustus" },
+            { id: "trajan", text: "Trajan" },
+            { id: "hadrian", text: "Hadrian" },
+          ],
+        },
+      },
+      {
+        stepNumber: 5,
+        title: "Catacombs of Kom El Shoqafa",
+        type: "interactive",
+        coins: 60,
+        feature: "tombs",
+        interactiveData: {
+          title: "Explore Ancient Catacombs",
+          description:
+            "Visit the largest Roman burial site in Egypt, featuring a unique blend of Egyptian, Greek, and Roman art.",
+          locationImage: "/locations/catacombs.jpg",
+          location: "Kom Al Shokafa, Alexandria",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["underground", "carvings"],
+            historic: true,
+            locationCheck: true,
+          },
+        },
+      },
+      {
+        stepNumber: 6,
+        title: "Mediterranean Sea",
+        type: "question",
+        coins: 30,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "What is the average depth of the Mediterranean Sea near Alexandria?",
+          correctAnswer: "1500-meters",
+          options: [
+            { id: "1500-meters", text: "1,500 meters" },
+            { id: "800-meters", text: "800 meters" },
+            { id: "3000-meters", text: "3,000 meters" },
+            { id: "500-meters", text: "500 meters" },
+          ],
+        },
+      },
+      {
+        stepNumber: 7,
+        title: "Corniche Walk",
+        type: "interactive",
+        coins: 45,
+        feature: "beaches",
+        interactiveData: {
+          title: "Walk Along Alexandria Corniche",
+          description:
+            "Take a stroll along the 15-kilometer coastal road with beautiful Mediterranean Sea views.",
+          locationImage: "/locations/corniche.jpg",
+          location: "Corniche Road, Alexandria",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["sea", "road"],
+            timeOfDay: "daytime",
+          },
+        },
+      },
+      {
+        stepNumber: 8,
+        title: "Montaza Palace",
+        type: "question",
+        coins: 40,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "Which Egyptian king built Montaza Palace as a summer residence?",
+          correctAnswer: "king-farouk",
+          options: [
+            { id: "king-farouk", text: "King Farouk" },
+            { id: "king-fuad", text: "King Fuad I" },
+            { id: "mohamed-ali", text: "Mohamed Ali" },
+            { id: "ismail-pasha", text: "Ismail Pasha" },
+          ],
+        },
+      },
+      {
+        stepNumber: 9,
+        title: "Montaza Gardens",
+        type: "interactive",
+        coins: 50,
+        feature: "photography-spots",
+        interactiveData: {
+          title: "Visit Montaza Palace Gardens",
+          description:
+            "Explore the beautiful gardens of Montaza Palace with its mix of Turkish and Florentine architecture.",
+          locationImage: "/locations/montaza.jpg",
+          location: "Montaza, Alexandria",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["palace", "garden"],
+            tags: ["royal", "garden", "historic"],
+          },
+        },
+      },
+      {
+        stepNumber: 10,
+        title: "Ancient Lighthouse",
+        type: "question",
+        coins: 45,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "How tall was the ancient Lighthouse of Alexandria (Pharos)?",
+          correctAnswer: "100-130-meters",
+          options: [
+            { id: "100-130-meters", text: "100-130 meters" },
+            { id: "70-90-meters", text: "70-90 meters" },
+            { id: "150-180-meters", text: "150-180 meters" },
+            { id: "50-70-meters", text: "50-70 meters" },
+          ],
+        },
+      },
+      {
+        stepNumber: 11,
+        title: "Stanley Bridge Sunset",
+        type: "interactive",
+        coins: 65,
+        feature: "photography-challenges",
+        interactiveData: {
+          title: "Capture Stanley Bridge at Sunset",
+          description:
+            "Take a photo of the famous Stanley Bridge during sunset with the Mediterranean in the background.",
+          locationImage: "/locations/stanley-bridge.jpg",
+          location: "Stanley, Alexandria",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["bridge", "sunset"],
+            tags: ["sunset", "scenic", "modern"],
+          },
+        },
+      },
+      {
+        stepNumber: 12,
+        title: "Alexandria Farewell",
+        type: "interactive",
+        coins: 85,
+        feature: "photography-challenges",
+        interactiveData: {
+          title: "Final Alexandrian Memory",
+          description:
+            "Take one last photo that captures the essence of Alexandria - the sea, history, and culture.",
+          locationImage: "/locations/alexandria-view.jpg",
+          location: "Anywhere in Alexandria",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["alexandria character"],
+            personal: true,
+            creative: true,
+          },
+        },
+      },
+    ],
+  },
+];
+
+export const gamesAr = [
+  {
+    id: "cairo_adventure",
+    name: "رحلة عبر زمن القاهرة",
+    image: "/governorates/cairo.jpg",
+    description:
+      "انطلق في رحلة عبر تاريخ القاهرة الغني، من الأهرامات إلى القاهرة الإسلامية. استكشف العجائب القديمة، الأسواق النابضة بالحياة، والمعالم الحديثة.",
+    totalSteps: 17,
+    totalCoins: 850,
+    price: 10,
+    sale: 15,
+    rate: 4.8,
+    reviewsCount: 16,
+    governorate: { id: 1 },
+    difficulty: "متوسط",
+    estimatedTime: "٤-٥ ساعات",
+    steps: [
+      {
+        stepNumber: 1,
+        title: "اكتشاف أهرامات الجيزة",
+        type: "تفاعلي",
+        coins: 60,
+        feature: "archaeological-sites",
+        interactiveData: {
+          title: "زيارة الهرم الأكبر",
+          description:
+            "اذهب إلى مجمع أهرامات الجيزة وابحث عن هرم خوفو الأكبر، الأقدم والأكبر بين الأهرامات الثلاثة.",
+          locationImage: "/locations/giza-pyramid.jpg",
+          location: "هضبة الجيزة، الحرم، الجيزة",
+          uploadType: "صورة",
+          reviewType: "تلقائي",
+          validationCriteria: {
+            requiredElements: ["هرم"],
+            minQuality: 0.7,
+            locationCheck: true,
+          },
+        },
+      },
+      {
+        stepNumber: 2,
+        title: "اختبار المتحف المصري",
+        type: "سؤال",
+        coins: 40,
+        feature: "museums",
+        questionData: {
+          question: "ما هي أشهر قطعة أثرية في المتحف المصري؟",
+          correctAnswer: "tutankhamun-mask",
+          options: [
+            { id: "tutankhamun-mask", text: "قناع توت عنخ آمون" },
+            { id: "rosetta-stone", text: "حجر رشيد" },
+            { id: "nefertiti-bust", text: "تمثال نفرتيتي" },
+            { id: "narmer-palette", text: "لوحة نارمر" },
+          ],
+        },
+      },
+      {
+        stepNumber: 3,
+        title: "تجربة خان الخليلي",
+        type: "تفاعلي",
+        coins: 45,
+        feature: "photography-spots",
+        interactiveData: {
+          title: "استكشاف سوق خان الخليلي",
+          description:
+            "قم بزيارة السوق التاريخي الذي تأسس في القرن الرابع عشر وابحث عن مقهى الفيشاوي، المعروف بأنه أقدم مقهى في القاهرة.",
+          locationImage: "/locations/khan-el-khalili.jpg",
+          location: "الجمالية، الجمالية، القاهرة",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["سوق", "متجر تقليدي"],
+            tags: ["تقليدي", "تذكار", "تاريخي"],
+          },
+        },
+      },
+      {
+        stepNumber: 4,
+        title: "عمارة القاهرة الإسلامية",
+        type: "سؤال",
+        coins: 35,
+        feature: "historical-questions",
+        questionData: {
+          question: "أي مسجد شهير في القاهرة يُعرف أيضًا بمسجد المرمر؟",
+          correctAnswer: "mosque-of-muhammad-ali",
+          options: [
+            { id: "mosque-of-muhammad-ali", text: "مسجد محمد علي" },
+            { id: "al-azhar-mosque", text: "جامع الأزهر" },
+            { id: "sultan-hasan-mosque", text: "مسجد السلطان حسن" },
+            { id: "ibn-tulun-mosque", text: "مسجد ابن طولون" },
+          ],
+        },
+      },
+      {
+        stepNumber: 5,
+        title: "زيارة القلعة",
+        type: "تفاعلي",
+        coins: 55,
+        feature: "monuments",
+        interactiveData: {
+          title: "استكشاف قلعة القاهرة",
+          description:
+            "قم بزيارة التحصين الإسلامي من العصور الوسطى الذي بناه صلاح الدين واستمتع بإطلالة بانورامية على القاهرة.",
+          locationImage: "/locations/citadel.jpg",
+          location: "الأباجية، الخليفة، القاهرة",
+          uploadType: "صورة",
+          reviewType: "تلقائي",
+          validationCriteria: {
+            requiredElements: ["قلعة", "مئذنة"],
+            orientation: "أفقي",
+            locationCheck: true,
+          },
+        },
+      },
+      {
+        stepNumber: 6,
+        title: "معرفة نهر النيل",
+        type: "سؤال",
+        coins: 30,
+        feature: "historical-questions",
+        questionData: {
+          question: "ما هو طول نهر النيل، أطول نهر في العالم؟",
+          correctAnswer: "6650-km",
+          options: [
+            { id: "6650-km", text: "٦٦٥٠ كم" },
+            { id: "5895-km", text: "٥٨٩٥ كم" },
+            { id: "4200-km", text: "٤٢٠٠ كم" },
+            { id: "7250-km", text: "٧٢٥٠ كم" },
+          ],
+        },
+      },
+      {
+        stepNumber: 7,
+        title: "استكشاف القاهرة القبطية",
+        type: "تفاعلي",
+        coins: 50,
+        feature: "temples",
+        interactiveData: {
+          title: "زيارة الكنيسة المعلقة",
+          description:
+            "استكشف واحدة من أقدم الكنائس في مصر، بُنيت في القرن الثالث الميلادي في منطقة القاهرة القبطية.",
+          locationImage: "/locations/hanging-church.jpg",
+          location: "٣ ماري جرجس، كوم غراب، القاهرة",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["كنيسة", "سقف خشبي"],
+            tags: ["ديني", "تاريخي", "قبطي"],
+          },
+        },
+      },
+      {
+        stepNumber: 8,
+        title: "تحدي برج القاهرة",
+        type: "سؤال",
+        coins: 40,
+        feature: "monuments",
+        questionData: {
+          question: "كم يبلغ ارتفاع برج القاهرة، أحد معالم القاهرة الحديثة؟",
+          correctAnswer: "187-meters",
+          options: [
+            { id: "187-meters", text: "١٨٧ متر" },
+            { id: "210-meters", text: "٢١٠ متر" },
+            { id: "165-meters", text: "١٦٥ متر" },
+            { id: "195-meters", text: "١٩٥ متر" },
+          ],
+        },
+      },
+      {
+        stepNumber: 9,
+        title: "زيارة حديقة الأزهر",
+        type: "تفاعلي",
+        coins: 35,
+        feature: "photography-spots",
+        interactiveData: {
+          title: "الاسترخاء في حديقة الأزهر",
+          description:
+            "قم بزيارة هذه الحديقة الحديثة المبنية على موقع مكب نفايات تاريخي، وتوفر إطلالات رائعة على القاهرة الإسلامية.",
+          locationImage: "/locations/al-azhar-park.jpg",
+          location: "شارع صلاح سالم، الدرب الأحمر، القاهرة",
+          uploadType: "صورة",
+          reviewType: "تلقائي",
+          validationCriteria: {
+            requiredElements: ["حديقة", "إطلالة على المدينة"],
+            timeOfDay: "نهار",
+          },
+        },
+      },
+      {
+        stepNumber: 10,
+        title: "تاريخ الفراعنة",
+        type: "سؤال",
+        coins: 45,
+        feature: "historical-questions",
+        questionData: {
+          question: "أي فرعون بنى الهرم الأكبر بالجيزة؟",
+          correctAnswer: "khufu",
+          options: [
+            { id: "khufu", text: "خوفو" },
+            { id: "khafre", text: "خفرع" },
+            { id: "menkaure", text: "منقرع" },
+            { id: "ramses-ii", text: "رمسيس الثاني" },
+          ],
+        },
+      },
+      {
+        stepNumber: 11,
+        title: "اكتشاف قصر المنيل",
+        type: "تفاعلي",
+        coins: 55,
+        feature: "museums",
+        interactiveData: {
+          title: "استكشاف متحف قصر المنيل",
+          description:
+            "قم بزيارة القصر السابق للأمير محمد علي توفيق بمزيجه الفريد من الأساليب المعمارية.",
+          locationImage: "/locations/manial-palace.jpg",
+          location: "١ سراي المنيل، المنيل، القاهرة",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["قصر", "حديقة"],
+            tags: ["ملكي", "تاريخي", "عمارة"],
+          },
+        },
+      },
+      {
+        stepNumber: 12,
+        title: "سكان القاهرة",
+        type: "سؤال",
+        coins: 30,
+        feature: "historical-questions",
+        questionData: {
+          question: "ما هو عدد سكان منطقة القاهرة الكبرى تقريبًا؟",
+          correctAnswer: "20-million",
+          options: [
+            { id: "20-million", text: "٢٠ مليون" },
+            { id: "10-million", text: "١٠ مليون" },
+            { id: "15-million", text: "١٥ مليون" },
+            { id: "25-million", text: "٢٥ مليون" },
+          ],
+        },
+      },
+      {
+        stepNumber: 13,
+        title: "عرض الصوت والضوء",
+        type: "تفاعلي",
+        coins: 60,
+        feature: "night-tours",
+        interactiveData: {
+          title: "حضور عرض الصوت والضوء للأهرامات",
+          description:
+            "جرب عرض الصوت والضوء المسائي عند أهرامات الجيزة (التذكرة مطلوبة).",
+          locationImage: "/locations/sound-light.jpg",
+          location: "هضبة الجيزة، الحرم، الجيزة",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["أهرامات", "ليل"],
+            tags: ["عرض", "ليل", "ترفيه"],
+          },
+        },
+      },
+      {
+        stepNumber: 14,
+        title: "القاهرة الحديثة",
+        type: "سؤال",
+        coins: 35,
+        feature: "historical-questions",
+        questionData: {
+          question: "أي حي حديث في القاهرة معروف بمتاجره الفاخرة ومطاعمه؟",
+          correctAnswer: "zamalek",
+          options: [
+            { id: "zamalek", text: "الزمالك" },
+            { id: "helwan", text: "حلوان" },
+            { id: "shubra", text: "شبرا" },
+            { id: "nasr-city", text: "مدينة نصر" },
+          ],
+        },
+      },
+      {
+        stepNumber: 15,
+        title: "استكشاف المقياس النيلي",
+        type: "تفاعلي",
+        coins: 40,
+        feature: "archaeological-sites",
+        interactiveData: {
+          title: "زيارة المقياس النيلي بجزيرة الروضة",
+          description:
+            "ابحث عن الهيكل القديم المستخدم لقياس مستويات مياه النيل وصفائه.",
+          locationImage: "/locations/nilometer.jpg",
+          location: "المنيل، جزيرة الروضة، القاهرة",
+          uploadType: "صورة",
+          reviewType: "تلقائي",
+          validationCriteria: {
+            requiredElements: ["هيكل حجري", "ماء"],
+            historic: true,
+          },
+        },
+      },
+      {
+        stepNumber: 16,
+        title: "المطبخ المصري",
+        type: "سؤال",
+        coins: 45,
+        feature: "restaurants",
+        questionData: {
+          question:
+            "ما اسم الطبق التقليدي المصري المصنوع من الفول الذي يؤكل عادة على الإفطار؟",
+          correctAnswer: "ful-medames",
+          options: [
+            { id: "ful-medames", text: "فول مدمس" },
+            { id: "koshari", text: "كشري" },
+            { id: "molokhia", text: "ملوخية" },
+            { id: "taameya", text: "طعمية" },
+          ],
+        },
+      },
+      {
+        stepNumber: 17,
+        title: "ذكرى القاهرة النهائية",
+        type: "تفاعلي",
+        coins: 75,
+        feature: "photography-challenges",
+        interactiveData: {
+          title: "التقاط إطلالتك المفضلة على القاهرة",
+          description:
+            "التقط صورة أخيرة لمكانك المفضل في القاهرة كذكرى لرحلتك.",
+          locationImage: "/locations/cairo-view.jpg",
+          location: "أي مكان في القاهرة",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["معلم بالقاهرة"],
+            personal: true,
+            creative: true,
+          },
+        },
+      },
+    ],
+  },
+  {
+    id: "alexandria_explorer",
+    name: "رحلة استكشاف الإسكندرية الساحلية",
+    image: "/governorates/alexandria.jpg",
+    description:
+      "اكتشف جوهرة البحر المتوسط من المكتبات القديمة إلى الكورنيش الحديث. استكشف الآثار اليونانية الرومانية، القلاع التاريخية، وعجائب الساحل.",
+    totalSteps: 12,
+    totalCoins: 600,
+    price: 9,
+    rate: 4,
+    reviewsCount: 7,
+    governorate: { id: 2 },
+    difficulty: "سهل",
+    estimatedTime: "٣-٤ ساعات",
+    steps: [
+      {
+        stepNumber: 1,
+        title: "زيارة قلعة قايتباي",
+        type: "تفاعلي",
+        coins: 55,
+        feature: "monuments",
+        interactiveData: {
+          title: "استكشاف قلعة قايتباي",
+          description:
+            "قم بزيارة القلعة التي تعود للقرن الخامس عشر والمبنية على موقع منارة الإسكندرية القديمة، إحدى عجائب الدنيا السبع.",
+          locationImage: "/locations/qaitbay-citadel.jpg",
+          location: "الصيالة شرق، قسم الجمرك، الإسكندرية",
+          uploadType: "صورة",
+          reviewType: "تلقائي",
+          validationCriteria: {
+            requiredElements: ["قلعة", "بحر"],
+            orientation: "أفقي",
+            locationCheck: true,
+          },
+        },
+      },
+      {
+        stepNumber: 2,
+        title: "تاريخ مكتبة الإسكندرية",
+        type: "سؤال",
+        coins: 40,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "ما هي المكتبة القديمة الشهيرة التي كانت موجودة في الإسكندرية؟",
+          correctAnswer: "library-of-alexandria",
+          options: [
+            { id: "library-of-alexandria", text: "مكتبة الإسكندرية" },
+            { id: "library-of-egypt", text: "مكتبة مصر" },
+            { id: "mediterranean-library", text: "مكتبة البحر المتوسط" },
+            { id: "ptolemy-library", text: "مكتبة بطليموس" },
+          ],
+        },
+      },
+      {
+        stepNumber: 3,
+        title: "مكتبة الإسكندرية الحديثة",
+        type: "تفاعلي",
+        coins: 50,
+        feature: "libraries",
+        interactiveData: {
+          title: "زيارة المكتبة الحديثة",
+          description:
+            "استكشف مكتبة الإسكندرية، الإحياء الحديث للمكتبة القديمة بتصميمها القرصي المائل المميز.",
+          locationImage: "/locations/bibliotheca.jpg",
+          location: "العزارطة والشاطبي، باب شرقي، الإسكندرية",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["مبنى المكتبة", "عمارة مميزة"],
+            tags: ["حديث", "ثقافي", "تعليم"],
+          },
+        },
+      },
+      {
+        stepNumber: 4,
+        title: "عمود السواري",
+        type: "سؤال",
+        coins: 35,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "عمود السواري في الإسكندرية مخصص في الواقع لأي إمبراطور روماني؟",
+          correctAnswer: "diocletian",
+          options: [
+            { id: "diocletian", text: "ديوكلتيان" },
+            { id: "augustus", text: "أغسطس" },
+            { id: "trajan", text: "تراجان" },
+            { id: "hadrian", text: "هادريان" },
+          ],
+        },
+      },
+      {
+        stepNumber: 5,
+        title: "سراديب كوم الشقافة",
+        type: "تفاعلي",
+        coins: 60,
+        feature: "tombs",
+        interactiveData: {
+          title: "استكشاف السراديب القديمة",
+          description:
+            "قم بزيارة أكبر موقع دفن روماني في مصر، ويضم مزيجًا فريدًا من الفن المصري واليوناني والروماني.",
+          locationImage: "/locations/catacombs.jpg",
+          location: "كوم الشقافة، الإسكندرية",
+          uploadType: "صورة",
+          reviewType: "تلقائي",
+          validationCriteria: {
+            requiredElements: ["تحت الأرض", "منحوتات"],
+            historic: true,
+            locationCheck: true,
+          },
+        },
+      },
+      {
+        stepNumber: 6,
+        title: "بحر البحر المتوسط",
+        type: "سؤال",
+        coins: 30,
+        feature: "historical-questions",
+        questionData: {
+          question: "ما هو متوسط عمق البحر المتوسط قرب الإسكندرية؟",
+          correctAnswer: "1500-meters",
+          options: [
+            { id: "1500-meters", text: "١٥٠٠ متر" },
+            { id: "800-meters", text: "٨٠٠ متر" },
+            { id: "3000-meters", text: "٣٠٠٠ متر" },
+            { id: "500-meters", text: "٥٠٠ متر" },
+          ],
+        },
+      },
+      {
+        stepNumber: 7,
+        title: "نزهة الكورنيش",
+        type: "تفاعلي",
+        coins: 45,
+        feature: "beaches",
+        interactiveData: {
+          title: "المشي على كورنيش الإسكندرية",
+          description:
+            "تمشى على الطريق الساحلي بطول ١٥ كيلومترًا مع إطلالات جميلة على البحر المتوسط.",
+          locationImage: "/locations/corniche.jpg",
+          location: "طريق الكورنيش، الإسكندرية",
+          uploadType: "صورة",
+          reviewType: "تلقائي",
+          validationCriteria: {
+            requiredElements: ["بحر", "طريق"],
+            timeOfDay: "نهار",
+          },
+        },
+      },
+      {
+        stepNumber: 8,
+        title: "قصر المنتزه",
+        type: "سؤال",
+        coins: 40,
+        feature: "historical-questions",
+        questionData: {
+          question: "أي ملك مصري بنى قصر المنتزه كمقر صيفي؟",
+          correctAnswer: "king-farouk",
+          options: [
+            { id: "king-farouk", text: "الملك فاروق" },
+            { id: "king-fuad", text: "الملك فؤاد الأول" },
+            { id: "mohamed-ali", text: "محمد علي" },
+            { id: "ismail-pasha", text: "إسماعيل باشا" },
+          ],
+        },
+      },
+      {
+        stepNumber: 9,
+        title: "حدائق المنتزه",
+        type: "تفاعلي",
+        coins: 50,
+        feature: "photography-spots",
+        interactiveData: {
+          title: "زيارة حدائق قصر المنتزه",
+          description:
+            "استكشف الحدائق الجميلة لقصر المنتزه بمزيجه من العمارة التركية والفلورنسية.",
+          locationImage: "/locations/montaza.jpg",
+          location: "المنتزه، الإسكندرية",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["قصر", "حديقة"],
+            tags: ["ملكي", "حديقة", "تاريخي"],
+          },
+        },
+      },
+      {
+        stepNumber: 10,
+        title: "المنارة القديمة",
+        type: "سؤال",
+        coins: 45,
+        feature: "historical-questions",
+        questionData: {
+          question: "كم كان ارتفاع منارة الإسكندرية القديمة (فاروس)؟",
+          correctAnswer: "100-130-meters",
+          options: [
+            { id: "100-130-meters", text: "١٠٠-١٣٠ متر" },
+            { id: "70-90-meters", text: "٧٠-٩٠ متر" },
+            { id: "150-180-meters", text: "١٥٠-١٨٠ متر" },
+            { id: "50-70-meters", text: "٥٠-٧٠ متر" },
+          ],
+        },
+      },
+      {
+        stepNumber: 11,
+        title: "غروب جسر ستانلي",
+        type: "تفاعلي",
+        coins: 65,
+        feature: "photography-challenges",
+        interactiveData: {
+          title: "التقاط جسر ستانلي عند الغروب",
+          description:
+            "التقط صورة لجسر ستانلي الشهير أثناء غروب الشمس مع البحر المتوسط في الخلفية.",
+          locationImage: "/locations/stanley-bridge.jpg",
+          location: "ستانلي، الإسكندرية",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["جسر", "غروب"],
+            tags: ["غروب", "مشهد خلاب", "حديث"],
+          },
+        },
+      },
+      {
+        stepNumber: 12,
+        title: "وداع الإسكندرية",
+        type: "تفاعلي",
+        coins: 85,
+        feature: "photography-challenges",
+        interactiveData: {
+          title: "ذكرى الإسكندرية النهائية",
+          description:
+            "التقط صورة أخيرة تجسد جوهر الإسكندرية - البحر، التاريخ، والثقافة.",
+          locationImage: "/locations/alexandria-view.jpg",
+          location: "أي مكان في الإسكندرية",
+          uploadType: "صورة",
+          reviewType: "يدوي",
+          validationCriteria: {
+            requiredElements: ["طابع إسكندراني"],
+            personal: true,
+            creative: true,
+          },
+        },
+      },
+    ],
+  },
+];
+
+export const featuresEn = [
+  { id: "historical-questions", name: "Historical Questions", icon: "📜" },
+  { id: "interactive-events", name: "Interactive Events", icon: "🎮" },
+  { id: "restaurants", name: "Restaurants", icon: "🍽️" },
+  { id: "archaeological-sites", name: "Archaeological Sites", icon: "🏛️" },
+  { id: "coastal-sites", name: "Coastal Sites", icon: "🏖️" },
+  { id: "temples", name: "Temples", icon: "🛕" },
+  { id: "tombs", name: "Tombs", icon: "⚰️" },
+  { id: "diving-spots", name: "Diving Spots", icon: "🤿" },
+  { id: "monuments", name: "Monuments", icon: "🗿" },
+  { id: "museums", name: "Museums", icon: "🏛️" },
+  { id: "libraries", name: "Libraries", icon: "📚" },
+  { id: "photography-spots", name: "Photography Spots", icon: "📸" },
+  { id: "marine-life", name: "Marine Life", icon: "🐠" },
+  { id: "beaches", name: "Beaches", icon: "🏝️" },
+  { id: "water-activities", name: "Water Activities", icon: "🚤" },
+  { id: "photography-challenges", name: "Photography Challenges", icon: "📷" },
+  { id: "night-tours", name: "Night Tours", icon: "🌙" },
+];
+
+export const featuresAr = [
+  { id: "historical-questions", name: "أسئلة تاريخية", icon: "📜" },
+  { id: "interactive-events", name: "أحداث تفاعلية", icon: "🎮" },
+  { id: "restaurants", name: "مطاعم", icon: "🍽️" },
+  { id: "archaeological-sites", name: "مواقع أثرية", icon: "🏛️" },
+  { id: "coastal-sites", name: "مواقع ساحلية", icon: "🏖️" },
+  { id: "temples", name: "معابد", icon: "🛕" },
+  { id: "tombs", name: "مقابر", icon: "⚰️" },
+  { id: "diving-spots", name: "أماكن غوص", icon: "🤿" },
+  { id: "monuments", name: "معالم", icon: "🗿" },
+  { id: "museums", name: "متاحف", icon: "🏛️" },
+  { id: "libraries", name: "مكتبات", icon: "📚" },
+  { id: "photography-spots", name: "نقاط تصوير", icon: "📸" },
+  { id: "marine-life", name: "حياة بحرية", icon: "🐠" },
+  { id: "beaches", name: "شواطئ", icon: "🏝️" },
+  { id: "water-activities", name: "أنشطة مائية", icon: "🚤" },
+  { id: "photography-challenges", name: "تحديات تصوير", icon: "📷" },
+  { id: "night-tours", name: "جولات ليلية", icon: "🌙" },
 ];

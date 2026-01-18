@@ -9,9 +9,8 @@ import { mainContext } from "@/Contexts/mainContext";
 import { useState, useContext, useEffect } from "react";
 import { FaMoneyBillWave } from "react-icons/fa";
 import CardItem from "@/components/CardItem";
-import GameStepsAccordion from "@/components/GameStep";
 
-export default function SingelGame() {
+export default function DiscoverContent() {
   const { locale } = useContext(mainContext);
 
   const t = useTranslate();
@@ -45,29 +44,56 @@ export default function SingelGame() {
     setGameReviews(reviews[0]);
   }, [slug, locale]);
 
-  // const features = locale == "en" ? featuresEn : featuresAr;
+  const features = locale == "en" ? featuresEn : featuresAr;
 
   return (
-    <div className="game-page single-game container">
-      <div className="title-holder pages">
+    <div className="discover">
+      <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
           {game?.name}
           <hr />
         </h1>
-        <p className="sub-title">here you can see the steps</p>
+        <p className="sub-title">{game?.description}</p>
       </div>
 
-      <div className="progress-holder">
-        <div className="progress-bar">
-          <div
-            className="progress"
-            style={{ width: `60%` }}
-          ></div>
+      <div className="fluid-container big-holder for-games">
+        <div className="holder">
+          <div className="pruche-now">
+            {game && <CardItem key={game.id} item={game} type="game" previewGame={true}/>}
+          </div>
+          <ul className="steps-list">
+            {game?.steps.map((step, index) => {
+              // Find the feature object from the features array
+              const feature = features.find((f) => f.id === step.feature);
+              const featureIcon = feature ? feature.icon : "📍"; // Default icon if not found
+
+              return (
+                <li
+                  key={step.id}
+                  className={`step ${index % 2 === 0 ? "left" : "right"}`}
+                >
+                  {index !== 0 && <span className="line" />}
+
+                  <div className="icon-wrapper">
+                    <span className="feature-icon">{featureIcon}</span>
+                  </div>
+
+                  <h4 className="title">
+                    {step.stepNumber}- {step.title}
+                  </h4>
+
+                  <span className="coins">
+                    {step.coins}
+                    <FaMoneyBillWave />
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
+        {GameReviews && <ReviewSection reviews={GameReviews} />}
       </div>
-
-      {game && <GameStepsAccordion game={game} />}
     </div>
   );
 }

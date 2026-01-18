@@ -3,6 +3,7 @@
 .review-section .holder {
   gap: 20px;
   display: flex;
+  flex-direction: row;
 }
 .review-section .overview {
   border-radius: 12px;
@@ -156,6 +157,8 @@
   }
   .review-section .overview {
     width: 100%;
+    position: relative;
+    top: unset;
   }
   .review-section .holder {
     gap: 12px;
