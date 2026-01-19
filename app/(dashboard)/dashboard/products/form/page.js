@@ -45,7 +45,6 @@ export default function CreateProduct() {
       }, {}),
     };
 
-    console.log("FINAL DATA:", finalData);
   };
 
   return (

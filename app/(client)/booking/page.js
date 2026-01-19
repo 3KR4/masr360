@@ -60,7 +60,6 @@ function Bookings() {
                     locale == "en"
                       ? placesEn?.find((x) => x.id == item.place.id)
                       : placesAr?.find((x) => x.id == item.place.id);
-                  console.log(place);
 
                   const placeGov =
                     locale == "en"
@@ -70,7 +69,6 @@ function Bookings() {
                       : governoratesAr?.find(
                           (x) => x.id == place?.governorate?.id
                         );
-                  console.log(placeGov);
 
                   return (
                     <div key={item.id} className="table-item">

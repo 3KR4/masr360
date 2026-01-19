@@ -15,13 +15,17 @@ export default function DiscoverContent() {
           {t.sectionsTitles.masr_nights_page.mainTitle}
           <hr />
         </h1>
-        <p className="sub-title">{t.sectionsTitles.masr_nights_page.subTitle}</p>
+        <p className="sub-title">
+          {t.sectionsTitles.masr_nights_page.subTitle}
+        </p>
       </div>
 
       <Navigations
         items={[
           {
-            name: "nights",
+            name: t.sectionsTitles.masr_nights.title,
+            href: "/nights",
+
             href: "",
           },
         ]}

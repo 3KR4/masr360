@@ -24,7 +24,6 @@ function Places() {
       // try {
       //   const { data } = await getService.getPlaces(8);
       //   setPlaces(data || []);
-      //   console.log(data);
       // } catch (err) {
       //   console.error("Failed to fetch governorates:", err);
       //   setPlaces([]);

@@ -774,18 +774,13 @@ export const placesEn = [
     description:
       "Home to the world's most extensive collection of Pharaonic antiquities, including the treasures of Tutankhamun. The museum houses over 120,000 artifacts spanning 5,000 years of Egyptian history.",
     tickets: {
-      type: "different_ages_nationality",
-      student: {
-        egyptian: 50,
-        foreigner: 150,
-      },
-      adult: {
-        egyptian: 150,
-        foreigner: 300,
-      },
-      senior: {
-        egyptian: 75,
-        foreigner: 150,
+      type: "ageAndRegion",
+      prices: {
+        ageAndRegion: {
+          students: { egyptian: 50, foreign: 150 },
+          adults: { egyptian: 150, foreign: 300 },
+          seniors: { egyptian: 75, foreign: 150 },
+        },
       },
     },
   },
@@ -806,18 +801,13 @@ export const placesEn = [
     description:
       "The oldest and largest of the three pyramids in the Giza pyramid complex, built as a tomb for Pharaoh Khufu over 4,500 years ago. It was the tallest man-made structure for 3,800 years.",
     tickets: {
-      type: "different_ages_nationality",
-      student: {
-        egyptian: 80,
-        foreigner: 200,
-      },
-      adult: {
-        egyptian: 200,
-        foreigner: 400,
-      },
-      senior: {
-        egyptian: 100,
-        foreigner: 200,
+      type: "ageAndRegion",
+      prices: {
+        ageAndRegion: {
+          students: { egyptian: 80, foreign: 200 },
+          adults: { egyptian: 200, foreign: 400 },
+          seniors: { egyptian: 100, foreign: 200 },
+        },
       },
     },
   },
@@ -838,9 +828,13 @@ export const placesEn = [
     description:
       "The largest temple complex ever built, covering over 200 acres. Dedicated to the Theban triad of Amun, Mut, and Khonsu, it was constructed over 2,000 years.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 80,
-      foreigner: 200,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 80,
+          foreign: 200,
+        },
+      },
     },
   },
   {
@@ -860,18 +854,13 @@ export const placesEn = [
     description:
       "Twin rock-cut temples built by Ramses II in the 13th century BC, relocated in the 1960s to save them from the rising waters of Lake Nasser. Famous for the solar alignment phenomenon.",
     tickets: {
-      type: "different_ages_nationality",
-      student: {
-        egyptian: 100,
-        foreigner: 250,
-      },
-      adult: {
-        egyptian: 250,
-        foreigner: 500,
-      },
-      senior: {
-        egyptian: 125,
-        foreigner: 250,
+      type: "ageAndRegion",
+      prices: {
+        ageAndRegion: {
+          students: { egyptian: 100, foreign: 250 },
+          adults: { egyptian: 250, foreign: 500 },
+          seniors: { egyptian: 125, foreign: 250 },
+        },
       },
     },
   },
@@ -892,9 +881,13 @@ export const placesEn = [
     description:
       "A major library and cultural center commemorating the ancient Library of Alexandria. The modern building can host 8 million books and features museums, galleries, and planetarium.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 20,
-      foreigner: 70,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 20,
+          foreign: 70,
+        },
+      },
     },
   },
   {
@@ -914,8 +907,7 @@ export const placesEn = [
     description:
       "One of the world's most famous diving destinations with over 1,200 species of fish and 250 types of coral. The warm, clear waters offer exceptional visibility year-round.",
     tickets: {
-      type: "static_price",
-      price: 0, // Free access to beaches
+      type: "free",
     },
   },
   {
@@ -935,8 +927,7 @@ export const placesEn = [
     description:
       "One of the oldest working Christian monasteries in the world, located at the foot of Mount Sinai. Houses the world's oldest continually operating library and unique icons collection.",
     tickets: {
-      type: "static_price",
-      price: 0,
+      type: "free",
     },
   },
   {
@@ -956,8 +947,7 @@ export const placesEn = [
     description:
       "The artificial sea-level waterway connecting the Mediterranean Sea to the Red Sea, significantly reducing the sailing distance between Europe and Asia. Opened in 1869 after 10 years of construction.",
     tickets: {
-      type: "static_price",
-      price: 0, // Viewing areas are free
+      type: "free",
     },
   },
   {
@@ -977,8 +967,7 @@ export const placesEn = [
     description:
       "Historic port city where the Rosetta Stone was discovered in 1799, which proved key to deciphering Egyptian hieroglyphs. Features beautiful Ottoman-era houses and the meeting point of the Nile and Mediterranean.",
     tickets: {
-      type: "static_price",
-      price: 0,
+      type: "free",
     },
   },
   {
@@ -998,8 +987,7 @@ export const placesEn = [
     description:
       "A surreal landscape of white chalk rock formations sculpted by wind erosion into mushroom shapes, icebergs, and otherworldly figures. Best visited at sunrise or sunset when the colors are most dramatic.",
     tickets: {
-      type: "static_price",
-      price: 0,
+      type: "free",
     },
   },
   {
@@ -1019,8 +1007,7 @@ export const placesEn = [
     description:
       "An isolated oasis near the Libyan border with unique Berber culture, ancient Oracle Temple of Amun, salt lakes, and freshwater springs. Famous for its dates, olives, and traditional mud-brick architecture.",
     tickets: {
-      type: "static_price",
-      price: 0,
+      type: "free",
     },
   },
   {
@@ -1040,9 +1027,13 @@ export const placesEn = [
     description:
       "Egypt's only waterfalls, created artificially when agricultural drainage water cascades between two desert lakes. Surrounded by golden sand dunes and home to protected wildlife like the slender-horned gazelle.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 10,
-      foreigner: 30,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 10,
+          foreign: 30,
+        },
+      },
     },
   },
   {
@@ -1062,9 +1053,13 @@ export const placesEn = [
     description:
       "One of the best-preserved temple complexes in Egypt, dedicated to Hathor, goddess of love and joy. Famous for its spectacular ceiling depicting the zodiac and mysterious 'light bulb' reliefs.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 60,
-      foreigner: 120,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 60,
+          foreign: 120,
+        },
+      },
     },
   },
   {
@@ -1084,10 +1079,14 @@ export const placesEn = [
     description:
       "A 30-hectare public park created on a former garbage dump, offering panoramic views of Islamic Cairo. Features beautiful Islamic gardens, restaurants, and the restored Ayyubid wall.",
     tickets: {
-      type: "different_ages",
-      student: 10,
-      adult: 20,
-      senior: 10,
+      type: "pricePerAge",
+      prices: {
+        pricePerAge: {
+          children: 10,
+          adults: 20,
+          seniors: 10,
+        },
+      },
     },
   },
   {
@@ -1107,12 +1106,17 @@ export const placesEn = [
     description:
       "Commemorates the decisive World War II battle that stopped Rommel's advance into Egypt. Features military equipment, maps, and personal stories from the North African campaign.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 20,
-      foreigner: 50,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 20,
+          foreign: 50,
+        },
+      },
     },
   },
 ];
+
 export const placesAr = [
   {
     id: 1,
@@ -1131,18 +1135,13 @@ export const placesAr = [
     description:
       "يضم أكبر مجموعة من الآثار الفرعونية في العالم، بما في ذلك كنوز توت عنخ آمون. يضم المتحف أكثر من 120,000 قطعة أثرية تمتد على 5000 عام من التاريخ المصري.",
     tickets: {
-      type: "different_ages_nationality",
-      student: {
-        egyptian: 50,
-        foreigner: 150,
-      },
-      adult: {
-        egyptian: 150,
-        foreigner: 300,
-      },
-      senior: {
-        egyptian: 75,
-        foreigner: 150,
+      type: "ageAndRegion",
+      prices: {
+        ageAndRegion: {
+          students: { egyptian: 50, foreign: 150 },
+          adults: { egyptian: 150, foreign: 300 },
+          seniors: { egyptian: 75, foreign: 150 },
+        },
       },
     },
   },
@@ -1163,18 +1162,13 @@ export const placesAr = [
     description:
       "أقدم وأكبر الأهرامات الثلاثة في مجمع أهرامات الجيزة، بُني كمقبرة للفرعون خوفو منذ أكثر من 4500 سنة. كان أطول بناء من صنع الإنسان لمدة 3800 سنة.",
     tickets: {
-      type: "different_ages_nationality",
-      student: {
-        egyptian: 80,
-        foreigner: 200,
-      },
-      adult: {
-        egyptian: 200,
-        foreigner: 400,
-      },
-      senior: {
-        egyptian: 100,
-        foreigner: 200,
+      type: "ageAndRegion",
+      prices: {
+        ageAndRegion: {
+          students: { egyptian: 80, foreign: 200 },
+          adults: { egyptian: 200, foreign: 400 },
+          seniors: { egyptian: 100, foreign: 200 },
+        },
       },
     },
   },
@@ -1195,9 +1189,13 @@ export const placesAr = [
     description:
       "أكبر مجمع معابد تم بناؤه على الإطلاق، يغطي أكثر من 200 فدان. مكرس للثالوث الطيبي لآمون وموت وخونسو، تم بناؤه على مدار 2000 سنة.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 80,
-      foreigner: 200,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 80,
+          foreign: 200,
+        },
+      },
     },
   },
   {
@@ -1217,18 +1215,13 @@ export const placesAr = [
     description:
       "معابد توأم منحوتة في الصخر بناها رمسيس الثاني في القرن الثالث عشر قبل الميلاد، تم نقلها في الستينيات لإنقاذها من مياه بحيرة ناصر المتصاعدة. تشتهر بظاهرة التعامد الشمسي.",
     tickets: {
-      type: "different_ages_nationality",
-      student: {
-        egyptian: 100,
-        foreigner: 250,
-      },
-      adult: {
-        egyptian: 250,
-        foreigner: 500,
-      },
-      senior: {
-        egyptian: 125,
-        foreigner: 250,
+      type: "ageAndRegion",
+      prices: {
+        ageAndRegion: {
+          students: { egyptian: 100, foreign: 250 },
+          adults: { egyptian: 250, foreign: 500 },
+          seniors: { egyptian: 125, foreign: 250 },
+        },
       },
     },
   },
@@ -1249,9 +1242,13 @@ export const placesAr = [
     description:
       "مكتبة ومركز ثقافي رئيسي يخلد ذكرى المكتبة القديمة بالإسكندرية. يمكن للمبنى الحديث استضافة 8 ملايين كتاب ويضم متاحف ومعارض وقبة فلكية.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 20,
-      foreigner: 70,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 20,
+          foreign: 70,
+        },
+      },
     },
   },
   {
@@ -1271,8 +1268,7 @@ export const placesAr = [
     description:
       "واحد من أشهر وجهات الغوص في العالم مع أكثر من 1200 نوع من الأسماك و250 نوعًا من المرجان. تقدم المياه الدافئة والصافية رؤية استثنائية على مدار العام.",
     tickets: {
-      type: "static_price",
-      price: 0, // دخول مجاني للشواطئ
+      type: "free",
     },
   },
   {
@@ -1292,8 +1288,7 @@ export const placesAr = [
     description:
       "أحد أقدم الأديرة المسيحية العاملة في العالم، يقع عند سفح جبل سيناء. يضم أقدم مكتبة تعمل باستمرار في العالم ومجموعة فريدة من الأيقونات.",
     tickets: {
-      type: "static_price",
-      price: 0,
+      type: "free",
     },
   },
   {
@@ -1313,8 +1308,7 @@ export const placesAr = [
     description:
       "الممر المائي الاصطناعي الذي يربط البحر المتوسط بالبحر الأحمر، مما يقلل بشكل كبير من مسافة الإبحار بين أوروبا وآسيا. افتتح عام 1869 بعد 10 سنوات من البناء.",
     tickets: {
-      type: "static_price",
-      price: 0, // مناطق المشاهدة مجانية
+      type: "free",
     },
   },
   {
@@ -1334,8 +1328,7 @@ export const placesAr = [
     description:
       "مدينة ميناء تاريخية حيث اكتشف حجر رشيد عام 1799، الذي أثبت أنه مفتاح فك رموز الهيروغليفية المصرية. تضم بيوتاً عثمانية جميلة ونقطة التقاء النيل بالبحر المتوسط.",
     tickets: {
-      type: "static_price",
-      price: 0,
+      type: "free",
     },
   },
   {
@@ -1355,8 +1348,7 @@ export const placesAr = [
     description:
       "منظر طبيعي سريالي من تشكيلات الصخور الطباشيرية البيضاء التي نحتتها التآكل الريحي إلى أشكال عيش الغراب وجبال جليدية وأشكال غريبة. يُفضل زيارتها عند شروق الشمس أو غروبها عندما تكون الألوان أكثر دراماتيكية.",
     tickets: {
-      type: "static_price",
-      price: 0,
+      type: "free",
     },
   },
   {
@@ -1376,8 +1368,7 @@ export const placesAr = [
     description:
       "واحة معزولة بالقرب من الحدود الليبية بثقافة أمازيغية فريدة، ومعبد الوحي القديم لآمون، وبحيرات الملح، وعيون المياه العذبة. تشتهر بتمورها وزيتونها وعمارتها التقليدية من الطوب اللبن.",
     tickets: {
-      type: "static_price",
-      price: 0,
+      type: "free",
     },
   },
   {
@@ -1397,9 +1388,13 @@ export const placesAr = [
     description:
       "الشلالات الوحيدة في مصر، تم إنشاؤها صناعياً عندما تتدفق مياه الصرف الزراعي بين بحيرتين صحراويتين. تحيط بها الكثبان الرملية الذهبية وتضم حيوانات برية محمية مثل غزال الأريل.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 10,
-      foreigner: 30,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 10,
+          foreign: 30,
+        },
+      },
     },
   },
   {
@@ -1419,9 +1414,13 @@ export const placesAr = [
     description:
       "واحد من أفضل مجمعات المعابد المحفوظة في مصر، مكرس للإلهة حتحور، إلهة الحب والفرح. تشتهر بسقفها الرائع الذي يصور البرومليم الشمسي ونقوش 'المصباح الكهربائي' الغامضة.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 60,
-      foreigner: 120,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 60,
+          foreign: 120,
+        },
+      },
     },
   },
   {
@@ -1441,10 +1440,14 @@ export const placesAr = [
     description:
       "حديقة عامة مساحتها 30 هكتاراً تم إنشاؤها على مقلب قمامة سابق، تقدم إطلالات بانورامية على القاهرة الإسلامية. تضم حدائق إسلامية جميلة ومطاعم وسور أيوبي تم ترميمه.",
     tickets: {
-      type: "different_ages",
-      student: 10,
-      adult: 20,
-      senior: 10,
+      type: "pricePerAge",
+      prices: {
+        pricePerAge: {
+          children: 10,
+          adults: 20,
+          seniors: 10,
+        },
+      },
     },
   },
   {
@@ -1464,12 +1467,17 @@ export const placesAr = [
     description:
       "يخلد ذكرى معركة الحرب العالمية الثانية الحاسمة التي أوقفت تقدم رومل إلى مصر. يضم معدات عسكرية وخرائط وقصص شخصية من حملة شمال إفريقيا.",
     tickets: {
-      type: "different_nationality",
-      egyptian: 20,
-      foreigner: 50,
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: 20,
+          foreign: 50,
+        },
+      },
     },
   },
 ];
+
 export const nightsEn = [
   {
     id: 1,
@@ -2003,8 +2011,8 @@ export const productsEn = [
       "/products/palm-basket.webp",
       "/products/alabaster-lamp.webp",
     ],
-    price: 20,
-    sale: 15,
+    price: 10,
+    sale: 5,
     category: 1, // Souvenirs
     rate: 4.8,
     reviewsCount: 16,
@@ -2031,8 +2039,8 @@ export const productsEn = [
     id: 2,
     name: "Miniature Pyramid Statue",
     images: ["/products/mini-pyramid.jpeg"],
-    price: 18,
-    sale: 10,
+    price: 12,
+    sale: 4,
     category: 1, // Souvenirs
     rate: 4.6,
     reviewsCount: 26,
@@ -2051,7 +2059,7 @@ export const productsEn = [
     id: 3,
     name: "Brass Camel Figurine",
     images: ["/products/brass-camel.webp"],
-    price: 32,
+    price: 14,
     sale: 20,
     category: 1, // Souvenirs
     rate: 4.5,
@@ -2091,7 +2099,7 @@ export const productsEn = [
     id: 5,
     name: "Clay Pottery Vase",
     images: ["/products/pottery-vase.jpg"],
-    price: 23,
+    price: 12,
     sale: 5,
     category: 2, // Local Crafts
     rate: 4.4,
@@ -2111,7 +2119,7 @@ export const productsEn = [
     id: 6,
     name: "Copper Coffee Set",
     images: ["/products/copper-coffee-set.jpeg"],
-    price: 48,
+    price: 14,
     sale: 10,
     category: 2, // Local Crafts
     rate: 4.9,
@@ -2151,7 +2159,7 @@ export const productsEn = [
     id: 8,
     name: "Hand-Painted Ceramic Plate",
     images: ["/products/ceramic-plate.jpeg"],
-    price: 21,
+    price: 9,
     sale: 0,
     category: 3, // Art & Decor
     rate: 4.3,
@@ -2171,7 +2179,7 @@ export const productsEn = [
     id: 9,
     name: "Wooden Pharaonic Wall Art",
     images: ["/products/wood-wall-art.jpg"],
-    price: 56,
+    price: 18,
     sale: 15,
     category: 3, // Art & Decor
     rate: 4.7,
@@ -2191,7 +2199,7 @@ export const productsEn = [
     id: 10,
     name: "Bedouin Handwoven Rug",
     images: ["/products/bedouin-rug.webp"],
-    price: 17,
+    price: 11,
     sale: 20,
     category: 3, // Art & Decor
     rate: 4.9,
@@ -2211,7 +2219,7 @@ export const productsEn = [
     id: 11,
     name: "Galabeya (Traditional Dress)",
     images: ["/products/galabeya.jpg"],
-    price: 34,
+    price: 16,
     sale: 5,
     category: 4, // Traditional Clothes
     rate: 4.6,
@@ -2231,7 +2239,7 @@ export const productsEn = [
     id: 12,
     name: "Bedouin Embroidered Shawl",
     images: ["/products/bedouin-shawl.jpg"],
-    price: 27,
+    price: 12,
     sale: 10,
     category: 4, // Traditional Clothes
     rate: 4.5,
@@ -2251,8 +2259,8 @@ export const productsEn = [
     id: 13,
     name: "Siwan Embroidered Bag",
     images: ["/products/siwa-bag.jpg"],
-    price: 21,
-    sale: 15,
+    price: 6,
+    sale: 0,
     category: 4, // Traditional Clothes
     rate: 4.4,
     reviewsCount: 7,
@@ -2271,7 +2279,7 @@ export const productsEn = [
     id: 14,
     name: "Handcrafted Copper Bracelet",
     images: ["/products/copper-bracelet.webp"],
-    price: 19,
+    price: 13,
     sale: 10,
     category: 1, // Souvenirs
     rate: 4.3,
@@ -2291,7 +2299,7 @@ export const productsEn = [
     id: 15,
     name: "Handmade Clay Candle Holder",
     images: ["/products/clay-candle.webp"],
-    price: 16,
+    price: 9,
     sale: 0,
     category: 3, // Art & Decor
     rate: 4.1,
@@ -2319,8 +2327,8 @@ export const productsAr = [
       "/products/palm-basket.webp",
       "/products/alabaster-lamp.webp",
     ],
-    price: 20,
-    sale: 15,
+    price: 10,
+    sale: 5,
     category: 1, // هدايا تذكارية
     rate: 4.8,
     reviewsCount: 16,
@@ -2344,8 +2352,8 @@ export const productsAr = [
     id: 2,
     name: "تمثال هرم صغير",
     images: ["/products/mini-pyramid.jpeg"],
-    price: 18,
-    sale: 10,
+    price: 12,
+    sale: 4,
     category: 1, // هدايا تذكارية
     rate: 4.6,
     reviewsCount: 26,
@@ -2364,7 +2372,7 @@ export const productsAr = [
     id: 3,
     name: "تمثال جمل من النحاس",
     images: ["/products/brass-camel.webp"],
-    price: 32,
+    price: 14,
     sale: 20,
     category: 1, // هدايا تذكارية
     rate: 4.5,
@@ -2403,7 +2411,7 @@ export const productsAr = [
     id: 5,
     name: "مزهرية فخارية",
     images: ["/products/pottery-vase.jpg"],
-    price: 23,
+    price: 12,
     sale: 5,
     category: 2, // حرف محلية
     rate: 4.4,
@@ -2423,7 +2431,7 @@ export const productsAr = [
     id: 6,
     name: "مجموعة قهوة نحاسية",
     images: ["/products/copper-coffee-set.jpeg"],
-    price: 48,
+    price: 14,
     sale: 10,
     category: 2, // حرف محلية
     rate: 4.9,
@@ -2463,7 +2471,7 @@ export const productsAr = [
     id: 8,
     name: "طبق خزفي مرسوم يدوياً",
     images: ["/products/ceramic-plate.jpeg"],
-    price: 21,
+    price: 9,
     sale: 0,
     category: 3, // فن وديكور
     rate: 4.3,
@@ -2482,7 +2490,7 @@ export const productsAr = [
     id: 9,
     name: "لوحة جدارية خشبية فرعونية",
     images: ["/products/wood-wall-art.jpg"],
-    price: 56,
+    price: 18,
     sale: 15,
     category: 3, // فن وديكور
     rate: 4.7,
@@ -2502,7 +2510,7 @@ export const productsAr = [
     id: 10,
     name: "سجادة بدوية منسوجة يدوياً",
     images: ["/products/bedouin-rug.webp"],
-    price: 17,
+    price: 11,
     sale: 20,
     category: 3, // فن وديكور
     rate: 4.9,
@@ -2522,7 +2530,7 @@ export const productsAr = [
     id: 11,
     name: "جلابية (ملابس تقليدية)",
     images: ["/products/galabeya.jpg"],
-    price: 34,
+    price: 16,
     sale: 5,
     category: 4, // ملابس تقليدية
     rate: 4.6,
@@ -2542,7 +2550,7 @@ export const productsAr = [
     id: 12,
     name: "شال بدوي مطرز",
     images: ["/products/bedouin-shawl.jpg"],
-    price: 27,
+    price: 12,
     sale: 10,
     category: 4, // ملابس تقليدية
     rate: 4.5,
@@ -2561,8 +2569,8 @@ export const productsAr = [
     id: 13,
     name: "حقيبة سيوة المطرزة",
     images: ["/products/siwa-bag.jpg"],
-    price: 21,
-    sale: 15,
+    price: 6,
+    sale: 0,
     category: 4, // ملابس تقليدية
     rate: 4.4,
     reviewsCount: 7,
@@ -2581,7 +2589,7 @@ export const productsAr = [
     id: 14,
     name: "سوار نحاسي مصنوع يدوياً",
     images: ["/products/copper-bracelet.webp"],
-    price: 19,
+    price: 13,
     sale: 10,
     category: 1, // هدايا تذكارية
     rate: 4.3,
@@ -2600,7 +2608,7 @@ export const productsAr = [
     id: 15,
     name: "حامل شموع طيني مصنوع يدوياً",
     images: ["/products/clay-candle.webp"],
-    price: 16,
+    price: 9,
     sale: 0,
     category: 3, // فن وديكور
     rate: 4.1,

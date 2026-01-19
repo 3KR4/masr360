@@ -1,21 +1,26 @@
 .filters {
   border-radius: 12px;
-  width: 300px;
+  width: 300px !important;
   height: fit-content;
   padding: 12px 2px;
-  position: sticky;
+  position: sticky !important;
   top: 88px;
   transition: 0.3s;
   box-shadow: 0 0 5px #d3d3d3;
 }
+
 .filters .close {
   position: absolute;
   right: 15px;
-  top: 15px;
+  top: 9px;
   color: var(--paragraph);
   width: 30px;
   height: 29px;
   border-radius: 5px;
+}
+[lang="ar"] .filters .close {
+  right: unset;
+  left: 15px;
 }
 .filters .close:hover {
   background: #c23737;
@@ -236,17 +241,22 @@
 
 @media (max-width: 992px) {
   .filters {
-    position: fixed;
+    position: fixed !important;
     background: white;
     z-index: 10;
     height: 100%;
     left: 0;
     top: 0;
-    border-radius: 20px;
+    border-radius: 0;
     transform: translateX(-100%);
   }
   .filters.active {
-    transform: translateX(0%);
+    transform: translateX(0%) !important;
+  }
+  [lang="ar"] .filters {
+    left: unset;
+    right: 0;
+    transform: translateX(100%);
   }
   .selected-filters strong {
     margin-right: 3px;

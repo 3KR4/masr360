@@ -8,149 +8,84 @@ import { mainContext } from "@/Contexts/mainContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import formatCurrency from "@/utlies/curancy";
-import { getService } from "@/services/api/getService";
+import { governoratesEn, governoratesAr, placesEn, placesAr } from "@/data";
+import PlaceTickets from "@/components/PlaceTickets";
+import useTranslate from "@/Contexts/useTranslation";
 
 export default function ProductDetails() {
+  const t = useTranslate();
   const { screenSize, locale } = useContext(mainContext);
-  SwiperCore.use([Autoplay, EffectFade, Navigation]);
   const { slug } = useParams();
+
+  SwiperCore.use([Autoplay, EffectFade, Navigation]);
 
   const [place, setPlace] = useState(null);
 
   useEffect(() => {
-    const GetSinglePlace = async () => {
-      try {
-        const { data } = await getService.getSinglePlace(slug);
+    if (slug) {
+      const places = locale === "en" ? placesEn : placesAr;
+      setPlace(places.find((x) => x.id == slug));
+    }
+  }, [slug, locale]);
 
-        const placeData = data;
-
-        if (placeData) {
-          setPlace(placeData);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    if (slug) GetSinglePlace();
-  }, [slug]);
+  const placeGov =
+    locale === "en"
+      ? governoratesEn.find((x) => x.id === place?.governorate?.id)
+      : governoratesAr.find((x) => x.id === place?.governorate?.id);
 
   return (
     <div className="single-page forPlace container">
       <div className="holder big-holder">
-        {/* HERO IMAGE */}
+        {/* HERO */}
         <div className="hero-image-holder">
-          <Image src={place?.imgs[0]} alt={place?.name} fill />
+          {place?.images?.[0] && (
+            <Image src={place.images[0]} alt={place.name} fill />
+          )}
           {screenSize !== "small" && (
             <div className="details">
               <h3 className="ellipsis">{place?.name}</h3>
-              {place?.tickets?.free && (
-                <div className="free">free to visit</div>
+              {place?.tickets?.type === "free" && (
+                <div className="free">Free to visit</div>
               )}
             </div>
           )}
         </div>
 
-        {/* NAVIGATION */}
+        {/* NAV */}
         <Navigations
           items={[
-            { name: "places", href: "/places" },
-            { name: "place details", href: "" },
+            { name: t.sideNav.places, href: "/places" },
+            { name: t.dashboard.tables.placeDetails, href: "" },
           ]}
           container="main"
         />
 
         {/* DETAILS */}
-        <div
-          className={`holds ${
-            !place?.tickets?.free && place?.tickets ? "" : "noTikets"
-          }`}
-        >
+        <div className="holds">
           <div className="details-holder">
             {screenSize === "small" && (
               <div className="details">
-                <h3 className="ellipsis">{place?.name}</h3>
-                {place?.tickets?.free && (
-                  <div className="free">free to visit</div>
+                <h3>{place?.name}</h3>
+                {place?.tickets?.type === "free" && (
+                  <div className="free">Free to visit</div>
                 )}
               </div>
             )}
-            <p className="description">{place?.desc}xxx</p>
+            <p className="description">{place?.description}</p>
           </div>
 
           {/* TICKETS */}
-          {!place?.tickets?.free && place?.tickets && (
-            <div className="tickets">
-              <div className="top">
-                <h4>tickets price</h4>
-              </div>
-
-              <div className="tickets-list">
-                {/* Students */}
-                <div>
-                  <h5>Students:</h5>
-                  <ul>
-                    {Object.entries(place?.tickets?.students || {}).map(
-                      ([type, price]) => (
-                        <li
-                          key={type}
-                          className={type === "egyptian" ? "egyption" : ""}
-                        >
-                          {type} {formatCurrency(price)}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-
-                {/* Adults */}
-                <div>
-                  <h5>Adults:</h5>
-                  <ul>
-                    {Object.entries(place?.tickets?.adults || {}).map(
-                      ([type, price]) => (
-                        <li
-                          key={type}
-                          className={type === "egyptian" ? "egyption" : ""}
-                        >
-                          {type} {formatCurrency(price)}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-
-                {/* Seniors */}
-                <div>
-                  <h5>Seniors:</h5>
-                  <ul>
-                    {Object.entries(place?.tickets?.seniors || {}).map(
-                      ([type, price]) => (
-                        <li
-                          key={type}
-                          className={type === "egyption" ? "egyption" : ""}
-                        >
-                          {type} {formatCurrency(price)}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
+          <PlaceTickets tickets={place?.tickets} />
         </div>
 
-        {/* IMAGES SWIPER */}
+        {/* IMAGES */}
         <div className="images-swiper">
           <div className="top">
             <h4>place images</h4>
-            {place?.imgs?.length > 2 && (
+            {place?.images?.length > 2 && (
               <div className="navigation">
                 <button className="custom-prev">
                   <IoIosArrowBack />
@@ -183,7 +118,7 @@ export default function ProductDetails() {
               992: { slidesPerView: 2 },
             }}
           >
-            {place?.imgs?.map((img, index) => (
+            {place?.images?.map((img, index) => (
               <SwiperSlide key={index}>
                 <Image src={img} alt={`place img - ${index}`} fill />
               </SwiperSlide>
@@ -194,7 +129,7 @@ export default function ProductDetails() {
         {/* LOCATION */}
         <div className="location">
           <div className="top">
-            <h4>Location in {place?.governorate}</h4>
+            <h4>Location in {placeGov?.name}</h4>
             <div className="actions">
               <div className="hold">
                 <button className="main-button forFavoriet">
@@ -213,7 +148,7 @@ export default function ProductDetails() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110518.71491261623!2d31.460567384638452!3d30.045181193851644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458b14d72adf029%3A0x9a38f9bbb6edbfe4!2z2KfZhNmF2KrYrdmBINin2YTZhdi12LHZiiDYqNin2YTZgtin2YfYsdip!5e0!3m2!1sar!2seg!4v1763594565368!5m2!1sar!2seg"
+              src={place?.location?.iFrame}
             ></iframe>
           </div>
         </div>

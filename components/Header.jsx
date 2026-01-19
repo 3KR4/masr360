@@ -38,7 +38,6 @@ function Header() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const mobileMenuRef = useRef(null);
-  console.log("activeNav", activeNav);
 
   const shortTitlesEn = {
     Governorates: "Govs",

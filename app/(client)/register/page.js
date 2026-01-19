@@ -66,7 +66,6 @@ export default function Register() {
 
   const onSubmit = (data) => {
     if (step === STEPS.LOGIN) {
-      console.log("LOGIN DATA", data);
       return;
     }
     if (step === STEPS.ACCOUNT) {
@@ -77,7 +76,6 @@ export default function Register() {
       setStep(STEPS.VIEW_OR_UPDATE_PASS);
       return;
     }
-    console.log("FINAL REQUEST", { userData: data });
   };
 
   const titles = {

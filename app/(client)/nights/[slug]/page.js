@@ -1,7 +1,6 @@
 "use client";
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { nights, reviews } from "@/data";
 import "@/styles/pages/singel-details.css";
 import Image from "next/image";
 import Navigations from "@/components/Navigations";
@@ -9,71 +8,82 @@ import { mainContext } from "@/Contexts/mainContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "swiper/css";
 import "swiper/css/effect-fade";
+import {
+  governoratesEn,
+  governoratesAr,
+  nightsEn,
+  nightsAr,
+  reviews,
+} from "@/data";
+import PlaceTickets from "@/components/PlaceTickets";
+import useTranslate from "@/Contexts/useTranslation";
 import ReviewSection from "@/components/reviews/ReviewSection";
-import Rating from "@mui/material/Rating";
 
 export default function ProductDetails() {
-  const { locale } = useContext(mainContext);
-  SwiperCore.use([Autoplay, EffectFade, Navigation]);
+  const t = useTranslate();
+  const { screenSize, locale } = useContext(mainContext);
   const { slug } = useParams();
-  const place = nights.find((g) => g.id == slug.toLowerCase());
-  const productReviews = reviews.find((g) => g.productId == slug.toLowerCase());
+
+  SwiperCore.use([Autoplay, EffectFade, Navigation]);
+
+  const [night, setNights] = useState(null);
+
+  useEffect(() => {
+    if (slug) {
+      const nights = locale === "en" ? nightsEn : nightsAr;
+      setNights(nights.find((x) => x.id == slug));
+    }
+  }, [slug, locale]);
+
+  const nightGov =
+    locale === "en"
+      ? governoratesEn.find((x) => x.id == night?.governorate?.id)
+      : governoratesAr.find((x) => x.id == night?.governorate?.id);
 
   return (
-    <div className="single-page forPlace forNight container">
+    <div className="single-page forPlace container">
       <div className="holder big-holder">
-        <div className="hero-image-holder ">
-          <Image src={place?.image} alt={place?.name} fill />
+        {/* HERO */}
+        <div className="hero-image-holder">
+          {night?.images?.[0] && (
+            <Image src={night.images[0]} alt={night.name} fill />
+          )}
+          {screenSize !== "small" && (
+            <div className="details">
+              <h3 className="ellipsis">{night?.name}</h3>
+            </div>
+          )}
         </div>
 
+        {/* NAV */}
         <Navigations
           items={[
-            {
-              name: "places",
-              href: "/places",
-            },
-            {
-              name: "place details",
-              href: "",
-            },
+            { name: t.sectionsTitles.masr_nights.title, href: "/nights" },
+            { name: t.dashboard.tables.placeDetails, href: "" },
           ]}
-          container={`main`}
+          container="main"
         />
 
-        <div
-          className={`holds ${
-            place?.tickets
-              ? place?.tickets?.free
-                ? "noTikets"
-                : ""
-              : "noTikets"
-          }`}
-        >
+        {/* DETAILS */}
+        <div className="holds">
           <div className="details-holder">
-            <div className="details">
-              <h3 className="">{place?.name}</h3>{" "}
-              <div className="reviews">
-                <Rating
-                  name="read-only"
-                  value={place?.rate}
-                  precision={0.1}
-                  readOnly
-                  sx={{ color: "#ea8c43", fontSize: "20px" }}
-                />
-                <span className="count">{place?.reviewsCount} Review</span>
+            {screenSize === "small" && (
+              <div className="details">
+                <h3>{night?.name}</h3>
               </div>
-            </div>
-            <p className="description">{place?.description}</p>
+            )}
+            <p className="description">{night?.description}</p>
           </div>
         </div>
+
+        {/* IMAGES */}
         <div className="images-swiper">
           <div className="top">
-            <h4>place images</h4>
-            {place?.images?.length > 2 && (
+            <h4>{t.singelPages.place_images}</h4>
+            {night?.images?.length > 2 && (
               <div className="navigation">
                 <button className="custom-prev">
                   <IoIosArrowBack />
@@ -100,21 +110,13 @@ export default function ProductDetails() {
             }}
             className="categories-swiper"
             breakpoints={{
-              0: {
-                slidesPerView: 1,
-              },
-              630: {
-                slidesPerView: 1.3,
-              },
-              768: {
-                slidesPerView: 1.5,
-              },
-              992: {
-                slidesPerView: 2,
-              },
+              0: { slidesPerView: 1 },
+              630: { slidesPerView: 1.3 },
+              768: { slidesPerView: 1.5 },
+              992: { slidesPerView: 2 },
             }}
           >
-            {place?.images?.map((img, index) => (
+            {night?.images?.map((img, index) => (
               <SwiperSlide key={index}>
                 <Image src={img} alt={`place img - ${index}`} fill />
               </SwiperSlide>
@@ -122,15 +124,20 @@ export default function ProductDetails() {
           </Swiper>
         </div>
 
+        {/* LOCATION */}
         <div className="location">
           <div className="top">
-            <h4>Location in {place?.governorate}</h4>
+            <h4>
+              {t.singelPages.locationIn} {nightGov?.name}
+            </h4>
             <div className="actions">
               <div className="hold">
                 <button className="main-button forFavoriet">
-                  view in google maps
+                  {t.singelPages.view_in_google_maps}
                 </button>
-                <button className="main-button forFavoriet">copy link</button>
+                <button className="main-button forFavoriet">
+                  {t.actions.copy_link}
+                </button>
               </div>
             </div>
           </div>
@@ -143,11 +150,11 @@ export default function ProductDetails() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110518.71491261623!2d31.460567384638452!3d30.045181193851644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458b14d72adf029%3A0x9a38f9bbb6edbfe4!2z2KfZhNmF2KrYrdmBINin2YTZhdi12LHZiiDYqNin2YTZgtin2YfYsdip!5e0!3m2!1sar!2seg!4v1763594565368!5m2!1sar!2seg"
+              src={night?.location?.iFrame}
             ></iframe>
           </div>
         </div>
-        {reviews && <ReviewSection reviews={productReviews} />}
+        <ReviewSection reviews={reviews[0]} />
       </div>
     </div>
   );

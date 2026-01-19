@@ -337,7 +337,8 @@ a {
   align-items: center;
   gap: 6px;
 }
-.reviews > span {
+.reviews > span,
+.review-section .overview .hold > span {
   direction: ltr !important;
 }
 .reviews .count {
@@ -691,6 +692,10 @@ a {
   left: 40px;
   bottom: 40px;
 }
+[lang="ar"] .hero-image-holder .details {
+  left: unset;
+  right: 40px;
+}
 .hero-image-holder .details::before {
   content: "";
   z-index: 0;
@@ -699,6 +704,11 @@ a {
   bottom: 0;
   left: 0;
   box-shadow: 0 0 175px 62px #000;
+}
+[lang="ar"] .hero-image-holder .details::before {
+  left: unset;
+  right: 0;
+
 }
 .hero-image-holder .details > * {
   position: relative;
@@ -937,6 +947,10 @@ svg.main-ico {
     bottom: 30px;
     left: 0;
   }
+  [lang="ar"] .hero-image-holder .details {
+  left: unset;
+  right: 0;
+}
   .hero-image-holder .details h3 {
     font-size: 31px;
   }

@@ -21,7 +21,7 @@ export default function DiscoverContent() {
       <Navigations
         items={[
           {
-            name: "places",
+            name: t.sideNav.places,
             href: "",
           },
         ]}

@@ -1,4 +1,15 @@
 const en = {
+  singelPages: {
+    locationIn: "location in",
+    view_in_google_maps: "view in google maps",
+    place_images: "place images",
+    Ratings: "Ratings",
+    based_on: "based on",
+    stars: "stars",
+    star: "star",
+    rating_sub_title:
+      "Read real reviews from customers who purchased and tried this product",
+  },
   header: {
     logo_alt: "Masr 360",
     dashboard: "dashboard",
@@ -412,6 +423,10 @@ const en = {
     lang: "arabic",
     next: "next",
     prev: "prev",
+    buy_it_now: "buy it now",
+    add_to_cart: "add to cart",
+    add_to_favorites: "add to favorites",
+    copy_link: "copy link",
   },
   mainCard: {
     seeProduct: "See Product",

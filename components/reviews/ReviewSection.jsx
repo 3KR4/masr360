@@ -4,26 +4,27 @@ import Rating from "@mui/material/Rating";
 import "@/styles/components/reviews.css";
 import { FaStar } from "react-icons/fa";
 import { mainContext } from "@/Contexts/mainContext";
+import useTranslate from "@/Contexts/useTranslation";
 
 export default function ReviewSection({ reviews }) {
-  const { screenSize } = useContext(mainContext);
+  const t = useTranslate();
+  const { screenSize, locale } = useContext(mainContext);
+  const dateLocale = locale === "ar" ? "ar-EG" : "en-US";
 
   return (
     <div className="review-section">
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
-          Ratings
+          {t.singelPages.Ratings}
           <hr />
         </h1>
 
-        <p className="sub-title">
-          Read real reviews from customers who purchased and tried this product
-        </p>
+        <p className="sub-title">{t.singelPages.rating_sub_title}</p>
       </div>
       <div className="holder">
         <div className="overview">
-          <h3>overview</h3>
+          <h3>{t.sideNav.overview}</h3>
           <div className="hold">
             <Rating
               name="read-only"
@@ -34,12 +35,18 @@ export default function ReviewSection({ reviews }) {
             />
             <span className="count">
               {reviews?.overview?.finalRate}{" "}
-              {reviews.finalRate == 1 ? "star" : "stars"}
+              {locale == "en"
+                ? reviews.finalRate == 1
+                  ? t.singelPages.star
+                  : t.singelPages.stars
+                : t.singelPages.star}
             </span>
           </div>
           <p>
-            based on {reviews?.overview?.totalReviews}{" "}
-            {reviews?.overview?.totalReviews == 1 ? "Review" : "Reviews"}
+            {t.singelPages.based_on} {reviews?.overview?.totalReviews}{" "}
+            {reviews?.overview?.totalReviews == 1
+              ? t.dashboard.tables.review
+              : t.dashboard.tables.reviews}
           </p>
           <ul className="holder">
             {Object.entries(reviews?.overview.rates)
@@ -82,7 +89,7 @@ export default function ReviewSection({ reviews }) {
                   <div className="rowHolder">
                     <h5>{x.fullName}</h5>
                     <p>
-                      {new Date(x.date).toLocaleDateString("en-US", {
+                      {new Date(x.date).toLocaleDateString(dateLocale, {
                         month: "short",
                         day: "numeric",
                         year: "numeric",
@@ -100,7 +107,12 @@ export default function ReviewSection({ reviews }) {
                     sx={{ color: "#ea8c43", fontSize: "18px" }}
                   />
                   <span className="count">
-                    ({x.rate}) {x.rate == 1 ? "star" : "stars"}
+                    ({x.rate}){" "}
+                    {locale == "en"
+                      ? reviews.finalRate == 1
+                        ? t.singelPages.star
+                        : t.singelPages.stars
+                      : t.singelPages.star}
                   </span>
                 </div>
                 <h4>{x.title}</h4>

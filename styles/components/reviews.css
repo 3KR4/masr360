@@ -27,6 +27,7 @@
 .review-section .overview .hold {
   display: flex;
   align-items: center;
+  flex-direction: row;
   gap: 3px;
 }
 .review-section .overview .hold .count {

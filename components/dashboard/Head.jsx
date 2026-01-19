@@ -89,7 +89,6 @@ function Head() {
       : govsAr.map((name, index) => ({ id: index, name }));
 
   const pageKey = navigationitems[0]?.name?.toLowerCase().replace(/\s+/g, "_"); // مفتاح ثابت للصفحة
-  console.log(pageKey);
 
   const citys = ["places_list", "events_list", "nights_list"].includes(pageKey)
     ? citysData

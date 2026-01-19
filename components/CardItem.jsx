@@ -180,7 +180,7 @@ export default function CardItem({ item, type, previewGame = false }) {
 
         {item?.description && (
           <p
-            className={`"ellipsis description ${previewGame ? "no-clamp" : ""}`}
+            className={`ellipsis description ${previewGame ? "no-clamp" : ""}`}
           >
             {item?.description}
           </p>

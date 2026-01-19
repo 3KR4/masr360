@@ -1,4 +1,15 @@
 const ar = {
+  singelPages: {
+    locationIn: "العنوان في",
+    view_in_google_maps: "التوجه الي خرائط جوجول",
+    place_images: "صور المكان",
+    Ratings: "التقيمات",
+    based_on: "بنائا علي",
+    stars: "نجوم",
+    star: "نجمة",
+    rating_sub_title:
+      "اقرأ التقييمات الحقيقية من العملاء الذين اشتروا هذا المنتج وجربوه",
+  },
   header: {
     logo_alt: "مصر 360",
     dashboard: "لوحة التحكم",
@@ -408,6 +419,10 @@ const ar = {
     lang: "english",
     next: "التالي",
     prev: "السابق",
+    copy_link: "نسخ الرابط",
+    buy_it_now: "الشراء الان",
+    add_to_cart: "الاضافة الي السلة",
+    add_to_favorites: "الاضافة الي المفضلات",
   },
   mainCard: {
     seeProduct: "عرض المنتج",

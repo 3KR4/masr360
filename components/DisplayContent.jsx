@@ -76,7 +76,6 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
     } else {
       response = locale === "en" ? governoratesEn : governoratesAr;
     }
-console.log(response);
 
     setData(
       isSharedData
@@ -87,7 +86,6 @@ console.log(response);
     // fetchData();
   }, [type, isSharedData, shared]);
 
-  console.log("data", data);
 
   /* ===================== REMOVE FILTER ===================== */
   const handleRemoveFilter = (filter) => {
