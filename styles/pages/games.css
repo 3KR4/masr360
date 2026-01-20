@@ -87,6 +87,7 @@
   font-size: 13px;
   transition: 0.3s;
   cursor: pointer;
+  color: white !important;
 }
 /*! preview-game */
 .big-holder.for-games {

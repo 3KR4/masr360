@@ -76,7 +76,9 @@ export default function CardItem({ item, type, previewGame = false }) {
           alt={item?.name}
           fill
         />
-        {(!isGov && !previewGame) && <button className="main-button">{getButtonText()}</button>}
+        {!isGov && !previewGame && (
+          <button className="main-button">{getButtonText()}</button>
+        )}
       </Link>
 
       {/* TEXT CONTENT */}
@@ -89,7 +91,7 @@ export default function CardItem({ item, type, previewGame = false }) {
                 : isPlace
                   ? `/places/${item?.id}`
                   : isGame
-                    ? `/games/${item?.id}`
+                    ? `/games/preview/${item?.id}`
                     : isNight
                       ? `/nights/${item?.id}`
                       : isEvent
@@ -186,7 +188,9 @@ export default function CardItem({ item, type, previewGame = false }) {
           </p>
         )}
         {previewGame && (
-          <putton className={`main-button`}>purchase and play now</putton>
+          <Link href={`/games/${item?.id}`} className={`main-button`}>
+            {t.games.purchase_and_play_now}
+          </Link>
         )}
 
         {/* EVENT */}
