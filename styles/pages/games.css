@@ -259,7 +259,6 @@
 }
 .steps-accordion .step-item.active .step-header > * {
   color: white !important;
-  font-weight: 500;
 }
 .steps-accordion .step-item .step-header h4 {
   color: var(--paragraph);
@@ -279,6 +278,12 @@
   border: 1px solid var(--border-color);
   border-top: 0;
   border-radius: 0 0 10px 10px;
+  padding: 0;
+  height: 0px;
+  transition: 0.4s;
+  overflow: hidden;
+}
+.steps-accordion .step-item.active .step-content {
   padding: 12px;
 }
 .steps-accordion .step-item .step-content:has(.location-image) {
@@ -287,7 +292,7 @@
 .steps-accordion .step-item .step-content .location-image {
   position: relative;
   aspect-ratio: 2;
-  border-radius: 20px ;
+  border-radius: 20px;
   overflow: hidden;
   object-fit: cover;
   margin: 10px 0;
@@ -371,7 +376,7 @@
 }
 
 .game-page .option:hover {
-  background: #f0f0f0;
+  background: var(--second-color);
 }
 
 .game-page .option.selected {
@@ -399,6 +404,9 @@
 }
 .game-page .prev-btn:hover {
   background: var(--section-color);
+}
+.game-page .uploadlabel {
+  height: 160px !important;
 }
 
 @media (max-width: 1300px) {

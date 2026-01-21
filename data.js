@@ -4203,7 +4203,7 @@ export const gamesAr = [
       {
         stepNumber: 1,
         title: "اكتشاف أهرامات الجيزة",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 60,
         feature: "archaeological-sites",
         interactiveData: {
@@ -4212,8 +4212,8 @@ export const gamesAr = [
             "اذهب إلى مجمع أهرامات الجيزة وابحث عن هرم خوفو الأكبر، الأقدم والأكبر بين الأهرامات الثلاثة.",
           locationImage: "/locations/giza-pyramid.jpg",
           location: "هضبة الجيزة، الحرم، الجيزة",
-          uploadType: "صورة",
-          reviewType: "تلقائي",
+          uploadType: "image",
+          reviewType: "auto",
           validationCriteria: {
             requiredElements: ["هرم"],
             minQuality: 0.7,
@@ -4224,7 +4224,7 @@ export const gamesAr = [
       {
         stepNumber: 2,
         title: "اختبار المتحف المصري",
-        type: "سؤال",
+        type: "question",
         coins: 40,
         feature: "museums",
         questionData: {
@@ -4241,7 +4241,7 @@ export const gamesAr = [
       {
         stepNumber: 3,
         title: "تجربة خان الخليلي",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 45,
         feature: "photography-spots",
         interactiveData: {
@@ -4250,8 +4250,8 @@ export const gamesAr = [
             "قم بزيارة السوق التاريخي الذي تأسس في القرن الرابع عشر وابحث عن مقهى الفيشاوي، المعروف بأنه أقدم مقهى في القاهرة.",
           locationImage: "/locations/khan-el-khalili.jpg",
           location: "الجمالية، الجمالية، القاهرة",
-          uploadType: "صورة",
-          reviewType: "يدوي",
+          uploadType: "image",
+          reviewType: "manual",
           validationCriteria: {
             requiredElements: ["سوق", "متجر تقليدي"],
             tags: ["تقليدي", "تذكار", "تاريخي"],
@@ -4261,7 +4261,7 @@ export const gamesAr = [
       {
         stepNumber: 4,
         title: "عمارة القاهرة الإسلامية",
-        type: "سؤال",
+        type: "question",
         coins: 35,
         feature: "historical-questions",
         questionData: {
@@ -4278,7 +4278,7 @@ export const gamesAr = [
       {
         stepNumber: 5,
         title: "زيارة القلعة",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 55,
         feature: "monuments",
         interactiveData: {
@@ -4287,11 +4287,11 @@ export const gamesAr = [
             "قم بزيارة التحصين الإسلامي من العصور الوسطى الذي بناه صلاح الدين واستمتع بإطلالة بانورامية على القاهرة.",
           locationImage: "/locations/citadel.jpg",
           location: "الأباجية، الخليفة، القاهرة",
-          uploadType: "صورة",
-          reviewType: "تلقائي",
+          uploadType: "image",
+          reviewType: "auto",
           validationCriteria: {
             requiredElements: ["قلعة", "مئذنة"],
-            orientation: "أفقي",
+            orientation: "landscape",
             locationCheck: true,
           },
         },
@@ -4299,7 +4299,7 @@ export const gamesAr = [
       {
         stepNumber: 6,
         title: "معرفة نهر النيل",
-        type: "سؤال",
+        type: "question",
         coins: 30,
         feature: "historical-questions",
         questionData: {
@@ -4316,7 +4316,7 @@ export const gamesAr = [
       {
         stepNumber: 7,
         title: "استكشاف القاهرة القبطية",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 50,
         feature: "temples",
         interactiveData: {
@@ -4325,8 +4325,8 @@ export const gamesAr = [
             "استكشف واحدة من أقدم الكنائس في مصر، بُنيت في القرن الثالث الميلادي في منطقة القاهرة القبطية.",
           locationImage: "/locations/hanging-church.jpg",
           location: "٣ ماري جرجس، كوم غراب، القاهرة",
-          uploadType: "صورة",
-          reviewType: "يدوي",
+          uploadType: "image",
+          reviewType: "manual",
           validationCriteria: {
             requiredElements: ["كنيسة", "سقف خشبي"],
             tags: ["ديني", "تاريخي", "قبطي"],
@@ -4336,7 +4336,7 @@ export const gamesAr = [
       {
         stepNumber: 8,
         title: "تحدي برج القاهرة",
-        type: "سؤال",
+        type: "question",
         coins: 40,
         feature: "monuments",
         questionData: {
@@ -4353,7 +4353,7 @@ export const gamesAr = [
       {
         stepNumber: 9,
         title: "زيارة حديقة الأزهر",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 35,
         feature: "photography-spots",
         interactiveData: {
@@ -4362,18 +4362,18 @@ export const gamesAr = [
             "قم بزيارة هذه الحديقة الحديثة المبنية على موقع مكب نفايات تاريخي، وتوفر إطلالات رائعة على القاهرة الإسلامية.",
           locationImage: "/locations/al-azhar-park.jpg",
           location: "شارع صلاح سالم، الدرب الأحمر، القاهرة",
-          uploadType: "صورة",
-          reviewType: "تلقائي",
+          uploadType: "image",
+          reviewType: "auto",
           validationCriteria: {
             requiredElements: ["حديقة", "إطلالة على المدينة"],
-            timeOfDay: "نهار",
+            timeOfDay: "day",
           },
         },
       },
       {
         stepNumber: 10,
         title: "تاريخ الفراعنة",
-        type: "سؤال",
+        type: "question",
         coins: 45,
         feature: "historical-questions",
         questionData: {
@@ -4390,7 +4390,7 @@ export const gamesAr = [
       {
         stepNumber: 11,
         title: "اكتشاف قصر المنيل",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 55,
         feature: "museums",
         interactiveData: {
@@ -4399,8 +4399,8 @@ export const gamesAr = [
             "قم بزيارة القصر السابق للأمير محمد علي توفيق بمزيجه الفريد من الأساليب المعمارية.",
           locationImage: "/locations/manial-palace.jpg",
           location: "١ سراي المنيل، المنيل، القاهرة",
-          uploadType: "صورة",
-          reviewType: "يدوي",
+          uploadType: "image",
+          reviewType: "manual",
           validationCriteria: {
             requiredElements: ["قصر", "حديقة"],
             tags: ["ملكي", "تاريخي", "عمارة"],
@@ -4410,7 +4410,7 @@ export const gamesAr = [
       {
         stepNumber: 12,
         title: "سكان القاهرة",
-        type: "سؤال",
+        type: "question",
         coins: 30,
         feature: "historical-questions",
         questionData: {
@@ -4427,7 +4427,7 @@ export const gamesAr = [
       {
         stepNumber: 13,
         title: "عرض الصوت والضوء",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 60,
         feature: "night-tours",
         interactiveData: {
@@ -4436,8 +4436,8 @@ export const gamesAr = [
             "جرب عرض الصوت والضوء المسائي عند أهرامات الجيزة (التذكرة مطلوبة).",
           locationImage: "/locations/sound-light.jpg",
           location: "هضبة الجيزة، الحرم، الجيزة",
-          uploadType: "صورة",
-          reviewType: "يدوي",
+          uploadType: "image",
+          reviewType: "manual",
           validationCriteria: {
             requiredElements: ["أهرامات", "ليل"],
             tags: ["عرض", "ليل", "ترفيه"],
@@ -4447,7 +4447,7 @@ export const gamesAr = [
       {
         stepNumber: 14,
         title: "القاهرة الحديثة",
-        type: "سؤال",
+        type: "question",
         coins: 35,
         feature: "historical-questions",
         questionData: {
@@ -4464,7 +4464,7 @@ export const gamesAr = [
       {
         stepNumber: 15,
         title: "استكشاف المقياس النيلي",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 40,
         feature: "archaeological-sites",
         interactiveData: {
@@ -4473,8 +4473,8 @@ export const gamesAr = [
             "ابحث عن الهيكل القديم المستخدم لقياس مستويات مياه النيل وصفائه.",
           locationImage: "/locations/nilometer.jpg",
           location: "المنيل، جزيرة الروضة، القاهرة",
-          uploadType: "صورة",
-          reviewType: "تلقائي",
+          uploadType: "image",
+          reviewType: "auto",
           validationCriteria: {
             requiredElements: ["هيكل حجري", "ماء"],
             historic: true,
@@ -4484,7 +4484,7 @@ export const gamesAr = [
       {
         stepNumber: 16,
         title: "المطبخ المصري",
-        type: "سؤال",
+        type: "question",
         coins: 45,
         feature: "restaurants",
         questionData: {
@@ -4502,7 +4502,7 @@ export const gamesAr = [
       {
         stepNumber: 17,
         title: "ذكرى القاهرة النهائية",
-        type: "تفاعلي",
+        type: "interactive",
         coins: 75,
         feature: "photography-challenges",
         interactiveData: {
@@ -4511,8 +4511,8 @@ export const gamesAr = [
             "التقط صورة أخيرة لمكانك المفضل في القاهرة كذكرى لرحلتك.",
           locationImage: "/locations/cairo-view.jpg",
           location: "أي مكان في القاهرة",
-          uploadType: "صورة",
-          reviewType: "يدوي",
+          uploadType: "image",
+          reviewType: "manual",
           validationCriteria: {
             requiredElements: ["معلم بالقاهرة"],
             personal: true,
@@ -4522,253 +4522,254 @@ export const gamesAr = [
       },
     ],
   },
-  {
-    id: "alexandria_explorer",
-    name: "رحلة استكشاف الإسكندرية الساحلية",
-    image: "/governorates/alexandria.jpg",
-    description:
-      "اكتشف جوهرة البحر المتوسط من المكتبات القديمة إلى الكورنيش الحديث. استكشف الآثار اليونانية الرومانية، القلاع التاريخية، وعجائب الساحل.",
-    totalSteps: 12,
-    totalCoins: 600,
-    price: 9,
-    rate: 4,
-    reviewsCount: 7,
-    governorate: { id: 2 },
-    difficulty: "سهل",
-    estimatedTime: "٣-٤ ساعات",
-    steps: [
-      {
-        stepNumber: 1,
-        title: "زيارة قلعة قايتباي",
-        type: "تفاعلي",
-        coins: 55,
-        feature: "monuments",
-        interactiveData: {
-          title: "استكشاف قلعة قايتباي",
-          description:
-            "قم بزيارة القلعة التي تعود للقرن الخامس عشر والمبنية على موقع منارة الإسكندرية القديمة، إحدى عجائب الدنيا السبع.",
-          locationImage: "/locations/qaitbay-citadel.jpg",
-          location: "الصيالة شرق، قسم الجمرك، الإسكندرية",
-          uploadType: "صورة",
-          reviewType: "تلقائي",
-          validationCriteria: {
-            requiredElements: ["قلعة", "بحر"],
-            orientation: "أفقي",
-            locationCheck: true,
-          },
+{
+  id: "alexandria_explorer",
+  name: "رحلة استكشاف الإسكندرية الساحلية",
+  image: "/governorates/alexandria.jpg",
+  description:
+    "اكتشف جوهرة البحر المتوسط من المكتبات القديمة إلى الكورنيش الحديث. استكشف الآثار اليونانية الرومانية، القلاع التاريخية، وعجائب الساحل.",
+  totalSteps: 12,
+  totalCoins: 600,
+  price: 9,
+  rate: 4,
+  reviewsCount: 7,
+  governorate: { id: 2 },
+  difficulty: "سهل",
+  estimatedTime: "٣-٤ ساعات",
+  steps: [
+    {
+      stepNumber: 1,
+      title: "زيارة قلعة قايتباي",
+      type: "interactive",
+      coins: 55,
+      feature: "monuments",
+      interactiveData: {
+        title: "استكشاف قلعة قايتباي",
+        description:
+          "قم بزيارة القلعة التي تعود للقرن الخامس عشر والمبنية على موقع منارة الإسكندرية القديمة، إحدى عجائب الدنيا السبع.",
+        locationImage: "/locations/qaitbay-citadel.jpg",
+        location: "الصيالة شرق، قسم الجمرك، الإسكندرية",
+        uploadType: "image",
+        reviewType: "auto",
+        validationCriteria: {
+          requiredElements: ["قلعة", "بحر"],
+          orientation: "landscape",
+          locationCheck: true,
         },
       },
-      {
-        stepNumber: 2,
-        title: "تاريخ مكتبة الإسكندرية",
-        type: "سؤال",
-        coins: 40,
-        feature: "historical-questions",
-        questionData: {
-          question:
-            "ما هي المكتبة القديمة الشهيرة التي كانت موجودة في الإسكندرية؟",
-          correctAnswer: "library-of-alexandria",
-          options: [
-            { id: "library-of-alexandria", text: "مكتبة الإسكندرية" },
-            { id: "library-of-egypt", text: "مكتبة مصر" },
-            { id: "mediterranean-library", text: "مكتبة البحر المتوسط" },
-            { id: "ptolemy-library", text: "مكتبة بطليموس" },
-          ],
+    },
+    {
+      stepNumber: 2,
+      title: "تاريخ مكتبة الإسكندرية",
+      type: "question",
+      coins: 40,
+      feature: "historical-questions",
+      questionData: {
+        question:
+          "ما هي المكتبة القديمة الشهيرة التي كانت موجودة في الإسكندرية؟",
+        correctAnswer: "library-of-alexandria",
+        options: [
+          { id: "library-of-alexandria", text: "مكتبة الإسكندرية" },
+          { id: "library-of-egypt", text: "مكتبة مصر" },
+          { id: "mediterranean-library", text: "مكتبة البحر المتوسط" },
+          { id: "ptolemy-library", text: "مكتبة بطليموس" },
+        ],
+      },
+    },
+    {
+      stepNumber: 3,
+      title: "مكتبة الإسكندرية الحديثة",
+      type: "interactive",
+      coins: 50,
+      feature: "libraries",
+      interactiveData: {
+        title: "زيارة المكتبة الحديثة",
+        description:
+          "استكشف مكتبة الإسكندرية، الإحياء الحديث للمكتبة القديمة بتصميمها القرصي المائل المميز.",
+        locationImage: "/locations/bibliotheca.jpg",
+        location: "العزارطة والشاطبي، باب شرقي، الإسكندرية",
+        uploadType: "image",
+        reviewType: "manual",
+        validationCriteria: {
+          requiredElements: ["مبنى المكتبة", "عمارة مميزة"],
+          tags: ["حديث", "ثقافي", "تعليم"],
         },
       },
-      {
-        stepNumber: 3,
-        title: "مكتبة الإسكندرية الحديثة",
-        type: "تفاعلي",
-        coins: 50,
-        feature: "libraries",
-        interactiveData: {
-          title: "زيارة المكتبة الحديثة",
-          description:
-            "استكشف مكتبة الإسكندرية، الإحياء الحديث للمكتبة القديمة بتصميمها القرصي المائل المميز.",
-          locationImage: "/locations/bibliotheca.jpg",
-          location: "العزارطة والشاطبي، باب شرقي، الإسكندرية",
-          uploadType: "صورة",
-          reviewType: "يدوي",
-          validationCriteria: {
-            requiredElements: ["مبنى المكتبة", "عمارة مميزة"],
-            tags: ["حديث", "ثقافي", "تعليم"],
-          },
+    },
+    {
+      stepNumber: 4,
+      title: "عمود السواري",
+      type: "question",
+      coins: 35,
+      feature: "historical-questions",
+      questionData: {
+        question:
+          "عمود السواري في الإسكندرية مخصص في الواقع لأي إمبراطور روماني؟",
+        correctAnswer: "diocletian",
+        options: [
+          { id: "diocletian", text: "ديوكلتيان" },
+          { id: "augustus", text: "أغسطس" },
+          { id: "trajan", text: "تراجان" },
+          { id: "hadrian", text: "هادريان" },
+        ],
+      },
+    },
+    {
+      stepNumber: 5,
+      title: "سراديب كوم الشقافة",
+      type: "interactive",
+      coins: 60,
+      feature: "tombs",
+      interactiveData: {
+        title: "استكشاف السراديب القديمة",
+        description:
+          "قم بزيارة أكبر موقع دفن روماني في مصر، ويضم مزيجًا فريدًا من الفن المصري واليوناني والروماني.",
+        locationImage: "/locations/catacombs.jpg",
+        location: "كوم الشقافة، الإسكندرية",
+        uploadType: "image",
+        reviewType: "auto",
+        validationCriteria: {
+          requiredElements: ["تحت الأرض", "منحوتات"],
+          historic: true,
+          locationCheck: true,
         },
       },
-      {
-        stepNumber: 4,
-        title: "عمود السواري",
-        type: "سؤال",
-        coins: 35,
-        feature: "historical-questions",
-        questionData: {
-          question:
-            "عمود السواري في الإسكندرية مخصص في الواقع لأي إمبراطور روماني؟",
-          correctAnswer: "diocletian",
-          options: [
-            { id: "diocletian", text: "ديوكلتيان" },
-            { id: "augustus", text: "أغسطس" },
-            { id: "trajan", text: "تراجان" },
-            { id: "hadrian", text: "هادريان" },
-          ],
+    },
+    {
+      stepNumber: 6,
+      title: "بحر البحر المتوسط",
+      type: "question",
+      coins: 30,
+      feature: "historical-questions",
+      questionData: {
+        question: "ما هو متوسط عمق البحر المتوسط قرب الإسكندرية؟",
+        correctAnswer: "1500-meters",
+        options: [
+          { id: "1500-meters", text: "١٥٠٠ متر" },
+          { id: "800-meters", text: "٨٠٠ متر" },
+          { id: "3000-meters", text: "٣٠٠٠ متر" },
+          { id: "500-meters", text: "٥٠٠ متر" },
+        ],
+      },
+    },
+    {
+      stepNumber: 7,
+      title: "نزهة الكورنيش",
+      type: "interactive",
+      coins: 45,
+      feature: "beaches",
+      interactiveData: {
+        title: "المشي على كورنيش الإسكندرية",
+        description:
+          "تمشى على الطريق الساحلي بطول ١٥ كيلومترًا مع إطلالات جميلة على البحر المتوسط.",
+        locationImage: "/locations/corniche.jpg",
+        location: "طريق الكورنيش، الإسكندرية",
+        uploadType: "image",
+        reviewType: "auto",
+        validationCriteria: {
+          requiredElements: ["بحر", "طريق"],
+          timeOfDay: "day",
         },
       },
-      {
-        stepNumber: 5,
-        title: "سراديب كوم الشقافة",
-        type: "تفاعلي",
-        coins: 60,
-        feature: "tombs",
-        interactiveData: {
-          title: "استكشاف السراديب القديمة",
-          description:
-            "قم بزيارة أكبر موقع دفن روماني في مصر، ويضم مزيجًا فريدًا من الفن المصري واليوناني والروماني.",
-          locationImage: "/locations/catacombs.jpg",
-          location: "كوم الشقافة، الإسكندرية",
-          uploadType: "صورة",
-          reviewType: "تلقائي",
-          validationCriteria: {
-            requiredElements: ["تحت الأرض", "منحوتات"],
-            historic: true,
-            locationCheck: true,
-          },
+    },
+    {
+      stepNumber: 8,
+      title: "قصر المنتزه",
+      type: "question",
+      coins: 40,
+      feature: "historical-questions",
+      questionData: {
+        question: "أي ملك مصري بنى قصر المنتزه كمقر صيفي؟",
+        correctAnswer: "king-farouk",
+        options: [
+          { id: "king-farouk", text: "الملك فاروق" },
+          { id: "king-fuad", text: "الملك فؤاد الأول" },
+          { id: "mohamed-ali", text: "محمد علي" },
+          { id: "ismail-pasha", text: "إسماعيل باشا" },
+        ],
+      },
+    },
+    {
+      stepNumber: 9,
+      title: "حدائق المنتزه",
+      type: "interactive",
+      coins: 50,
+      feature: "photography-spots",
+      interactiveData: {
+        title: "زيارة حدائق قصر المنتزه",
+        description:
+          "استكشف الحدائق الجميلة لقصر المنتزه بمزيجه من العمارة التركية والفلورنسية.",
+        locationImage: "/locations/montaza.jpg",
+        location: "المنتزه، الإسكندرية",
+        uploadType: "image",
+        reviewType: "manual",
+        validationCriteria: {
+          requiredElements: ["قصر", "حديقة"],
+          tags: ["ملكي", "حديقة", "تاريخي"],
         },
       },
-      {
-        stepNumber: 6,
-        title: "بحر البحر المتوسط",
-        type: "سؤال",
-        coins: 30,
-        feature: "historical-questions",
-        questionData: {
-          question: "ما هو متوسط عمق البحر المتوسط قرب الإسكندرية؟",
-          correctAnswer: "1500-meters",
-          options: [
-            { id: "1500-meters", text: "١٥٠٠ متر" },
-            { id: "800-meters", text: "٨٠٠ متر" },
-            { id: "3000-meters", text: "٣٠٠٠ متر" },
-            { id: "500-meters", text: "٥٠٠ متر" },
-          ],
+    },
+    {
+      stepNumber: 10,
+      title: "المنارة القديمة",
+      type: "question",
+      coins: 45,
+      feature: "historical-questions",
+      questionData: {
+        question: "كم كان ارتفاع منارة الإسكندرية القديمة (فاروس)؟",
+        correctAnswer: "100-130-meters",
+        options: [
+          { id: "100-130-meters", text: "١٠٠-١٣٠ متر" },
+          { id: "70-90-meters", text: "٧٠-٩٠ متر" },
+          { id: "150-180-meters", text: "١٥٠-١٨٠ متر" },
+          { id: "50-70-meters", text: "٥٠-٧٠ متر" },
+        ],
+      },
+    },
+    {
+      stepNumber: 11,
+      title: "غروب جسر ستانلي",
+      type: "interactive",
+      coins: 65,
+      feature: "photography-challenges",
+      interactiveData: {
+        title: "التقاط جسر ستانلي عند الغروب",
+        description:
+          "التقط صورة لجسر ستانلي الشهير أثناء غروب الشمس مع البحر المتوسط في الخلفية.",
+        locationImage: "/locations/stanley-bridge.jpg",
+        location: "ستانلي، الإسكندرية",
+        uploadType: "image",
+        reviewType: "manual",
+        validationCriteria: {
+          requiredElements: ["جسر", "غروب"],
+          tags: ["غروب", "مشهد خلاب", "حديث"],
         },
       },
-      {
-        stepNumber: 7,
-        title: "نزهة الكورنيش",
-        type: "تفاعلي",
-        coins: 45,
-        feature: "beaches",
-        interactiveData: {
-          title: "المشي على كورنيش الإسكندرية",
-          description:
-            "تمشى على الطريق الساحلي بطول ١٥ كيلومترًا مع إطلالات جميلة على البحر المتوسط.",
-          locationImage: "/locations/corniche.jpg",
-          location: "طريق الكورنيش، الإسكندرية",
-          uploadType: "صورة",
-          reviewType: "تلقائي",
-          validationCriteria: {
-            requiredElements: ["بحر", "طريق"],
-            timeOfDay: "نهار",
-          },
+    },
+    {
+      stepNumber: 12,
+      title: "وداع الإسكندرية",
+      type: "interactive",
+      coins: 85,
+      feature: "photography-challenges",
+      interactiveData: {
+        title: "ذكرى الإسكندرية النهائية",
+        description:
+          "التقط صورة أخيرة تجسد جوهر الإسكندرية - البحر، التاريخ، والثقافة.",
+        locationImage: "/locations/alexandria-view.jpg",
+        location: "أي مكان في الإسكندرية",
+        uploadType: "image",
+        reviewType: "manual",
+        validationCriteria: {
+          requiredElements: ["طابع إسكندراني"],
+          personal: true,
+          creative: true,
         },
       },
-      {
-        stepNumber: 8,
-        title: "قصر المنتزه",
-        type: "سؤال",
-        coins: 40,
-        feature: "historical-questions",
-        questionData: {
-          question: "أي ملك مصري بنى قصر المنتزه كمقر صيفي؟",
-          correctAnswer: "king-farouk",
-          options: [
-            { id: "king-farouk", text: "الملك فاروق" },
-            { id: "king-fuad", text: "الملك فؤاد الأول" },
-            { id: "mohamed-ali", text: "محمد علي" },
-            { id: "ismail-pasha", text: "إسماعيل باشا" },
-          ],
-        },
-      },
-      {
-        stepNumber: 9,
-        title: "حدائق المنتزه",
-        type: "تفاعلي",
-        coins: 50,
-        feature: "photography-spots",
-        interactiveData: {
-          title: "زيارة حدائق قصر المنتزه",
-          description:
-            "استكشف الحدائق الجميلة لقصر المنتزه بمزيجه من العمارة التركية والفلورنسية.",
-          locationImage: "/locations/montaza.jpg",
-          location: "المنتزه، الإسكندرية",
-          uploadType: "صورة",
-          reviewType: "يدوي",
-          validationCriteria: {
-            requiredElements: ["قصر", "حديقة"],
-            tags: ["ملكي", "حديقة", "تاريخي"],
-          },
-        },
-      },
-      {
-        stepNumber: 10,
-        title: "المنارة القديمة",
-        type: "سؤال",
-        coins: 45,
-        feature: "historical-questions",
-        questionData: {
-          question: "كم كان ارتفاع منارة الإسكندرية القديمة (فاروس)؟",
-          correctAnswer: "100-130-meters",
-          options: [
-            { id: "100-130-meters", text: "١٠٠-١٣٠ متر" },
-            { id: "70-90-meters", text: "٧٠-٩٠ متر" },
-            { id: "150-180-meters", text: "١٥٠-١٨٠ متر" },
-            { id: "50-70-meters", text: "٥٠-٧٠ متر" },
-          ],
-        },
-      },
-      {
-        stepNumber: 11,
-        title: "غروب جسر ستانلي",
-        type: "تفاعلي",
-        coins: 65,
-        feature: "photography-challenges",
-        interactiveData: {
-          title: "التقاط جسر ستانلي عند الغروب",
-          description:
-            "التقط صورة لجسر ستانلي الشهير أثناء غروب الشمس مع البحر المتوسط في الخلفية.",
-          locationImage: "/locations/stanley-bridge.jpg",
-          location: "ستانلي، الإسكندرية",
-          uploadType: "صورة",
-          reviewType: "يدوي",
-          validationCriteria: {
-            requiredElements: ["جسر", "غروب"],
-            tags: ["غروب", "مشهد خلاب", "حديث"],
-          },
-        },
-      },
-      {
-        stepNumber: 12,
-        title: "وداع الإسكندرية",
-        type: "تفاعلي",
-        coins: 85,
-        feature: "photography-challenges",
-        interactiveData: {
-          title: "ذكرى الإسكندرية النهائية",
-          description:
-            "التقط صورة أخيرة تجسد جوهر الإسكندرية - البحر، التاريخ، والثقافة.",
-          locationImage: "/locations/alexandria-view.jpg",
-          location: "أي مكان في الإسكندرية",
-          uploadType: "صورة",
-          reviewType: "يدوي",
-          validationCriteria: {
-            requiredElements: ["طابع إسكندراني"],
-            personal: true,
-            creative: true,
-          },
-        },
-      },
-    ],
-  },
+    },
+  ],
+}
+
 ];
 
 export const featuresEn = [
