@@ -52,11 +52,14 @@ header nav > ul > li {
   gap: 3px;
   padding: 28px 19px;
   font-size: 14px;
-  letter-spacing: 0.2px;
-  font-weight: 700;
+  font-weight: 800;
+  line-height: 1;
   display: flex;
   position: relative;
-  line-height: 1;
+  letter-spacing: 0.6px;
+}
+[lang="ar"] header nav > ul > li {
+  font-weight: 700;
 }
 [lang="ar"] header nav > ul > li > svg {
   transform: translateY(2px);
@@ -114,7 +117,10 @@ header .routs-menu {
   border-radius: 0 0 22px 22px;
   border: 1px solid var(--border-color);
   border-top: 0;
-  transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
+  transition:
+    visibility 0.3s,
+    opacity 0.3s,
+    z-index 0.3s;
 }
 header:has(nav li:hover) .routs-menu,
 .routs-menu:hover {
@@ -155,9 +161,7 @@ header .routs-menu .container > div ul {
   flex-direction: column;
   gap: 20px;
 }
-header .routs-menu .container > div h4 a {
-  font-weight: 500;
-}
+
 header .routs-menu .container .main-button {
   font-size: 13px;
   height: 37px;
@@ -165,7 +169,6 @@ header .routs-menu .container .main-button {
 header .routs-menu .container > div a {
   cursor: pointer;
   font-size: 14px;
-  font-weight: 400;
   transition: all 0.3s;
   color: var(--paragraph);
 }
@@ -211,7 +214,7 @@ header .routs-menu .holder .left .top a {
 }
 header .routs-menu .holder .left .top a:hover {
   color: var(--main-color);
-  font-weight: 500;
+  font-weight: 700;
 }
 header .routs-menu .holder .left .row {
   display: flex;
@@ -236,7 +239,7 @@ header .routs-menu .holder .left .row .card img {
 header .routs-menu .holder .left .row .card h5 {
   position: absolute;
   color: white;
-  font-weight: 500;
+  font-weight: 700;
   left: 18px;
   font-size: 15px;
   bottom: 20px;
@@ -265,7 +268,7 @@ header .routs-menu .holder .right .hold .colomn h5 {
 }
 header .routs-menu .holder .right .hold button {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--title-color);
   border: 1px solid var(--title-color);
   border-radius: 9px;
@@ -342,7 +345,9 @@ header .actions-btns .search-holder .results {
   z-index: -1;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.3s;
+  transition:
+    visibility 0s,
+    opacity 0.3s;
   top: 50px;
   left: 0;
   display: flex;
@@ -365,7 +370,7 @@ header .actions-btns .search-holder .results .main-button {
   cursor: pointer;
   font-size: 14px;
   text-transform: capitalize;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 header .actions-btns .btn,
@@ -383,7 +388,7 @@ header .actions-btns .search-holder .results a:not(.main-button) {
   border-radius: 6px;
   padding: 8px 10px;
   color: var(--paragraph);
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
 }
 header .actions-btns .search-holder .results a:not(.main-button):hover {
@@ -441,7 +446,9 @@ header .actions-btns .menu {
   z-index: -1;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.3s;
+  transition:
+    visibility 0s,
+    opacity 0.3s;
   width: 280px;
   box-shadow: 0 2px 10px #0000001a;
 }
@@ -475,7 +482,7 @@ header .actions-btns .userMenu .top {
   margin-bottom: 9px;
   padding: 13px 17px;
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 700;
 }
 [lang="ar"] header .actions-btns .userMenu .top {
   text-align: right;
@@ -492,7 +499,7 @@ header .actions-btns .userMenu a,
   border-radius: 8px;
   padding: 9px 12px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s;
   cursor: pointer;
 }
@@ -551,8 +558,12 @@ header .cartMenu .top.forEmpety {
 header .cartMenu .info a {
   cursor: pointer;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--paragraph);
+  text-align: left;
+}
+[lang="ar"] header .cartMenu .info a {
+  text-align: right;
 }
 header .cartMenu .info a:hover {
   color: var(--main-color);
@@ -597,7 +608,7 @@ header .cartMenu .item .info {
 header .cartMenu .item .info > p {
   color: var(--paragraph);
   text-align: left;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 14px;
 }
 header .cartMenu .item .remove {
@@ -616,21 +627,22 @@ header .cartMenu .item .info > span {
   font-size: 12px;
   text-align: left;
   color: var(--paragraph);
-  font-weight: 500;
+  font-weight: 700;
 }
 header .cartMenu .total {
   justify-content: space-between;
   align-items: center;
   display: flex;
   flex-direction: row;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--paragraph);
   font-size: 15px;
   padding-bottom: 0;
+  border-top: 1px solid var(--border-color);
 }
 header .cartMenu .total span {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 header .cartMenu .btns {
   flex-direction: column;
@@ -646,7 +658,7 @@ header .cartMenu .btns a.forcart:hover {
 header .cartMenu .btns a {
   border-radius: 6px !important;
   width: 100%;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 13px;
   cursor: pointer;
 }
@@ -711,7 +723,10 @@ header .cartMenu .btns a {
     z-index: -1;
     opacity: 0;
     visibility: hidden;
-    transition: visibility 0.3s, opacity 0.3s, z-index 0.3s;
+    transition:
+      visibility 0.3s,
+      opacity 0.3s,
+      z-index 0.3s;
     position: absolute;
     min-height: unset;
     max-height: 61px;
@@ -725,7 +740,6 @@ header .cartMenu .btns a {
   }
   header nav > ul > li {
     padding: 23px 14px;
-    font-weight: 500;
   }
   header .routs-menu {
     top: 58px;
@@ -756,7 +770,6 @@ header .cartMenu .btns a {
 @media (max-width: 786px) {
   header nav > ul > li {
     padding: 23px 8px;
-    font-weight: 500;
     font-size: 13px;
   }
   header .routs-menu .container {
@@ -778,7 +791,6 @@ header .cartMenu .btns a {
   }
   header nav ul {
     padding: 0;
-    width: 93%;
     justify-content: space-between;
   }
 

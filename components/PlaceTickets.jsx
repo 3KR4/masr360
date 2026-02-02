@@ -1,7 +1,9 @@
 "use client";
 import formatCurrency from "@/utlies/curancy";
+import useTranslate from "@/Contexts/useTranslation";
 
 export default function PlaceTickets({ tickets }) {
+  const t = useTranslate();
   if (!tickets || tickets.type === "free") {
     return;
   }
@@ -9,7 +11,7 @@ export default function PlaceTickets({ tickets }) {
   return (
     <div className="tickets">
       <div className="top">
-        <h4>Tickets Price</h4>
+        <h4>{t.singelPages.TicketsPrice}</h4>
       </div>
 
       <div className="tickets-list">
@@ -26,15 +28,15 @@ export default function PlaceTickets({ tickets }) {
         {tickets.type === "pricePerAge" && (
           <>
             <TicketGroup
-              title="Children"
+              title={t.dashboard.forms.students}
               price={tickets.prices.pricePerAge.children}
             />
             <TicketGroup
-              title="Adults"
+              title={t.dashboard.forms.adults}
               price={tickets.prices.pricePerAge.adults}
             />
             <TicketGroup
-              title="Seniors"
+              title={t.dashboard.forms.seniors}
               price={tickets.prices.pricePerAge.seniors}
             />
           </>
@@ -43,14 +45,15 @@ export default function PlaceTickets({ tickets }) {
         {/* PRICE PER REGION */}
         {tickets.type === "pricePerRegion" && (
           <div>
-            <h5>Visitors</h5>
+            <h5>{t.dashboard.forms.Visitors}</h5>
             <ul>
               <li className="egyption">
-                Egyptian{" "}
+                {t.dashboard.forms.egyptian}{" "}
                 {formatCurrency(tickets.prices.pricePerRegion.egyptian)}
               </li>
               <li>
-                Foreign {formatCurrency(tickets.prices.pricePerRegion.foreign)}
+                {t.dashboard.forms.foreigner}{" "}
+                {formatCurrency(tickets.prices.pricePerRegion.foreign)}
               </li>
             </ul>
           </div>
@@ -60,16 +63,19 @@ export default function PlaceTickets({ tickets }) {
         {tickets.type === "ageAndRegion" && (
           <>
             <RegionGroup
-              title="Students"
+              title={t.dashboard.forms.students}
               data={tickets.prices.ageAndRegion.students}
+              t={t}
             />
             <RegionGroup
-              title="Adults"
+              title={t.dashboard.forms.adults}
               data={tickets.prices.ageAndRegion.adults}
+              t={t}
             />
             <RegionGroup
-              title="Seniors"
+              title={t.dashboard.forms.seniors}
               data={tickets.prices.ageAndRegion.seniors}
+              t={t}
             />
           </>
         )}
@@ -91,13 +97,17 @@ function TicketGroup({ title, price }) {
   );
 }
 
-function RegionGroup({ title, data }) {
+function RegionGroup({ title, data, t }) {
   return (
     <div>
       <h5>{title}</h5>
       <ul>
-        <li className="egyption">Egyptian {formatCurrency(data.egyptian)}</li>
-        <li>Foreign {formatCurrency(data.foreign)}</li>
+        <li className="egyption">
+          {t.dashboard.forms.egyptian} {formatCurrency(data.egyptian)}
+        </li>
+        <li>
+          {t.dashboard.forms.foreigner} {formatCurrency(data.foreign)}
+        </li>
       </ul>
     </div>
   );

@@ -1116,7 +1116,6 @@ export const placesEn = [
     },
   },
 ];
-
 export const placesAr = [
   {
     id: 1,
@@ -1477,7 +1476,6 @@ export const placesAr = [
     },
   },
 ];
-
 export const nightsEn = [
   {
     id: 1,
@@ -2748,7 +2746,6 @@ export const orders = [
     notes: "Customer requested to be notified before delivery.",
   },
 ];
-
 export const reviews = [
   {
     productId: 1,

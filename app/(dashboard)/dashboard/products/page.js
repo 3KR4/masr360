@@ -70,12 +70,8 @@ export default function Products() {
             {products.slice(0, 10).map((item) => {
               const productCat =
                 locale == "en"
-                  ? productCategoriesEn?.find(
-                      (x) => x.id == item?.category
-                    )
-                  : productCategoriesAr?.find(
-                      (x) => x.id == item?.category
-                    );
+                  ? productCategoriesEn?.find((x) => x.id == item?.category)
+                  : productCategoriesAr?.find((x) => x.id == item?.category);
               return (
                 <div key={item?.id} className="table-item">
                   <div className="holder">

@@ -95,7 +95,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  font-weight: 500;
+  font-weight: 700;
 }
 .single-page .details-holder .Availability .hold {
   display: flex;
@@ -103,7 +103,7 @@
   gap: 6px;
   font-size: 16px;
   color: var(--paragraph);
-  font-weight: 600;
+  font-weight: 700;
 }
 .single-page .details-holder .Availability span {
   display: flex;
@@ -143,10 +143,10 @@
   border: 1px solid var(--main-color);
   color: var(--paragraph);
   background: var(--second-color);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 12px;
 }
-[lang = "ar"] .single-page .actions .forFavoriet {
+[lang="ar"] .single-page .actions .forFavoriet {
   font-weight: 700;
 }
 .single-page .actions .forFavoriet:hover {
@@ -166,14 +166,14 @@
   padding-left: 15px;
   display: flex;
 }
-[lang = "ar"] .single-page .details-holder .specifications ul {
+[lang="ar"] .single-page .details-holder .specifications ul {
   padding-left: unset;
   padding-right: 15px;
 }
 .single-page .details-holder .specifications ul li {
   color: var(--paragraph);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   position: relative;
   border-bottom: 1px solid #d5d5d5;
   padding: 10px 0;
@@ -190,13 +190,13 @@
   top: 50%;
   transform: translateY(-50%);
 }
-[lang ="ar"] .single-page .details-holder .specifications ul li::before {
+[lang="ar"] .single-page .details-holder .specifications ul li::before {
   left: unset;
   right: -12px;
 }
 .single-page .details-holder .specifications ul li span {
   color: var(--title-color);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /*! For Place */
@@ -220,7 +220,7 @@
 }
 .single-page.forNight .details-holder .reviews .count {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .single-page.forNight .details-holder .details {
   display: flex;
@@ -265,7 +265,7 @@
   margin-top: 6px;
 }
 .single-page.forNight .details-holder .description {
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .single-page.forPlace .tickets {
@@ -297,7 +297,7 @@
   width: 100%;
   height: 37px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
   border-radius: 14px 14px 0 0 !important;
 }
 .single-page.forPlace > .holder .location .i-frame {
@@ -361,7 +361,7 @@
 .single-page.forPlace .holds {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 35px;
+  gap: 25px;
   margin-top: 7px;
 }
 .single-page.forPlace .holds.noTikets {
@@ -399,12 +399,17 @@
   text-align: center;
   border-right: 1px solid var(--border-color);
   align-items: center;
-  min-width: 97px;
+  min-width: 108px;
   height: 48px;
   padding: 14px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   display: flex;
+}
+[lang = "ar"] .single-page.forPlace .tickets-list h5 {
+  border-right: 0;
+  border-left: 1px solid var(--border-color);
+
 }
 .single-page.forPlace .tickets-list ul {
   display: flex;
@@ -416,10 +421,10 @@
   text-align: center;
   border-radius: 7px;
   padding: 7px 13px;
-  font-weight: 500;
+  font-weight: 700;
   width: fit-content;
   color: var(--title-color);
-  font-weight: 500;
+  font-weight: 700;
   font-size: 12px;
 }
 .single-page.forPlace .tickets-list .free li {

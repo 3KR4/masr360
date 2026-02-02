@@ -1,9 +1,7 @@
 html {
   scroll-behavior: smooth;
 }
-html[lang="ar"] {
-  font-family: "Segoe UI", "Cairo", "Tajawal", sans-serif;
-}
+
 * {
   margin: 0;
   padding: 0;
@@ -17,9 +15,10 @@ html[lang="ar"] {
 :root {
   --body-color: #ffffff;
   --section-color: #f2f2f2;
-  --main-color: #ea8c43;
-  --second-color: #ffe3c7;
-  --hover-color: #dc7423;
+  --main-color: #f3ae1c;
+  --second-color: #ffe2b6;
+  --hover-color: #e7ae34;
+  --third-color: #0b0b0b;
   --title-color: #333;
   --paragraph: #575757;
   --border-color: #e0e0e0;
@@ -29,8 +28,11 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: var(--font-cinzel), sans-serif;
 }
-
+[lang="ar"] body {
+  font-family: "Segoe UI", sans-serif;
+}
 ::-webkit-scrollbar {
   width: 6px;
   height: 8px;
@@ -87,6 +89,10 @@ pre {
   color: var(--paragraph);
   font-size: 15px;
 }
+[lang="en"] p,
+[lang="en"] pre {
+  font-family: var(--font-poppins), sans-serif;
+}
 ul {
   list-style: none;
   margin: 0;
@@ -126,6 +132,8 @@ button {
   border: none;
   cursor: pointer;
   transition: 0.3s;
+  font-family: var(--font-cinzel), serif;
+  font-weight: 900;
 }
 [lang="ar"] button {
   font-family: "Segoe UI";
@@ -202,10 +210,15 @@ a {
   height: 46px;
   padding: 17px 26px;
   font-size: 14px;
-  font-weight: 600;
   letter-spacing: 0.5px;
   display: flex;
   border-radius: 6px !important;
+  font-family: var(--font-cinzel), serif;
+  font-weight: 900;
+}
+[lang="ar"] .main-button {
+  font-weight: 700;
+  font-family: "Segoe UI", sans-serif;
 }
 .main-button:hover {
   background: var(--hover-color);
@@ -230,7 +243,7 @@ a {
   gap: 10px;
   font-size: 36px;
   display: flex;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--main-color);
 }
 .main-title hr {
@@ -280,7 +293,7 @@ a {
 }
 
 .card .text-holder {
-  padding: 20px;
+  padding: 15px;
   border-radius: 20px;
   margin-top: -18px;
   z-index: 9;
@@ -288,7 +301,7 @@ a {
   background: white;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 }
 .card .top {
   display: flex;
@@ -305,8 +318,9 @@ a {
 }
 .card .name-link {
   color: var(--paragraph);
-  font-weight: 600;
   font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .card.game .name-link,
@@ -316,7 +330,7 @@ a {
 .card .text-holder a.explore {
   font-size: 14px;
   color: var(--main-color);
-  font-weight: 500;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -343,7 +357,7 @@ a {
 }
 .reviews .count {
   color: var(--paragraph);
-  font-weight: 500;
+  font-weight: 700;
   font-size: 13px;
 }
 .card p {
@@ -355,7 +369,7 @@ a {
   line-clamp: 1;
   -webkit-line-clamp: 1;
   font-size: 15px;
-  margin: -4px 0 0;
+  margin: 0 0 4px;
 }
 
 @keyframes arrow-bounce {
@@ -413,7 +427,7 @@ a {
   gap: 2px;
   color: var(--paragraph);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 700;
   min-width: max-content;
 }
 
@@ -437,8 +451,8 @@ a {
   display: flex;
   justify-content: space-between;
   color: var(--paragraph);
-  font-weight: 500;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 14px;
   padding: 0 11px;
 }
 .card .time-holder .countdown span.main-color {
@@ -466,13 +480,14 @@ a {
 }
 
 .price-holder {
-  font-weight: 500;
+  font-weight: 700;
 }
 .price-holder p {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 2px 7px;
+  font-size: 14px;
 }
 
 .new-price {
@@ -495,12 +510,12 @@ a {
 .discount {
   color: #16a34a;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .out-of-stock .status {
   color: #e63946;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .navigations {
@@ -544,7 +559,7 @@ a {
 .pagination li .page-num,
 .pagination li.break {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -561,7 +576,7 @@ a {
 .pagination li:hover .page-num {
   background: var(--main-color);
   color: white;
-  font-weight: 600;
+  font-weight: 700;
 }
 .pagination li.active .page-num {
   background: var(--main-color);
@@ -664,7 +679,7 @@ a {
 .error-page p {
   font-size: 20px;
   text-align: center;
-  font-weight: 500;
+  font-weight: 700;
   color: #878787;
   margin: 5px 0 11px;
   max-width: 70%;
@@ -689,13 +704,15 @@ a {
 }
 .hero-image-holder .details {
   position: absolute;
-  left: 40px;
   bottom: 40px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 25px;
 }
-[lang="ar"] .hero-image-holder .details {
-  left: unset;
-  right: 40px;
-}
+
 .hero-image-holder .details::before {
   content: "";
   z-index: 0;
@@ -708,7 +725,6 @@ a {
 [lang="ar"] .hero-image-holder .details::before {
   left: unset;
   right: 0;
-
 }
 .hero-image-holder .details > * {
   position: relative;
@@ -878,7 +894,7 @@ a {
 }
 .filters.for-cats .no-results {
   color: var(--paragraph);
-  font-weight: 500;
+  font-weight: 700;
   font-size: 13px;
 }
 svg.main-ico {
@@ -944,13 +960,10 @@ svg.main-ico {
 }
 @media (max-width: 800px) {
   .hero-image-holder .details {
-    bottom: 30px;
+    bottom: 10px;
     left: 0;
   }
-  [lang="ar"] .hero-image-holder .details {
-  left: unset;
-  right: 0;
-}
+
   .hero-image-holder .details h3 {
     font-size: 31px;
   }
@@ -1039,7 +1052,7 @@ svg.main-ico {
     font-size: 13px;
     padding: 9px 16px;
     border-radius: 50px;
-    font-weight: 600;
+    font-weight: 700;
   }
   .single-page.forPlace .images-swiper .top {
     flex-direction: row !important;

@@ -21,6 +21,7 @@
 .game .text-holder span.color {
   color: var(--paragraph);
   font-size: 15px;
+  font-weight: 700;
 }
 .game .text-holder .top {
   display: flex;
@@ -34,9 +35,10 @@
 }
 .game .text-holder .top .steps {
   color: var(--main-color);
-  font-weight: 600;
   letter-spacing: 0.3px;
   font-size: 15px;
+  font-size: 15px;
+  font-weight: 900;
 }
 .game .text-holder .reviews {
   margin: -1px 0 -3px;
@@ -55,7 +57,7 @@
   justify-content: center;
   padding: 10px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   gap: 6px !important;
 }
 .game .text-holder .holder .hold {
@@ -65,6 +67,10 @@
 }
 .game .text-holder .holder .color {
   font-size: 13px;
+  font-weight: 800;
+}
+[lang = "ar"] .game .text-holder .holder .color {
+  font-weight: 700;
 }
 .game .text-holder .price-holder p {
   justify-content: center;
@@ -155,7 +161,7 @@
   transform: translateY(-50%);
   max-width: 250px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--paragraph);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -329,7 +335,7 @@
 .game-page .progress-text {
   text-align: center;
   color: var(--paragraph);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 15px;
 }
 
@@ -349,7 +355,7 @@
 .game-page .question-box h3 {
   font-size: 17px;
   color: var(--paragraph);
-  font-weight: 500;
+  font-weight: 700;
 }
 .game-page .question-box .top span {
   color: var(--main-color);
@@ -371,7 +377,7 @@
   cursor: pointer;
   transition: 0.3s;
   color: var(--paragraph);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
 }
 
@@ -414,7 +420,7 @@
     font-size: 1rem;
   }
   .game-page .question-box .top span {
-    font-weight: 500;
+    font-weight: 700;
     font-size: 1rem;
   }
   .game-page .option {
@@ -471,7 +477,7 @@
   .game-page .option {
     border-radius: 6px;
     padding: 8px 15px;
-    font-weight: 500;
+    font-weight: 700;
   }
   .game-page .question-box {
     padding: 15px 22px 15px;

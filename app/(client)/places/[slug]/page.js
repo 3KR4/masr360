@@ -48,7 +48,7 @@ export default function ProductDetails() {
             <div className="details">
               <h3 className="ellipsis">{place?.name}</h3>
               {place?.tickets?.type === "free" && (
-                <div className="free">Free to visit</div>
+                <div className="free">{t.singelPages.freeToVisit}</div>
               )}
             </div>
           )}
@@ -70,7 +70,7 @@ export default function ProductDetails() {
               <div className="details">
                 <h3>{place?.name}</h3>
                 {place?.tickets?.type === "free" && (
-                  <div className="free">Free to visit</div>
+                  <div className="free">{t.singelPages.freeToVisit}</div>
                 )}
               </div>
             )}
@@ -84,7 +84,7 @@ export default function ProductDetails() {
         {/* IMAGES */}
         <div className="images-swiper">
           <div className="top">
-            <h4>place images</h4>
+            <h4>{t.singelPages.place_images}</h4>
             {place?.images?.length > 2 && (
               <div className="navigation">
                 <button className="custom-prev">
@@ -129,13 +129,17 @@ export default function ProductDetails() {
         {/* LOCATION */}
         <div className="location">
           <div className="top">
-            <h4>Location in {placeGov?.name}</h4>
+            <h4>
+              {t.singelPages.locationIn} {placeGov?.name}
+            </h4>
             <div className="actions">
               <div className="hold">
                 <button className="main-button forFavoriet">
-                  view in google maps
+                  {t.singelPages.view_in_google_maps}
                 </button>
-                <button className="main-button forFavoriet">copy link</button>
+                <button className="main-button forFavoriet">
+                  {t.actions.copy_link}
+                </button>
               </div>
             </div>
           </div>

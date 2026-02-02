@@ -31,7 +31,7 @@
   max-width: 37px;
   height: 37px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .quantity-btn:hover:not(:disabled) {
@@ -46,7 +46,7 @@
 }
 
 .quantity-number {
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
 
   color: var(--paragraph);
@@ -164,7 +164,7 @@
 
 .progress-step.active .step-label {
   color: #ea8c43;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Step Content */
@@ -302,7 +302,7 @@
 .summary-item-quantity {
   margin: 0;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .summary-item-price {
@@ -335,7 +335,7 @@
   letter-spacing: 0.2px;
   margin-bottom: 0.45rem;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--paragraph);
 }
 

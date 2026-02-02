@@ -1,16 +1,22 @@
-import { Roboto } from "next/font/google";
+import { Cinzel, Poppins } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { MainProvider } from "@/Contexts/mainContext";
 import "@/styles/globals.css";
 
-const roboto = Roboto({
+const cinzel = Cinzel({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
+  variable: "--font-cinzel",
 });
 
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-poppins",
+});
 export const metadata = {
   title: "Masr360",
   description:
@@ -42,7 +48,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={roboto.className}>
+    <html lang="en" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
         <MainProvider>
           <Header />

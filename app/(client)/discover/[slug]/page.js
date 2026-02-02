@@ -36,7 +36,7 @@ export default function governorateDetails() {
       const governorates = locale == "en" ? governoratesEn : governoratesAr;
       setgovernorate(governorates?.find((X) => X.id == slug));
     }
-  }, [slug]);
+  }, [slug, locale]);
 
   return (
     <div className="discover">

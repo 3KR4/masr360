@@ -147,7 +147,7 @@ function SideNav() {
       <ul>
         <li className="a a-user">
           <div className="hold">
-            <h4>Mahmoud el-shazly</h4>
+            <h4 className="ellipsis">Mahmoud el-shazly</h4>
             <FaUser />
           </div>
         </li>

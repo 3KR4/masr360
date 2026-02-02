@@ -1,5 +1,7 @@
 const ar = {
   singelPages: {
+    TicketsPrice: "اسعار التذاكر",
+    freeToVisit: "الدخول مجاني",
     locationIn: "العنوان في",
     view_in_google_maps: "التوجه الي خرائط جوجول",
     place_images: "صور المكان",
@@ -389,6 +391,8 @@ const ar = {
       students: "طلاب",
       adults: "بالغين",
       seniors: "كبار السن",
+      Visitors: "الزوار",
+
       egyptian: "مصري",
       foreigner: "أجنبي",
 
@@ -458,6 +462,8 @@ const ar = {
     remove: "إزالة",
     cartItems: "عناصر العربة",
     category: "التصنيف",
+    inStock: "متوفر في المخزون",
+
     outOfStock: "نفذ من المخزن",
     lastPrice: "آخر سعر",
     sale: "خصم",

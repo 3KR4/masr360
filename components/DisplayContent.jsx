@@ -27,6 +27,8 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
   const [openFilters, setOpenFilters] = useState(false);
 
   const [availability, setAvailability] = useState(null);
+  console.log(t.cart[availability]);
+
   const [priceRange, setPriceRange] = useState([0, 10000]);
 
   const [selectedCategory, setSelectedCategory] = useState({
@@ -80,12 +82,11 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
     setData(
       isSharedData
         ? response.filter((x) => x.governorate.id == shared)
-        : response
+        : response,
     );
 
     // fetchData();
-  }, [type, isSharedData, shared]);
-
+  }, [type, isSharedData, shared, locale]);
 
   /* ===================== REMOVE FILTER ===================== */
   const handleRemoveFilter = (filter) => {
@@ -143,7 +144,7 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
 
             {availability && (
               <p onClick={() => handleRemoveFilter("availability")}>
-                {t.marketplace.availability}: {availability}
+                {t.marketplace.availability}: {t.cart[availability]}
                 <IoIosClose className="remove" />
               </p>
             )}

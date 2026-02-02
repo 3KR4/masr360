@@ -1,4 +1,4 @@
-import { Roboto } from "next/font/google";
+import { Cinzel, Poppins } from "next/font/google";
 import SideNav from "@/components/dashboard/SideNav";
 import { MainProvider } from "@/Contexts/mainContext";
 import { DashBoardProvider } from "@/Contexts/dashboard";
@@ -7,11 +7,18 @@ import "@/styles/dashboard/globals.css";
 import Head from "@/components/dashboard/Head";
 import { FormsCompsProvider } from "@/Contexts/forms";
 
-const roboto = Roboto({
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-cinzel",
+});
+
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
   display: "swap",
+  variable: "--font-poppins",
 });
 
 export const metadata = {
@@ -43,7 +50,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={roboto.className}>
+    <html lang="en" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
         <MainProvider>
           <DashBoardProvider>

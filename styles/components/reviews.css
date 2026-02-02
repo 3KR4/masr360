@@ -32,11 +32,11 @@
 }
 .review-section .overview .hold .count {
   color: var(--paragraph);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
 }
 .review-section .overview .hold p {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
 }
 .review-section .overview .holder {
@@ -51,7 +51,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--paragraph);
   font-size: 14px;
 }
@@ -112,7 +112,7 @@
   border-radius: 50%;
   justify-content: center;
   align-items: center;
-  font-weight: 500;
+  font-weight: 700;
   display: flex;
 }
 .review-section .review .rowHolder {
@@ -134,7 +134,7 @@
   color: var(--paragraph);
   font-size: 15px;
   margin: -1px 0 -3px;
-  font-weight: 500;
+  font-weight: 700;
 }
 .review-section .review p {
   font-size: 13px;

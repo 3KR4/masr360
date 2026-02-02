@@ -6,7 +6,7 @@
 .about .title-holder span {
   text-align: center;
   color: #747474;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .about > .container:has(.about-section) {
@@ -54,7 +54,7 @@
 }
 .about .about-section span {
   color: var(--title-color);
-  font-weight: 600;
+  font-weight: 700;
 }
 .about .about-section h5 {
   margin-top: 19px;
@@ -195,7 +195,7 @@
   display: flex;
   gap: 9px;
   color: var(--paragraph);
-  font-weight: 500;
+  font-weight: 700;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;

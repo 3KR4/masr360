@@ -1,5 +1,7 @@
 const en = {
   singelPages: {
+    TicketsPrice: "Tickets Price",
+    freeToVisit: "free To Visit",
     locationIn: "location in",
     view_in_google_maps: "view in google maps",
     place_images: "place images",
@@ -392,6 +394,7 @@ const en = {
       students: "Students",
       adults: "Adults",
       seniors: "Seniors",
+      Visitors: "Visitors",
       egyptian: "Egyptian",
       foreigner: "Foreigner",
 
@@ -462,6 +465,7 @@ const en = {
     remove: "Remove",
     cartItems: "cart items",
     category: "Category",
+    inStock: "In Stock",
     outOfStock: "Out of Stock",
     lastPrice: "Last price",
     sale: "Sale",
