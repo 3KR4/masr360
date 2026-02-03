@@ -9,7 +9,8 @@ import { getService } from "@/services/api/getService";
 import { mainContext } from "@/Contexts/mainContext";
 
 import useTranslate from "@/Contexts/useTranslation";
-export default function governorateDetails() {
+
+export default function GovernorateDetails() {
   const t = useTranslate();
   const { locale } = useContext(mainContext);
 
@@ -42,7 +43,7 @@ export default function governorateDetails() {
     <div className="discover">
       <div className="hero-image-holder fluid-container">
         <Image src={governorate?.image} fill alt={governorate?.name} />
-        <div className="details">
+        <div className="details column">
           <h3>{governorate?.name}</h3>
           <p>{governorate?.description}</p>
         </div>

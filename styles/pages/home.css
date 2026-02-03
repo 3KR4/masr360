@@ -50,7 +50,7 @@
   color: white;
 }
 .swiper .slide-content h1 {
-  font-size: 75px;
+  font-size:60px;
   color: white;
 }
 [lang="ar"] .swiper .slide-content h1 {
@@ -58,7 +58,7 @@
 }
 .swiper .slide-content h2 {
   font-weight: 300;
-  font-size: 21px;
+  font-size: 19px;
   max-width: 55%;
   color: white;
 }

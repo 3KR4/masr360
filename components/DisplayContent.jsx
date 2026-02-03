@@ -27,7 +27,6 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
   const [openFilters, setOpenFilters] = useState(false);
 
   const [availability, setAvailability] = useState(null);
-  console.log(t.cart[availability]);
 
   const [priceRange, setPriceRange] = useState([0, 10000]);
 
