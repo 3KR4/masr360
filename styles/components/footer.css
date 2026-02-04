@@ -29,7 +29,7 @@ footer .container {
 
 footer .logo {
   position: relative !important;
-  width: 180px !important;
+  width: 192px !important;
   height: unset !important;
   margin: auto;
 }
@@ -130,7 +130,7 @@ footer .privacy a:hover {
     padding: 30px 0 25px;
   }
   footer .logo {
-    width: 160px !important;
+    width: 170px !important;
   }
 }
 @media (max-width: 992px) {
@@ -143,13 +143,12 @@ footer .privacy a:hover {
   }
   footer h4 {
     padding-bottom: 10px;
-    font-size: 18px;
+    font-size: 20px;
   }
+
+  footer ul li a,
   footer .about p {
-    font-size: 14px;
-  }
-  footer ul li a {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 @media (max-width: 768px) {
@@ -172,7 +171,8 @@ footer .privacy a:hover {
     justify-content: center;
   }
   footer .logo {
-    width: 190px !important;
+    width: 90% !important;
+    margin-bottom: 23px;
   }
   footer .paragraph {
     font-size: 12px;

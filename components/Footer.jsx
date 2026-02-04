@@ -5,7 +5,7 @@ import Link from "next/link";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaFacebookF, FaLinkedinIn, FaTiktok } from "react-icons/fa";
 import useTranslate from "@/Contexts/useTranslation";
-import '@/styles/components/footer.css'
+import "@/styles/components/footer.css";
 export default function Footer() {
   const t = useTranslate();
 
@@ -13,7 +13,7 @@ export default function Footer() {
     <footer>
       {/* Background */}
       <Image
-        src="/footer-bg.png"
+        src="/footer-bg1.png"
         alt="Footer Background"
         fill
         className="footer-bg"
@@ -24,12 +24,7 @@ export default function Footer() {
 
       <div className="container">
         {/* Logo */}
-        <Image
-          className="logo"
-          src="/logo-transparent.png"
-          alt="Masr360 Logo"
-          fill
-        />
+        <Image className="logo" src="/logo.png" alt="Masr360 Logo" fill />
 
         <div className="hold">
           {/* Contact */}
@@ -41,7 +36,7 @@ export default function Footer() {
             </p>
             <p>
               {t.footer.phone_label}:{" "}
-              <a href="tel:+201000000000">+20 100 000 0000</a>
+              <a href="tel:+201000000000">+20 110 151 2242</a>
             </p>
           </div>
 
