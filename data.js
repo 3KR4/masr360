@@ -317,7 +317,7 @@ export const governoratesEn = [
     id: 4,
     name: "Luxor",
     count: 110,
-    image: "/governorates/Masseballonger.jfif",
+    image: "/governorates/Luxor.png",
     description:
       "The world's greatest open-air museum with Karnak Temple, Valley of the Kings, and Luxor Temple. Ancient Thebes at its finest.",
   },
@@ -357,7 +357,7 @@ export const governoratesEn = [
     id: 9,
     name: "Port Said",
     count: 50,
-    image: "/governorates/port-said.jfif",
+    image: "/governorates/port-said.png",
     description:
       "Important Suez Canal port city with unique architecture, maritime history, and free zone commercial activity.",
   },
@@ -389,7 +389,7 @@ export const governoratesEn = [
     id: 13,
     name: "Dakahlia",
     count: 70,
-    image: "/governorates/dakahlia.jpeg",
+    image: "/governorates/Dakahlia.jpeg",
     description:
       "Agricultural governorate with Mansoura city, Talkha, and Mit Ghamr. Major contributor to Egypt's food production.",
   },
@@ -413,7 +413,7 @@ export const governoratesEn = [
     id: 16,
     name: "Qalyubia",
     count: 72,
-    image: "/governorates/qalyubia.jpg",
+    image: "/governorates/Qalyubia.jpg",
     description:
       "Industrial and agricultural governorate containing Shubra El-Kheima and Banha. Part of Greater Cairo region.",
   },
@@ -469,7 +469,7 @@ export const governoratesEn = [
     id: 23,
     name: "Asyut",
     count: 66,
-    image: "/governorates/asyut.jpg",
+    image: "/governorates/Asyut.jpg",
     description:
       "Largest city in Upper Egypt with Asyut University, important Coptic history, and traditional handicrafts.",
   },
@@ -477,7 +477,7 @@ export const governoratesEn = [
     id: 24,
     name: "Sohag",
     count: 59,
-    image: "/governorates/sohag.jpeg",
+    image: "/governorates/Sohag.jpeg",
     description:
       "Home to the White and Red Monasteries, Akhmim archaeological site, and Sohag University.",
   },
@@ -536,7 +536,7 @@ export const governoratesAr = [
     id: 4,
     name: "الأقصر",
     count: 110,
-    image: "/governorates/Masseballonger.jfif",
+    image: "/governorates/Luxor.png",
     description:
       "أعظم متحف مفتوح في العالم مع معبد الكرنك ووادي الملوك ومعبد الأقصر. طيبة القديمة في أبهى صورها.",
   },
@@ -576,7 +576,7 @@ export const governoratesAr = [
     id: 9,
     name: "بورسعيد",
     count: 50,
-    image: "/governorates/port-said.jfif",
+    image: "/governorates/port-said.png",
     description:
       "مدينة القناة الهامة مع هندسة معمارية فريدة وتاريخ بحري ونشاط تجاري في المنطقة الحرة.",
   },
@@ -608,7 +608,7 @@ export const governoratesAr = [
     id: 13,
     name: "الدقهلية",
     count: 70,
-    image: "/governorates/dakahlia.jpeg",
+    image: "/governorates/Dakahlia.jpeg",
     description:
       "محافظة زراعية مع مدينة المنصورة وطلخا وميت غمر. مساهم رئيسي في الإنتاج الغذائي لمصر.",
   },
@@ -632,7 +632,7 @@ export const governoratesAr = [
     id: 16,
     name: "القليوبية",
     count: 72,
-    image: "/governorates/qalyubia.jpg",
+    image: "/governorates/Qalyubia.jpg",
     description:
       "محافظة صناعية وزراعية تحتوي على شبرا الخيمة وبنها. جزء من إقليم القاهرة الكبرى.",
   },
@@ -688,7 +688,7 @@ export const governoratesAr = [
     id: 23,
     name: "أسيوط",
     count: 66,
-    image: "/governorates/asyut.jpg",
+    image: "/governorates/Asyut.jpg",
     description:
       "أكبر مدينة في صعيد مصر مع جامعة أسيوط، تاريخ قبطي مهم، والحرف اليدوية التقليدية.",
   },
@@ -696,7 +696,7 @@ export const governoratesAr = [
     id: 24,
     name: "سوهاج",
     count: 59,
-    image: "/governorates/sohag.jpeg",
+    image: "/governorates/Sohag.jpeg",
     description:
       "موطن الديرين الأبيض والأحمر، موقع أخميم الأثري، وجامعة سوهاج.",
   },
