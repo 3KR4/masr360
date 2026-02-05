@@ -36,7 +36,7 @@ export default function Footer() {
             </p>
             <p>
               {t.footer.phone_label}:{" "}
-              <a href="tel:+201000000000">+20 110 151 2242</a>
+              <a href="tel:+201101512242" dir="ltr">+20 110 151 2242</a>
             </p>
           </div>
 

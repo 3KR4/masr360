@@ -301,7 +301,7 @@ export const governoratesEn = [
     id: 2,
     name: "Alexandria",
     count: 85,
-    image: "/governorates/alexandria.jpg",
+    image: "/governorates/alexandria.jpeg",
     description:
       "The Mediterranean bride with Greco-Roman heritage. Features the Bibliotheca Alexandrina, Qaitbay Citadel, and beautiful corniche views.",
   },
@@ -309,7 +309,7 @@ export const governoratesEn = [
     id: 3,
     name: "Giza",
     count: 95,
-    image: "/governorates/giza.jpg",
+    image: "/governorates/giza.jpeg",
     description:
       "Home to the Great Pyramids and Sphinx. Also contains important archaeological sites and the Grand Egyptian Museum (GEM).",
   },
@@ -317,7 +317,7 @@ export const governoratesEn = [
     id: 4,
     name: "Luxor",
     count: 110,
-    image: "/governorates/luxor.jpeg",
+    image: "/governorates/Masseballonger.jfif",
     description:
       "The world's greatest open-air museum with Karnak Temple, Valley of the Kings, and Luxor Temple. Ancient Thebes at its finest.",
   },
@@ -349,7 +349,7 @@ export const governoratesEn = [
     id: 8,
     name: "North Sinai",
     count: 45,
-    image: "/governorates/north-sinai.jpg",
+    image: "/governorates/North_Sinai.jpg",
     description:
       "Mediterranean coastline with Al-Arish city, agricultural lands, and strategic importance connecting Egypt to Asia.",
   },
@@ -357,7 +357,7 @@ export const governoratesEn = [
     id: 9,
     name: "Port Said",
     count: 50,
-    image: "/governorates/port-said.jpg",
+    image: "/governorates/port-said.jfif",
     description:
       "Important Suez Canal port city with unique architecture, maritime history, and free zone commercial activity.",
   },
@@ -365,7 +365,7 @@ export const governoratesEn = [
     id: 10,
     name: "Suez",
     count: 48,
-    image: "/governorates/suez.jpg",
+    image: "/governorates/suez.jpeg",
     description:
       "Southern gateway to the Suez Canal with petroleum refineries, industrial zones, and strategic maritime importance.",
   },
@@ -381,7 +381,7 @@ export const governoratesEn = [
     id: 12,
     name: "Damietta",
     count: 60,
-    image: "/governorates/damietta.jpg",
+    image: "/governorates/Damietta.jpeg",
     description:
       "Nile Delta port with furniture industry, Damietta Branch of the Nile, and Mediterranean beaches.",
   },
@@ -389,7 +389,7 @@ export const governoratesEn = [
     id: 13,
     name: "Dakahlia",
     count: 70,
-    image: "/governorates/dakahlia.jpg",
+    image: "/governorates/dakahlia.jpeg",
     description:
       "Agricultural governorate with Mansoura city, Talkha, and Mit Ghamr. Major contributor to Egypt's food production.",
   },
@@ -397,7 +397,7 @@ export const governoratesEn = [
     id: 14,
     name: "Gharbia",
     count: 65,
-    image: "/governorates/gharbia.jpg",
+    image: "/governorates/gharbia.jpeg",
     description:
       "Delta governorate with Tanta city, famous for its annual mulid (festival) and Al-Sayeda Zeinab Mosque in Tanta.",
   },
@@ -445,7 +445,7 @@ export const governoratesEn = [
     id: 20,
     name: "Faiyum",
     count: 52,
-    image: "/governorates/faiyum.jpg",
+    image: "/governorates/faiyum.jpeg",
     description:
       "Oasis depression with Lake Qarun, Wadi El-Rayan waterfalls, and ancient sites like Hawara Pyramid.",
   },
@@ -453,7 +453,7 @@ export const governoratesEn = [
     id: 21,
     name: "Beni Suef",
     count: 56,
-    image: "/governorates/beni-suef.jpg",
+    image: "/governorates/beni-suef.jpeg",
     description:
       "Upper Egypt governorate with Meidum Pyramid, cement industry, and agricultural lands along the Nile.",
   },
@@ -477,7 +477,7 @@ export const governoratesEn = [
     id: 24,
     name: "Sohag",
     count: 59,
-    image: "/governorates/sohag.jpg",
+    image: "/governorates/sohag.jpeg",
     description:
       "Home to the White and Red Monasteries, Akhmim archaeological site, and Sohag University.",
   },
@@ -489,24 +489,9 @@ export const governoratesEn = [
     description:
       "Known for Dendera Temple complex, Nag Hammadi library discovery site, and pottery industry.",
   },
+
   {
     id: 26,
-    name: "Luxor",
-    count: 110,
-    image: "/governorates/luxor.jpg",
-    description:
-      "Note: Luxor appears twice in official lists - as a governorate separate from ancient Thebes region.",
-  },
-  {
-    id: 27,
-    name: "Aswan",
-    count: 75,
-    image: "/governorates/aswan.jpg",
-    description:
-      "Note: Aswan also appears as both archaeological zone and modern governorate with same attractions.",
-  },
-  {
-    id: 28,
     name: "New Valley",
     count: 40,
     image: "/governorates/new-valley.jpg",
@@ -514,10 +499,10 @@ export const governoratesEn = [
       "Egypt's largest governorate containing Kharga, Dakhla, Farafra oases, and White Desert natural wonders.",
   },
   {
-    id: 29,
+    id: 27,
     name: "Matruh",
     count: 53,
-    image: "/governorates/matruh.jpg",
+    image: "/governorates/matruh.jpeg",
     description:
       "Mediterranean coastal governorate with Marsa Matruh, Siwa Oasis, and El Alamein World War II battle sites.",
   },
@@ -535,7 +520,7 @@ export const governoratesAr = [
     id: 2,
     name: "الإسكندرية",
     count: 85,
-    image: "/governorates/alexandria.jpg",
+    image: "/governorates/alexandria.jpeg",
     description:
       "عروس البحر المتوسط بإرثها اليوناني الروماني. تضم مكتبة الإسكندرية وقلعة قايتباي ومشاهد الكورنيش الجميلة.",
   },
@@ -543,7 +528,7 @@ export const governoratesAr = [
     id: 3,
     name: "الجيزة",
     count: 95,
-    image: "/governorates/giza.jpg",
+    image: "/governorates/giza.jpeg",
     description:
       "موطن الأهرامات العظيمة وأبو الهول. تحتوي أيضًا على مواقع أثرية مهمة والمتحف المصري الكبير.",
   },
@@ -551,7 +536,7 @@ export const governoratesAr = [
     id: 4,
     name: "الأقصر",
     count: 110,
-    image: "/governorates/luxor.jpeg",
+    image: "/governorates/Masseballonger.jfif",
     description:
       "أعظم متحف مفتوح في العالم مع معبد الكرنك ووادي الملوك ومعبد الأقصر. طيبة القديمة في أبهى صورها.",
   },
@@ -583,7 +568,7 @@ export const governoratesAr = [
     id: 8,
     name: "شمال سيناء",
     count: 45,
-    image: "/governorates/north-sinai.jpg",
+    image: "/governorates/North_Sinai.jpg",
     description:
       "ساحل البحر المتوسط مع مدينة العريش والأراضي الزراعية وأهمية استراتيجية تربط مصر بآسيا.",
   },
@@ -591,7 +576,7 @@ export const governoratesAr = [
     id: 9,
     name: "بورسعيد",
     count: 50,
-    image: "/governorates/port-said.jpg",
+    image: "/governorates/port-said.jfif",
     description:
       "مدينة القناة الهامة مع هندسة معمارية فريدة وتاريخ بحري ونشاط تجاري في المنطقة الحرة.",
   },
@@ -599,7 +584,7 @@ export const governoratesAr = [
     id: 10,
     name: "السويس",
     count: 48,
-    image: "/governorates/suez.jpg",
+    image: "/governorates/suez.jpeg",
     description:
       "البوابة الجنوبية لقناة السويس مع مصافي البترول والمناطق الصناعية والأهمية البحرية الاستراتيجية.",
   },
@@ -615,7 +600,7 @@ export const governoratesAr = [
     id: 12,
     name: "دمياط",
     count: 60,
-    image: "/governorates/damietta.jpg",
+    image: "/governorates/Damietta.jpeg",
     description:
       "ميناء الدلتا مع صناعة الأثاث، فرع دمياط للنيل، وشواطئ البحر المتوسط.",
   },
@@ -623,7 +608,7 @@ export const governoratesAr = [
     id: 13,
     name: "الدقهلية",
     count: 70,
-    image: "/governorates/dakahlia.jpg",
+    image: "/governorates/dakahlia.jpeg",
     description:
       "محافظة زراعية مع مدينة المنصورة وطلخا وميت غمر. مساهم رئيسي في الإنتاج الغذائي لمصر.",
   },
@@ -631,7 +616,7 @@ export const governoratesAr = [
     id: 14,
     name: "الغربية",
     count: 65,
-    image: "/governorates/gharbia.jpg",
+    image: "/governorates/gharbia.jpeg",
     description:
       "محافظة الدلتا مع مدينة طنطا، المشهورة بمولدها السنوي ومسجد السيدة زينب في طنطا.",
   },
@@ -679,7 +664,7 @@ export const governoratesAr = [
     id: 20,
     name: "الفيوم",
     count: 52,
-    image: "/governorates/faiyum.jpg",
+    image: "/governorates/faiyum.jpeg",
     description:
       "منخفض واحة مع بحيرة قارون، شلالات وادي الريان، ومواقع أثرية مثل هرم هوارة.",
   },
@@ -687,7 +672,7 @@ export const governoratesAr = [
     id: 21,
     name: "بني سويف",
     count: 56,
-    image: "/governorates/beni-suef.jpg",
+    image: "/governorates/beni-suef.jpeg",
     description:
       "محافظة صعيد مصر مع هرم ميدوم، صناعة الأسمنت، والأراضي الزراعية على طول النيل.",
   },
@@ -711,7 +696,7 @@ export const governoratesAr = [
     id: 24,
     name: "سوهاج",
     count: 59,
-    image: "/governorates/sohag.jpg",
+    image: "/governorates/sohag.jpeg",
     description:
       "موطن الديرين الأبيض والأحمر، موقع أخميم الأثري، وجامعة سوهاج.",
   },
@@ -723,24 +708,9 @@ export const governoratesAr = [
     description:
       "تشتهر بمجمع معبد دندرة، موقع اكتشاف مكتبة نجع حمادي، وصناعة الفخار.",
   },
+
   {
     id: 26,
-    name: "الأقصر",
-    count: 110,
-    image: "/governorates/luxor.jpg",
-    description:
-      "ملاحظة: الأقصر تظهر مرتين في القوائم الرسمية - كمحافظة منفصلة عن منطقة طيبة القديمة.",
-  },
-  {
-    id: 27,
-    name: "أسوان",
-    count: 75,
-    image: "/governorates/aswan.jpg",
-    description:
-      "ملاحظة: أسوان أيضًا تظهر كمنطقة أثرية ومحافظة حديثة بنفس المعالم.",
-  },
-  {
-    id: 28,
     name: "الوادي الجديد",
     count: 40,
     image: "/governorates/new-valley.jpg",
@@ -748,10 +718,10 @@ export const governoratesAr = [
       "أكبر محافظات مصر تحتوي على واحات الخارجة والداخلة والفرفرة وعجائب الصحراء البيضاء الطبيعية.",
   },
   {
-    id: 29,
+    id: 27,
     name: "مطروح",
     count: 53,
-    image: "/governorates/matruh.jpg",
+    image: "/governorates/matruh.jpeg",
     description:
       "محافظة ساحلية على البحر المتوسط مع مرسى مطروح، واحة سيوة، ومواقع معركة العلمين في الحرب العالمية الثانية.",
   },
@@ -3315,7 +3285,8 @@ export const govsEn = [
   "Qena",
   "North Sinai",
   "Sohag",
-];export const govsAr = [
+];
+export const govsAr = [
   "القاهرة",
   "الجيزة",
   "الإسكندرية",
@@ -4519,254 +4490,253 @@ export const gamesAr = [
       },
     ],
   },
-{
-  id: "alexandria_explorer",
-  name: "رحلة استكشاف الإسكندرية الساحلية",
-  image: "/governorates/alexandria.jpg",
-  description:
-    "اكتشف جوهرة البحر المتوسط من المكتبات القديمة إلى الكورنيش الحديث. استكشف الآثار اليونانية الرومانية، القلاع التاريخية، وعجائب الساحل.",
-  totalSteps: 12,
-  totalCoins: 600,
-  price: 9,
-  rate: 4,
-  reviewsCount: 7,
-  governorate: { id: 2 },
-  difficulty: "سهل",
-  estimatedTime: "٣-٤ ساعات",
-  steps: [
-    {
-      stepNumber: 1,
-      title: "زيارة قلعة قايتباي",
-      type: "interactive",
-      coins: 55,
-      feature: "monuments",
-      interactiveData: {
-        title: "استكشاف قلعة قايتباي",
-        description:
-          "قم بزيارة القلعة التي تعود للقرن الخامس عشر والمبنية على موقع منارة الإسكندرية القديمة، إحدى عجائب الدنيا السبع.",
-        locationImage: "/locations/qaitbay-citadel.jpg",
-        location: "الصيالة شرق، قسم الجمرك، الإسكندرية",
-        uploadType: "image",
-        reviewType: "auto",
-        validationCriteria: {
-          requiredElements: ["قلعة", "بحر"],
-          orientation: "landscape",
-          locationCheck: true,
+  {
+    id: "alexandria_explorer",
+    name: "رحلة استكشاف الإسكندرية الساحلية",
+    image: "/governorates/alexandria.jpg",
+    description:
+      "اكتشف جوهرة البحر المتوسط من المكتبات القديمة إلى الكورنيش الحديث. استكشف الآثار اليونانية الرومانية، القلاع التاريخية، وعجائب الساحل.",
+    totalSteps: 12,
+    totalCoins: 600,
+    price: 9,
+    rate: 4,
+    reviewsCount: 7,
+    governorate: { id: 2 },
+    difficulty: "سهل",
+    estimatedTime: "٣-٤ ساعات",
+    steps: [
+      {
+        stepNumber: 1,
+        title: "زيارة قلعة قايتباي",
+        type: "interactive",
+        coins: 55,
+        feature: "monuments",
+        interactiveData: {
+          title: "استكشاف قلعة قايتباي",
+          description:
+            "قم بزيارة القلعة التي تعود للقرن الخامس عشر والمبنية على موقع منارة الإسكندرية القديمة، إحدى عجائب الدنيا السبع.",
+          locationImage: "/locations/qaitbay-citadel.jpg",
+          location: "الصيالة شرق، قسم الجمرك، الإسكندرية",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["قلعة", "بحر"],
+            orientation: "landscape",
+            locationCheck: true,
+          },
         },
       },
-    },
-    {
-      stepNumber: 2,
-      title: "تاريخ مكتبة الإسكندرية",
-      type: "question",
-      coins: 40,
-      feature: "historical-questions",
-      questionData: {
-        question:
-          "ما هي المكتبة القديمة الشهيرة التي كانت موجودة في الإسكندرية؟",
-        correctAnswer: "library-of-alexandria",
-        options: [
-          { id: "library-of-alexandria", text: "مكتبة الإسكندرية" },
-          { id: "library-of-egypt", text: "مكتبة مصر" },
-          { id: "mediterranean-library", text: "مكتبة البحر المتوسط" },
-          { id: "ptolemy-library", text: "مكتبة بطليموس" },
-        ],
-      },
-    },
-    {
-      stepNumber: 3,
-      title: "مكتبة الإسكندرية الحديثة",
-      type: "interactive",
-      coins: 50,
-      feature: "libraries",
-      interactiveData: {
-        title: "زيارة المكتبة الحديثة",
-        description:
-          "استكشف مكتبة الإسكندرية، الإحياء الحديث للمكتبة القديمة بتصميمها القرصي المائل المميز.",
-        locationImage: "/locations/bibliotheca.jpg",
-        location: "العزارطة والشاطبي، باب شرقي، الإسكندرية",
-        uploadType: "image",
-        reviewType: "manual",
-        validationCriteria: {
-          requiredElements: ["مبنى المكتبة", "عمارة مميزة"],
-          tags: ["حديث", "ثقافي", "تعليم"],
+      {
+        stepNumber: 2,
+        title: "تاريخ مكتبة الإسكندرية",
+        type: "question",
+        coins: 40,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "ما هي المكتبة القديمة الشهيرة التي كانت موجودة في الإسكندرية؟",
+          correctAnswer: "library-of-alexandria",
+          options: [
+            { id: "library-of-alexandria", text: "مكتبة الإسكندرية" },
+            { id: "library-of-egypt", text: "مكتبة مصر" },
+            { id: "mediterranean-library", text: "مكتبة البحر المتوسط" },
+            { id: "ptolemy-library", text: "مكتبة بطليموس" },
+          ],
         },
       },
-    },
-    {
-      stepNumber: 4,
-      title: "عمود السواري",
-      type: "question",
-      coins: 35,
-      feature: "historical-questions",
-      questionData: {
-        question:
-          "عمود السواري في الإسكندرية مخصص في الواقع لأي إمبراطور روماني؟",
-        correctAnswer: "diocletian",
-        options: [
-          { id: "diocletian", text: "ديوكلتيان" },
-          { id: "augustus", text: "أغسطس" },
-          { id: "trajan", text: "تراجان" },
-          { id: "hadrian", text: "هادريان" },
-        ],
-      },
-    },
-    {
-      stepNumber: 5,
-      title: "سراديب كوم الشقافة",
-      type: "interactive",
-      coins: 60,
-      feature: "tombs",
-      interactiveData: {
-        title: "استكشاف السراديب القديمة",
-        description:
-          "قم بزيارة أكبر موقع دفن روماني في مصر، ويضم مزيجًا فريدًا من الفن المصري واليوناني والروماني.",
-        locationImage: "/locations/catacombs.jpg",
-        location: "كوم الشقافة، الإسكندرية",
-        uploadType: "image",
-        reviewType: "auto",
-        validationCriteria: {
-          requiredElements: ["تحت الأرض", "منحوتات"],
-          historic: true,
-          locationCheck: true,
+      {
+        stepNumber: 3,
+        title: "مكتبة الإسكندرية الحديثة",
+        type: "interactive",
+        coins: 50,
+        feature: "libraries",
+        interactiveData: {
+          title: "زيارة المكتبة الحديثة",
+          description:
+            "استكشف مكتبة الإسكندرية، الإحياء الحديث للمكتبة القديمة بتصميمها القرصي المائل المميز.",
+          locationImage: "/locations/bibliotheca.jpg",
+          location: "العزارطة والشاطبي، باب شرقي، الإسكندرية",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["مبنى المكتبة", "عمارة مميزة"],
+            tags: ["حديث", "ثقافي", "تعليم"],
+          },
         },
       },
-    },
-    {
-      stepNumber: 6,
-      title: "بحر البحر المتوسط",
-      type: "question",
-      coins: 30,
-      feature: "historical-questions",
-      questionData: {
-        question: "ما هو متوسط عمق البحر المتوسط قرب الإسكندرية؟",
-        correctAnswer: "1500-meters",
-        options: [
-          { id: "1500-meters", text: "١٥٠٠ متر" },
-          { id: "800-meters", text: "٨٠٠ متر" },
-          { id: "3000-meters", text: "٣٠٠٠ متر" },
-          { id: "500-meters", text: "٥٠٠ متر" },
-        ],
-      },
-    },
-    {
-      stepNumber: 7,
-      title: "نزهة الكورنيش",
-      type: "interactive",
-      coins: 45,
-      feature: "beaches",
-      interactiveData: {
-        title: "المشي على كورنيش الإسكندرية",
-        description:
-          "تمشى على الطريق الساحلي بطول ١٥ كيلومترًا مع إطلالات جميلة على البحر المتوسط.",
-        locationImage: "/locations/corniche.jpg",
-        location: "طريق الكورنيش، الإسكندرية",
-        uploadType: "image",
-        reviewType: "auto",
-        validationCriteria: {
-          requiredElements: ["بحر", "طريق"],
-          timeOfDay: "day",
+      {
+        stepNumber: 4,
+        title: "عمود السواري",
+        type: "question",
+        coins: 35,
+        feature: "historical-questions",
+        questionData: {
+          question:
+            "عمود السواري في الإسكندرية مخصص في الواقع لأي إمبراطور روماني؟",
+          correctAnswer: "diocletian",
+          options: [
+            { id: "diocletian", text: "ديوكلتيان" },
+            { id: "augustus", text: "أغسطس" },
+            { id: "trajan", text: "تراجان" },
+            { id: "hadrian", text: "هادريان" },
+          ],
         },
       },
-    },
-    {
-      stepNumber: 8,
-      title: "قصر المنتزه",
-      type: "question",
-      coins: 40,
-      feature: "historical-questions",
-      questionData: {
-        question: "أي ملك مصري بنى قصر المنتزه كمقر صيفي؟",
-        correctAnswer: "king-farouk",
-        options: [
-          { id: "king-farouk", text: "الملك فاروق" },
-          { id: "king-fuad", text: "الملك فؤاد الأول" },
-          { id: "mohamed-ali", text: "محمد علي" },
-          { id: "ismail-pasha", text: "إسماعيل باشا" },
-        ],
-      },
-    },
-    {
-      stepNumber: 9,
-      title: "حدائق المنتزه",
-      type: "interactive",
-      coins: 50,
-      feature: "photography-spots",
-      interactiveData: {
-        title: "زيارة حدائق قصر المنتزه",
-        description:
-          "استكشف الحدائق الجميلة لقصر المنتزه بمزيجه من العمارة التركية والفلورنسية.",
-        locationImage: "/locations/montaza.jpg",
-        location: "المنتزه، الإسكندرية",
-        uploadType: "image",
-        reviewType: "manual",
-        validationCriteria: {
-          requiredElements: ["قصر", "حديقة"],
-          tags: ["ملكي", "حديقة", "تاريخي"],
+      {
+        stepNumber: 5,
+        title: "سراديب كوم الشقافة",
+        type: "interactive",
+        coins: 60,
+        feature: "tombs",
+        interactiveData: {
+          title: "استكشاف السراديب القديمة",
+          description:
+            "قم بزيارة أكبر موقع دفن روماني في مصر، ويضم مزيجًا فريدًا من الفن المصري واليوناني والروماني.",
+          locationImage: "/locations/catacombs.jpg",
+          location: "كوم الشقافة، الإسكندرية",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["تحت الأرض", "منحوتات"],
+            historic: true,
+            locationCheck: true,
+          },
         },
       },
-    },
-    {
-      stepNumber: 10,
-      title: "المنارة القديمة",
-      type: "question",
-      coins: 45,
-      feature: "historical-questions",
-      questionData: {
-        question: "كم كان ارتفاع منارة الإسكندرية القديمة (فاروس)؟",
-        correctAnswer: "100-130-meters",
-        options: [
-          { id: "100-130-meters", text: "١٠٠-١٣٠ متر" },
-          { id: "70-90-meters", text: "٧٠-٩٠ متر" },
-          { id: "150-180-meters", text: "١٥٠-١٨٠ متر" },
-          { id: "50-70-meters", text: "٥٠-٧٠ متر" },
-        ],
-      },
-    },
-    {
-      stepNumber: 11,
-      title: "غروب جسر ستانلي",
-      type: "interactive",
-      coins: 65,
-      feature: "photography-challenges",
-      interactiveData: {
-        title: "التقاط جسر ستانلي عند الغروب",
-        description:
-          "التقط صورة لجسر ستانلي الشهير أثناء غروب الشمس مع البحر المتوسط في الخلفية.",
-        locationImage: "/locations/stanley-bridge.jpg",
-        location: "ستانلي، الإسكندرية",
-        uploadType: "image",
-        reviewType: "manual",
-        validationCriteria: {
-          requiredElements: ["جسر", "غروب"],
-          tags: ["غروب", "مشهد خلاب", "حديث"],
+      {
+        stepNumber: 6,
+        title: "بحر البحر المتوسط",
+        type: "question",
+        coins: 30,
+        feature: "historical-questions",
+        questionData: {
+          question: "ما هو متوسط عمق البحر المتوسط قرب الإسكندرية؟",
+          correctAnswer: "1500-meters",
+          options: [
+            { id: "1500-meters", text: "١٥٠٠ متر" },
+            { id: "800-meters", text: "٨٠٠ متر" },
+            { id: "3000-meters", text: "٣٠٠٠ متر" },
+            { id: "500-meters", text: "٥٠٠ متر" },
+          ],
         },
       },
-    },
-    {
-      stepNumber: 12,
-      title: "وداع الإسكندرية",
-      type: "interactive",
-      coins: 85,
-      feature: "photography-challenges",
-      interactiveData: {
-        title: "ذكرى الإسكندرية النهائية",
-        description:
-          "التقط صورة أخيرة تجسد جوهر الإسكندرية - البحر، التاريخ، والثقافة.",
-        locationImage: "/locations/alexandria-view.jpg",
-        location: "أي مكان في الإسكندرية",
-        uploadType: "image",
-        reviewType: "manual",
-        validationCriteria: {
-          requiredElements: ["طابع إسكندراني"],
-          personal: true,
-          creative: true,
+      {
+        stepNumber: 7,
+        title: "نزهة الكورنيش",
+        type: "interactive",
+        coins: 45,
+        feature: "beaches",
+        interactiveData: {
+          title: "المشي على كورنيش الإسكندرية",
+          description:
+            "تمشى على الطريق الساحلي بطول ١٥ كيلومترًا مع إطلالات جميلة على البحر المتوسط.",
+          locationImage: "/locations/corniche.jpg",
+          location: "طريق الكورنيش، الإسكندرية",
+          uploadType: "image",
+          reviewType: "auto",
+          validationCriteria: {
+            requiredElements: ["بحر", "طريق"],
+            timeOfDay: "day",
+          },
         },
       },
-    },
-  ],
-}
-
+      {
+        stepNumber: 8,
+        title: "قصر المنتزه",
+        type: "question",
+        coins: 40,
+        feature: "historical-questions",
+        questionData: {
+          question: "أي ملك مصري بنى قصر المنتزه كمقر صيفي؟",
+          correctAnswer: "king-farouk",
+          options: [
+            { id: "king-farouk", text: "الملك فاروق" },
+            { id: "king-fuad", text: "الملك فؤاد الأول" },
+            { id: "mohamed-ali", text: "محمد علي" },
+            { id: "ismail-pasha", text: "إسماعيل باشا" },
+          ],
+        },
+      },
+      {
+        stepNumber: 9,
+        title: "حدائق المنتزه",
+        type: "interactive",
+        coins: 50,
+        feature: "photography-spots",
+        interactiveData: {
+          title: "زيارة حدائق قصر المنتزه",
+          description:
+            "استكشف الحدائق الجميلة لقصر المنتزه بمزيجه من العمارة التركية والفلورنسية.",
+          locationImage: "/locations/montaza.jpg",
+          location: "المنتزه، الإسكندرية",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["قصر", "حديقة"],
+            tags: ["ملكي", "حديقة", "تاريخي"],
+          },
+        },
+      },
+      {
+        stepNumber: 10,
+        title: "المنارة القديمة",
+        type: "question",
+        coins: 45,
+        feature: "historical-questions",
+        questionData: {
+          question: "كم كان ارتفاع منارة الإسكندرية القديمة (فاروس)؟",
+          correctAnswer: "100-130-meters",
+          options: [
+            { id: "100-130-meters", text: "١٠٠-١٣٠ متر" },
+            { id: "70-90-meters", text: "٧٠-٩٠ متر" },
+            { id: "150-180-meters", text: "١٥٠-١٨٠ متر" },
+            { id: "50-70-meters", text: "٥٠-٧٠ متر" },
+          ],
+        },
+      },
+      {
+        stepNumber: 11,
+        title: "غروب جسر ستانلي",
+        type: "interactive",
+        coins: 65,
+        feature: "photography-challenges",
+        interactiveData: {
+          title: "التقاط جسر ستانلي عند الغروب",
+          description:
+            "التقط صورة لجسر ستانلي الشهير أثناء غروب الشمس مع البحر المتوسط في الخلفية.",
+          locationImage: "/locations/stanley-bridge.jpg",
+          location: "ستانلي، الإسكندرية",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["جسر", "غروب"],
+            tags: ["غروب", "مشهد خلاب", "حديث"],
+          },
+        },
+      },
+      {
+        stepNumber: 12,
+        title: "وداع الإسكندرية",
+        type: "interactive",
+        coins: 85,
+        feature: "photography-challenges",
+        interactiveData: {
+          title: "ذكرى الإسكندرية النهائية",
+          description:
+            "التقط صورة أخيرة تجسد جوهر الإسكندرية - البحر، التاريخ، والثقافة.",
+          locationImage: "/locations/alexandria-view.jpg",
+          location: "أي مكان في الإسكندرية",
+          uploadType: "image",
+          reviewType: "manual",
+          validationCriteria: {
+            requiredElements: ["طابع إسكندراني"],
+            personal: true,
+            creative: true,
+          },
+        },
+      },
+    ],
+  },
 ];
 
 export const featuresEn = [
