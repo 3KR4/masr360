@@ -10,7 +10,6 @@ import Navigations from "@/components/Navigations";
 import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice";
 import ReviewSection from "@/components/reviews/ReviewSection";
-import { getService } from "@/services/api/getService";
 import useTranslate from "@/Contexts/useTranslation";
 import {
   productCategoriesAr,

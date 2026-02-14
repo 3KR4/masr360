@@ -83,7 +83,7 @@ header nav > ul > li:hover .page-route {
   color: var(--main-color);
 }
 header nav ul li:hover,
-header nav ul li.active {
+header nav li.active {
   color: var(--main-color);
 }
 
@@ -110,27 +110,31 @@ header .routs-menu {
   position: absolute;
   top: 71px;
   left: 50%;
-
   background: var(--body-color);
   width: 80%;
   transform: translateX(-50%);
   border-radius: 0 0 22px 22px;
   border: 1px solid var(--border-color);
   border-top: 0;
-  transition:
-    visibility 0.3s,
-    opacity 0.3s,
-    z-index 0.3s;
 }
-header:has(nav li:hover) .routs-menu,
+header:has(li.has-menu:hover) .routs-menu,
 .routs-menu:hover {
   visibility: visible;
   z-index: 1;
   opacity: 1;
+  transition:
+    visibility 0.5s,
+    opacity 0.5s,
+    z-index 0.5s;
 }
-
-header .routs-menu:not(:has(.main-button)) {
-  padding: 30px 0;
+header .routs-menu::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
 }
 header .routs-menu .container {
   align-items: center;
@@ -172,7 +176,8 @@ header .routs-menu .container > div a {
   transition: all 0.3s;
   color: var(--paragraph);
 }
-header .routs-menu .container > div a:hover {
+header .routs-menu .container > div:hover a,
+header .routs-menu .container > div:hover svg {
   color: var(--main-color);
 }
 header .routs-menu .container > div .main-button,

@@ -5,7 +5,6 @@ import "@/styles/pages/games.css";
 
 import CardItem from "@/components/CardItem";
 import { FaArrowRight } from "react-icons/fa6";
-import { getService } from "@/services/api/getService";
 import useTranslate from "@/Contexts/useTranslation";
 import { gamesEn, gamesAr } from "@/data";
 import { mainContext } from "@/Contexts/mainContext";

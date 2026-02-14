@@ -8,7 +8,6 @@ import Rating from "@mui/material/Rating";
 import { FaHeart } from "react-icons/fa";
 import { placesAr, placesEn } from "@/data";
 import CardItem from "@/components/CardItem";
-import { getService } from "@/services/api/getService";
 import useTranslate from "@/Contexts/useTranslation";
 
 import { mainContext } from "@/Contexts/mainContext";

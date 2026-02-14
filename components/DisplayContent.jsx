@@ -6,7 +6,6 @@ import Pagination from "@/components/settings/Pagination";
 import "@/styles/pages/discover.css";
 import { IoIosClose } from "react-icons/io";
 import { mainContext } from "@/Contexts/mainContext";
-import { getService } from "@/services/api/getService";
 import {
   nightsEn,
   nightsAr,

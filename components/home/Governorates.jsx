@@ -3,7 +3,6 @@ import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import CardItem from "@/components/CardItem";
 import { FaArrowRight } from "react-icons/fa6";
-import { getService } from "@/services/api/getService";
 import useTranslate from "@/Contexts/useTranslation";
 import { governoratesAr, governoratesEn } from "@/data";
 import { mainContext } from "@/Contexts/mainContext";

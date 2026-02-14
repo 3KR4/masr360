@@ -7,9 +7,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import useTranslate from "@/Contexts/useTranslation";
 import { GrLanguage } from "react-icons/gr";
-
+import { useSearchParams, useRouter } from "next/navigation";
 import OtpInputs from "@/components/Otp";
 import { MdMarkEmailUnread } from "react-icons/md";
+import { useAuth } from "@/Contexts/AuthContext";
 
 import {
   LockKeyhole,
@@ -21,11 +22,20 @@ import {
   CircleAlert,
 } from "lucide-react";
 import { IoIosArrowDown, IoMdClose } from "react-icons/io";
+import {
+  loginUser,
+  registerUser,
+  sendVerficationMail,
+  verefyOtp,
+} from "@/services/auth/auth.service";
 
 export default function Register() {
+  const { login } = useAuth();
   const t = useTranslate();
   const auth = t.auth;
-
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const redirectTo = searchParams.get("redirect") || "/";
   const STEPS = {
     ACCOUNT: 1,
     LOGIN: 2,
@@ -33,15 +43,16 @@ export default function Register() {
     FORGET_PASS_VERIFY: 4,
     VIEW_OR_UPDATE_PASS: 5,
   };
-
+  const [registeredUser, setRegisteredUser] = useState(null);
   const options = useMemo(() => countryList().getData(), []);
   const [step, setStep] = useState(STEPS.ACCOUNT);
   const [activeNational, setActiveNational] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [countrySearch, setCountrySearch] = useState("");
   const filteredCountries = options.filter((x) =>
-    x.label.toLowerCase().includes(countrySearch.toLowerCase())
+    x.label.toLowerCase().includes(countrySearch.toLowerCase()),
   );
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -55,7 +66,7 @@ export default function Register() {
   const newPassValue = watch("newPass");
   const [passEye, setPassEye] = useState({ password: false, confirm: false });
 
-  const OTP_LENGTH = 5;
+  const OTP_LENGTH = 6;
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
 
   useEffect(() => {
@@ -64,17 +75,70 @@ export default function Register() {
     }
   }, [step]);
 
-  const onSubmit = (data) => {
-    if (step === STEPS.LOGIN) {
-      return;
-    }
-    if (step === STEPS.ACCOUNT) {
-      setStep(STEPS.EMAIL_VERIFY);
-      return;
-    }
-    if (step === STEPS.FORGET_PASS_VERIFY) {
-      setStep(STEPS.VIEW_OR_UPDATE_PASS);
-      return;
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      /* ===== LOGIN
+       ===== */
+      if (step === STEPS.LOGIN) {
+        const payload = {
+          email: data.email,
+          password: data.loginPassword,
+        };
+
+        const res = await loginUser(payload);
+        login({
+          user: res.data.user,
+          token: res.data.token,
+        });
+        router.push(redirectTo);
+        return;
+      }
+
+      /* ===== REGISTER ===== */
+      if (step === STEPS.ACCOUNT) {
+        const payload = {
+          username: data.fullname,
+          email: data.email,
+          password: data.password,
+          phoneNumber: data.phone,
+          location: selectedCountry,
+        };
+
+        const res1 = await registerUser(payload);
+        setRegisteredUser(res1.data.user);
+        const res2 = await sendVerficationMail({
+          email: res1.data.user.email,
+        });
+        if (res2) {
+          setStep(STEPS.EMAIL_VERIFY);
+        }
+
+        return;
+      }
+
+      /* ===== VERIFY OTP ===== */
+      if (step === STEPS.EMAIL_VERIFY) {
+        const code = otp.join("");
+        const res = await verefyOtp({
+          _id: registeredUser?.id,
+          otp: code,
+        });
+
+        if (res) {
+          login({
+            user: res.data.user,
+            token: res.data.token,
+          });
+          router.push(redirectTo);
+        }
+        return;
+      }
+    } catch (err) {
+      setLoading(false);
+      alert(err.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -306,7 +370,7 @@ export default function Register() {
                           setSelectedCountry(
                             selectedCountry === country.label
                               ? ""
-                              : country.label
+                              : country.label,
                           );
                           setActiveNational(false);
                           setCountrySearch("");
@@ -519,8 +583,8 @@ export default function Register() {
         )}
 
         {/* ================= SUBMIT BUTTON ================= */}
-        <button type="submit" className="main-button">
-          {buttonLabels[step]}
+        <button type="submit" className="main-button" disabled={loading}>
+          {loading ? <span class="loader"></span> : buttonLabels[step]}
         </button>
 
         {/* ================= SOCIAL LOGIN ================= */}

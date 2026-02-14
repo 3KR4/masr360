@@ -382,6 +382,29 @@ a {
   }
 }
 
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--main-color);
+  border-bottom-color: transparent !important;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  transition: 0.3s;
+}
+button:hover .loader {
+  border-color: white;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .card .actions-icon {
   z-index: 2;
   flex-direction: column;

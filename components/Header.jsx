@@ -22,10 +22,12 @@ import { GrLanguage } from "react-icons/gr";
 import MiniCart from "@/components/MiniCart";
 import { navLinks } from "@/data";
 import useTranslate from "@/Contexts/useTranslation";
+import { useAuth } from "@/Contexts/AuthContext";
 
 function Header() {
   const { screenSize, locale, toggleLocale } = useContext(mainContext);
   const t = useTranslate();
+  const { user, logout } = useAuth();
 
   const pathname = usePathname();
 
@@ -33,7 +35,6 @@ function Header() {
     setActiveNav(null);
   }, [pathname]);
 
-  const [isLogin, setIsLogin] = useState(true);
   const [activeNav, setActiveNav] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
@@ -76,9 +77,14 @@ function Header() {
         {navLinks.map((x, index) => (
           <li
             key={index}
-            className={activeNav === index ? "active" : ""}
-            onMouseEnter={() => setActiveNav(index)}
-            onMouseLeave={() => setActiveNav(null)}
+            className={`${activeNav === index ? "active" : ""} ${x.departments ? "has-menu": ""}`}
+            onMouseEnter={() => {
+              setActiveNav(index || 0);
+              console.log(index);
+            }}
+            onClick={() => {
+              screenSize !== "large" && setActiveNav(index || 0);
+            }}
           >
             {x.departments ? (
               <>
@@ -94,47 +100,47 @@ function Header() {
         ))}
 
         {/* Routes Menu */}
-        {navLinks[activeNav]?.departments && (
-          <div
-            className="routs-menu"
-            onMouseEnter={() => setActiveNav(activeNav)}
-            onMouseLeave={() => setActiveNav(null)}
-          >
-            <div className="container">
-              {navLinks[activeNav].departments.map((dept, index) => {
-                const Icon = dept.icon ? MdIcons[dept.icon] : null;
+        <div className="routs-menu">
+          <div className="container">
+            {navLinks[activeNav]?.departments?.map((dept, index) => {
+              const Icon = dept.icon ? MdIcons[dept.icon] : null;
+              return (
+                <div key={index}>
+                  <h4>
+                    {Icon && <Icon />}
+                    <Link href={dept.link}>{dept.name[locale]}</Link>
+                    <FaAngleRight className="arrow-right side-arrow" />
+                  </h4>
 
-                return (
-                  <div key={index}>
-                    <h4>
-                      {Icon && <Icon />}
-                      <Link href={dept.link}>{dept.name[locale]}</Link>
-                      <FaAngleRight className="arrow-right side-arrow" />
-                    </h4>
+                  {dept.categories && (
+                    <ul>
+                      {dept.categories.map((cat, idx) => (
+                        <li key={idx}>{cat[locale]}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
 
-                    {dept.categories && (
-                      <ul>
-                        {dept.categories.map((cat, idx) => (
-                          <li key={idx}>{cat[locale]}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                );
-              })}
-
-              <Link href={navLinks[activeNav].link} className="main-button">
-                {locale === "ar" ? "عرض الكل" : "See All"}
-              </Link>
-            </div>
+            <Link
+              href={navLinks[activeNav]?.link || "/"}
+              className="main-button"
+            >
+              {locale === "ar" ? "عرض الكل" : "See All"}
+            </Link>
           </div>
-        )}
+        </div>
       </ul>
     </nav>
   );
 
   return (
-    <header>
+    <header
+      onMouseLeave={() => {
+        setActiveNav(null);
+      }}
+    >
       <div className="container">
         <Link href="/" className="logo">
           <Image src={`/logo.png`} fill alt={t.header.logo_alt} />
@@ -169,7 +175,7 @@ function Header() {
               </Link>
             </div>
           </div>
-          {isLogin ? (
+          {user ? (
             <>
               <button className="btn cart">
                 <FaCartShopping title={t.header.cart} />
@@ -178,7 +184,7 @@ function Header() {
               <button className="btn user">
                 <FaUser title={t.header.user_menu} />
                 <div className="userMenu menu">
-                  <div className="top">{t.header.welcome_user}</div>
+                  <div className="top">{user?.username}</div>
                   <ul>
                     <li>
                       <Link href={`/booking`}>{t.header.my_bookings}</Link>
@@ -197,10 +203,7 @@ function Header() {
                       <GrLanguage />
                       {t.header.change_language}
                     </li>
-                    <li
-                      className="not-link danger"
-                      onClick={() => setIsLogin(false)}
-                    >
+                    <li className="not-link danger" onClick={logout}>
                       <MdLogout />
                       {t.header.logout}
                     </li>
@@ -216,7 +219,10 @@ function Header() {
                   {locale === "en" ? t.header.english : t.header.arabic}
                 </span>
               </button>
-              <Link href={"/register"} className="main-button">
+              <Link
+                href={`/register?redirect=${pathname}`}
+                className="main-button"
+              >
                 {t.header.sign_up}
               </Link>
             </>

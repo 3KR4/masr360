@@ -5,7 +5,6 @@ import "@/styles/pages/discover.css";
 import DisplayContent from "@/components/DisplayContent";
 import { useParams } from "next/navigation";
 import { useState, useEffect, useContext } from "react";
-import { getService } from "@/services/api/getService";
 import { mainContext } from "@/Contexts/mainContext";
 
 import useTranslate from "@/Contexts/useTranslation";

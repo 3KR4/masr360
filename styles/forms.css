@@ -141,6 +141,12 @@ body:has(.form-holder) footer {
   font-size: 14px;
   font-weight: 700;
   border-radius: 10px !important;
+  color: var(--paragraph);
+      background: var(--second-color);
+}
+.form-holder form .main-button:hover {
+  background: var(--main-color);
+  color: white;
 }
 .form-holder.create-ad form .main-button {
   margin-top: 0;
@@ -319,11 +325,11 @@ p.have-problem {
   max-height: 256px;
 }
 .otp-wrapper {
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
-  display: grid;
-  width: 65%;
-  margin: 0 auto;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    width: 65%;
+    margin: 6px auto 0;
+    display: grid;
 }
 .otp-wrapper .box.forInput {
   aspect-ratio: 1.2;

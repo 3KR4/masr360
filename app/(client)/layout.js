@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { MainProvider } from "@/Contexts/mainContext";
 import "@/styles/globals.css";
+import { AuthProvider } from "@/Contexts/AuthContext";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -51,9 +52,11 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
         <MainProvider>
-          <Header />
-          {children}
-          <Footer />
+          <AuthProvider>
+            <Header />
+            {children}
+            <Footer />
+          </AuthProvider>
         </MainProvider>
       </body>
     </html>
