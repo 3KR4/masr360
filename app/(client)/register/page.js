@@ -49,6 +49,7 @@ export default function Register() {
   const [activeNational, setActiveNational] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [countrySearch, setCountrySearch] = useState("");
+  const [userId, setUserId] = useState();
   const filteredCountries = options.filter((x) =>
     x.label.toLowerCase().includes(countrySearch.toLowerCase()),
   );
@@ -106,6 +107,7 @@ export default function Register() {
         };
 
         const res1 = await registerUser(payload);
+
         setRegisteredUser(res1.data.user);
         const res2 = await sendVerficationMail({
           email: res1.data.user.email,
@@ -121,7 +123,7 @@ export default function Register() {
       if (step === STEPS.EMAIL_VERIFY) {
         const code = otp.join("");
         const res = await verefyOtp({
-          _id: registeredUser?.id,
+          _id: registeredUser?.id || userId,
           otp: code,
         });
 
@@ -135,8 +137,18 @@ export default function Register() {
         return;
       }
     } catch (err) {
+      if (err.response.data.message == "user already registered" || err.response.data.message == "user is not verified") {
+        const res2 = await sendVerficationMail({
+          email: data.email,
+        });
+        if (res2) {
+          setUserId(res2.data.data.userId)
+          setStep(STEPS.EMAIL_VERIFY);
+        }
+      } else {
+        alert(err.response.data.message);
+      }
       setLoading(false);
-      alert(err.response.data.message);
     } finally {
       setLoading(false);
     }

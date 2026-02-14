@@ -14,7 +14,7 @@ html {
 }
 :root {
   --body-color: #ffffff;
-  --section-color: #f2f2f2;
+  --section-color: #f8f8f8;
   --main-color: #f3ae1c;
   --second-color: #ffe2b6;
   --hover-color: #e7ae34;
@@ -669,7 +669,7 @@ button:hover .loader {
   align-items: center;
   gap: 2px;
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
   margin: 2px 4px -6px;
 }
@@ -904,6 +904,7 @@ button:hover .loader {
   padding: 4px 8px;
   font-size: 12px;
   transition: 0.3s;
+  font-weight: 700;
   background: var(--section-color);
   color: var(--paragraph);
 }
