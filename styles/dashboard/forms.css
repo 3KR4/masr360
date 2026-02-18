@@ -15,6 +15,12 @@
 .dashboard form .row-holder.two-column {
   grid-template-columns: repeat(2, 1fr);
 }
+.dashboard form .row-holder:has(.lang-switch) {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
 .dashboard form .main-button[type="submit"] {
   height: 44px;
   padding: 0 20px;
@@ -397,4 +403,30 @@
   font-size: 12px;
   margin-bottom: 3px;
   display: block;
+}
+.lang-switch {
+  gap: 7px;
+  background: var(--section-color);
+  border: 1px solid var(--main-color);
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 5px;
+  width: 220px;
+}
+.lang-switch button {
+  cursor: pointer;
+  border: 1px solid var(--paragraph);
+  padding: 8px;
+  border-radius: 8px;
+  color: var(--title-color);
+  font-weight: 500;
+}
+.lang-switch button:hover {
+  background: var(--lighter-main-color-2);
+}
+.lang-switch button.active {
+  background: var(--main-color);
+  border-color: transparent;
+  color: #fff;
 }
