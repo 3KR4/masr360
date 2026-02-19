@@ -6,11 +6,13 @@ import Images from "@/components/dashboard/forms/Images";
 import { forms } from "@/Contexts/forms";
 import { create } from "@/services/govenorates/govenorates.service";
 import useTranslate from "@/Contexts/useTranslation";
+import { useRouter } from "next/navigation";
 
 export default function Governorate() {
   const { setisSubmited, images } = useContext(forms);
   const t = useTranslate();
 
+  const router = useRouter();
   const [curentCreateLocale, setCurentCreateLocale] = useState("en");
 
   const [translations, setTranslations] = useState({
@@ -62,7 +64,6 @@ export default function Governorate() {
 
     try {
       const formData = new FormData();
-
       formData.append("img", images[0]);
       formData.append("name", translations.en.name);
       formData.append("desc", translations.en.desc);
@@ -70,8 +71,8 @@ export default function Governorate() {
       formData.append(
         "translations",
         JSON.stringify({
-          EN: translations.en,
-          AR: translations.ar,
+          en: translations.en,
+          ar: translations.ar,
         }),
       );
 
@@ -80,6 +81,7 @@ export default function Governorate() {
 
       setisSubmited(true);
       alert("Governorate Created Successfully ✅");
+      router.push("/dashboard/governorates");
     } catch (error) {
       console.error(error);
       alert("Something went wrong ❌");

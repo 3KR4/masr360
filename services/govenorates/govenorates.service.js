@@ -10,8 +10,8 @@ export const update = (id, payload) => {
 export const remove = (id) => {
   return api.delete(ENDPOINTS.GOVS.DELETE(id));
 };
-export const getAll = (lang) => {
-  return api.get(ENDPOINTS.GOVS.GET_ALL(lang));
+export const getAll = (search = "", lang = "en") => {
+  return api.get(ENDPOINTS.GOVS.GET_ALL(search, lang));
 };
 export const getOne = (id) => {
   return api.get(ENDPOINTS.GOVS.GET_ONE(id));

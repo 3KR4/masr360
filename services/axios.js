@@ -4,7 +4,6 @@ const api = axios.create({
   baseURL: "https://masr360-backend-k8ir.vercel.app/api/v1",
 });
 
-// حط التوكن هنا
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 

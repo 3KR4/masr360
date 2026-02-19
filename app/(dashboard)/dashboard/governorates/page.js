@@ -12,29 +12,34 @@ import Link from "next/link";
 import { MdEdit } from "react-icons/md";
 import { FaPlaceOfWorship } from "react-icons/fa";
 import useTranslate from "@/Contexts/useTranslation";
+import { getAll } from "@/services/govenorates/govenorates.service";
 
 export default function Governorates() {
   const { locale, screenSize } = useContext(mainContext);
 
   const t = useTranslate();
   const [governorates, setgovernorates] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchgovernorates = async () => {
-      // try {
-      //   const { data } = await getService.getGovernorates(6);
-      //   setgovernorates(
-      //     data || locale == "en" ? governoratesEn : governoratesAr
-      //   );
-      // } catch (err) {
-      //   console.error("Failed to fetch governorates:", err);
-      //   setgovernorates(locale == "en" ? governoratesEn : governoratesAr);
-      // }
-      setgovernorates(locale == "en" ? governoratesEn : governoratesAr);
+      try {
+        setLoading(true);
+
+        const res = await getAll("",locale); // 👈 GET request
+
+        console.log("Response:", res);
+
+        setgovernorates(res.data || res); // حسب شكل الريسبونس عندك
+      } catch (error) {
+        console.error("Error fetching governorates:", error);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchgovernorates();
   }, [locale]);
-
   return (
     <div className="dash-holder">
       <div className="body">
@@ -61,14 +66,14 @@ export default function Governorates() {
           </div>
 
           <div className="table-items">
-            {governorates.slice(0, 7).map((item) => {
+            {governorates?.map((item) => {
               return (
-                <div key={item.id} className="table-item">
+                <div key={item?.id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
                       <Image
-                        src={item.image}
-                        alt={item.name}
+                        src={item?.img?.url}
+                        alt={item?.name}
                         fill
                         className="product-image"
                       />
@@ -76,9 +81,11 @@ export default function Governorates() {
 
                     <div className="item-details">
                       <Link href={`/`} className="item-name">
-                        {item.name}
+                        {item?.translations?.[locale]?.name}
                       </Link>
-                      <p className="description">{item.description}</p>
+                      <p className="description">
+                        {item?.translations?.[locale]?.desc}
+                      </p>
                     </div>
                   </div>
 
