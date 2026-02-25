@@ -27,8 +27,7 @@ const en = {
     support: "support",
     change_language: "Change Language",
     logout: "Logout",
-    english: "English",
-    arabic: "Arabic",
+
     sign_up: "Sign Up",
     home: "Home",
     tours: "Tours",
@@ -363,7 +362,8 @@ const en = {
       addSpecification: "Add specification",
 
       images: "Images",
-      imagesHint: "Click or drop images here",
+      imagesHint1: "Click or drop image here",
+      imagesHintmany: "Click or drop images here",
       clickHere: "Click here",
       dropHere: "Drop here",
 

@@ -17,13 +17,13 @@ function Products() {
       // try {
       //   const { data } = await getService.getProducts(6);
       //   setProducts(
-      //     data || locale == "en" ? productsEn : productsAr
+      //     data || locale == "EN" ? productsEn : productsAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch governorates:", err);
-      //   setProducts(locale == "en" ? productsEn : productsAr);
+      //   setProducts(locale == "EN" ? productsEn : productsAr);
       // }
-      setProducts(locale == "en" ? productsEn : productsAr);
+      setProducts(locale == "EN" ? productsEn : productsAr);
     };
     fetchproducts();
   }, [locale]);

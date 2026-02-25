@@ -24,9 +24,19 @@
 .dashboard form .main-button[type="submit"] {
   height: 44px;
   padding: 0 20px;
+  color: var(--paragraph);
+  background: var(--second-color);
+}
+.dashboard form .main-button[type="submit"]:hover {
+  color: white;
+  background: var(--main-color);
+}
+.dashboard form .main-button[type="submit"]:hover span {
+  color: white !important;
 }
 .dashboard form .main-button[type="submit"] span {
   text-transform: uppercase;
+  transition: 0.3s;
 }
 .box.forInput label {
   padding-left: 4px;
@@ -281,6 +291,7 @@
 .uploadlabel:hover h1,
 .uploadlabel.active h1 {
   opacity: 1;
+  cursor: inherit;
   font-size: 40px;
 }
 .uploadlabel:hover svg,
@@ -417,13 +428,13 @@
 .lang-switch button {
   cursor: pointer;
   border: 1px solid var(--paragraph);
-  padding: 8px;
+  color: var(--paragraph);
   border-radius: 8px;
-  color: var(--title-color);
-  font-weight: 500;
+  padding: 8px;
+  font-weight: 700;
 }
 .lang-switch button:hover {
-  background: var(--lighter-main-color-2);
+  background: var(--second-color);
 }
 .lang-switch button.active {
   background: var(--main-color);

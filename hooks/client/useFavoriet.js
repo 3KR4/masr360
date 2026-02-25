@@ -6,8 +6,8 @@ import { mainContext } from "@/Contexts/mainContext";
 export default function useFavoriet() {
   const { locale } = useContext(mainContext);
 
-  const products = locale === "en" ? productsEn : productsAr;
-  const places = locale === "en" ? placesEn : placesAr;
+  const products = locale === "EN" ? productsEn : productsAr;
+  const places = locale === "EN" ? placesEn : placesAr;
 
   const [favoritesProducts, setFavoritesProducts] = useState([]);
   const [favoritesPlaces, setFavoritesPlaces] = useState([]);
@@ -18,7 +18,7 @@ export default function useFavoriet() {
       products.slice(0, 4).map((product) => ({
         ...product,
         quantity: 1,
-      }))
+      })),
     );
 
     setFavoritesPlaces(places.slice(0, 3));

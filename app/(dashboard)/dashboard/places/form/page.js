@@ -33,9 +33,9 @@ export default function CreatePlace() {
   const [selectedGov, setSelectedGov] = useState(null);
 
   // ----------------- Data -----------------
-  const govs = locale === "en" ? govsEn : govsAr;
+  const govs = locale === "EN" ? govsEn : govsAr;
   const tourismCategories =
-    locale === "en" ? tourismCategoriesEn : tourismCategoriesAr;
+    locale === "EN" ? tourismCategoriesEn : tourismCategoriesAr;
 
   const subCategories = selectedCategory?.subcategories || [];
 

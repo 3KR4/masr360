@@ -36,7 +36,7 @@ export default function SingelGame() {
 
     // if (slug) fetchSingelGame();
     const cureentGame =
-      locale == "en"
+      locale == "EN"
         ? gamesEn.find((x) => x.id == slug)
         : gamesAr.find((x) => x.id == slug);
 
@@ -45,7 +45,7 @@ export default function SingelGame() {
     setGameReviews(reviews[0]);
   }, [slug, locale]);
 
-  // const features = locale == "en" ? featuresEn : featuresAr;
+  // const features = locale == "EN" ? featuresEn : featuresAr;
 
   return (
     <div className="game-page single-game container">
@@ -60,10 +60,7 @@ export default function SingelGame() {
 
       <div className="progress-holder">
         <div className="progress-bar">
-          <div
-            className="progress"
-            style={{ width: `60%` }}
-          ></div>
+          <div className="progress" style={{ width: `60%` }}></div>
         </div>
       </div>
 

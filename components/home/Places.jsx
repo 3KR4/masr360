@@ -28,7 +28,7 @@ function Places() {
       //   setPlaces([]);
       // }
 
-      setPlaces(locale == "en" ? placesEn : placesAr);
+      setPlaces(locale == "EN" ? placesEn : placesAr);
     };
     fetchPlaces();
   }, [locale]);

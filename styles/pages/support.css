@@ -70,10 +70,9 @@
 .support .box.forInput .inputHolder .holder input {
   padding-left: 10px;
 }
-[lang = "ar"] .support .box.forInput .inputHolder .holder input {
+[lang="AR"] .support .box.forInput .inputHolder .holder input {
   padding-right: 10px;
   padding-left: unset;
-
 }
 .support .error {
   margin: 0;

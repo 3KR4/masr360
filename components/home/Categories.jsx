@@ -40,7 +40,7 @@ function Categories() {
 
       <Swiper
         key={locale}
-        dir={locale === "ar" ? "rtl" : "ltr"}
+        dir={locale === "AR" ? "rtl" : "ltr"}
         ref={swiperRef}
         modules={[Autoplay, Pagination, EffectFade]}
         slidesPerView={5}

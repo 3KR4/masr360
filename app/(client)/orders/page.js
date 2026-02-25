@@ -14,8 +14,8 @@ function Orders() {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
 
-  const dateLocale = locale === "ar" ? "ar-EG" : "en-US";
-  const productsList = locale === "en" ? productsEn : productsAr;
+  const dateLocale = locale === "AR" ? "ar-EG" : "en-US";
+  const productsList = locale === "EN" ? productsEn : productsAr;
 
   return (
     <div className="orders">
@@ -46,7 +46,7 @@ function Orders() {
                 {orders.map((item) => {
                   // 🔹 Products of this order
                   const orderProducts = productsList.filter((p) =>
-                    item.cart.includes(p.id)
+                    item.cart.includes(p.id),
                   );
 
                   // 🔹 Translation keys
@@ -90,7 +90,7 @@ function Orders() {
                       <p className="total-quantity">
                         {t.orders.itemsCount.replace(
                           "{count}",
-                          item.totalItems
+                          item.totalItems,
                         )}
                       </p>
 
@@ -117,7 +117,7 @@ function Orders() {
                             month: "short",
                             day: "numeric",
                             year: "numeric",
-                          }
+                          },
                         )}
                       </div>
                     </div>

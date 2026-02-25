@@ -67,12 +67,12 @@ function Favorites() {
                   <div className="table-items">
                     {favoritesProducts.map((item) => {
                       const productCat =
-                        locale == "en"
+                        locale == "EN"
                           ? productCategoriesEn?.find(
-                              (x) => x.id == item?.category
+                              (x) => x.id == item?.category,
                             )
                           : productCategoriesAr?.find(
-                              (x) => x.id == item?.category
+                              (x) => x.id == item?.category,
                             );
                       return (
                         <div key={item?.id} className="table-item">
@@ -161,12 +161,12 @@ function Favorites() {
                   <div className="table-items forPlace">
                     {favoritesPlaces.map((item) => {
                       const placeGov =
-                        locale == "en"
+                        locale == "EN"
                           ? governoratesEn?.find(
-                              (x) => x.id == item?.governorate?.id
+                              (x) => x.id == item?.governorate?.id,
                             )
                           : governoratesAr?.find(
-                              (x) => x.id == item?.governorate?.id
+                              (x) => x.id == item?.governorate?.id,
                             );
                       return (
                         <div key={item?.id} className="table-item">

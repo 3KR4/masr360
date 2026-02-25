@@ -35,7 +35,7 @@ export default function DiscoverContent() {
 
     // if (slug) fetchSingelGame();
     const cureentGame =
-      locale == "en"
+      locale == "EN"
         ? gamesEn.find((x) => x.id == slug)
         : gamesAr.find((x) => x.id == slug);
 
@@ -44,7 +44,7 @@ export default function DiscoverContent() {
     setGameReviews(reviews[0]);
   }, [slug, locale]);
 
-  const features = locale == "en" ? featuresEn : featuresAr;
+  const features = locale == "EN" ? featuresEn : featuresAr;
 
   return (
     <div className="discover">
@@ -60,7 +60,14 @@ export default function DiscoverContent() {
       <div className="fluid-container big-holder for-games">
         <div className="holder">
           <div className="pruche-now">
-            {game && <CardItem key={game.id} item={game} type="game" previewGame={true}/>}
+            {game && (
+              <CardItem
+                key={game.id}
+                item={game}
+                type="game"
+                previewGame={true}
+              />
+            )}
           </div>
           <ul className="steps-list">
             {game?.steps.map((step, index) => {

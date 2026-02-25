@@ -26,8 +26,8 @@ export default function CreateNights() {
     formState: { errors },
   } = useForm();
   const tourismCategories =
-    locale == "en" ? tourismCategoriesEn : tourismCategoriesAr;
-  const govs = locale === "en" ? govsEn : govsAr;
+    locale == "EN" ? tourismCategoriesEn : tourismCategoriesAr;
+  const govs = locale === "EN" ? govsEn : govsAr;
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");

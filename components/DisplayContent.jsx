@@ -44,16 +44,16 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
     //   try {
     //     if (type === "gov")
     //       response = (await getService.getGovernorates()) || {
-    //         data: locale == "en" ? governoratesEn : governoratesAr,
+    //         data: locale == "EN" ? governoratesEn : governoratesAr,
     //       };
     //     else if (type === "place" && !isSharedData)
     //       response = (await getService.getPlaces()) || {
-    //         data: locale == "en" ? placesEn : placesAr,
+    //         data: locale == "EN" ? placesEn : placesAr,
     //       };
     //     else if (type === "product")
-    //       response = { data: locale == "en" ? productsEn : productsAr };
+    //       response = { data: locale == "EN" ? productsEn : productsAr };
     //     else if (type === "night")
-    //       response = { data: locale == "en" ? nightsEn : nightsAr };
+    //       response = { data: locale == "EN" ? nightsEn : nightsAr };
     //     else response = { data: shared };
 
     //     setData(response?.data || []);
@@ -64,17 +64,17 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
     // };
 
     if (type === "gov") {
-      response = locale === "en" ? governoratesEn : governoratesAr;
+      response = locale === "EN" ? governoratesEn : governoratesAr;
     } else if (type === "place" && !isSharedData) {
-      response = locale === "en" ? placesEn : placesAr;
+      response = locale === "EN" ? placesEn : placesAr;
     } else if (type === "place" && isSharedData) {
-      response = locale === "en" ? placesEn : placesAr;
+      response = locale === "EN" ? placesEn : placesAr;
     } else if (type === "product") {
-      response = locale === "en" ? productsEn : productsAr;
+      response = locale === "EN" ? productsEn : productsAr;
     } else if (type === "night") {
-      response = locale === "en" ? nightsEn : nightsAr;
+      response = locale === "EN" ? nightsEn : nightsAr;
     } else {
-      response = locale === "en" ? governoratesEn : governoratesAr;
+      response = locale === "EN" ? governoratesEn : governoratesAr;
     }
 
     setData(

@@ -53,7 +53,7 @@
   font-size: 60px;
   color: white;
 }
-[lang="ar"] .swiper .slide-content h1 {
+[lang="AR"] .swiper .slide-content h1 {
   margin-top: -13px;
 }
 .swiper .slide-content h2 {
@@ -62,10 +62,10 @@
   max-width: 55%;
   color: white;
 }
-[lang="en"] .swiper .slide-content h2 {
+[lang="EN"] .swiper .slide-content h2 {
   font-family: var(--font-poppins), sans-serif;
 }
-[lang="ar"] .swiper .slide-content h2 {
+[lang="AR"] .swiper .slide-content h2 {
   font-weight: 400;
 }
 .swiper .slide-content button {
@@ -192,7 +192,10 @@
 .governorates .grid-holder {
   grid-template-columns: repeat(3, 1fr);
 }
+.governorates.games .grid-holder {
+  grid-template-columns: repeat(2, 1fr);
 
+}
 /*! PLACES */
 
 .places .grid-holder {
@@ -296,7 +299,7 @@
   .swiper .slide-content h2 {
     font-size: 18px;
   }
-  [lang="ar"] .swiper .slide-content h2 {
+  [lang="AR"] .swiper .slide-content h2 {
     font-size: 20px;
   }
   .grid-holder {
@@ -369,7 +372,7 @@
   .swiper .slide-content h2 {
     font-size: 14px;
   }
-  [lang="ar"] .swiper .slide-content h2 {
+  [lang="AR"] .swiper .slide-content h2 {
     font-size: 19px;
   }
   .swiper .slide-content button {

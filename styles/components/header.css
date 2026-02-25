@@ -15,10 +15,11 @@ header .container {
 }
 header .logo {
   display: flex;
+  transform: translateY(5px);
 }
 header .logo img {
   cursor: pointer;
-  width: 102px !important;
+  width: 120px !important;
   position: relative !important;
 }
 header .container > .holder {
@@ -50,7 +51,7 @@ header nav > ul > li {
   cursor: pointer;
   align-items: center;
   gap: 3px;
-  padding: 28px 19px;
+  padding: 27.8px 19px;
   font-size: 14px;
   font-weight: 800;
   line-height: 1;
@@ -58,10 +59,10 @@ header nav > ul > li {
   position: relative;
   letter-spacing: 0.6px;
 }
-[lang="ar"] header nav > ul > li {
+[lang="AR"] header nav > ul > li {
   font-weight: 700;
 }
-[lang="ar"] header nav > ul > li > svg {
+[lang="AR"] header nav > ul > li > svg {
   transform: translateY(2px);
 }
 header nav > ul > li::before {
@@ -141,6 +142,7 @@ header .routs-menu .container {
   gap: 50px;
   justify-content: center;
   flex-wrap: wrap;
+  width: 100%;
 }
 header .routs-menu .container > div h4 {
   color: var(--main-color);
@@ -385,8 +387,8 @@ header .actions-btns a {
   display: flex;
   cursor: auto;
 }
-[lang="ar"] header .actions-btns .btn,
-[lang="ar"] header .actions-btns a {
+[lang="AR"] header .actions-btns .btn,
+[lang="AR"] header .actions-btns a {
   font-family: "Segoe UI";
 }
 header .actions-btns .search-holder .results a:not(.main-button) {
@@ -462,7 +464,7 @@ header .actions-btns .btn:hover .menu {
   visibility: visible;
   opacity: 1;
 }
-[lang="ar"] header .actions-btns .menu {
+[lang="AR"] header .actions-btns .menu {
   left: -20px;
   right: unset;
 }
@@ -489,7 +491,7 @@ header .actions-btns .userMenu .top {
   font-size: 17px;
   font-weight: 700;
 }
-[lang="ar"] header .actions-btns .userMenu .top {
+[lang="AR"] header .actions-btns .userMenu .top {
   text-align: right;
 }
 header .actions-btns .userMenu li {
@@ -540,7 +542,7 @@ header .actions-btns .userMenu .danger:hover svg {
   width: 19px !important;
   margin-right: 5px;
 }
-[lang="ar"] header .actions-btns .userMenu .danger:hover svg {
+[lang="AR"] header .actions-btns .userMenu .danger:hover svg {
   margin-right: unset;
   margin-left: 5px;
 }
@@ -567,7 +569,7 @@ header .cartMenu .info a {
   color: var(--paragraph);
   text-align: left;
 }
-[lang="ar"] header .cartMenu .info a {
+[lang="AR"] header .cartMenu .info a {
   text-align: right;
 }
 header .cartMenu .info a:hover {
@@ -675,11 +677,32 @@ header .cartMenu .btns a {
   header .actions-btns .menu {
     right: 0;
   }
+  .container,
+  .fluid-container {
+    width: 97% !important;
+  }
+  header .logo img {
+    width: 97px !important;
+  }
+  header nav > ul > li {
+    padding: 28.5px 14px;
+    font-size: 13px;
+  }
+  header .container {
+    gap: 6px;
+  }
+  header .actions-btns {
+    gap: 4px;
+  }
+  header .actions-btns .main-button {
+    padding: 10px;
+    font-size: 12px;
+  }
+  header .actions-btns button .lang-span {
+    padding: 7px;
+  }
 }
 @media (max-width: 1200px) {
-  header nav > ul > li {
-    padding: 28px 14px;
-  }
   header .routs-menu .container {
     gap: 25px;
   }
@@ -707,6 +730,9 @@ header .cartMenu .btns a {
   header .actions-btns .search-holder .input.active input {
     width: 130px;
     padding: 0 8px;
+  }
+  header nav > ul > li {
+    padding: 28.5px 6px;
   }
 }
 @media (max-width: 992px) {
@@ -763,7 +789,7 @@ header .cartMenu .btns a {
   header .actions-btns .menu {
     right: 0px;
   }
-  [lang="ar"] header .actions-btns .menu {
+  [lang="AR"] header .actions-btns .menu {
     left: 0px;
   }
 }

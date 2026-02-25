@@ -23,13 +23,13 @@ export default function Places() {
       // try {
       //   const { data } = await getService.getPlaces(6);
       //   setPlaces(
-      //     data || locale == "en" ? placesEn : placesAr
+      //     data || locale == "EN" ? placesEn : placesAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch governorates:", err);
-      //   setPlaces(locale == "en" ? placesEn : placesAr);
+      //   setPlaces(locale == "EN" ? placesEn : placesAr);
       // }
-      setPlaces(locale == "en" ? placesEn : placesAr);
+      setPlaces(locale == "EN" ? placesEn : placesAr);
     };
     fetchplaces();
   }, [locale]);
@@ -65,7 +65,7 @@ export default function Places() {
           <div className="table-items">
             {places.slice(0, 7).map((item) => {
               const placeGov =
-                locale == "en"
+                locale == "EN"
                   ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
                   : governoratesAr?.find((x) => x.id == item?.governorate?.id);
               return (
@@ -97,10 +97,7 @@ export default function Places() {
                     </h4>
                   </div>
 
-                  <Link
-                    href={`/discover/${placeGov?.id}`}
-                    className="link"
-                  >
+                  <Link href={`/discover/${placeGov?.id}`} className="link">
                     <FaLocationDot />
                     {placeGov?.name}
                   </Link>

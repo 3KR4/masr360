@@ -24,13 +24,13 @@ export default function Nights() {
       // try {
       //   const { data } = await getService.getNights(6);
       //   setNights(
-      //     data || locale == "en" ? nightsEn : nightsAr
+      //     data || locale == "EN" ? nightsEn : nightsAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch governorates:", err);
-      //   setNights(locale == "en" ? nightsEn : nightsAr);
+      //   setNights(locale == "EN" ? nightsEn : nightsAr);
       // }
-      setNights(locale == "en" ? nightsEn : nightsAr);
+      setNights(locale == "EN" ? nightsEn : nightsAr);
     };
     fetchnights();
   }, [locale]);
@@ -67,7 +67,7 @@ export default function Nights() {
           <div className="table-items">
             {nights.slice(0, 7).map((item) => {
               const placeGov =
-                locale == "en"
+                locale == "EN"
                   ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
                   : governoratesAr?.find((x) => x.id == item?.governorate?.id);
               return (
@@ -114,10 +114,7 @@ export default function Nights() {
                     </h4>
                   </div>
 
-                  <Link
-                    href={`/discover/${placeGov?.id}`}
-                    className="link"
-                  >
+                  <Link href={`/discover/${placeGov?.id}`} className="link">
                     <FaLocationDot />
                     {placeGov?.name}
                   </Link>

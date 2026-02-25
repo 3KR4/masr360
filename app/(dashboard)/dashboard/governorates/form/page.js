@@ -1,23 +1,34 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { CircleAlert } from "lucide-react";
 import "@/styles/dashboard/forms.css";
 import Images from "@/components/dashboard/forms/Images";
 import { forms } from "@/Contexts/forms";
-import { create } from "@/services/govenorates/govenorates.service";
+import {
+  create,
+  update,
+  getOne,
+  removeImage,
+} from "@/services/govenorates/govenorates.service";
 import useTranslate from "@/Contexts/useTranslation";
 import { useRouter } from "next/navigation";
-
+import { useNotification } from "@/Contexts/NotificationContext";
+import { useSearchParams } from "next/navigation";
 export default function Governorate() {
-  const { setisSubmited, images } = useContext(forms);
+  const { setisSubmited, images, setImages } = useContext(forms);
   const t = useTranslate();
+  const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("edit");
 
+  const [oldImage, setOldImage] = useState(null);
+  const { addNotification } = useNotification();
   const router = useRouter();
-  const [curentCreateLocale, setCurentCreateLocale] = useState("en");
+  const [curentCreateLocale, setCurentCreateLocale] = useState("EN");
 
   const [translations, setTranslations] = useState({
-    en: { name: "", desc: "" },
-    ar: { name: "", desc: "" },
+    EN: { name: "", desc: "" },
+    AR: { name: "", desc: "" },
   });
 
   const [errors, setErrors] = useState({});
@@ -35,15 +46,15 @@ export default function Governorate() {
   const validate = () => {
     const newErrors = {};
 
-    if (!translations.en.name.trim()) {
+    if (!translations.EN.name.trim()) {
       newErrors.enName = "English name is required";
-    } else if (translations.en.name.length < 3) {
+    } else if (translations.EN.name.length < 3) {
       newErrors.enName = "English name must be at least 3 characters";
     }
 
-    if (!translations.ar.name.trim()) {
+    if (!translations.AR.name.trim()) {
       newErrors.arName = "Arabic name is required";
-    } else if (translations.ar.name.length < 3) {
+    } else if (translations.AR.name.length < 3) {
       newErrors.arName = "Arabic name must be at least 3 characters";
     }
 
@@ -56,35 +67,103 @@ export default function Governorate() {
     return Object.keys(newErrors).length === 0;
   };
 
+  useEffect(() => {
+    if (!editId) return;
+
+    const fetchGovernorate = async () => {
+      try {
+        setLoading(true);
+
+        const res = await getOne(editId);
+        const gov = res.data.governorate;
+
+        // set translations
+        setTranslations({
+          EN: gov.translations?.EN || { name: gov.name, desc: gov.desc },
+          AR: gov.translations?.AR || { name: gov.name, desc: gov.desc },
+        });
+
+        // نحط الصورة القديمة في images
+        if (gov.img) {
+          setImages([gov.img]); // object فيه publicId + url
+          setOldImage(gov.img);
+        }
+      } catch (err) {
+        console.error(err);
+        addNotification({
+          type: "warning",
+          message: err.response?.data?.message || "Something went wrong ❌",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGovernorate();
+  }, [editId]);
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    setisSubmited(true);
 
     if (!validate()) return;
-    console.log(images[0]);
+
+    setLoading(true);
 
     try {
       const formData = new FormData();
-      formData.append("img", images[0]);
-      formData.append("name", translations.en.name);
-      formData.append("desc", translations.en.desc);
+
+      formData.append("name", translations.EN.name);
+      formData.append("desc", translations.EN.desc);
 
       formData.append(
         "translations",
         JSON.stringify({
-          en: translations.en,
-          ar: translations.ar,
+          EN: translations.EN,
+          AR: translations.AR,
         }),
       );
 
-      const response = await create(formData); // هنا بيجي الرد من السيرفر
-      console.log("Server Response:", response); // تشوف الرد هنا
+      // لو في صورة جديدة (File)
+      if (images[0] instanceof File) {
+        formData.append("img", images[0]);
+      }
 
-      setisSubmited(true);
-      alert("Governorate Created Successfully ✅");
+      if (editId) {
+        // لو الصورة القديمة كانت موجودة واتشالت
+        if (!images.length && oldImage?.publicId) {
+          await removeImage(oldImage.publicId, "governorate", editId);
+        }
+
+        await update(editId, formData); // نفس create عندك للـ update
+
+        addNotification({
+          type: "success",
+          message: "Governorate Updated Successfully",
+        });
+      } else {
+        formData.append("img", images[0]);
+
+        await create(formData);
+
+        addNotification({
+          type: "success",
+          message: "Governorate Created Successfully",
+        });
+      }
+
       router.push("/dashboard/governorates");
+      setImages([]);
+      setisSubmited(false);
     } catch (error) {
-      console.error(error);
-      alert("Something went wrong ❌");
+      console.log("error:", error);
+
+      addNotification({
+        type: "warning",
+        message: error.response?.data?.message || "Something went wrong ❌",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,20 +183,20 @@ export default function Governorate() {
                 <div className="holder">
                   <input
                     type="text"
-                    value={translations[curentCreateLocale].name}
+                    value={translations[curentCreateLocale]?.name}
                     onChange={(e) => handleChange("name", e.target.value)}
                     placeholder="Enter governorate name"
                   />
                 </div>
 
-                {errors.enName && curentCreateLocale === "en" && (
+                {errors.enName && curentCreateLocale === "EN" && (
                   <span className="error">
                     <CircleAlert size={16} />
                     {errors.enName}
                   </span>
                 )}
 
-                {errors.arName && curentCreateLocale === "ar" && (
+                {errors.arName && curentCreateLocale === "AR" && (
                   <span className="error">
                     <CircleAlert size={16} />
                     {errors.arName}
@@ -136,7 +215,7 @@ export default function Governorate() {
               <div className="inputHolder">
                 <div className="holder">
                   <textarea
-                    value={translations[curentCreateLocale].desc}
+                    value={translations[curentCreateLocale]?.desc}
                     onChange={(e) => handleChange("desc", e.target.value)}
                     placeholder="Enter description"
                   />
@@ -152,13 +231,12 @@ export default function Governorate() {
               </span>
             )}
           </div>
-
-          <Images />
+          <Images limit={1} />
         </div>
 
         <div className="row-holder">
           <div className="lang-switch">
-            {["en", "ar"].map((lng) => (
+            {["EN", "AR"].map((lng) => (
               <button
                 key={lng}
                 type="button"
@@ -170,8 +248,14 @@ export default function Governorate() {
             ))}
           </div>
 
-          <button className="main-button" type="submit">
-            <span>Create Governorate</span>
+          <button className="main-button" type="submit" disabled={loading}>
+            <span
+              className="loader"
+              style={{ opacity: loading ? "1" : "0" }}
+            ></span>
+            <span style={{ opacity: loading ? "0" : "1" }}>
+              Create Governorate
+            </span>
           </button>
         </div>
       </form>

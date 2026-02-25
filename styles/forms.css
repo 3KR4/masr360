@@ -21,6 +21,17 @@ body:has(.form-holder) footer {
   flex: 1;
   margin: 20px 0;
 }
+.form-holder a.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-holder .main-img {
+  margin: 7px 0 -7px;
+  height: unset !important;
+  width: 210px !important;
+  position: relative !important;
+}
 body:has(.form-holder) footer {
   margin-top: 0;
 }
@@ -56,8 +67,8 @@ body:has(.form-holder) footer {
   color: var(--paragraph);
   margin-bottom: -3px;
   line-height: 1.3;
-      font-size: 14px;
-    font-weight: 400;
+  font-size: 14px;
+  font-weight: 400;
 }
 .form-holder form .top svg {
   width: 38px;
@@ -78,10 +89,10 @@ body:has(.form-holder) footer {
 }
 .filters .btn h4 {
   color: var(--paragraph);
-    font-weight: 500;
+  font-weight: 500;
   padding: 0 9px 0 0;
 }
-[lang="ar"] .filters .btn h4 {
+[lang="AR"] .filters .btn h4 {
   padding: 0;
 }
 .form-holder form .steps-holder .step-wrapper {
@@ -162,7 +173,7 @@ body:has(.form-holder) footer {
   min-width: max-content;
   color: var(--paragraph);
   font-size: 15px;
-      font-weight: 500;
+  font-weight: 500;
 }
 .form-holder form .social-btns {
   grid-template-columns: repeat(2, 1fr);

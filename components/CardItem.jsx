@@ -35,12 +35,12 @@ export default function CardItem({ item, type, previewGame = false }) {
   };
 
   const currentGovernorate =
-    locale === "en"
+    locale === "EN"
       ? governoratesEn?.find((x) => x.id === item?.governorate?.id)
       : governoratesAr?.find((x) => x.id === item?.governorate?.id);
 
   const currentGamePlace =
-    locale === "en"
+    locale === "EN"
       ? governoratesEn?.find((x) => x.id === item?.place?.id)
       : governoratesAr?.find((x) => x.id === item?.place?.id);
 
@@ -119,7 +119,7 @@ export default function CardItem({ item, type, previewGame = false }) {
             <Link className="explore" href={`/discover/${item?.id}`}>
               {screenSize !== "small" ? t.mainCard.explore : ""}{" "}
               {item?.count || 0} {t.mainCard.places}{" "}
-              {locale === "en" ? (
+              {locale === "EN" ? (
                 <FaArrowRight className="arrow" />
               ) : (
                 <FaArrowLeft className="arrow" />

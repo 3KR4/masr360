@@ -36,8 +36,8 @@ export default function CreatePlace() {
   });
 
   const tourismCategories =
-    locale == "en" ? tourismCategoriesEn : tourismCategoriesAr;
-  const govs = locale === "en" ? govsEn : govsAr;
+    locale == "EN" ? tourismCategoriesEn : tourismCategoriesAr;
+  const govs = locale === "EN" ? govsEn : govsAr;
 
   const selectTicketType = (isFree) => {
     if (isFree) {
@@ -287,7 +287,7 @@ export default function CreatePlace() {
                             handleTicketChange(
                               group,
                               "egyptian",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                         />
@@ -299,7 +299,7 @@ export default function CreatePlace() {
                             handleTicketChange(
                               group,
                               "foreigner",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                         />

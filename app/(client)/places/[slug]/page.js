@@ -26,13 +26,13 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (slug) {
-      const places = locale === "en" ? placesEn : placesAr;
+      const places = locale === "EN" ? placesEn : placesAr;
       setPlace(places.find((x) => x.id == slug));
     }
   }, [slug, locale]);
 
   const placeGov =
-    locale === "en"
+    locale === "EN"
       ? governoratesEn.find((x) => x.id === place?.governorate?.id)
       : governoratesAr.find((x) => x.id === place?.governorate?.id);
 
@@ -99,7 +99,7 @@ export default function ProductDetails() {
 
           <Swiper
             key={locale}
-            dir={locale === "ar" ? "rtl" : "ltr"}
+            dir={locale === "AR" ? "rtl" : "ltr"}
             modules={[Autoplay, EffectFade]}
             slidesPerView={2}
             spaceBetween={8}

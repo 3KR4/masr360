@@ -24,13 +24,13 @@ function Events() {
       // try {
       //   const { data } = await getService.getEvents(6);
       //   setEvents(
-      //     data || locale == "en" ? eventsEn : eventsAr
+      //     data || locale == "EN" ? eventsEn : eventsAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch nights:", err);
-      //   setEvents(locale == "en" ? eventsEn : eventsAr);
+      //   setEvents(locale == "EN" ? eventsEn : eventsAr);
       // }
-      setEvents(locale == "en" ? eventsEn : eventsAr);
+      setEvents(locale == "EN" ? eventsEn : eventsAr);
     };
     fetchevents();
   }, [locale]);
@@ -64,7 +64,7 @@ function Events() {
 
       <Swiper
         key={locale}
-        dir={locale === "ar" ? "rtl" : "ltr"}
+        dir={locale === "AR" ? "rtl" : "ltr"}
         ref={swiperRef}
         modules={[Autoplay, Pagination, EffectFade]}
         slidesPerView={5}

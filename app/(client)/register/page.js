@@ -11,6 +11,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import OtpInputs from "@/components/Otp";
 import { MdMarkEmailUnread } from "react-icons/md";
 import { useAuth } from "@/Contexts/AuthContext";
+import { useNotification } from "@/Contexts/NotificationContext";
 
 import {
   LockKeyhole,
@@ -28,6 +29,7 @@ import {
   sendVerficationMail,
   verefyOtp,
 } from "@/services/auth/auth.service";
+import Link from "next/link";
 
 export default function Register() {
   const { login } = useAuth();
@@ -35,6 +37,7 @@ export default function Register() {
   const auth = t.auth;
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { addNotification } = useNotification();
   const redirectTo = searchParams.get("redirect") || "/";
   const STEPS = {
     ACCOUNT: 1,
@@ -88,11 +91,18 @@ export default function Register() {
         };
 
         const res = await loginUser(payload);
-        login({
-          user: res.data.user,
-          token: res.data.token,
-        });
-        router.push(redirectTo);
+        if (res) {
+          login({
+            user: res.data.user,
+            token: res.data.accessToken,
+          });
+          router.push(redirectTo);
+          addNotification({
+            type: "success",
+            message: "your account has been created successfully",
+          });
+        }
+
         return;
       }
 
@@ -133,20 +143,30 @@ export default function Register() {
             token: res.data.token,
           });
           router.push(redirectTo);
+          addNotification({
+            type: "success",
+            message: "Welcome back! 🎉 You've successfully logged in.",
+          });
         }
         return;
       }
     } catch (err) {
-      if (err.response.data.message == "user already registered" || err.response.data.message == "user is not verified") {
+      if (
+        err.response.data.message == "user already registered" ||
+        err.response.data.message == "user is not verified"
+      ) {
         const res2 = await sendVerficationMail({
           email: data.email,
         });
         if (res2) {
-          setUserId(res2.data.data.userId)
+          setUserId(res2.data.data.userId);
           setStep(STEPS.EMAIL_VERIFY);
         }
       } else {
-        alert(err.response.data.message);
+        addNotification({
+          type: "warning",
+          message: err.response.data.message,
+        });
       }
       setLoading(false);
     } finally {
@@ -188,6 +208,16 @@ export default function Register() {
           <MdMarkEmailUnread className="big-ico" />
         )}
 
+        {(step == 1 || step == 2) && (
+          <Link href="/" className="logo">
+            <Image
+              src="/main-logo.png"
+              alt="Masr360 Logo"
+              className={`main-img`}
+              fill
+            />
+          </Link>
+        )}
         {/* ================= TITLE & DESCRIPTION ================= */}
         <div className="top">
           <h1>{titles[step]}</h1>
@@ -375,6 +405,7 @@ export default function Register() {
                     filteredCountries.map((country, index) => (
                       <button
                         key={index}
+                        type="button"
                         className={`${
                           selectedCountry === country.label ? "active" : ""
                         }`}
@@ -596,7 +627,7 @@ export default function Register() {
 
         {/* ================= SUBMIT BUTTON ================= */}
         <button type="submit" className="main-button" disabled={loading}>
-          {loading ? <span class="loader"></span> : buttonLabels[step]}
+          {loading ? <span className="loader"></span> : buttonLabels[step]}
         </button>
 
         {/* ================= SOCIAL LOGIN ================= */}
@@ -619,7 +650,15 @@ export default function Register() {
                 />
                 {auth.google}
               </div>
-              <div className="btn">Facebook</div>
+              <div className="btn">
+                <Image
+                  src={`/facebook-icon.png`}
+                  width={22}
+                  height={22}
+                  alt="google icon"
+                />
+                Facebook
+              </div>
             </div>
           </>
         )}

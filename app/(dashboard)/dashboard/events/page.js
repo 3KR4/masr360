@@ -25,13 +25,13 @@ export default function Events() {
       // try {
       //   const { data } = await getService.getEvents(6);
       //   setEvents(
-      //     data || locale == "en" ? eventsEn : eventsAr
+      //     data || locale == "EN" ? eventsEn : eventsAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch governorates:", err);
-      //   setEvents(locale == "en" ? eventsEn : eventsAr);
+      //   setEvents(locale == "EN" ? eventsEn : eventsAr);
       // }
-      setEvents(locale == "en" ? eventsEn : eventsAr);
+      setEvents(locale == "EN" ? eventsEn : eventsAr);
     };
     fetchevents();
   }, [locale]);
@@ -73,7 +73,7 @@ export default function Events() {
           <div className="table-items">
             {events.slice(0, 7).map((item) => {
               const placeGov =
-                locale == "en"
+                locale == "EN"
                   ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
                   : governoratesAr?.find((x) => x.id == item?.governorate?.id);
               return (

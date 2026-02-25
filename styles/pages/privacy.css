@@ -47,13 +47,13 @@
   text-align: left;
   font-size: 16px;
 }
-[lang="ar"] .legal-document p {
+[lang="AR"] .legal-document p {
   text-align: right;
 }
 .legal-document ul {
   padding-left: 30px;
 }
-[lang="ar"] .legal-document ul {
+[lang="AR"] .legal-document ul {
   padding-left: unset;
   padding-right: 30px;
 }

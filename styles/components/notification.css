@@ -1,0 +1,148 @@
+.notification-holder {
+  position: fixed;
+  width: fit-content;
+  z-index: 200;
+  right: 12px;
+  top: 75px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  align-items: flex-end;
+  transition: 0.4s;
+}
+body.ar .notification-holder {
+  right: unset;
+  left: 12px;
+}
+.notification {
+  gap: 14px;
+  display: flex;
+  overflow: hidden;
+  width: fit-content;
+  align-items: center;
+  padding: 18px;
+  border-radius: 10px;
+  transform: translateX(100%) scale(0.8);
+  opacity: 0;
+  transition: 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+.notification span.before {
+  position: absolute;
+  width: 8px;
+  height: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 6px;
+  background-color: var(--title-color);
+}
+body.ar .notification span.before {
+  right: unset;
+  left: 0;
+}
+.notification.active span.before {
+  animation: whenNotficationIsAction 10s forwards;
+}
+@keyframes whenNotficationIsAction {
+  0% {
+    height: 0%;
+  }
+  100% {
+    height: 100%;
+  }
+}
+.notification.closing span.before {
+  animation: whenNotficationIsHide 10s forwards;
+}
+@keyframes whenNotficationIsHide {
+  0% {
+    height: 100%;
+  }
+  100% {
+    height: 0%;
+  }
+}
+
+.notification.closing {
+  transform: translateX(100%) scale(0.8);
+  opacity: 0;
+}
+.notification.active {
+  transform: translateX(0%) scale(1);
+  opacity: 1;
+}
+.notification .icon-holder {
+  position: relative;
+  display: flex;
+  height: 43px;
+  min-width: 43px;
+  scale: 1.25;
+}
+.notification .icon-holder .backSvg {
+  height: 100%;
+  width: 100%;
+  transform: translateY(3px);
+  color: #c81912;
+}
+.notification .icon-holder .backSvg {
+  height: 100%;
+  width: 100%;
+  transform: translateY(3px);
+  color: #c81912;
+}
+.notification .icon-holder svg:not(.backSvg) {
+  position: absolute;
+  color: white;
+  width: 60%;
+  height: 60%;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+}
+.notification .content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.notification .content h4 {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+.notification p {
+  color: white;
+  font-size: 15px;
+  max-width: 354px;
+}
+.notification .close {
+  width: 25px;
+  height: 25px;
+  background: transparent;
+  color: white;
+  padding: 3px;
+  align-self: flex-start;
+}
+.notification .close:hover {
+  color: white;
+}
+
+@media (max-width: 786px) {
+  .notification {
+    padding: 15px 12px;
+    gap: 8px;
+    right: 5px;
+    top: 60px;
+  }
+  .notification .icon-holder {
+    min-height: 37px;
+    max-height: 38px;
+    min-width: 37px;
+    max-width: 38px;
+    scale: unset;
+  }
+  .notification .text h4 {
+    font-size: 19px;
+  }
+  .notification p {
+    font-size: 14px;
+  }
+}

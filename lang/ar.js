@@ -27,8 +27,6 @@ const ar = {
     support: "الدعم الفني",
     change_language: "تغيير اللغة",
     logout: "تسجيل الخروج",
-    english: "الإنجليزية",
-    arabic: "العربية",
     sign_up: "انشاء حساب",
     home: "الصفحة الرئيسية",
     tours: "الجولات",
@@ -360,7 +358,8 @@ const ar = {
       addSpecification: "إضافة مواصفة",
 
       images: "الصور",
-      imagesHint: "اضغط أو اسحب الصور هنا",
+      imagesHint1: "اضغط أو اسحب الصورة هنا",
+      imagesHintmany: "اضغط أو اسحب الصور هنا",
       clickHere: "اضغط هنا",
       dropHere: "اترك هنا",
 

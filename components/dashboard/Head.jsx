@@ -51,7 +51,7 @@ function Head() {
   };
 
   /* ---------- Filters logic ---------- */
-  const filters = locale == "ar" ? filtersAr : filtersEn;
+  const filters = locale == "AR" ? filtersAr : filtersEn;
 
   const currentFilters =
     navigationitems.length == 0
@@ -84,7 +84,7 @@ function Head() {
 
   // ---------- Governorates ----------
   const citysData =
-    locale == "en"
+    locale == "EN"
       ? govsEn.map((name, index) => ({ id: index, name }))
       : govsAr.map((name, index) => ({ id: index, name }));
 
@@ -96,29 +96,29 @@ function Head() {
 
   // ---------- Categories ----------
   const tourismCategories =
-    locale == "en" ? tourismCategoriesEn : tourismCategoriesAr;
+    locale == "EN" ? tourismCategoriesEn : tourismCategoriesAr;
   const productCategories =
-    locale == "en" ? productCategoriesEn : productCategoriesAr;
+    locale == "EN" ? productCategoriesEn : productCategoriesAr;
 
   const cats = ["places_list", "events_list", "nights_list"].includes(pageKey)
     ? tourismCategories
     : pageKey == "products_list"
-    ? productCategories
-    : undefined;
+      ? productCategories
+      : undefined;
 
   const subCats = tourismCategories?.find(
-    (x) => x.name == selectedCats.cat.name
+    (x) => x.name == selectedCats.cat.name,
   )?.subcategories;
 
   const filteredGovs = citys?.filter((x) =>
-    x.name.toLowerCase().includes(catsSearch.toLowerCase())
+    x.name.toLowerCase().includes(catsSearch.toLowerCase()),
   );
 
   const filteredCats = cats?.filter((x) =>
-    x.name.toLowerCase().includes(catsSearch.toLowerCase())
+    x.name.toLowerCase().includes(catsSearch.toLowerCase()),
   );
   const filteredSubCats = subCats?.filter((x) =>
-    x.name.toLowerCase().includes(catsSearch.toLowerCase())
+    x.name.toLowerCase().includes(catsSearch.toLowerCase()),
   );
   return (
     <div className="head">
@@ -139,6 +139,7 @@ function Head() {
                 <IoIosClose
                   className="main-ico"
                   onClick={() => setSearchText("")}
+                  style={{padding: "0px"}}
                 />
               ) : (
                 <FaSearch
@@ -169,7 +170,7 @@ function Head() {
                       updateFilter(
                         "gov",
                         selectedCats.gov == x.id ? "" : x.id,
-                        "categories"
+                        "categories",
                       );
                       setActiveMenu(null);
                     }}
@@ -203,7 +204,7 @@ function Head() {
                       updateFilter(
                         "cat",
                         selectedCats.cat?.id == x.id ? null : x,
-                        "categories"
+                        "categories",
                       );
                       updateFilter("subCat", null, "categories");
                       setActiveMenu(null);
@@ -236,7 +237,7 @@ function Head() {
                       updateFilter(
                         "subCat",
                         selectedCats.subCat?.id == x.id ? null : x,
-                        "categories"
+                        "categories",
                       );
                       setActiveMenu(null);
                     }}

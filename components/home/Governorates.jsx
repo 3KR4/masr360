@@ -17,13 +17,13 @@ function Governorates() {
       // try {
       //   const { data } = await getService.getGovernorates(6);
       //   setgovernorates(
-      //     data || locale == "en" ? governoratesEn : governoratesAr
+      //     data || locale == "EN" ? governoratesEn : governoratesAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch governorates:", err);
-      //   setgovernorates(locale == "en" ? governoratesEn : governoratesAr);
+      //   setgovernorates(locale == "EN" ? governoratesEn : governoratesAr);
       // }
-      setgovernorates(locale == "en" ? governoratesEn : governoratesAr);
+      setgovernorates(locale == "EN" ? governoratesEn : governoratesAr);
     };
     fetchgovernorates();
   }, [locale]);

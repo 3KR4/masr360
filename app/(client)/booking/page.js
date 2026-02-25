@@ -19,7 +19,7 @@ import useTranslate from "@/Contexts/useTranslation";
 function Bookings() {
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
-  const dateLocale = locale === "ar" ? "ar-EG" : "en-US";
+  const dateLocale = locale === "AR" ? "ar-EG" : "en-US";
   return (
     <div className="booking">
       {bookings.length > 0 ? (
@@ -57,17 +57,17 @@ function Bookings() {
               <div className="table-items">
                 {bookings.map((item) => {
                   const place =
-                    locale == "en"
+                    locale == "EN"
                       ? placesEn?.find((x) => x.id == item.place.id)
                       : placesAr?.find((x) => x.id == item.place.id);
 
                   const placeGov =
-                    locale == "en"
+                    locale == "EN"
                       ? governoratesEn?.find(
-                          (x) => x.id == place?.governorate?.id
+                          (x) => x.id == place?.governorate?.id,
                         )
                       : governoratesAr?.find(
-                          (x) => x.id == place?.governorate?.id
+                          (x) => x.id == place?.governorate?.id,
                         );
 
                   return (
@@ -120,8 +120,8 @@ function Bookings() {
                         {screenSize === "small"
                           ? null
                           : item.peopleCount > 1
-                          ? t.booking.people
-                          : t.booking.person}
+                            ? t.booking.people
+                            : t.booking.person}
                       </p>
 
                       {/* الإجمالي */}
@@ -142,7 +142,7 @@ function Bookings() {
                             month: "short",
                             day: "numeric",
                             year: "numeric",
-                          }
+                          },
                         )}
                       </p>
 
@@ -157,7 +157,7 @@ function Bookings() {
                             month: "short",
                             day: "numeric",
                             year: "numeric",
-                          }
+                          },
                         )}
                       </p>
                     </div>

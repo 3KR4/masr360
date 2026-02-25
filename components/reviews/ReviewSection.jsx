@@ -9,7 +9,7 @@ import useTranslate from "@/Contexts/useTranslation";
 export default function ReviewSection({ reviews }) {
   const t = useTranslate();
   const { screenSize, locale } = useContext(mainContext);
-  const dateLocale = locale === "ar" ? "ar-EG" : "en-US";
+  const dateLocale = locale === "AR" ? "ar-EG" : "en-US";
 
   return (
     <div className="review-section">
@@ -35,7 +35,7 @@ export default function ReviewSection({ reviews }) {
             />
             <span className="count">
               {reviews?.overview?.finalRate}{" "}
-              {locale == "en"
+              {locale == "EN"
                 ? reviews.finalRate == 1
                   ? t.singelPages.star
                   : t.singelPages.stars
@@ -108,7 +108,7 @@ export default function ReviewSection({ reviews }) {
                   />
                   <span className="count">
                     ({x.rate}){" "}
-                    {locale == "en"
+                    {locale == "EN"
                       ? reviews.finalRate == 1
                         ? t.singelPages.star
                         : t.singelPages.stars

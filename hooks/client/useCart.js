@@ -6,7 +6,7 @@ import { mainContext } from "@/Contexts/mainContext";
 export default function useCart() {
   const { locale } = useContext(mainContext);
 
-  const products = locale === "en" ? productsEn : productsAr;
+  const products = locale === "EN" ? productsEn : productsAr;
 
   const [favorites, setFavorites] = useState([]);
 
@@ -16,7 +16,7 @@ export default function useCart() {
       products.slice(0, 6).map((product) => ({
         ...product,
         quantity: 1,
-      }))
+      })),
     );
   }, [locale]); // 👈 المفتاح هنا
 
@@ -25,8 +25,8 @@ export default function useCart() {
     if (newQuantity < 1) return;
     setFavorites((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
+        item.id === id ? { ...item, quantity: newQuantity } : item,
+      ),
     );
   };
 

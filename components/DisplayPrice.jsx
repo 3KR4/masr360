@@ -45,7 +45,7 @@ export default function DisplayPrice({
           <span className="new-price">${totalDiscounted}</span>
           <span className="old-price">${totalOriginal}</span>
           <span className="discount">
-            {locale == "ar" ? "- " : "-"}
+            {locale == "AR" ? "- " : "-"}
             {sale}% {t.mainCard.discount}
           </span>
         </p>

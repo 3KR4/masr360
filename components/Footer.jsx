@@ -12,19 +12,19 @@ export default function Footer() {
   return (
     <footer>
       {/* Background */}
-      <Image
+      {/* <Image
         src="/footer-bg1.png"
         alt="Footer Background"
         fill
         className="footer-bg"
-      />
+      /> */}
 
       {/* Description */}
       <p className="paragraph">{t.footer.description}</p>
 
       <div className="container">
         {/* Logo */}
-        <Image className="logo" src="/logo.png" alt="Masr360 Logo" fill />
+        <Image className="logo" src="/main-logo-mix-small.png" alt="Masr360 Logo" fill />
 
         <div className="hold">
           {/* Contact */}

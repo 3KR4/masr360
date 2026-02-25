@@ -1,62 +1,96 @@
-import React from "react";
-import { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { CircleAlert } from "lucide-react";
-import { FaCloudUploadAlt, FaHashtag, FaLink } from "react-icons/fa";
+import { FaCloudUploadAlt } from "react-icons/fa";
 import Image from "next/image";
 import { forms } from "@/Contexts/forms";
 import useTranslate from "@/Contexts/useTranslation";
 
-function Images() {
+function Images({ limit = 5 }) {
   const t = useTranslate();
   const { images, setImages, isSubmited } = useContext(forms);
 
   const inputFileRef = useRef(null);
   const [isDrag, setIsDrag] = useState(false);
 
+  // ✅ Add images with limit control
+  const addImages = (newFiles) => {
+    setImages((prevImages) => {
+      const availableSlots = limit - prevImages.length;
+
+      if (availableSlots <= 0) return prevImages;
+
+      const filesToAdd = newFiles.slice(0, availableSlots);
+
+      return [...prevImages, ...filesToAdd];
+    });
+  };
+
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDrag(false);
+
     const files = Array.from(e.dataTransfer.files);
     const imageFiles = files.filter((file) => file.type.startsWith("image/"));
-    setImages((prevImages) => [...prevImages, ...imageFiles]);
+
+    addImages(imageFiles);
   };
 
   const handleInputChange = (e) => {
     const files = Array.from(e.target.files);
     const imageFiles = files.filter((file) => file.type.startsWith("image/"));
-    setImages((prevImages) => [...prevImages, ...imageFiles]);
+
+    addImages(imageFiles);
   };
 
   const handleRemoveImage = (index) => {
-    setImages((prevImages) => {
-      const updatedImages = prevImages.filter((_, i) => i !== index);
-      return updatedImages;
-    });
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  };
+  const isLimitReached = images.length >= limit;
+  const getImageSrc = (image) => {
+    if (!image) return "";
+    if (image.url) return image.url; // صورة قديمة من السيرفر
+    if (image instanceof File) return URL.createObjectURL(image); // صورة جديدة
+    return "";
   };
   return (
     <div className="box forInput">
-      <label htmlFor="">{t.dashboard.forms.images}</label>
+      <label>
+        {t.dashboard.forms.images}
+        <span
+          style={{
+            marginLeft: "10px",
+            fontSize: "14px",
+          }}
+        >
+          {images.length} / {limit}
+        </span>
+      </label>
+
       <div className="productImages">
         <div
-          className={`uploadlabel ${isDrag ? "active" : null}`}
+          className={`uploadlabel ${isDrag ? "active" : ""} ${
+            isLimitReached ? "disabled" : ""
+          }`}
           style={{
-            height: `${
-              images.length === 0 && isSubmited
-                ? ""
-                : images.length === 0
-                ? "100%"
-                : ""
-            }`,
+            height: images.length === 0 && !isSubmited ? "100%" : "",
             border: `2px dashed ${
               images.length === 0 && isSubmited ? "#f43521" : "#a6a6a6"
             }`,
+            opacity: isLimitReached ? 0.6 : 1,
+            cursor: isLimitReached ? "not-allowed" : "pointer",
           }}
-          onClick={() => inputFileRef.current.click()}
+          onClick={() => {
+            if (!isLimitReached) {
+              inputFileRef.current.click();
+            }
+          }}
           onDrop={handleDrop}
           onDragOver={(e) => {
-            e.preventDefault();
-            setIsDrag(true);
+            if (!isLimitReached) {
+              e.preventDefault();
+              setIsDrag(true);
+            }
           }}
         >
           <FaCloudUploadAlt
@@ -64,21 +98,30 @@ function Images() {
               color: images.length === 0 && isSubmited ? "red" : "#a6a6a6",
             }}
           />
+
           <p
             style={{
               color: images.length === 0 && isSubmited ? "red" : "#9b9b9b",
             }}
           >
-            {t.dashboard.forms.imagesHint}
+            {limit == 1
+              ? t.dashboard.forms.imagesHint1
+              : t.dashboard.forms.imagesHintmany}
           </p>
+
           <h1
             style={{
               color: images.length === 0 && isSubmited ? "#df3a3a" : "#9b9b9b",
             }}
           >
-            {isDrag ? t.dashboard.forms.dropHere : t.dashboard.forms.clickHere}
+            {isLimitReached
+              ? t.dashboard.forms.limitReached || "Limit reached"
+              : isDrag
+                ? t.dashboard.forms.dropHere
+                : t.dashboard.forms.clickHere}
           </h1>
         </div>
+
         <input
           type="file"
           accept="image/*"
@@ -87,29 +130,28 @@ function Images() {
           ref={inputFileRef}
           onChange={handleInputChange}
         />
+
         {images.length === 0 && isSubmited && (
           <span className="error">
             <CircleAlert />
             {t.dashboard.forms.errors.imagesRequired}
           </span>
         )}
+
         <div className="imgHolder">
           {images.map((image, index) => (
             <div className="uploaded" key={index}>
               <Image
-                src={
-                  typeof image === "string"
-                    ? image
-                    : image?.url
-                    ? image.url
-                    : URL.createObjectURL(image)
-                }
-                alt={image.originalname || image.name || `Image-${index}`}
+                src={getImageSrc(image)}
+                alt={`Image-${index}`}
                 width={150}
                 height={150}
               />
               <p>{index + 1}</p>
-              <IoClose onClick={() => handleRemoveImage(index)} />
+              <IoClose
+                onClick={() => handleRemoveImage(index)}
+                style={{ cursor: "pointer" }}
+              />
             </div>
           ))}
         </div>

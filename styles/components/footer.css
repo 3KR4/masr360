@@ -1,6 +1,6 @@
 footer {
   color: #fff;
-  background: #111;
+  background: rgb(10, 10, 10);
   flex-direction: column;
   gap: 30px;
   padding: 36px 0 25px;
@@ -28,7 +28,7 @@ footer .container {
 
 footer .logo {
   position: relative !important;
-  width: 192px !important;
+  width: 205px !important;
   height: unset !important;
   margin: auto;
 }
@@ -52,6 +52,9 @@ footer .hold {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+footer .navlinks {
+  height: 100%;
 }
 footer .about p {
   color: #959595;

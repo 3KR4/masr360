@@ -238,7 +238,7 @@
   padding: 13px;
   border-right: 0;
 }
-[lang="ar"] .coupon-section.box.forInput .inputHolder .holder input {
+[lang="AR"] .coupon-section.box.forInput .inputHolder .holder input {
   border-right: 1px solid #d4d4d4;
   border-radius: 0 11px 11px 0;
   border-left: 0;
@@ -256,7 +256,7 @@
   border: 1px solid var(--main-color);
   border-radius: 0 12px 12px 0;
 }
-[lang="ar"] .apply-coupon-btn {
+[lang="AR"] .apply-coupon-btn {
   border-radius: 12px 0 0 12px;
 }
 .apply-coupon-btn:hover {

@@ -33,13 +33,13 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (slug) {
-      const nights = locale === "en" ? nightsEn : nightsAr;
+      const nights = locale === "EN" ? nightsEn : nightsAr;
       setNights(nights.find((x) => x.id == slug));
     }
   }, [slug, locale]);
 
   const nightGov =
-    locale === "en"
+    locale === "EN"
       ? governoratesEn.find((x) => x.id == night?.governorate?.id)
       : governoratesAr.find((x) => x.id == night?.governorate?.id);
 
@@ -97,7 +97,7 @@ export default function ProductDetails() {
 
           <Swiper
             key={locale}
-            dir={locale === "ar" ? "rtl" : "ltr"}
+            dir={locale === "AR" ? "rtl" : "ltr"}
             modules={[Autoplay, EffectFade]}
             slidesPerView={2}
             spaceBetween={8}

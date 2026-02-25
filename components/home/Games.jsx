@@ -19,13 +19,13 @@ function Games() {
       // try {
       //   const { data } = await getService.getGames(6);
       //   setGames(
-      //     data || locale == "en" ? gamesEn : gamesAr
+      //     data || locale == "EN" ? gamesEn : gamesAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch governorates:", err);
-      //   setGames(locale == "en" ? gamesEn : gamesAr);
+      //   setGames(locale == "EN" ? gamesEn : gamesAr);
       // }
-      setGames(locale == "en" ? gamesEn : gamesAr);
+      setGames(locale == "EN" ? gamesEn : gamesAr);
     };
     fetchgames();
   }, [locale]);

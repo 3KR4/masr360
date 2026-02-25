@@ -12,34 +12,60 @@ import Link from "next/link";
 import { MdEdit } from "react-icons/md";
 import { FaPlaceOfWorship } from "react-icons/fa";
 import useTranslate from "@/Contexts/useTranslation";
-import { getAll } from "@/services/govenorates/govenorates.service";
+import { getAll, remove } from "@/services/govenorates/govenorates.service";
+import { dashboard } from "@/Contexts/dashboard";
+import { useNotification } from "@/Contexts/NotificationContext";
 
 export default function Governorates() {
   const { locale, screenSize } = useContext(mainContext);
-
+  const { searchText } = useContext(dashboard);
   const t = useTranslate();
   const [governorates, setgovernorates] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 7;
+  const [pageCount, setPageCount] = useState(0);
+  const { addNotification } = useNotification();
+  const fetchGovernorates = async () => {
+    try {
+      setLoading(true);
 
+      const res = await getAll(searchText, page, limit, locale);
+      const response = res.data[0];
+
+      setgovernorates(response.data);
+
+      const total = response.totalCount[0]?.count || 0;
+      setPageCount(Math.ceil(total / limit));
+    } catch (error) {
+      console.error("Error fetching governorates:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchgovernorates = async () => {
-      try {
-        setLoading(true);
+    fetchGovernorates();
+  }, [locale, page, searchText]);
 
-        const res = await getAll("",locale); // 👈 GET request
+  const deleteGovernorates = async (id) => {
+    try {
+      await remove(id);
 
-        console.log("Response:", res);
+      await fetchGovernorates(); // 🔥 ده الحل الصح
 
-        setgovernorates(res.data || res); // حسب شكل الريسبونس عندك
-      } catch (error) {
-        console.error("Error fetching governorates:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      addNotification({
+        type: "success",
+        message: "Governorate has been deleted successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      addNotification({
+        type: "warning",
+        message: error.response?.data?.message || "Something went wrong ❌",
+      });
+    }
+  };
 
-    fetchgovernorates();
-  }, [locale]);
   return (
     <div className="dash-holder">
       <div className="body">
@@ -67,8 +93,10 @@ export default function Governorates() {
 
           <div className="table-items">
             {governorates?.map((item) => {
+              console.log("xx", item);
+
               return (
-                <div key={item?.id} className="table-item">
+                <div key={item?._id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
                       <Image
@@ -81,10 +109,10 @@ export default function Governorates() {
 
                     <div className="item-details">
                       <Link href={`/`} className="item-name">
-                        {item?.translations?.[locale]?.name}
+                        {item?.translations?.[locale]?.name || item?.name}
                       </Link>
                       <p className="description">
-                        {item?.translations?.[locale]?.desc}
+                        {item?.translations?.[locale]?.desc || item?.desc}
                       </p>
                     </div>
                   </div>
@@ -96,23 +124,26 @@ export default function Governorates() {
                   </div>
                   <div className="item-overview">
                     <h4 className="green">
-                      83 <FaPlaceOfWorship />
+                      {item?.placesCount || 0} <FaPlaceOfWorship />
                     </h4>
                   </div>
 
                   <div className="actions">
-                    <Link href={`/discover/${item?.id}`}>
+                    <Link href={`/discover/${item?._id}`}>
                       <FaEye className="view" />
                     </Link>
                     <hr />
                     <Link
-                      href={`/dashboard/governorates/form?edit=${item?.id}`}
+                      href={`/dashboard/governorates/form?edit=${item?._id}`}
                     >
                       <MdEdit className="edit" />
                     </Link>
 
                     <hr />
-                    <FaTrashAlt className="delete" />
+                    <FaTrashAlt
+                      className="delete"
+                      onClick={() => deleteGovernorates(item?._id)}
+                    />
                   </div>
                 </div>
               );
@@ -120,10 +151,12 @@ export default function Governorates() {
           </div>
         </div>
         <Pagination
-          pageCount={50}
+          pageCount={pageCount}
           screenSize={screenSize}
-          onPageChange={() => {}}
           isDashBoard={true}
+          onPageChange={(selectedPage) => {
+            setPage(selectedPage.selected + 1);
+          }}
         />
       </div>
     </div>

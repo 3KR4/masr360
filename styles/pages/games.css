@@ -69,7 +69,7 @@
   font-size: 13px;
   font-weight: 800;
 }
-[lang = "ar"] .game .text-holder .holder .color {
+[lang="AR"] .game .text-holder .holder .color {
   font-weight: 700;
 }
 .game .text-holder .price-holder p {
@@ -212,25 +212,25 @@
   right: calc(50% + 34px);
 }
 
-[lang="ar"] .discover .steps-list .step.left .title {
+[lang="AR"] .discover .steps-list .step.left .title {
   right: unset;
   left: calc(50% + 34px);
   text-align: left;
 }
 
-[lang="ar"] .discover .steps-list .step.left .coins {
+[lang="AR"] .discover .steps-list .step.left .coins {
   left: unset;
   right: calc(50% + 34px);
 }
 
 /* خطوة يمين */
-[lang="ar"] .discover .steps-list .step.right .title {
+[lang="AR"] .discover .steps-list .step.right .title {
   left: unset;
   right: calc(50% + 34px);
   text-align: right;
 }
 
-[lang="ar"] .discover .steps-list .step.right .coins {
+[lang="AR"] .discover .steps-list .step.right .coins {
   right: unset;
   left: calc(50% + 34px);
 }

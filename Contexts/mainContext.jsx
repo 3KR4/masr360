@@ -9,7 +9,7 @@ export const MainProvider = ({ children }) => {
 
   const [screenSize, setScreenSize] = useState(null);
   const [isReady, setIsReady] = useState(false);
-  const [locale, setLocale] = useState("en");
+  const [locale, setLocale] = useState("EN");
 
   // Screen size
   useEffect(() => {
@@ -42,12 +42,12 @@ export const MainProvider = ({ children }) => {
     document.documentElement.setAttribute("lang", locale);
     document.documentElement.setAttribute(
       "dir",
-      locale === "ar" ? "rtl" : "ltr"
+      locale === "AR" ? "rtl" : "ltr",
     );
     localStorage.setItem("locale", locale);
   }, [locale]);
 
-  const toggleLocale = () => setLocale((prev) => (prev === "en" ? "ar" : "en"));
+  const toggleLocale = () => setLocale((prev) => (prev === "EN" ? "AR" : "EN"));
 
   // ✅ الشرط بعد كل الـ hooks
   if (!isReady) {

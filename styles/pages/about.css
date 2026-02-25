@@ -68,7 +68,7 @@
   left: -12px;
   transform: translateY(-50%);
 }
-[lang="ar"] .about .about-section li::before {
+[lang="AR"] .about .about-section li::before {
   left: unset;
   right: -15px;
 }
@@ -115,7 +115,7 @@
   left: -15px;
   transform: translateY(-50%);
 }
-[lang="ar"] .about .vision-mission .mission ul li:before {
+[lang="AR"] .about .vision-mission .mission ul li:before {
   left: unset;
   right: -15px;
 }

@@ -50,7 +50,7 @@ function Header() {
     if (screenSize === "large") return titleObj[locale];
 
     // اختصارات EN فقط
-    if (locale === "en") {
+    if (locale === "EN") {
       return shortTitlesEn[titleObj.en] || titleObj.en;
     }
 
@@ -77,7 +77,7 @@ function Header() {
         {navLinks.map((x, index) => (
           <li
             key={index}
-            className={`${activeNav === index ? "active" : ""} ${x.departments ? "has-menu": ""}`}
+            className={`${activeNav === index ? "active" : ""} ${x.departments ? "has-menu" : ""}`}
             onMouseEnter={() => {
               setActiveNav(index || 0);
               console.log(index);
@@ -127,7 +127,7 @@ function Header() {
               href={navLinks[activeNav]?.link || "/"}
               className="main-button"
             >
-              {locale === "ar" ? "عرض الكل" : "See All"}
+              {locale === "AR" ? "عرض الكل" : "See All"}
             </Link>
           </div>
         </div>
@@ -143,7 +143,7 @@ function Header() {
     >
       <div className="container">
         <Link href="/" className="logo">
-          <Image src={`/logo.png`} fill alt={t.header.logo_alt} />
+          <Image  src="/main-logo.png" fill alt={t.header.logo_alt} />
         </Link>
 
         {screenSize === "large" && nav()}
@@ -216,7 +216,7 @@ function Header() {
               <button className="lang" onClick={toggleLocale}>
                 <span className="lang-span">
                   <GrLanguage />
-                  {locale === "en" ? t.header.english : t.header.arabic}
+                  {locale === "EN" ? "EN" : "AR"}
                 </span>
               </button>
               <Link

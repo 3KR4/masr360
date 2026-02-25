@@ -29,7 +29,7 @@ export default function CreateProduct() {
   } = useForm();
 
   const tourismCategories =
-    locale == "en" ? tourismCategoriesEn : tourismCategoriesAr;
+    locale == "EN" ? tourismCategoriesEn : tourismCategoriesAr;
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -44,7 +44,6 @@ export default function CreateProduct() {
         return acc;
       }, {}),
     };
-
   };
 
   return (

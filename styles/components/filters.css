@@ -18,7 +18,7 @@
   height: 29px;
   border-radius: 5px;
 }
-[lang="ar"] .filters .close {
+[lang="AR"] .filters .close {
   right: unset;
   left: 15px;
 }
@@ -162,10 +162,10 @@
   display: flex;
   transition: 0.3s;
 }
-[lang="en"] .selected-filters p {
+[lang="EN"] .selected-filters p {
   font-family: var(--font-cinzel);
 }
-[lang="ar"] .selected-filters p {
+[lang="AR"] .selected-filters p {
   padding: 3px 10px 3px 4px;
 }
 .selected-filters p:hover {
@@ -256,7 +256,7 @@
   .filters.active {
     transform: translateX(0%) !important;
   }
-  [lang="ar"] .filters {
+  [lang="AR"] .filters {
     left: unset;
     right: 0;
     transform: translateX(100%);

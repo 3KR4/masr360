@@ -33,7 +33,7 @@ export default function GovernorateDetails() {
 
     if (slug) {
       // GetSinglegovernorate();
-      const governorates = locale == "en" ? governoratesEn : governoratesAr;
+      const governorates = locale == "EN" ? governoratesEn : governoratesAr;
       setgovernorate(governorates?.find((X) => X.id == slug));
     }
   }, [slug, locale]);
@@ -57,11 +57,11 @@ export default function GovernorateDetails() {
           {t.sectionsTitles.governorate_places(governorate?.name).subTitle}
         </p>
       </div>
-        <DisplayContent
-          type={"place"}
-          isSharedData={true}
-          shared={governorate?.id}
-        />
+      <DisplayContent
+        type={"place"}
+        isSharedData={true}
+        shared={governorate?.id}
+      />
     </div>
   );
 }

@@ -6,6 +6,8 @@ import "@/styles/globals.css";
 import "@/styles/dashboard/globals.css";
 import Head from "@/components/dashboard/Head";
 import { FormsCompsProvider } from "@/Contexts/forms";
+import { NotificationProvider } from "@/Contexts/NotificationContext";
+  import NotificationHolder from "@/components/settings/NotificationHolder";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -47,24 +49,27 @@ export const metadata = {
     apple: "/full-logo.jpg",
   },
 };
-
 export default function RootLayout({ children }) {
+
   return (
-    <html lang="en" className={`${poppins.variable} ${cinzel.variable}`}>
+    <html lang="EN" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
         <MainProvider>
-          <DashBoardProvider>
-            <FormsCompsProvider>
-              <div className="dashboard">
-                <SideNav />
+          <NotificationProvider>
+            <DashBoardProvider>
+              <FormsCompsProvider>
+                <div className="dashboard">
+                  <SideNav />
 
-                <div className="dash-holder">
-                  <Head />
-                  {children}
+                  <div className="dash-holder">
+                    <Head />
+                    {children}
+                  </div>
                 </div>
-              </div>
-            </FormsCompsProvider>
-          </DashBoardProvider>
+                <NotificationHolder />
+              </FormsCompsProvider>
+            </DashBoardProvider>
+          </NotificationProvider>
         </MainProvider>
       </body>
     </html>

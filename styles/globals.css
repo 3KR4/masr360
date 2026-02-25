@@ -30,7 +30,7 @@ body {
   min-height: 100vh;
   font-family: var(--font-cinzel), sans-serif;
 }
-[lang="ar"] body {
+[lang="AR"] body {
   font-family: "Segoe UI", sans-serif;
 }
 ::-webkit-scrollbar {
@@ -89,8 +89,8 @@ pre {
   color: var(--paragraph);
   font-size: 15px;
 }
-[lang="en"] p,
-[lang="en"] pre {
+[lang="EN"] p,
+[lang="EN"] pre {
   font-family: var(--font-poppins), sans-serif;
 }
 ul {
@@ -114,8 +114,8 @@ textarea {
   background: transparent;
   font-family: "Roboto";
 }
-[lang="ar"] input,
-[lang="ar"] textarea {
+[lang="AR"] input,
+[lang="AR"] textarea {
   font-family: "Segoe UI";
 }
 input:-webkit-autofill {
@@ -135,7 +135,7 @@ button {
   font-family: var(--font-cinzel), serif;
   font-weight: 900;
 }
-[lang="ar"] button {
+[lang="AR"] button {
   font-family: "Segoe UI";
 }
 a {
@@ -193,7 +193,7 @@ a {
   overflow: hidden;
 }
 
-[lang="ar"] .side-arrow {
+[lang="AR"] .side-arrow {
   transform: scaleX(-1);
 }
 
@@ -216,7 +216,7 @@ a {
   font-family: var(--font-cinzel), serif;
   font-weight: 900;
 }
-[lang="ar"] .main-button {
+[lang="AR"] .main-button {
   font-weight: 700;
   font-family: "Segoe UI", sans-serif;
 }
@@ -392,6 +392,7 @@ a {
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
   transition: 0.3s;
+  position: absolute;
 }
 button:hover .loader {
   border-color: white;
@@ -415,7 +416,7 @@ button:hover .loader {
   left: 11px;
   right: unset;
 }
-[lang="ar"] .card .actions-icon {
+[lang="AR"] .card .actions-icon {
   right: 11px;
   left: unset;
 }
@@ -656,7 +657,7 @@ button:hover .loader {
   height: 44px;
   padding-right: 10px;
 }
-[lang="ar"] .box.forInput .inputHolder .holder input {
+[lang="AR"] .box.forInput .inputHolder .holder input {
   padding-left: 10px;
   padding-right: unset;
   direction: rtl;
@@ -749,7 +750,7 @@ button:hover .loader {
   left: 0;
   box-shadow: 0 0 175px 62px #000;
 }
-[lang="ar"] .hero-image-holder .details::before {
+[lang="AR"] .hero-image-holder .details::before {
   left: unset;
   right: 0;
 }

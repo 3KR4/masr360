@@ -32,16 +32,16 @@ const Filters = ({
 
   const cats =
     catsType === "product"
-      ? locale == "en"
+      ? locale == "EN"
         ? productCategoriesEn
         : productCategoriesAr
       : catsType === "night"
-      ? locale == "en"
-        ? nightsCategoriesEn
-        : nightsCategoriesAr
-      : locale == "en"
-      ? tourismCategoriesEn
-      : tourismCategoriesAr;
+        ? locale == "EN"
+          ? nightsCategoriesEn
+          : nightsCategoriesAr
+        : locale == "EN"
+          ? tourismCategoriesEn
+          : tourismCategoriesAr;
   const handlePriceChange = (_, newValue) => {
     setPriceRange(newValue);
   };

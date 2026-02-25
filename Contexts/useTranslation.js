@@ -5,5 +5,5 @@ import { useContext } from "react";
 
 export default function useTranslate() {
   const { locale } = useContext(mainContext);
-  return locale === "ar" ? ar : en;
+  return locale === "AR" ? ar : en;
 }

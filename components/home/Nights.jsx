@@ -17,13 +17,13 @@ function Nights() {
       // try {
       //   const { data } = await getService.getNights(6);
       //   setNights(
-      //     data || locale == "en" ? nightsEn : nightsAr
+      //     data || locale == "EN" ? nightsEn : nightsAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch nights:", err);
-      //   setNights(locale == "en" ? nightsEn : nightsAr);
+      //   setNights(locale == "EN" ? nightsEn : nightsAr);
       // }
-      setNights(locale == "en" ? nightsEn : nightsAr);
+      setNights(locale == "EN" ? nightsEn : nightsAr);
     };
     fetchnights();
   }, [locale]);

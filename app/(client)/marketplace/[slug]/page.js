@@ -46,12 +46,12 @@ export default function ProductDetails() {
     // };
 
     // if (slug) fetchProduct();
-    const products = locale === "en" ? productsEn : productsAr;
+    const products = locale === "EN" ? productsEn : productsAr;
     setProduct(products.find((x) => x.id == slug));
   }, [slug, locale]);
 
   const productCat =
-    locale === "en"
+    locale === "EN"
       ? productCategoriesEn.find((x) => x.id === product?.category)
       : productCategoriesAr.find((x) => x.id === product?.category);
   return (

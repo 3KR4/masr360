@@ -60,7 +60,7 @@
   font-weight: 700;
   transform: translateX(12px);
 }
-[lang="ar"] .tableTitle {
+[lang="AR"] .tableTitle {
   transform: translateX(-12px);
 }
 .container:has(.table-container) {
@@ -88,7 +88,7 @@
   overflow: hidden;
   font-size: 14px;
 }
-[lang="ar"] .table-container p.description {
+[lang="AR"] .table-container p.description {
   text-align: right;
 }
 .table-container .price,

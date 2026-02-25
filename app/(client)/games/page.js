@@ -2,7 +2,7 @@
 import Image from "next/image";
 import "@/styles/pages/games.css";
 
-import React, { useContext,useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { gamesEn, gamesAr } from "@/data";
 import Navigations from "@/components/Navigations";
 import Pagination from "@/components/settings/Pagination";
@@ -21,13 +21,13 @@ function Page() {
       // try {
       //   const { data } = await getService.getGames(6);
       //   setGames(
-      //     data || locale == "en" ? gamesEn : gamesAr
+      //     data || locale == "EN" ? gamesEn : gamesAr
       //   );
       // } catch (err) {
       //   console.error("Failed to fetch games:", err);
-      //   setGames(locale == "en" ? gamesEn : gamesAr);
+      //   setGames(locale == "EN" ? gamesEn : gamesAr);
       // }
-      setGames(locale == "en" ? gamesEn : gamesAr);
+      setGames(locale == "EN" ? gamesEn : gamesAr);
     };
     fetchgames();
   }, [locale]);
@@ -57,7 +57,7 @@ function Page() {
         <div className="holder">
           <div className="grid-holder for-games">
             {games?.map((item) => (
-              <CardItem key={item.id} item={item} type={`game`}/>
+              <CardItem key={item.id} item={item} type={`game`} />
             ))}
           </div>
 

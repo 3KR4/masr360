@@ -19,7 +19,7 @@ function LandingSwiper() {
     <div className="landing">
       <Swiper
         key={locale}
-        dir={locale === "ar" ? "rtl" : "ltr"}
+        dir={locale === "AR" ? "rtl" : "ltr"}
         modules={[Autoplay, Pagination, EffectFade]}
         slidesPerView={1}
         loop={true}

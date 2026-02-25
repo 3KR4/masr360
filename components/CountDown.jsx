@@ -9,7 +9,7 @@ export default function CountDown({ eventStartAt, text = true }) {
 
   useEffect(() => {
     const monthNames = {
-      en: [
+      EN: [
         "January",
         "February",
         "March",
@@ -23,7 +23,7 @@ export default function CountDown({ eventStartAt, text = true }) {
         "November",
         "December",
       ],
-      ar: [
+      AR: [
         "يناير",
         "فبراير",
         "مارس",
@@ -40,7 +40,7 @@ export default function CountDown({ eventStartAt, text = true }) {
     };
 
     const labels = {
-      en: {
+      EN: {
         timeLeft: "Time Left",
         startedAt: "Event Started At",
         at: "at",
@@ -51,7 +51,7 @@ export default function CountDown({ eventStartAt, text = true }) {
         am: "AM",
         pm: "PM",
       },
-      ar: {
+      AR: {
         timeLeft: "الوقت المتبقي",
         startedAt: "بدأ الحدث في",
         at: "الساعة",
@@ -107,7 +107,7 @@ export default function CountDown({ eventStartAt, text = true }) {
   }, [eventStartAt, locale]);
 
   return (
-    <div className="countdown" dir={locale === "ar" ? "rtl" : "ltr"}>
+    <div className="countdown" dir={locale === "AR" ? "rtl" : "ltr"}>
       {text && <span>{label}: </span>}
       <span
         className={

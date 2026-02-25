@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { MainProvider } from "@/Contexts/mainContext";
 import "@/styles/globals.css";
 import { AuthProvider } from "@/Contexts/AuthContext";
+import { NotificationProvider } from "@/Contexts/NotificationContext";
+import NotificationHolder from "@/components/settings/NotificationHolder";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -48,15 +50,20 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
-    <html lang="en" className={`${poppins.variable} ${cinzel.variable}`}>
+    <html lang="EN" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
         <MainProvider>
-          <AuthProvider>
-            <Header />
-            {children}
-            <Footer />
-          </AuthProvider>
+          <NotificationProvider>
+            <AuthProvider>
+              <Header />
+
+              {children}
+              <Footer />
+              <NotificationHolder/>
+            </AuthProvider>
+          </NotificationProvider>
         </MainProvider>
       </body>
     </html>

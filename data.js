@@ -1,43 +1,43 @@
 export const navLinks = [
   {
     title: {
-      en: "Governorates",
-      ar: "المحافظات",
+      EN: "Governorates",
+      AR: "المحافظات",
     },
     link: "/discover",
     departments: [
       {
         name: {
-          en: "Cairo",
-          ar: "القاهرة",
+          EN: "Cairo",
+          AR: "القاهرة",
         },
         link: "/",
       },
       {
         name: {
-          en: "Alexandria",
-          ar: "الإسكندرية",
+          EN: "Alexandria",
+          AR: "الإسكندرية",
         },
         link: "/",
       },
       {
         name: {
-          en: "Giza",
-          ar: "الجيزة",
+          EN: "Giza",
+          AR: "الجيزة",
         },
         link: "/",
       },
       {
         name: {
-          en: "Luxor",
-          ar: "الأقصر",
+          EN: "Luxor",
+          AR: "الأقصر",
         },
         link: "/",
       },
       {
         name: {
-          en: "Aswan",
-          ar: "أسوان",
+          EN: "Aswan",
+          AR: "أسوان",
         },
         link: "/",
       },
@@ -45,29 +45,29 @@ export const navLinks = [
   },
   {
     title: {
-      en: "Places",
-      ar: "المزارات",
+      EN: "Places",
+      AR: "المزارات",
     },
     link: "/places",
     departments: [
       {
         name: {
-          en: "The Egyptian Museum",
-          ar: "المتحف المصري",
+          EN: "The Egyptian Museum",
+          AR: "المتحف المصري",
         },
         link: "/",
       },
       {
         name: {
-          en: "The Pyramids of Giza",
-          ar: "أهرامات الجيزة",
+          EN: "The Pyramids of Giza",
+          AR: "أهرامات الجيزة",
         },
         link: "/",
       },
       {
         name: {
-          en: "Abu Simbel Temples",
-          ar: "معابد أبو سمبل",
+          EN: "Abu Simbel Temples",
+          AR: "معابد أبو سمبل",
         },
         link: "/",
       },
@@ -75,39 +75,39 @@ export const navLinks = [
   },
   {
     title: {
-      en: "Masr Nights",
-      ar: "ليالي مصر",
+      EN: "Masr Nights",
+      AR: "ليالي مصر",
     },
     link: "/nights",
     departments: [
       {
         name: {
-          en: "Nile Parties",
-          ar: "حفلات النيل",
+          EN: "Nile Parties",
+          AR: "حفلات النيل",
         },
         icon: "MdOutlineCelebration",
         link: "/",
       },
       {
         name: {
-          en: "Safari Nights",
-          ar: "ليالي السفاري",
+          EN: "Safari Nights",
+          AR: "ليالي السفاري",
         },
         icon: "MdOutlineNightlife",
         link: "/",
       },
       {
         name: {
-          en: "Restaurants & Cafes",
-          ar: "مطاعم وكافيهات",
+          EN: "Restaurants & Cafes",
+          AR: "مطاعم وكافيهات",
         },
         icon: "MdRestaurant",
         link: "/",
       },
       {
         name: {
-          en: "Cultural Events",
-          ar: "فعاليات ثقافية",
+          EN: "Cultural Events",
+          AR: "فعاليات ثقافية",
         },
         icon: "MdLocalActivity",
         link: "/",
@@ -116,39 +116,39 @@ export const navLinks = [
   },
   {
     title: {
-      en: "Marketplace",
-      ar: "المتجر",
+      EN: "Marketplace",
+      AR: "المتجر",
     },
     link: "/marketplace",
     departments: [
       {
         name: {
-          en: "Souvenirs",
-          ar: "هدايا تذكارية",
+          EN: "Souvenirs",
+          AR: "هدايا تذكارية",
         },
         icon: "MdShoppingBag",
         link: "/",
       },
       {
         name: {
-          en: "Local Crafts",
-          ar: "حرف يدوية محلية",
+          EN: "Local Crafts",
+          AR: "حرف يدوية محلية",
         },
         icon: "MdHandyman",
         link: "/",
       },
       {
         name: {
-          en: "Art & Decor",
-          ar: "فن وديكور",
+          EN: "Art & Decor",
+          AR: "فن وديكور",
         },
         icon: "MdBrush",
         link: "/",
       },
       {
         name: {
-          en: "Traditional Clothes",
-          ar: "ملابس تراثية",
+          EN: "Traditional Clothes",
+          AR: "ملابس تراثية",
         },
         icon: "MdCheckroom",
         link: "/",
@@ -157,15 +157,15 @@ export const navLinks = [
   },
   {
     title: {
-      en: "Games",
-      ar: "الألعاب",
+      EN: "Games",
+      AR: "الألعاب",
     },
     link: "/games",
   },
   {
     title: {
-      en: "About Us",
-      ar: "من نحن",
+      EN: "About Us",
+      AR: "من نحن",
     },
     link: "/about",
   },
@@ -174,60 +174,60 @@ export const slides = [
   {
     image: "/Slides/slide-003.jpg",
     small: {
-      en: "Discover Egypt",
-      ar: "اكتشف مصر",
+      EN: "Discover Egypt",
+      AR: "اكتشف مصر",
     },
     paragraph: {
-      en: "Explore hidden gems, exciting night spots, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
-      ar: "اكتشف الأماكن الخفية، والسهرات المميزة، والثقافة المصرية الحقيقية مع Masr360. رحلتك تبدأ من هنا — ممتعة، محلية، ولا تُنسى.",
+      EN: "Explore hidden gems, exciting night spots, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
+      AR: "اكتشف الأماكن الخفية، والسهرات المميزة، والثقافة المصرية الحقيقية مع Masr360. رحلتك تبدأ من هنا — ممتعة، محلية، ولا تُنسى.",
     },
     title: {
-      en: "Live the Full Experience",
-      ar: "عِش التجربة كاملة",
+      EN: "Live the Full Experience",
+      AR: "عِش التجربة كاملة",
     },
     btnText: {
-      en: "Explore Now",
-      ar: "استكشف الآن",
+      EN: "Explore Now",
+      AR: "استكشف الآن",
     },
     link: "/discover",
   },
   {
     image: "/Slides/slide-005.jpg",
     small: {
-      en: "Play • Explore • Win",
-      ar: "العب • استكشف • اكسب",
+      EN: "Play • Explore • Win",
+      AR: "العب • استكشف • اكسب",
     },
     paragraph: {
-      en: "Complete fun challenges at iconic places, earn points, and unlock real rewards — restaurants, handcrafts, and more!",
-      ar: "أنجز تحديات ممتعة في أماكن أيقونية، اجمع النقاط، وافتح مكافآت حقيقية — مطاعم، حرف يدوية، والمزيد!",
+      EN: "Complete fun challenges at iconic places, earn points, and unlock real rewards — restaurants, handcrafts, and more!",
+      AR: "أنجز تحديات ممتعة في أماكن أيقونية، اجمع النقاط، وافتح مكافآت حقيقية — مطاعم، حرف يدوية، والمزيد!",
     },
     title: {
-      en: "Make Every Step a Game",
-      ar: "حوّل كل خطوة للعبة",
+      EN: "Make Every Step a Game",
+      AR: "حوّل كل خطوة للعبة",
     },
     btnText: {
-      en: "See Events",
-      ar: "شاهد الفعاليات",
+      EN: "See Events",
+      AR: "شاهد الفعاليات",
     },
     link: "/nights",
   },
   {
     image: "/Slides/slide-001.jpg",
     small: {
-      en: "Explore Egypt Differently",
-      ar: "اكتشف مصر بشكل مختلف",
+      EN: "Explore Egypt Differently",
+      AR: "اكتشف مصر بشكل مختلف",
     },
     paragraph: {
-      en: "Find hidden gems, unique experiences, and special rewards across all Egyptian governorates. Masr360 is your smart guide to explore, play, and enjoy every part of Egypt.",
-      ar: "اكتشف أماكن خفية، وتجارب فريدة، ومكافآت مميزة في جميع محافظات مصر. Masr360 هو دليلك الذكي للاستكشاف واللعب والاستمتاع بكل جزء من مصر.",
+      EN: "Find hidden gems, unique experiences, and special rewards across all Egyptian governorates. Masr360 is your smart guide to explore, play, and enjoy every part of Egypt.",
+      AR: "اكتشف أماكن خفية، وتجارب فريدة، ومكافآت مميزة في جميع محافظات مصر. Masr360 هو دليلك الذكي للاستكشاف واللعب والاستمتاع بكل جزء من مصر.",
     },
     title: {
-      en: "Discover the Real Egypt",
-      ar: "اكتشف مصر الحقيقية",
+      EN: "Discover the Real Egypt",
+      AR: "اكتشف مصر الحقيقية",
     },
     btnText: {
-      en: "Visit Marketplace",
-      ar: "زور المتجر",
+      EN: "Visit Marketplace",
+      AR: "زور المتجر",
     },
     link: "/marketplace",
   },
@@ -1052,7 +1052,7 @@ export const placesEn = [
       type: "pricePerAge",
       prices: {
         pricePerAge: {
-          children: 10,
+          childrEN: 10,
           adults: 20,
           seniors: 10,
         },
@@ -1412,7 +1412,7 @@ export const placesAr = [
       type: "pricePerAge",
       prices: {
         pricePerAge: {
-          children: 10,
+          childrEN: 10,
           adults: 20,
           seniors: 10,
         },
@@ -3324,7 +3324,7 @@ export const users = [
     email: "m.ali@gmail.com",
     phone: "+201001112233",
     image: "/images/users/u1.png",
-    settings: { language: "ar", theme: "dark" },
+    settings: { language: "AR", theme: "dark" },
     saved_listings: [101, 105],
     region: { governorate: "Cairo", city: "Nasr City" },
   },
@@ -3335,7 +3335,7 @@ export const users = [
     email: "ahmed.hassan@gmail.com",
     phone: "+201022334455",
     image: "/images/users/u2.png",
-    settings: { language: "en", theme: "light" },
+    settings: { language: "EN", theme: "light" },
     saved_listings: [102, 110],
     region: { governorate: "Giza", city: "Dokki" },
   },
@@ -3346,7 +3346,7 @@ export const users = [
     email: "mahmoud@gmail.com",
     phone: "+201055667788",
     image: "/images/users/u3.png",
-    settings: { language: "ar", theme: "dark" },
+    settings: { language: "AR", theme: "dark" },
     saved_listings: [],
     region: { governorate: "Alexandria", city: "Smouha" },
   },
@@ -3357,7 +3357,7 @@ export const users = [
     email: "sara@gmail.com",
     phone: "+201066778899",
     image: "/images/users/u4.png",
-    settings: { language: "en", theme: "light" },
+    settings: { language: "EN", theme: "light" },
     saved_listings: [103],
     region: { governorate: "Cairo", city: "Heliopolis" },
   },
@@ -3368,7 +3368,7 @@ export const users = [
     email: "yousef@gmail.com",
     phone: "+201099887766",
     image: "/images/users/u5.png",
-    settings: { language: "ar", theme: "dark" },
+    settings: { language: "AR", theme: "dark" },
     saved_listings: [104, 106],
     region: { governorate: "Giza", city: "Sheikh Zayed" },
   },
@@ -3379,7 +3379,7 @@ export const users = [
     email: "omar@gmail.com",
     phone: "+201011223344",
     image: "/images/users/u6.png",
-    settings: { language: "en", theme: "dark" },
+    settings: { language: "EN", theme: "dark" },
     saved_listings: [107],
     region: { governorate: "Cairo", city: "Maadi" },
   },
@@ -3390,7 +3390,7 @@ export const users = [
     email: "mona@gmail.com",
     phone: "+201044556677",
     image: "/images/users/u7.png",
-    settings: { language: "ar", theme: "light" },
+    settings: { language: "AR", theme: "light" },
     saved_listings: [],
     region: { governorate: "Giza", city: "Haram" },
   },
@@ -3401,7 +3401,7 @@ export const users = [
     email: "khaled@gmail.com",
     phone: "+201077889900",
     image: "/images/users/u8.png",
-    settings: { language: "en", theme: "dark" },
+    settings: { language: "EN", theme: "dark" },
     saved_listings: [108],
     region: { governorate: "Cairo", city: "New Cairo" },
   },
@@ -3412,7 +3412,7 @@ export const users = [
     email: "heba@gmail.com",
     phone: "+201088776655",
     image: "/images/users/u9.png",
-    settings: { language: "en", theme: "light" },
+    settings: { language: "EN", theme: "light" },
     saved_listings: [109],
     region: { governorate: "Alexandria", city: "Stanley" },
   },
@@ -3423,7 +3423,7 @@ export const users = [
     email: "abdullah@gmail.com",
     phone: "+201033221100",
     image: "/images/users/u10.png",
-    settings: { language: "ar", theme: "dark" },
+    settings: { language: "AR", theme: "dark" },
     saved_listings: [],
     region: { governorate: "Dakahlia", city: "Mansoura" },
   },
@@ -3434,7 +3434,7 @@ export const users = [
     email: "nour@gmail.com",
     phone: "+201055443322",
     image: "/images/users/u11.png",
-    settings: { language: "en", theme: "light" },
+    settings: { language: "EN", theme: "light" },
     saved_listings: [111],
     region: { governorate: "Cairo", city: "Shubra" },
   },
@@ -3445,7 +3445,7 @@ export const users = [
     email: "reem@gmail.com",
     phone: "+201066554433",
     image: "/images/users/u12.png",
-    settings: { language: "ar", theme: "light" },
+    settings: { language: "AR", theme: "light" },
     saved_listings: [],
     region: { governorate: "Giza", city: "Faisal" },
   },
@@ -3456,7 +3456,7 @@ export const users = [
     email: "tamer@gmail.com",
     phone: "+201077665544",
     image: "/images/users/u13.png",
-    settings: { language: "en", theme: "dark" },
+    settings: { language: "EN", theme: "dark" },
     saved_listings: [112],
     region: { governorate: "Sharqia", city: "Zagazig" },
   },
@@ -3467,7 +3467,7 @@ export const users = [
     email: "eman@gmail.com",
     phone: "+201088990011",
     image: "/images/users/u14.png",
-    settings: { language: "ar", theme: "light" },
+    settings: { language: "AR", theme: "light" },
     saved_listings: [],
     region: { governorate: "Cairo", city: "Ain Shams" },
   },
@@ -3478,7 +3478,7 @@ export const users = [
     email: "mkamel@gmail.com",
     phone: "+201099001122",
     image: "/images/users/u15.png",
-    settings: { language: "en", theme: "dark" },
+    settings: { language: "EN", theme: "dark" },
     saved_listings: [113, 114],
     region: { governorate: "Ismailia", city: "Ismailia" },
   },
@@ -3903,7 +3903,7 @@ export const gamesEn = [
   {
     id: "alexandria_explorer",
     name: "Alexandria Coastal Quest",
-    image: "/governorates/alexandria.jpg",
+    image: "/governorates/alexandria.jpeg",
     description:
       "Discover the Mediterranean gem from ancient libraries to modern corniche. Explore Greco-Roman ruins, historic citadels, and coastal wonders.",
     totalSteps: 12,
@@ -4493,7 +4493,7 @@ export const gamesAr = [
   {
     id: "alexandria_explorer",
     name: "رحلة استكشاف الإسكندرية الساحلية",
-    image: "/governorates/alexandria.jpg",
+    image: "/governorates/alexandria.jpeg",
     description:
       "اكتشف جوهرة البحر المتوسط من المكتبات القديمة إلى الكورنيش الحديث. استكشف الآثار اليونانية الرومانية، القلاع التاريخية، وعجائب الساحل.",
     totalSteps: 12,
