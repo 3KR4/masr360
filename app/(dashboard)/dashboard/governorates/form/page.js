@@ -14,6 +14,7 @@ import useTranslate from "@/Contexts/useTranslation";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { useSearchParams } from "next/navigation";
+
 export default function Governorate() {
   const { setisSubmited, images, setImages } = useContext(forms);
   const t = useTranslate();
