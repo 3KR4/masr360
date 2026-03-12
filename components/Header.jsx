@@ -51,7 +51,7 @@ function Header() {
 
     // اختصارات EN فقط
     if (locale === "EN") {
-      return shortTitlesEn[titleObj.en] || titleObj.en;
+      return shortTitlesEn[titleObj.EN] || titleObj.EN;
     }
 
     // العربي يفضل يفضل كامل
