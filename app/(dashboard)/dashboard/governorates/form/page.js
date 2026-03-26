@@ -53,16 +53,6 @@ export default function Governorate() {
       newErrors.enName = "English name must be at least 3 characters";
     }
 
-    if (!translations.AR.name.trim()) {
-      newErrors.arName = "Arabic name is required";
-    } else if (translations.AR.name.length < 3) {
-      newErrors.arName = "Arabic name must be at least 3 characters";
-    }
-
-    if (!images || !images[0]) {
-      newErrors.image = "Image is required";
-    }
-
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -143,7 +133,6 @@ export default function Governorate() {
           message: "Governorate Updated Successfully",
         });
       } else {
-        formData.append("img", images[0]);
 
         await create(formData);
 
@@ -185,7 +174,13 @@ export default function Governorate() {
                   <input
                     type="text"
                     value={translations[curentCreateLocale]?.name}
-                    onChange={(e) => handleChange("name", e.target.value)}
+                    onChange={(e) => {
+                      handleChange("name", e.target.value);
+                      setErrors((prev) => ({
+                        ...prev,
+                        enName: null,
+                      }));
+                    }}
                     placeholder="Enter governorate name"
                   />
                 </div>
@@ -223,14 +218,6 @@ export default function Governorate() {
                 </div>
               </div>
             </div>
-
-            {/* Image Error */}
-            {errors.image && (
-              <span className="error">
-                <CircleAlert size={16} />
-                {errors.image}
-              </span>
-            )}
           </div>
           <Images limit={1} />
         </div>

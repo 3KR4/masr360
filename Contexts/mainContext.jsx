@@ -9,7 +9,6 @@ export const MainProvider = ({ children }) => {
 
   const [screenSize, setScreenSize] = useState(null);
   const [isReady, setIsReady] = useState(false);
-  const [locale, setLocale] = useState("EN");
 
   // Screen size
   useEffect(() => {
@@ -31,23 +30,23 @@ export const MainProvider = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Load locale
-  useEffect(() => {
-    const saved = localStorage.getItem("locale");
-    if (saved) setLocale(saved);
-  }, []);
+const [locale, setLocale] = useState(() => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("locale") || "EN";
+  }
+  return "EN";
+});
 
-  // Apply locale
-  useEffect(() => {
-    document.documentElement.setAttribute("lang", locale);
-    document.documentElement.setAttribute(
-      "dir",
-      locale === "AR" ? "rtl" : "ltr",
-    );
-    localStorage.setItem("locale", locale);
-  }, [locale]);
+useEffect(() => {
+  document.documentElement.setAttribute("lang", locale);
+  document.documentElement.setAttribute("dir", locale === "AR" ? "rtl" : "ltr");
+  localStorage.setItem("locale", locale);
+}, [locale]);
 
-  const toggleLocale = () => setLocale((prev) => (prev === "EN" ? "AR" : "EN"));
+const toggleLocale = () => setLocale((prev) => (prev === "EN" ? "AR" : "EN"));
+if (!isReady) {
+  return null; // أو Loader صغير حسب رغبتك
+}
 
   // ✅ الشرط بعد كل الـ hooks
   if (!isReady) {
