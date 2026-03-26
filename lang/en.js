@@ -382,7 +382,7 @@ const en = {
       governorateNamePlaceholder: "Enter Governorate name",
       governorateDescriptionPlaceholder: "Enter governorate description",
       createGovernorate: "Create Governorate",
-
+      updateGovernorate: "Update Governorate",
       tickets: "Tickets",
       freeEntry: "Free Entry",
       paidTickets: "Paid Tickets",

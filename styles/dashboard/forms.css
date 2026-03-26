@@ -7,6 +7,21 @@
   flex-direction: column;
   gap: 15px;
 }
+.dashboard form .loading-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.dashboard form .loading-content .loader {
+  opacity: 1;
+  width: 35px;
+  height: 35px;
+  border: 4px solid var(--main-color);
+}
 .dashboard form .row-holder {
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;

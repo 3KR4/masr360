@@ -18,7 +18,8 @@ import { useSearchParams } from "next/navigation";
 export default function Governorate() {
   const { setisSubmited, images, setImages } = useContext(forms);
   const t = useTranslate();
-  const [loading, setLoading] = useState(false);
+  const [loadingContent, setLoadingContent] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const searchParams = useSearchParams();
   const editId = searchParams.get("edit");
 
@@ -63,7 +64,7 @@ export default function Governorate() {
 
     const fetchGovernorate = async () => {
       try {
-        setLoading(true);
+        setLoadingContent(true);
 
         const res = await getOne(editId);
         const gov = res.data.governorate;
@@ -86,7 +87,7 @@ export default function Governorate() {
           message: err.response?.data?.message || "Something went wrong ❌",
         });
       } finally {
-        setLoading(false);
+        setLoadingContent(false);
       }
     };
 
@@ -99,7 +100,7 @@ export default function Governorate() {
 
     if (!validate()) return;
 
-    setLoading(true);
+    setLoadingSubmit(true);
 
     try {
       const formData = new FormData();
@@ -133,7 +134,6 @@ export default function Governorate() {
           message: "Governorate Updated Successfully",
         });
       } else {
-
         await create(formData);
 
         addNotification({
@@ -153,20 +153,34 @@ export default function Governorate() {
         message: error.response?.data?.message || "Something went wrong ❌",
       });
     } finally {
-      setLoading(false);
+      setLoadingSubmit(false);
     }
   };
 
   return (
     <div className="body">
       <form onSubmit={onSubmit}>
-        <div className="row-holder two-column">
+        <div
+          className="row-holder two-column"
+          style={{
+            position: "relative",
+            opacity: loadingContent ? "0.6" : "1",
+          }}
+        >
+          {loadingContent && (
+            <div className="loading-content">
+              <span
+                className="loader"
+                style={{ opacity: loadingContent ? "1" : "0" }}
+              ></span>
+            </div>
+          )}
           <div className="column-holder">
             {/* Name */}
             <div className="box forInput">
               <div>
                 <label>{t.dashboard.forms.governorateName}</label>
-                <label>(for -- {curentCreateLocale.toUpperCase()})</label>
+                <label>({curentCreateLocale.toUpperCase()})</label>
               </div>
 
               <div className="inputHolder">
@@ -205,7 +219,7 @@ export default function Governorate() {
             <div className="box forInput">
               <div>
                 <label>{t.dashboard.forms.description}</label>
-                <label>(for -- {curentCreateLocale.toUpperCase()})</label>
+                <label>({curentCreateLocale.toUpperCase()})</label>
               </div>
 
               <div className="inputHolder">
@@ -236,13 +250,19 @@ export default function Governorate() {
             ))}
           </div>
 
-          <button className="main-button" type="submit" disabled={loading}>
+          <button
+            className="main-button"
+            type="submit"
+            disabled={loadingSubmit}
+          >
             <span
               className="loader"
-              style={{ opacity: loading ? "1" : "0" }}
+              style={{ opacity: loadingSubmit ? "1" : "0" }}
             ></span>
-            <span style={{ opacity: loading ? "0" : "1" }}>
-              Create Governorate
+            <span style={{ opacity: loadingSubmit ? "0" : "1" }}>
+              {!editId
+                ? t.dashboard.forms.createGovernorate
+                : t.dashboard.forms.updateGovernorate}
             </span>
           </button>
         </div>

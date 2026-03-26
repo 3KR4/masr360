@@ -378,7 +378,7 @@ const ar = {
       governorateNamePlaceholder: "ادخل اسم المحافظة",
       governorateDescriptionPlaceholder: "ادخل وصف للمحافظة",
       createGovernorate: "إنشاء محافظة",
-
+      updateGovernorate: "تعديل المحافظة",
       tickets: "التذاكر",
       freeEntry: "دخول مجاني",
       paidTickets: "تذاكر مدفوعة",
