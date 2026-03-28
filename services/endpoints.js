@@ -52,5 +52,28 @@ export const ENDPOINTS = {
   },
 
   GET_ONE: (id) => `/places/${id}`,
+},
+NIGHTS: {
+  CREATE: "/nights",
+  UPDATE: (id) => `/nights/${id}`,
+  DELETE: (id) => `/nights/${id}`,
+  GET_ALL: (
+    page,
+    limit,
+    lang,
+    sort,
+    governorateId,
+    categoryId
+  ) => {
+    const params = new URLSearchParams();
+    if (lang) params.append("lang", lang);
+    params.append("page", page);
+    params.append("limit", limit);
+    if (sort) params.append("sort", sort);
+    if (governorateId) params.append("governorateId", governorateId);
+    if (categoryId) params.append("categoryId", categoryId);
+    return `/nights?${params.toString()}`;
+  },
+  GET_ONE: (id) => `/nights/${id}`,
 }
 };
