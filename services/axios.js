@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://masr360-backend-k8ir.vercel.app/api/v1",
+  baseURL: "https://api.m360travel.com/api/v1",
 });
 
 api.interceptors.request.use((config) => {

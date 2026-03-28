@@ -14,6 +14,7 @@ import useTranslate from "@/Contexts/useTranslation";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { useSearchParams } from "next/navigation";
+import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
 
 export default function Governorate() {
   const { setisSubmited, images, setImages } = useContext(forms);
@@ -236,36 +237,12 @@ export default function Governorate() {
           <Images limit={1} />
         </div>
 
-        <div className="row-holder">
-          <div className="lang-switch">
-            {["EN", "AR"].map((lng) => (
-              <button
-                key={lng}
-                type="button"
-                className={curentCreateLocale === lng ? "active" : ""}
-                onClick={() => setCurentCreateLocale(lng)}
-              >
-                {lng.toUpperCase()}
-              </button>
-            ))}
-          </div>
-
-          <button
-            className="main-button"
-            type="submit"
-            disabled={loadingSubmit}
-          >
-            <span
-              className="loader"
-              style={{ opacity: loadingSubmit ? "1" : "0" }}
-            ></span>
-            <span style={{ opacity: loadingSubmit ? "0" : "1" }}>
-              {!editId
-                ? t.dashboard.forms.createGovernorate
-                : t.dashboard.forms.updateGovernorate}
-            </span>
-          </button>
-        </div>
+       <FormLangSwitch
+          curentCreateLocale={curentCreateLocale}
+          setCurentCreateLocale={setCurentCreateLocale}
+          loadingSubmit={loadingSubmit}
+          editId={editId}
+        />
       </form>
     </div>
   );

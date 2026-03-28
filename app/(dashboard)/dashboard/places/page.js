@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
 import "@/styles/pages/cart.css";
@@ -11,28 +11,66 @@ import Link from "next/link";
 import { MdEdit } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
-
+import { getAll, remove } from "@/services/places/places.service";
+import { useNotification } from "@/Contexts/NotificationContext";
 export default function Places() {
   const { screenSize, locale } = useContext(mainContext);
 
   const t = useTranslate();
+  const localPlaces = locale === "EN" ? placesEn : placesAr;
   const [places, setPlaces] = useState([]);
+   const { addNotification } = useNotification();
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 5;
+  const [pageCount, setPageCount] = useState(0);
+  const searchText = "";
+
+  const fetchPlaces = useCallback(async () => {
+    try {
+      setLoading(true);
+
+      const res = await getAll(searchText, page, limit, locale);
+      const response = res.data;
+
+      setPlaces(response?.places ?? []);
+
+      const total = response?.count ?? 0;
+      setPageCount(Math.ceil(total / limit));
+      
+      
+    } catch (error) {
+      console.error("Error fetching places:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, searchText, limit, locale]);
 
   useEffect(() => {
-    const fetchplaces = async () => {
-      // try {
-      //   const { data } = await getService.getPlaces(6);
-      //   setPlaces(
-      //     data || locale == "EN" ? placesEn : placesAr
-      //   );
-      // } catch (err) {
-      //   console.error("Failed to fetch governorates:", err);
-      //   setPlaces(locale == "EN" ? placesEn : placesAr);
-      // }
-      setPlaces(locale == "EN" ? placesEn : placesAr);
-    };
-    fetchplaces();
-  }, [locale]);
+    fetchPlaces();
+  }, [fetchPlaces]);
+
+ const deletePlaces = async (id) => {
+    try {
+      await remove(id);
+
+      await fetchPlaces(); 
+
+      addNotification({
+        type: "success",
+        message: "Place has been deleted successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      addNotification({
+        type: "warning",
+        message: error.response?.data?.message || "Something went wrong ❌",
+      });
+    }
+  };
+
+  console.log(places.length);
+  
 
   return (
     <div className="dash-holder">
@@ -64,27 +102,38 @@ export default function Places() {
 
           <div className="table-items">
             {places.slice(0, 7).map((item) => {
+              const placeEntry = localPlaces.find(
+                (x) => String(x.id) === String(item?._id) || x.name === item?.name,
+              );
               const placeGov =
                 locale == "EN"
-                  ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
-                  : governoratesAr?.find((x) => x.id == item?.governorate?.id);
+                  ? governoratesEn?.find((x) => x.id == item?.governorate?._id)
+                  : governoratesAr?.find((x) => x.id == item?.governorate?._id);
+              const imageUrl = item?.imgs?.[0]?.url || placeEntry?.images?.[0];
+              const placeName = item?.name || placeEntry?.name;
+              const placeDescription =
+                item?.desc || item?.description || placeEntry?.description;
               return (
-                <div key={item?.id} className="table-item">
+                <div key={item?._id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
-                      <Image
-                        src={item?.images[0]}
-                        alt={item?.name}
-                        fill
-                        className="product-image"
-                      />
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={placeName || "Place image"}
+                          fill
+                          className="product-image"
+                        />
+                      ) : (
+                        <div className="item-image-empty" />
+                      )}
                     </Link>
 
                     <div className="item-details">
                       <Link href={`/`} className="item-name">
-                        {item?.name}
+                        {placeName}
                       </Link>
-                      <p className="description">{item?.description}</p>
+                      <p className="description">{placeDescription}</p>
                     </div>
                   </div>
                   <div className="categories">
@@ -103,11 +152,11 @@ export default function Places() {
                   </Link>
 
                   <div className="actions">
-                    <Link href={`/places/${item?.id}`}>
+                    <Link href={`/places/${item?._id}`}>
                       <FaEye className="view" title={t.dashboard.tables.view} />
                     </Link>
                     <hr />
-                    <Link href={`/dashboard/places/form?edit=${item?.id}`}>
+                    <Link href={`/dashboard/places/form?edit=${item?._id}`}>
                       <MdEdit
                         className="edit"
                         title={t.dashboard.tables.edit}
@@ -117,7 +166,7 @@ export default function Places() {
                     <FaTrashAlt
                       className="delete"
                       title={t.dashboard.tables.delete}
-                      onClick={() => console.log("Delete item", item?.id)}
+                      onClick={() => deletePlaces(item?._id)}
                     />
                   </div>
                 </div>
@@ -126,14 +175,12 @@ export default function Places() {
           </div>
         </div>
         <Pagination
-          pageCount={50}
+          pageCount={pageCount}
           screenSize={screenSize}
-          onPageChange={() => {}}
           isDashBoard={true}
-          nextText={t.dashboard.tables.next}
-          prevText={t.dashboard.tables.prev}
-          firstText={t.dashboard.tables.first}
-          lastText={t.dashboard.tables.last}
+          onPageChange={(selectedPage) => {
+            setPage(selectedPage.selected + 1);
+          }}
         />
       </div>
     </div>
