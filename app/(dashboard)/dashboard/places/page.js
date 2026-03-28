@@ -12,11 +12,14 @@ import { MdEdit } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
 import { getAll, remove } from "@/services/places/places.service";
+import { useNotification } from "@/Contexts/NotificationContext";
 export default function Places() {
   const { screenSize, locale } = useContext(mainContext);
 
   const t = useTranslate();
+  const localPlaces = locale === "EN" ? placesEn : placesAr;
   const [places, setPlaces] = useState([]);
+   const { addNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 5;
@@ -99,11 +102,17 @@ export default function Places() {
 
           <div className="table-items">
             {places.slice(0, 7).map((item) => {
+              const placeEntry = localPlaces.find(
+                (x) => String(x.id) === String(item?._id) || x.name === item?.name,
+              );
               const placeGov =
                 locale == "EN"
                   ? governoratesEn?.find((x) => x.id == item?.governorate?._id)
                   : governoratesAr?.find((x) => x.id == item?.governorate?._id);
-              const imageUrl = item?.imgs?.[0]?.url;
+              const imageUrl = item?.imgs?.[0]?.url || placeEntry?.images?.[0];
+              const placeName = item?.name || placeEntry?.name;
+              const placeDescription =
+                item?.desc || item?.description || placeEntry?.description;
               return (
                 <div key={item?._id} className="table-item">
                   <div className="holder">
@@ -111,7 +120,7 @@ export default function Places() {
                       {imageUrl ? (
                         <Image
                           src={imageUrl}
-                          alt={item?.name || "Place image"}
+                          alt={placeName || "Place image"}
                           fill
                           className="product-image"
                         />
@@ -122,9 +131,9 @@ export default function Places() {
 
                     <div className="item-details">
                       <Link href={`/`} className="item-name">
-                        {item?.name}
+                        {placeName}
                       </Link>
-                      <p className="description">{item?.desc || item?.description}</p>
+                      <p className="description">{placeDescription}</p>
                     </div>
                   </div>
                   <div className="categories">

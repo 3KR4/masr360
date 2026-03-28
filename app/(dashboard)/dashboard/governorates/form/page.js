@@ -14,7 +14,7 @@ import useTranslate from "@/Contexts/useTranslation";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { useSearchParams } from "next/navigation";
-import FormLangSwitch from "@/components/dashboard/shared/FormLangSwitch";
+import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
 
 export default function Governorate() {
   const { setisSubmited, images, setImages } = useContext(forms);
