@@ -15,6 +15,7 @@ import {
   tourismCategoriesEn,
   tourismCategoriesAr,
 } from "@/data";
+import FormLangSwitch from "@/components/dashboard/shared/FormLangSwitch";
 
 export default function CreatePlace() {
   const { locale } = useContext(mainContext);
@@ -31,6 +32,8 @@ export default function CreatePlace() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [selectedGov, setSelectedGov] = useState(null);
+    const [curentCreateLocale, setCurentCreateLocale] = useState("EN");
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   // ----------------- Data -----------------
   const govs = locale === "EN" ? govsEn : govsAr;
@@ -41,6 +44,9 @@ export default function CreatePlace() {
 
   // ----------------- Submit -----------------
   const onSubmit = (data) => {
+    setisSubmited(true);
+    setLoadingSubmit(true);
+
     const finalData = {
       ...data,
       images: images,
@@ -54,6 +60,7 @@ export default function CreatePlace() {
     };
 
     console.log("FINAL DATA:", finalData);
+    setLoadingSubmit(false);
   };
 
   return (
@@ -200,13 +207,12 @@ export default function CreatePlace() {
         </div>
 
         {/* ----------------- Submit ----------------- */}
-        <button
-          className="main-button"
-          type="submit"
-          onClick={() => setisSubmited(true)}
-        >
-          <span>{t.dashboard.forms.createPlace}</span>
-        </button>
+        <FormLangSwitch
+          curentCreateLocale={curentCreateLocale}
+          setCurentCreateLocale={setCurentCreateLocale}
+          loadingSubmit={loadingSubmit}
+          submitLabel={t.dashboard.forms.createPlace}
+        />
       </form>
     </div>
   );
