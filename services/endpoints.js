@@ -22,9 +22,33 @@ export const ENDPOINTS = {
     CREATE: "/products",
     UPDATE: (id) => `/products/${id}`,
     DELETE: (id) => `/products/${id}`,
-    GET_ALL: (search, page, limit, minPrice, maxPrice, stock, sort, lang) =>
-      `/products?search=${search}&lang=${lang}&page=${page}&limit=${limit}&minPrice=${minPrice}&maxPrice=${maxPrice}&stock=${stock}&sort=${sort}`,
-    GET_ONE: (id) => `/products/${id}`,
+    GET_ALL: (
+  search,
+  page,
+  limit,
+  minPrice,
+  maxPrice,
+  stock,
+  sort,
+  category,
+  lang
+) => {
+  const params = new URLSearchParams();
+
+  if (search) params.append("search", search);
+  if (lang) params.append("lang", lang);
+
+  params.append("page", page);
+  params.append("limit", limit);
+
+  if (minPrice) params.append("minPrice", minPrice);
+  if (maxPrice) params.append("maxPrice", maxPrice);
+  if (stock) params.append("stock", stock);
+  if (sort) params.append("sort", sort);
+  if (category) params.append("category", category);
+
+  return `/products?${params.toString()}`;
+},    GET_ONE: (id) => `/products/${id}`,
   },
  Places: {
   CREATE: "/places",

@@ -10,8 +10,30 @@ export const update = (id, payload) => {
 export const remove = (id) => {
   return api.delete(ENDPOINTS.PRODUCTS.DELETE(id));
 };
-export const getAll = (search = "", page = 1, limit = 10, lang = "EN") => {
-  return api.get(ENDPOINTS.PRODUCTS.GET_ALL(search, page, limit, lang));
+export const getAll = ({
+  page = 1,
+  limit = 10,
+  minPrice,
+  maxPrice,
+  stock,
+  sort,
+  search,
+  category,
+  lang = "en",
+}) => {
+  return api.get("/products", {
+    params: {
+      page,
+      limit,
+      minPrice,
+      maxPrice,
+      stock,
+      sort,
+      search,
+      category,
+      lang,
+    },
+  });
 };
 export const getOne = (id) => {
   return api.get(ENDPOINTS.PRODUCTS.GET_ONE(id));
