@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://masr360-backend-k8ir.vercel.app/api/v1",
+  baseURL: "http://187.124.113.68:2005/api/v1",
 });
 
 api.interceptors.request.use((config) => {
