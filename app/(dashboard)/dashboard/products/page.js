@@ -2,6 +2,7 @@
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import useTranslate from "@/Contexts/useTranslation";
+import { useNotification } from "@/Contexts/NotificationContext";
 
 import Image from "next/image";
 import "@/styles/pages/cart.css";
@@ -20,16 +21,42 @@ import {
   productCategoriesEn,
   productCategoriesAr,
 } from "@/data";
-import { getAll } from "@/services/porducts/products.service";
+import { getAll, remove } from "@/services/porducts/products.service";
 
 export default function Products() {
   const { screenSize, locale } = useContext(mainContext);
 
   const t = useTranslate();
+  const { addNotification } = useNotification();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const limit = 20;
+
+  const deleteProduct = async (id) => {
+    try {
+      await remove(id);
+      const res = await getAll({
+        page,
+        limit,
+        search: "",
+        lang: locale?.toLowerCase() || "en",
+      });
+      const response = res.data;
+      setProducts(response?.products ?? (locale == "EN" ? productsEn : productsAr));
+      setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
+      addNotification({
+        type: "success",
+        message: "Product has been deleted successfully",
+      });
+    } catch (err) {
+      console.error("Failed to delete product:", err);
+      addNotification({
+        type: "warning",
+        message: err.response?.data?.message || "Something went wrong ❌",
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -172,7 +199,10 @@ export default function Products() {
                     </Link>
 
                     <hr />
-                    <FaTrashAlt className="delete" />
+                    <FaTrashAlt
+                      className="delete"
+                      onClick={() => deleteProduct(item?._id || item?.id)}
+                    />
                   </div>
                 </div>
               );

@@ -6,6 +6,7 @@ import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
 import { mainContext } from "@/Contexts/mainContext";
+import { dashboard } from "@/Contexts/dashboard";
 import { placesAr, placesEn, governoratesEn, governoratesAr } from "@/data";
 import Link from "next/link";
 import { MdEdit } from "react-icons/md";
@@ -15,36 +16,45 @@ import { getAll, remove } from "@/services/places/places.service";
 import { useNotification } from "@/Contexts/NotificationContext";
 export default function Places() {
   const { screenSize, locale } = useContext(mainContext);
+  const { searchText, selectedCats } = useContext(dashboard);
 
   const t = useTranslate();
   const localPlaces = locale === "EN" ? placesEn : placesAr;
   const [places, setPlaces] = useState([]);
-   const { addNotification } = useNotification();
+  const { addNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 5;
   const [pageCount, setPageCount] = useState(0);
-  const searchText = "";
 
   const fetchPlaces = useCallback(async () => {
     try {
       setLoading(true);
 
-      const res = await getAll(searchText, page, limit, locale);
+      const governorateId = selectedCats.gov || "";
+      const categoryId = selectedCats.cat?.id || "";
+
+      const res = await getAll(
+        searchText,
+        page,
+        limit,
+        locale,
+        "createdAt,desc",
+        governorateId,
+        categoryId
+      );
       const response = res.data;
 
       setPlaces(response?.places ?? []);
 
       const total = response?.count ?? 0;
       setPageCount(Math.ceil(total / limit));
-      
-      
     } catch (error) {
       console.error("Error fetching places:", error);
     } finally {
       setLoading(false);
     }
-  }, [page, searchText, limit, locale]);
+  }, [page, searchText, limit, locale, selectedCats]);
 
   useEffect(() => {
     fetchPlaces();
@@ -102,6 +112,7 @@ export default function Places() {
 
           <div className="table-items">
             {places.slice(0, 7).map((item) => {
+              const localeKey = String(locale || "EN").toUpperCase();
               const placeEntry = localPlaces.find(
                 (x) => String(x.id) === String(item?._id) || x.name === item?.name,
               );
@@ -110,9 +121,21 @@ export default function Places() {
                   ? governoratesEn?.find((x) => x.id == item?.governorate?._id)
                   : governoratesAr?.find((x) => x.id == item?.governorate?._id);
               const imageUrl = item?.imgs?.[0]?.url || placeEntry?.images?.[0];
-              const placeName = item?.name || placeEntry?.name;
+              const placeName =
+                item?.translations?.[localeKey]?.name ||
+                item?.name ||
+                item?.translations?.EN?.name ||
+                item?.translations?.AR?.name ||
+                placeEntry?.name ||
+                "";
               const placeDescription =
-                item?.desc || item?.description || placeEntry?.description;
+                item?.translations?.[localeKey]?.desc ||
+                item?.desc ||
+                item?.description ||
+                item?.translations?.EN?.desc ||
+                item?.translations?.AR?.desc ||
+                placeEntry?.description ||
+                "";
               return (
                 <div key={item?._id} className="table-item">
                   <div className="holder">

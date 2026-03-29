@@ -22,12 +22,13 @@ export const getAll = (
   governorateId = "",
   categoryId = ""
 ) => {
+  const language = String(lang || "EN").toLowerCase();
   return api.get(
     ENDPOINTS.Places.GET_ALL(
       search,
       page,
       limit,
-      lang,
+      language,
       sort,
       governorateId,
       categoryId

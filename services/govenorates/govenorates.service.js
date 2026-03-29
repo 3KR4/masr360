@@ -11,7 +11,8 @@ export const remove = (id) => {
   return api.delete(ENDPOINTS.GOVS.DELETE(id));
 };
 export const getAll = (search = "", page = 1, limit = 10, lang = "EN") => {
-  return api.get(ENDPOINTS.GOVS.GET_ALL(search, page, limit, lang));
+  const language = String(lang || "EN").toLowerCase();
+  return api.get(ENDPOINTS.GOVS.GET_ALL(search, page, limit, language));
 };
 export const getOne = (id) => {
   return api.get(ENDPOINTS.GOVS.GET_ONE(id));

@@ -111,10 +111,20 @@ export default function Nights() {
               const itemId = item?._id || item?.id;
               const imageUrl = item?.imgs?.[0]?.url || item?.img?.url || "";
   
+              const localeKey = String(locale || "EN").toUpperCase();
               const itemName =
-                item?.name || item?.translations?.[locale]?.name || "";
+                item?.translations?.[localeKey]?.name ||
+                item?.name ||
+                item?.translations?.EN?.name ||
+                item?.translations?.AR?.name ||
+                "";
               const itemDescription =
-                item?.description || item?.desc || item?.translations?.[locale]?.desc || "";
+                item?.translations?.[localeKey]?.desc ||
+                item?.desc ||
+                item?.description ||
+                item?.translations?.EN?.desc ||
+                item?.translations?.AR?.desc ||
+                "";
               const placeGov =
                 locale == "EN"
                   ? governoratesEn?.find((x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id)

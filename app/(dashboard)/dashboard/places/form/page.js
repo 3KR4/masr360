@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useMemo } from "react";
 import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
 import "@/styles/dashboard/forms.css";
@@ -11,8 +11,10 @@ import { useNotification } from "@/Contexts/NotificationContext";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
 import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
-import { useSearchParams } from "next/navigation";
-import { getOne, update } from "@/services/places/places.service";
+import { useSearchParams, useRouter } from "next/navigation";
+import { getOne, update, create } from "@/services/places/places.service";
+import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
+import { getAll as getCategories } from "@/services/categories/categories.service";
 import {
   govsEn,
   govsAr,
@@ -49,12 +51,18 @@ export default function CreatePlace() {
   const [translationErrors, setTranslationErrors] = useState({});
   const [oldImage, setOldImage] = useState(null);
   const searchParams = useSearchParams();
+  const router = useRouter();
   const editId = searchParams.get("edit");
   const { addNotification } = useNotification();
   const [translations, setTranslations] = useState({
     EN: { title: "", description: "" },
     AR: { title: "", description: "" },
   });
+  const [governorateOptions, setGovernorateOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+
+  const TEST_CATEGORY_ID = "6984f12c888f9d5d903f3a9a";
+  const TEST_GOVERNORATE_ID = "699f4cb48c0b04cebf3b52cb";
 
   const handleTranslationChange = (field, value) => {
     setTranslations((prev) => ({
@@ -75,11 +83,62 @@ export default function CreatePlace() {
   const tourismCategories =
     locale === "EN" ? tourismCategoriesEn : tourismCategoriesAr;
 
+  const filteredGovernorateOptions = useMemo(
+    () => (governorateOptions.length > 0 ? governorateOptions : []),
+    [governorateOptions]
+  );
+
+  const filteredCategoryOptions = useMemo(
+    () => (categoryOptions.length > 0 ? categoryOptions : []),
+    [categoryOptions]
+  );
+
   const subCategories = selectedCategory?.subcategories || [];
 
+  useEffect(() => {
+    const loadGovernorates = async () => {
+      try {
+        const res = await getGovernorates("", 1, 200, locale);
+        const governoratesData =
+          res.data?.[0]?.data || res.data?.data || res.data || [];
+        const options = Array.isArray(governoratesData)
+          ? governoratesData.map((gov) => ({
+              id: gov._id,
+              name: gov.translations?.[locale]?.name || gov.name || "",
+              raw: gov,
+            }))
+          : [];
+        setGovernorateOptions(options);
+      } catch (err) {
+        console.error("Error loading governorates:", err);
+        setGovernorateOptions([]);
+      }
+    };
 
+    const loadCategories = async () => {
+      try {
+        const res = await getCategories("tourism", locale);
+        const categoriesData = res.data?.data || res.data || [];
+        const options = Array.isArray(categoriesData)
+          ? categoriesData.map((cat) => ({
+              id: cat._id,
+              name: cat.name,
+              subcategories: cat.subcategories || [],
+              raw: cat,
+            }))
+          : [];
+        setCategoryOptions(options);
+      } catch (err) {
+        console.error("Error loading categories:", err);
+        setCategoryOptions([]);
+      }
+    };
 
-    useEffect(() => {
+    loadGovernorates();
+    loadCategories();
+  }, [locale]);
+
+  useEffect(() => {
     if (!editId) return;
 
     const fetchPlaces = async () => {
@@ -112,7 +171,8 @@ export default function CreatePlace() {
         // Fill location fields when edit data uses flat strings or nested object
         setValue(
           "mapLocation.link",
-          place.location?.link || place.location || ""
+          place.location
+          
         );
         setValue(
           "mapLocation.iFrame",
@@ -120,9 +180,10 @@ export default function CreatePlace() {
         );
 
         // Set category option if the API returns expanded data
-        const categoryOption = tourismCategories.find(
+        const categoryOption = filteredCategoryOptions.find(
           (cat) =>
             cat.id === place.category ||
+            cat.id === place.category?._id ||
             cat.name === place.category ||
             cat.name === place.category?.name
         );
@@ -131,6 +192,7 @@ export default function CreatePlace() {
           const selectedSub = categoryOption.subcategories?.find(
             (sub) =>
               sub.id === place.subCategory ||
+              sub.id === place.subCategory?._id ||
               sub.name === place.subCategory ||
               sub.name === place.subCategory?.name
           );
@@ -144,9 +206,12 @@ export default function CreatePlace() {
           locale === "EN"
             ? place.governorate?.name
             : place.governorate?.translations?.AR?.name || place.governorate?.name;
-        const govOption = govs
-          .map((g, i) => ({ id: i, name: g }))
-          .find((gov) => gov.name === govLabel);
+        const govOption = filteredGovernorateOptions.find(
+          (gov) =>
+            gov.id === place.governorate ||
+            gov.id === place.governorate?._id ||
+            gov.name === govLabel
+        );
         if (govOption) {
           setSelectedGov(govOption);
         }
@@ -172,7 +237,19 @@ export default function CreatePlace() {
     };
 
     fetchPlaces();
-  }, [editId, addNotification, govs, locale, setImages, setValue, tourismCategories]);
+  }, [
+    editId,
+    addNotification,
+    govs,
+    locale,
+    setImages,
+    setValue,
+    tourismCategories,
+    categoryOptions,
+    filteredCategoryOptions,
+    governorateOptions,
+    filteredGovernorateOptions,
+  ]);
 
 
   // ----------------- Submit -----------------
@@ -185,8 +262,14 @@ export default function CreatePlace() {
     if (!translations.EN.title.trim()) {
       validationErrors.enTitle = t.dashboard.forms.errors.titleRequired;
     }
+    if (!translations.EN.description.trim()) {
+      validationErrors.enDescription = t.dashboard.forms.errors.descriptionRequired;
+    }
     if (!translations.AR.title.trim()) {
       validationErrors.arTitle = t.dashboard.forms.errors.titleRequired;
+    }
+    if (!translations.AR.description.trim()) {
+      validationErrors.arDescription = t.dashboard.forms.errors.descriptionRequired;
     }
 
     if (Object.keys(validationErrors).length) {
@@ -196,12 +279,22 @@ export default function CreatePlace() {
     }
 
     const finalData = {
-      category: selectedCategory?.id || null,
+      name: translations.EN.title,
+      desc: translations.EN.description,
+      category:
+        selectedCategory?.id || categoryOptions?.[0]?.id || TEST_CATEGORY_ID,
       subCategory: selectedSubCategory?.id || null,
-      governorate: selectedGov?.id || null,
+      governorate:
+        selectedGov?.id || governorateOptions?.[0]?.id || TEST_GOVERNORATE_ID,
       translations: {
-        EN: translations.EN,
-        AR: translations.AR,
+        EN: {
+          name: translations.EN.title,
+          desc: translations.EN.description,
+        },
+        AR: {
+          name: translations.AR.title,
+          desc: translations.AR.description,
+        },
       },
       specifications: specifications.reduce((acc, item) => {
         acc[item.key] = item.value;
@@ -215,10 +308,14 @@ export default function CreatePlace() {
     const buildFormData = (payload) => {
       const formData = new FormData();
 
+      if (payload.name !== undefined) formData.append("name", payload.name);
+      if (payload.desc !== undefined) formData.append("desc", payload.desc);
       if (payload.category) formData.append("category", payload.category);
       if (payload.subCategory) formData.append("subCategory", payload.subCategory);
       if (payload.governorate) formData.append("governorate", payload.governorate);
-      formData.append("translations", JSON.stringify(payload.translations));
+      if (payload.translations) {
+        formData.append("translations", JSON.stringify(payload.translations));
+      }
 
       if (Object.keys(payload.specifications).length) {
         formData.append("specifications", JSON.stringify(payload.specifications));
@@ -239,19 +336,23 @@ export default function CreatePlace() {
 
     const saveToAPI = async () => {
       try {
-        if (!editId) {
-        throw new Error("Edit ID is required for updating a place.");
-      }
+        const payload = buildFormData(finalData);
 
-      const payload = buildFormData(finalData);
-      const response = await update(editId, payload);
+        if (editId) {
+          await update(editId, payload);
+          addNotification({
+            type: "success",
+            message: "تم تحديث المكان بنجاح ✅",
+          });
+        } else {
+          await create(payload);
+          addNotification({
+            type: "success",
+            message: "تم إنشاء المكان بنجاح ✅",
+          });
+        }
 
-      addNotification({
-        type: "success",
-        message: "تم تحديث المكان بنجاح ✅",
-      });
-
-        console.log("Response:", response);
+        router.push("/dashboard/places");
       } catch (error) {
         console.error("Error:", error);
         addNotification({
@@ -301,10 +402,16 @@ export default function CreatePlace() {
           <SelectOptions
             label={t.dashboard.forms.governorate}
             placeholder={t.dashboard.forms.selectGovernorate}
-            options={govs.map((g, i) => ({ id: i, name: g }))}
+            options={filteredGovernorateOptions}
             value={selectedGov}
             onChange={(gov) => setSelectedGov(gov)}
           />
+          {translationErrors.governorate ? (
+            <span className="error">
+              <CircleAlert />
+              {translationErrors.governorate}
+            </span>
+          ) : null}
         </div>
 
         {/* ----------------- Category & Subcategory ----------------- */}
@@ -312,13 +419,19 @@ export default function CreatePlace() {
           <SelectOptions
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
-            options={tourismCategories}
+            options={filteredCategoryOptions}
             value={selectedCategory}
             onChange={(cat) => {
               setSelectedCategory(cat);
               setSelectedSubCategory(null);
             }}
           />
+          {translationErrors.category ? (
+            <span className="error">
+              <CircleAlert />
+              {translationErrors.category}
+            </span>
+          ) : null}
           <SelectOptions
             label={t.dashboard.forms.subCategory}
             placeholder={t.dashboard.forms.selectSubCategory}
@@ -343,6 +456,15 @@ export default function CreatePlace() {
                 placeholder={t.dashboard.forms.descriptionPlaceholder}
               />
             </div>
+            {(translationErrors.enDescription && curentCreateLocale === "EN") ||
+            (translationErrors.arDescription && curentCreateLocale === "AR") ? (
+              <span className="error">
+                <CircleAlert />
+                {curentCreateLocale === "EN"
+                  ? translationErrors.enDescription
+                  : translationErrors.arDescription}
+              </span>
+            ) : null}
           </div>
         </div>
 
