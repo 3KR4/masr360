@@ -19,6 +19,7 @@ import useTranslate from "@/Contexts/useTranslation";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { useSearchParams } from "next/navigation";
+import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
 
 export default function Product() {
   const { setisSubmited, images, setImages } = useContext(forms);
@@ -74,7 +75,7 @@ export default function Product() {
       }
     };
     fetchCategories();
-  }, []);
+  }, [addNotification]);
 
   // Handle translation changes
   const handleTranslationChange = (field, value) => {
@@ -117,8 +118,8 @@ export default function Product() {
         // Set category
         if (product.category) {
           setSelectedCategory({
-            value: product.category._id,
-            label: product.category.name,
+            id: product.category._id,
+            name: product.category.name,
           });
         }
 
@@ -141,23 +142,28 @@ export default function Product() {
     };
 
     fetchProduct();
-  }, [editId]);
+  }, [editId, addNotification, setImages, setValue]);
 
   const onSubmit = async (data) => {
     setisSubmited(true);
 
     // Validate translations
-    if (!translations.EN.title?.trim()) {
+    const finalName =
+      translations.EN.title?.trim() || translations.AR.title?.trim() || "";
+    const finalDesc =
+      translations.EN.description?.trim() || translations.AR.description?.trim() || "";
+
+    if (!finalName) {
       addNotification({
         type: "warning",
-        message: "English title is required",
+        message: "Product name is required",
       });
       return;
     }
-    if (!translations.AR.title?.trim()) {
+    if (!finalDesc) {
       addNotification({
         type: "warning",
-        message: "Arabic title is required",
+        message: "Product description is required",
       });
       return;
     }
@@ -177,24 +183,29 @@ export default function Product() {
       const formData = new FormData();
       // Add basic data
 
-      formData.append("name", translations.EN.title);
-      formData.append("desc", translations.EN.description);
+      const finalName =
+        translations.EN.title?.trim() || translations.AR.title?.trim() || "";
+      const finalDesc =
+        translations.EN.description?.trim() || translations.AR.description?.trim() || "";
+
+      formData.append("name", finalName);
+      formData.append("desc", finalDesc);
       formData.append("price", data.price);
       if (data.sale) formData.append("discount", data.sale);
       formData.append("quantity", data.stock);
-      if (selectedCategory) formData.append("category", selectedCategory.value);
+      if (selectedCategory?.id) formData.append("category", selectedCategory.id);
 
       // Add translations
       formData.append(
         "translations",
         JSON.stringify({
-          en: {
-            name: translations.EN.title,
-            desc: translations.EN.description || "",
+          EN: {
+            name: translations.EN.title || finalName,
+            desc: translations.EN.description || finalDesc,
           },
-          ar: {
-            name: translations.AR.title,
-            desc: translations.AR.description || "",
+          AR: {
+            name: translations.AR.title || finalName,
+            desc: translations.AR.description || finalDesc,
           },
         }),
       );
@@ -267,18 +278,12 @@ export default function Product() {
     <div className="body">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Language Switch */}
-        <div className="lang-switch" style={{ marginBottom: "20px" }}>
-          {["EN", "AR"].map((lng) => (
-            <button
-              key={lng}
-              type="button"
-              className={curentCreateLocale === lng ? "active" : ""}
-              onClick={() => setCurentCreateLocale(lng)}
-            >
-              {lng.toUpperCase()}
-            </button>
-          ))}
-        </div>
+        <FormLangSwitch
+          curentCreateLocale={curentCreateLocale}
+          setCurentCreateLocale={setCurentCreateLocale}
+          loadingSubmit={loading}
+          editId={editId}
+        />
 
         {/* ---------- TITLE & CATEGORY ---------- */}
         <div className="row-holder two-column">

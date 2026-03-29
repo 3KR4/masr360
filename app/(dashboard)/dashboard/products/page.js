@@ -106,13 +106,17 @@ export default function Products() {
 
           <div className="table-items">
             {products?.slice(0, 10).map((item) => {
+              const localeKey = String(locale || "EN").toUpperCase();
               const productCat =
                 locale == "EN"
                   ? productCategoriesEn?.find((x) => x.id == item?.category)
                   : productCategoriesAr?.find((x) => x.id == item?.category);
               const imageUrl = item?.imgs?.[0]?.url || item?.images?.[0] || "";
               const productName =
-                item?.name || item?.translations?.[locale]?.name || "";
+                item?.translations?.[localeKey]?.name ||
+                item?.name ||
+                "";
+    
               return (
                 <div key={item?._id || item?.id} className="table-item">
                   <div className="holder">
@@ -133,6 +137,7 @@ export default function Products() {
                       <Link href={`/market/${item?._id || item?.id}`} className="item-name">
                         {productName}
                       </Link>
+                    
                       {screenSize !== "small" && (
                         <>
                           <Link
