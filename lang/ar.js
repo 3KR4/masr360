@@ -410,6 +410,8 @@ const ar = {
         googleMapsLinkInvalid: "الرجاء إدخال رابط خرائط جوجل صحيح",
         googleMapsIframeRequired: "رابط التضمين مطلوب",
         googleMapsIframeInvalid: "الرجاء إدخال رابط التضمين صحيح",
+        categoryRequired: "الفئة مطلوبة",
+        governorateRequired: "المحافظة مطلوبة",
 
         saleMax: "نسبة الخصم لا يمكن أن تتجاوز 90%",
 

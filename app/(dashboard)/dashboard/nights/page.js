@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
@@ -12,28 +12,70 @@ import Link from "next/link";
 import { MdEdit } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
+import { getAll, remove } from "@/services/nights/nights.service";
+import { useNotification } from "@/Contexts/NotificationContext";
 
 export default function Nights() {
   const { screenSize, locale } = useContext(mainContext);
 
   const t = useTranslate();
   const [nights, setNights] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
+  const limit = 5;
+  const { addNotification } = useNotification();
+
+  const fetchNights = useCallback(async () => {
+    try {
+      const res = await getAll(page, limit, locale);
+      const response = res.data[0];
+
+      setNights(response?.data ?? []);
+
+      const totalCountRaw = response?.totalCount?.[0];
+      const total = typeof totalCountRaw === "number"
+        ? totalCountRaw
+        : totalCountRaw?.count ?? 0;
+      setPageCount(Math.max(1, Math.ceil(total / limit)));
+    } catch (error) {
+      console.error("Error fetching nights:", error);
+      setNights(locale === "EN" ? nightsEn : nightsAr);
+    }
+  }, [locale, page, limit]);
 
   useEffect(() => {
-    const fetchnights = async () => {
-      // try {
-      //   const { data } = await getService.getNights(6);
-      //   setNights(
-      //     data || locale == "EN" ? nightsEn : nightsAr
-      //   );
-      // } catch (err) {
-      //   console.error("Failed to fetch governorates:", err);
-      //   setNights(locale == "EN" ? nightsEn : nightsAr);
-      // }
-      setNights(locale == "EN" ? nightsEn : nightsAr);
+    let mounted = true;
+
+    const loadNights = async () => {
+      if (!mounted) return;
+      await fetchNights();
     };
-    fetchnights();
-  }, [locale]);
+
+    loadNights();
+
+    return () => {
+      mounted = false;
+    };
+  }, [fetchNights]);
+
+  const deleteNight = async (id) => {
+    try {
+      await remove(id);
+      await fetchNights();
+      addNotification({
+        type: "success",
+        message: "Night has been deleted successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      addNotification({
+        type: "warning",
+        message: error.response?.data?.message || "Something went wrong ❌",
+      });
+    }
+  };
+
+  
 
   return (
     <div className="dash-holder">
@@ -66,27 +108,48 @@ export default function Nights() {
 
           <div className="table-items">
             {nights.slice(0, 7).map((item) => {
+              const itemId = item?._id || item?.id;
+              const imageUrl = item?.imgs?.[0]?.url || item?.img?.url || "";
+  
+              const localeKey = String(locale || "EN").toUpperCase();
+              const itemName =
+                item?.translations?.[localeKey]?.name ||
+                item?.name ||
+                item?.translations?.EN?.name ||
+                item?.translations?.AR?.name ||
+                "";
+              const itemDescription =
+                item?.translations?.[localeKey]?.desc ||
+                item?.desc ||
+                item?.description ||
+                item?.translations?.EN?.desc ||
+                item?.translations?.AR?.desc ||
+                "";
               const placeGov =
                 locale == "EN"
-                  ? governoratesEn?.find((x) => x.id == item?.governorate?.id)
-                  : governoratesAr?.find((x) => x.id == item?.governorate?.id);
+                  ? governoratesEn?.find((x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id)
+                  : governoratesAr?.find((x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id);
               return (
-                <div key={item?.id} className="table-item">
+                <div key={itemId} className="table-item">
                   <div className="holder">
-                    <Link href={`/nights/${item?.id}`} className="item-image">
-                      <Image
-                        src={item?.images[0]}
-                        alt={item?.name}
-                        fill
-                        className="product-image"
-                      />
+                    <Link href={`/nights/${itemId}`} className="item-image">
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={itemName || "Night image"}
+                          fill
+                          className="product-image"
+                        />
+                      ) : (
+                        <div className="item-image-empty" />
+                      )}
                     </Link>
 
                     <div className="item-details">
-                      <Link href={`/nights/${item?.id}`} className="item-name">
-                        {item?.name}
+                      <Link href={`/nights/${itemId}`} className="item-name">
+                        {itemName}
                       </Link>
-                      <p className="description">{item?.description}</p>
+                      <p className="description">{itemDescription}</p>
                     </div>
                   </div>
                   <div className="categories">
@@ -120,11 +183,11 @@ export default function Nights() {
                   </Link>
 
                   <div className="actions">
-                    <Link href={`/nights/${item?.id}`}>
+                    <Link href={`/nights/${itemId}`}>
                       <FaEye className="view" title={t.dashboard.tables.view} />
                     </Link>
                     <hr />
-                    <Link href={`/dashboard/nights/form?edit=${item?.id}`}>
+                    <Link href={`/dashboard/nights/form?edit=${itemId}`}>
                       <MdEdit
                         className="edit"
                         title={t.dashboard.tables.edit}
@@ -134,7 +197,7 @@ export default function Nights() {
                     <FaTrashAlt
                       className="delete"
                       title={t.dashboard.tables.delete}
-                      onClick={() => console.log("Delete night item", item?.id)}
+                      onClick={() => deleteNight(itemId)}
                     />
                   </div>
                 </div>
@@ -143,10 +206,12 @@ export default function Nights() {
           </div>
         </div>
         <Pagination
-          pageCount={50}
+          pageCount={pageCount}
           screenSize={screenSize}
-          onPageChange={() => {}}
           isDashBoard={true}
+          onPageChange={(selectedPage) => {
+            setPage(selectedPage.selected + 1);
+          }}
           nextText={t.dashboard.tables.next}
           prevText={t.dashboard.tables.prev}
           firstText={t.dashboard.tables.first}

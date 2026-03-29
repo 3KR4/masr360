@@ -188,12 +188,12 @@ export default function Product() {
       formData.append(
         "translations",
         JSON.stringify({
-          EN: {
-            title: translations.EN.title,
+          en: {
+            name: translations.EN.title,
             desc: translations.EN.description || "",
           },
-          AR: {
-            title: translations.AR.title,
+          ar: {
+            name: translations.AR.title,
             desc: translations.AR.description || "",
           },
         }),

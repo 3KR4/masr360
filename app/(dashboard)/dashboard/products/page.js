@@ -2,6 +2,7 @@
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import useTranslate from "@/Contexts/useTranslation";
+import { useNotification } from "@/Contexts/NotificationContext";
 
 import Image from "next/image";
 import "@/styles/pages/cart.css";
@@ -20,28 +21,65 @@ import {
   productCategoriesEn,
   productCategoriesAr,
 } from "@/data";
+import { getAll, remove } from "@/services/porducts/products.service";
 
 export default function Products() {
   const { screenSize, locale } = useContext(mainContext);
 
   const t = useTranslate();
+  const { addNotification } = useNotification();
   const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
+  const limit = 20;
+
+  const deleteProduct = async (id) => {
+    try {
+      await remove(id);
+      const res = await getAll({
+        page,
+        limit,
+        search: "",
+        lang: locale?.toLowerCase() || "en",
+      });
+      const response = res.data;
+      setProducts(response?.products ?? (locale == "EN" ? productsEn : productsAr));
+      setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
+      addNotification({
+        type: "success",
+        message: "Product has been deleted successfully",
+      });
+    } catch (err) {
+      console.error("Failed to delete product:", err);
+      addNotification({
+        type: "warning",
+        message: err.response?.data?.message || "Something went wrong ❌",
+      });
+    }
+  };
 
   useEffect(() => {
-    const fetchevents = async () => {
-      // try {
-      //   const { data } = await getService.getProducts(6);
-      //   setProducts(
-      //     data || locale == "EN" ? productsEn : productsAr
-      //   );
-      // } catch (err) {
-      //   console.error("Failed to fetch governorates:", err);
-      //   setProducts(locale == "EN" ? productsEn : productsAr);
-      // }
-      setProducts(locale == "EN" ? productsEn : productsAr);
+    const fetchProducts = async () => {
+      try {
+        const res = await getAll({
+          page,
+          limit,
+          search: "",
+          lang: locale?.toLowerCase() || "en",
+        });
+        const response = res.data;
+
+        setProducts(response?.products ?? (locale == "EN" ? productsEn : productsAr));
+        setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setProducts(locale == "EN" ? productsEn : productsAr);
+        setPageCount(1);
+      }
     };
-    fetchevents();
-  }, [locale]);
+
+    fetchProducts();
+  }, [locale, page]);
 
   return (
     <div className="dash-holder">
@@ -67,26 +105,33 @@ export default function Products() {
           </div>
 
           <div className="table-items">
-            {products.slice(0, 10).map((item) => {
+            {products?.slice(0, 10).map((item) => {
               const productCat =
                 locale == "EN"
                   ? productCategoriesEn?.find((x) => x.id == item?.category)
                   : productCategoriesAr?.find((x) => x.id == item?.category);
+              const imageUrl = item?.imgs?.[0]?.url || item?.images?.[0] || "";
+              const productName =
+                item?.name || item?.translations?.[locale]?.name || "";
               return (
-                <div key={item?.id} className="table-item">
+                <div key={item?._id || item?.id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
-                      <Image
-                        src={item?.images[0]}
-                        alt={item?.name}
-                        fill
-                        className="product-image"
-                      />
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={productName}
+                          fill
+                          className="product-image"
+                        />
+                      ) : (
+                        <div className="item-image-empty" />
+                      )}
                     </Link>
 
                     <div className="item-details">
-                      <Link href={`/market/${item?.id}`} className="item-name">
-                        {item?.name}
+                      <Link href={`/market/${item?._id || item?.id}`} className="item-name">
+                        {productName}
                       </Link>
                       {screenSize !== "small" && (
                         <>
@@ -107,9 +152,9 @@ export default function Products() {
                   <div className="item-price">
                     <DisplayPrice
                       price={item?.price}
-                      sale={item?.sale}
-                      stock={item?.stock}
-                      qty={item?.quantity}
+                      sale={item?.discount}
+                      stock={item?.quantity}
+                      qty={1}
                       dashboard={true}
                     />
                   </div>
@@ -118,12 +163,12 @@ export default function Products() {
                     <div className="row-holder">
                       <Rating
                         name="read-only"
-                        value={item?.rate}
+                        value={item?.avgRating}
                         precision={0.1}
                         readOnly
                         sx={{ color: "#ea8c43", fontSize: "19px" }}
                       />
-                      <h4>({item?.rate})</h4>
+                      <h4>({item?.avgRating})</h4>
                     </div>
                   </div>
                   <div className="item-overview">
@@ -137,24 +182,27 @@ export default function Products() {
                   <div className="item-stock">
                     <h4
                       className={`${
-                        item?.stock == 0 ? "out" : item?.stock < 10 ? "low" : ""
+                        item?.quantity == 0 ? "out" : item?.quantity < 10 ? "low" : ""
                       }`}
                     >
-                      {item?.stock}
+                      {item?.quantity}
                     </h4>
                   </div>
 
                   <div className="actions">
-                    <Link href={`/marketplace/${item?.id}`}>
+                    <Link href={`/marketplace/${item?._id || item?.id}`}>
                       <FaEye className="view" />
                     </Link>
                     <hr />
-                    <Link href={`/dashboard/products/form?edit=${item?.id}`}>
+                    <Link href={`/dashboard/products/form?edit=${item?._id || item?.id}`}>
                       <MdEdit className="edit" />
                     </Link>
 
                     <hr />
-                    <FaTrashAlt className="delete" />
+                    <FaTrashAlt
+                      className="delete"
+                      onClick={() => deleteProduct(item?._id || item?.id)}
+                    />
                   </div>
                 </div>
               );
@@ -162,10 +210,12 @@ export default function Products() {
           </div>
         </div>
         <Pagination
-          pageCount={50}
+          pageCount={pageCount}
           screenSize={screenSize}
-          onPageChange={() => {}}
           isDashBoard={true}
+          onPageChange={(selectedPage) => {
+            setPage(selectedPage.selected + 1);
+          }}
         />
       </div>
     </div>

@@ -413,6 +413,8 @@ const en = {
         googleMapsLinkInvalid: "Please enter a valid Google Maps link",
         googleMapsIframeRequired: "Google Maps embed link is required",
         googleMapsIframeInvalid: "Please enter a valid Google Maps embed URL",
+        categoryRequired: "Category is required",
+        governorateRequired: "Governorate is required",
 
         saleMax: "Sale cannot exceed 90%",
 

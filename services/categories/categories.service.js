@@ -11,7 +11,8 @@ import { ENDPOINTS } from "../endpoints";
 //   return api.delete(ENDPOINTS.PRODUCTS.DELETE(id));
 // };
 export const getAll = (type, lang = "EN") => {
-  return api.get(ENDPOINTS.CATEGORIES.GET_ALL(type, lang));
+  const language = String(lang || "EN").toLowerCase();
+  return api.get(ENDPOINTS.CATEGORIES.GET_ALL(type, language));
 };
 // export const getOne = (id) => {
 //   return api.get(ENDPOINTS.PRODUCTS.GET_ONE(id));
