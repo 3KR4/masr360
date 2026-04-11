@@ -151,6 +151,8 @@ export default function Register() {
         return;
       }
     } catch (err) {
+      console.log("err", err);
+
       if (
         err.response.data.message == "user already registered" ||
         err.response.data.message == "user is not verified"

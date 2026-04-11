@@ -4,6 +4,7 @@ export const ENDPOINTS = {
     SEND_MAIL: `/auth/verify`,
     VERIFY_OTP: `/auth/validateOtp`,
     LOGIN: "/auth/login",
+    GET_CURENT_USER: "/users/me",
   },
   CATEGORIES: {
     GET_ALL: (type, lang) => `categories?type=${type}&lang=${lang}`,

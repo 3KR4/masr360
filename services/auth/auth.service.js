@@ -13,3 +13,6 @@ export const verefyOtp = (payload) => {
 export const loginUser = (payload) => {
   return api.post(ENDPOINTS.AUTH.LOGIN, payload);
 };
+export const getCurentUser = () => {
+  return api.post(ENDPOINTS.AUTH.getCurentUser);
+};
