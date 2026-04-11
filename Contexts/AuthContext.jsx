@@ -36,11 +36,11 @@ export const AuthProvider = ({ children }) => {
   // ================= FETCH USER =================
   const fetchUser = async () => {
     try {
-      const res = await api.get("/auth/me");
-      setUser(res.data);
+      const res = await api.get("/users/me");
+      setUser(res.data.user);
 
       // ✅ save in localStorage
-      localStorage.setItem("user", JSON.stringify(res.data));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
     } catch (err) {
       setUser(null);
       localStorage.removeItem("user");
