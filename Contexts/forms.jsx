@@ -24,6 +24,7 @@ export const FormsCompsProvider = ({ children }) => {
       [key]: value,
     }));
   };
+
   const updateCompsError = (key, value) => {
     setCompsErrors((prev) => ({
       ...prev,
@@ -39,6 +40,8 @@ export const FormsCompsProvider = ({ children }) => {
 
   const [images, setImages] = useState([]);
 
+  const [tickets, setTickets] = useState({ type: "free" });
+
   const [isSubmited, setisSubmited] = useState(false);
 
   // Category select
@@ -53,6 +56,8 @@ export const FormsCompsProvider = ({ children }) => {
         setImages,
         specifications,
         setSpecifications,
+        tickets,
+        setTickets,
         compsInput,
         compsErrors,
         updateCompsInput,

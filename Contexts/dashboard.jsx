@@ -8,7 +8,7 @@ export const DashBoardProvider = ({ children }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState(() => searchParams?.get("search") || "");
   const [filtersState, setFiltersState] = useState({
     name: "",
     price: "",
@@ -20,6 +20,7 @@ export const DashBoardProvider = ({ children }) => {
     cat: "",
     subCat: "",
     gov: "",
+    category: "",
   });
   const updateFilter = (key, value, type) => {
     if (type == "filters") {
@@ -34,6 +35,10 @@ export const DashBoardProvider = ({ children }) => {
       }));
     }
   };
+  useEffect(() => {
+    setSearchText(searchParams?.get("search") || "");
+  }, [searchParams]);
+
   return (
     <dashboard.Provider
       value={{

@@ -351,6 +351,7 @@ const en = {
       descriptionPlaceholder: "Enter product description",
 
       createProduct: "Create Product",
+      editProduct: "Edit Product",
       createNightPlace: "create Night Place",
       tags: "Tags",
       tagsPlaceholder: "Enter your tags",

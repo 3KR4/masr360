@@ -10,21 +10,19 @@ import "@/styles/pages/tables.css";
 import { FaTrashAlt, FaEye } from "react-icons/fa";
 import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
+import { dashboard } from "@/Contexts/dashboard";
 import Link from "next/link";
 import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 import { MdEdit } from "react-icons/md";
 import React, { useContext, useState, useEffect } from "react";
 
-import {
-  productsEn,
-  productsAr,
-  productCategoriesEn,
-  productCategoriesAr,
-} from "@/data";
+
 import { getAll, remove } from "@/services/porducts/products.service";
+import CategoryName from "@/components/dashboard/CategoryName";
 
 export default function Products() {
   const { screenSize, locale } = useContext(mainContext);
+  const { searchText, selectedCats } = useContext(dashboard);
 
   const t = useTranslate();
   const { addNotification } = useNotification();
@@ -39,11 +37,12 @@ export default function Products() {
       const res = await getAll({
         page,
         limit,
-        search: "",
+        search: searchText?.trim() || "",
+        category: selectedCats.category?._id || "",
         lang: locale?.toLowerCase() || "en",
       });
       const response = res.data;
-      setProducts(response?.products ?? (locale == "EN" ? productsEn : productsAr));
+      setProducts(response?.products );
       setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
       addNotification({
         type: "success",
@@ -64,22 +63,22 @@ export default function Products() {
         const res = await getAll({
           page,
           limit,
-          search: "",
+          search: searchText?.trim() || "",
+          category: selectedCats.category?._id || "",
           lang: locale?.toLowerCase() || "en",
         });
         const response = res.data;
 
-        setProducts(response?.products ?? (locale == "EN" ? productsEn : productsAr));
+        setProducts(response?.products);
         setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
       } catch (err) {
         console.error("Failed to fetch products:", err);
-        setProducts(locale == "EN" ? productsEn : productsAr);
         setPageCount(1);
       }
     };
 
     fetchProducts();
-  }, [locale, page]);
+  }, [locale, page, searchText, selectedCats.category]);
 
   return (
     <div className="dash-holder">
@@ -106,10 +105,6 @@ export default function Products() {
 
           <div className="table-items">
             {products?.slice(0, 10).map((item) => {
-              const productCat =
-                locale == "EN"
-                  ? productCategoriesEn?.find((x) => x.id == item?.category)
-                  : productCategoriesAr?.find((x) => x.id == item?.category);
               const imageUrl = item?.imgs?.[0]?.url || item?.images?.[0] || "";
               const productName =
                 item?.name || item?.translations?.[locale]?.name || "";
@@ -136,13 +131,13 @@ export default function Products() {
                       {screenSize !== "small" && (
                         <>
                           <Link
-                            href={`/market?cat=${productCat?.id}`}
+                            href={`/market?cat=${item?.category}`}
                             className="link"
                           >
                             <span>
                               {t.favorites.tableHeaders.product.category}:
                             </span>{" "}
-                            {productCat?.name}
+                            <CategoryName categoryId={item?.category} />
                           </Link>
                         </>
                       )}

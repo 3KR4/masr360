@@ -1,18 +1,11 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
-import {
-  tourismCategoriesEn,
-  tourismCategoriesAr,
-  productCategoriesEn,
-  productCategoriesAr,
-  nightsCategoriesEn,
-  nightsCategoriesAr,
-} from "@/data";
 import "@/styles/components/filters.css";
 import { IoIosClose } from "react-icons/io";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
+import { getAll as getCategories } from "@/services/categories/categories.service";
 
 const Filters = ({
   availability,
@@ -30,18 +23,58 @@ const Filters = ({
   const t = useTranslate();
   const { locale } = useContext(mainContext);
 
-  const cats =
-    catsType === "product"
-      ? locale == "EN"
-        ? productCategoriesEn
-        : productCategoriesAr
-      : catsType === "night"
-        ? locale == "EN"
-          ? nightsCategoriesEn
-          : nightsCategoriesAr
-        : locale == "EN"
-          ? tourismCategoriesEn
-          : tourismCategoriesAr;
+  const [cats, setCats] = useState([]);
+  const [loadingCats, setLoadingCats] = useState(false);
+
+  const categoryType = catsType === "place" ? "tourism" : catsType;
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadCategories = async () => {
+      setLoadingCats(true);
+      try {
+        const res = await getCategories({ type: categoryType, lang: locale });
+        const rawCategories = Array.isArray(res.data?.data?.data)
+          ? res.data.data.data
+          : Array.isArray(res.data?.data)
+            ? res.data.data
+            : Array.isArray(res.data)
+              ? res.data
+              : [];
+
+        const parentCategories = rawCategories.filter((cat) => !cat.parent);
+        const childCategories = rawCategories.filter((cat) => cat.parent);
+
+        const formatted = parentCategories.map((cat) => ({
+          id: cat._id || cat.id,
+          name: cat.name,
+          icon: cat.icon || "•",
+          subcategories: childCategories
+            .filter((sub) =>
+              sub.parent?.toString() === (cat._id || cat.id)?.toString(),
+            )
+            .map((sub) => ({
+              id: sub._id || sub.id,
+              name: sub.name,
+            })),
+        }));
+
+        if (isMounted) setCats(formatted);
+      } catch (error) {
+        console.error("Failed to load category filters:", error);
+        if (isMounted) setCats([]);
+      } finally {
+        if (isMounted) setLoadingCats(false);
+      }
+    };
+
+    loadCategories();
+    return () => {
+      isMounted = false;
+    };
+  }, [categoryType, locale]);
+
   const handlePriceChange = (_, newValue) => {
     setPriceRange(newValue);
   };
@@ -59,7 +92,8 @@ const Filters = ({
       }));
     } else {
       setSelectedCategory((prev) => ({
-        ...prev,
+        catId: cat.id,
+        catLabel: cat.name,
         subCatId: prev.subCatId === sub.id ? null : sub.id,
         subCatLabel: prev.subCatId === sub.id ? null : sub.name,
       }));
@@ -72,7 +106,6 @@ const Filters = ({
         <IoIosClose className="close" onClick={() => setActive(false)} />
       )}
 
-      {/* Availability Filter */}
       {showAvailability && (
         <>
           <div className="holder availability">
@@ -132,10 +165,9 @@ const Filters = ({
                   width: 15,
                   height: 15,
                 },
-                "& .MuiSlider-thumb:hover, & .MuiSlider-thumb.Mui-focusVisible":
-                  {
-                    boxShadow: "0px 0px 0px 7px rgb(94 94 94 / 16%)",
-                  },
+                "& .MuiSlider-thumb:hover, & .MuiSlider-thumb.Mui-focusVisible": {
+                  boxShadow: "0px 0px 0px 7px rgb(94 94 94 / 16%)",
+                },
               }}
             />
           </div>
@@ -146,36 +178,40 @@ const Filters = ({
 
       <div className="holder">
         <h4>{t.marketplace.filter_by_categories}</h4>
-        <ul>
-          {cats.map((cat) => (
-            <li key={cat.id}>
-              <div
-                className={`main-cat ${
-                  selectedCategory.catId === cat.id ? "active" : ""
-                }`}
-                onClick={() => handleCategoryClick(cat)}
-              >
-                <span>{cat.icon}</span> {cat.name}
-              </div>
-
-              {cat.subcategories && selectedCategory.catId === cat.id && (
-                <div className="sub-cats">
-                  {cat.subcategories.map((sub) => (
-                    <div
-                      key={sub.id}
-                      className={`sub-cat ${
-                        selectedCategory.subCatId === sub.id ? "active" : ""
-                      }`}
-                      onClick={() => handleCategoryClick(cat, sub)}
-                    >
-                      ▸ {sub.name}
-                    </div>
-                  ))}
+        {loadingCats ? (
+          <p className="loading">{t.dashboard.forms.loading || "Loading categories..."}</p>
+        ) : (
+          <ul>
+            {cats.map((cat) => (
+              <li key={cat.id}>
+                <div
+                  className={`main-cat ${
+                    selectedCategory.catId === cat.id ? "active" : ""
+                  }`}
+                  onClick={() => handleCategoryClick(cat)}
+                >
+                  <span>{cat.icon}</span> {cat.name}
                 </div>
-              )}
-            </li>
-          ))}
-        </ul>
+
+                {cat.subcategories?.length > 0 && selectedCategory.catId === cat.id && (
+                  <div className="sub-cats">
+                    {cat.subcategories.map((sub) => (
+                      <div
+                        key={sub.id}
+                        className={`sub-cat ${
+                          selectedCategory.subCatId === sub.id ? "active" : ""
+                        }`}
+                        onClick={() => handleCategoryClick(cat, sub)}
+                      >
+                        ▸ {sub.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

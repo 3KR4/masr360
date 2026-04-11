@@ -9,6 +9,7 @@ import { IoIosClose, IoIosArrowDown } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import Navigations from "@/components/Navigations";
 
 import {
@@ -25,6 +26,7 @@ import { dashboard } from "@/Contexts/dashboard";
 import { getBreadcrumbItems } from "@/utlies/getBreadcrumbItems";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
+import { getAll as getCategoriesAPI } from "@/services/categories/categories.service";
 
 function Head() {
   const {
@@ -41,9 +43,20 @@ function Head() {
   const t = useTranslate();
   const inputRef = useRef(null);
   const navigationitems = getBreadcrumbItems(pathname, searchParams);
+  const pageKey = navigationitems[0]?.name?.toLowerCase().replace(/\s+/g, "_"); // مفتاح ثابت للصفحة
 
   const [activeMenu, setActiveMenu] = useState(null);
   const [catsSearch, setCatsSearch] = useState("");
+  const [productCategories, setProductCategories] = useState([]);
+
+  // جلب product categories عند تحميل الصفحة
+  useEffect(() => {
+    if (pageKey == "products_list") {
+      getCategoriesAPI({ type: "product", lang: locale }).then((res) => {
+        setProductCategories(res.data);
+      });
+    }
+  }, [locale, pageKey]);
 
   const handleActiveMenu = (type) => {
     setActiveMenu(type);
@@ -88,8 +101,6 @@ function Head() {
       ? govsEn.map((name, index) => ({ id: index, name }))
       : govsAr.map((name, index) => ({ id: index, name }));
 
-  const pageKey = navigationitems[0]?.name?.toLowerCase().replace(/\s+/g, "_"); // مفتاح ثابت للصفحة
-
   const citys = ["places_list", "events_list", "nights_list"].includes(pageKey)
     ? citysData
     : undefined;
@@ -97,14 +108,13 @@ function Head() {
   // ---------- Categories ----------
   const tourismCategories =
     locale == "EN" ? tourismCategoriesEn : tourismCategoriesAr;
-  const productCategories =
-    locale == "EN" ? productCategoriesEn : productCategoriesAr;
 
   const cats = ["places_list", "events_list", "nights_list"].includes(pageKey)
     ? tourismCategories
-    : pageKey == "products_list"
-      ? productCategories
-      : undefined;
+    : undefined;
+  
+  // Product Categories من الـ API
+  const prodCats = pageKey == "products_list" ? productCategories : undefined;
 
   const subCats = tourismCategories?.find(
     (x) => x.name == selectedCats.cat.name,
@@ -118,6 +128,10 @@ function Head() {
     x.name.toLowerCase().includes(catsSearch.toLowerCase()),
   );
   const filteredSubCats = subCats?.filter((x) =>
+    x.name.toLowerCase().includes(catsSearch.toLowerCase()),
+  );
+
+  const filteredProdCats = prodCats?.filter((x) =>
     x.name.toLowerCase().includes(catsSearch.toLowerCase()),
   );
   return (
@@ -243,6 +257,40 @@ function Head() {
                     }}
                   >
                     {x.name}
+                  </button>
+                ))
+              ) : (
+                <div className="no-results">{t.head.noResults}</div>
+              )}
+            </FilterMenu>
+          )}
+
+          {/* ---------- Product Categories ---------- */}
+          {prodCats?.length && (
+            <FilterMenu
+              label={t.head.filterCat}
+              active={activeMenu == "prodCat"}
+              value={selectedCats.category}
+              search={catsSearch}
+              setSearch={setCatsSearch}
+              onOpen={() => handleActiveMenu("prodCat")}
+              onClose={() => setActiveMenu(null)}
+            >
+              {filteredProdCats?.length ? (
+                filteredProdCats.map((x) => (
+                  <button
+                    key={x._id}
+                    className={selectedCats.category?._id == x._id ? "active" : ""}
+                    onClick={() => {
+                      updateFilter(
+                        "category",
+                        selectedCats.category?._id == x._id ? null : x,
+                        "categories",
+                      );
+                      setActiveMenu(null);
+                    }}
+                  >
+                    {x.icon} {x.name}
                   </button>
                 ))
               ) : (

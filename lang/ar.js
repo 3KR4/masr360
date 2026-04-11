@@ -346,6 +346,7 @@ const ar = {
       descriptionPlaceholder: "أدخل وصف المنتج",
 
       createProduct: "إضافة منتج",
+      editProduct: "تعديل المنتج",
       createNightPlace: "اضافة مزار ليلي",
 
       tags: "الوسوم",
