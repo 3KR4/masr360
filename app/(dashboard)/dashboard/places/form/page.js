@@ -25,7 +25,7 @@ import {
 export default function CreatePlace() {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
-  const { setisSubmited, images, setImages, specifications } = useContext(forms);
+  const { setisSubmited, images, setImages, specifications, tickets, setTickets } = useContext(forms);
 
   const {
     register,
@@ -117,7 +117,7 @@ export default function CreatePlace() {
 
     const loadCategories = async () => {
       try {
-        const res = await getCategories("tourism", locale);
+        const res = await getCategories({ type: "tourism", lang: locale });
         const categoriesData = res.data?.data || res.data || [];
         const options = Array.isArray(categoriesData)
           ? categoriesData.map((cat) => ({
@@ -167,6 +167,9 @@ export default function CreatePlace() {
           EN: formatTranslation(translationsData.EN),
           AR: formatTranslation(translationsData.AR),
         });
+
+        // set tickets
+        setTickets(place.ticket || { type: "free" });
 
         // Fill location fields when edit data uses flat strings or nested object
         setValue(
@@ -240,15 +243,9 @@ export default function CreatePlace() {
   }, [
     editId,
     addNotification,
-    govs,
-    locale,
     setImages,
     setValue,
-    tourismCategories,
-    categoryOptions,
-    filteredCategoryOptions,
-    governorateOptions,
-    filteredGovernorateOptions,
+    setTickets,
   ]);
 
 
@@ -286,6 +283,7 @@ export default function CreatePlace() {
       subCategory: selectedSubCategory?.id || null,
       governorate:
         selectedGov?.id || governorateOptions?.[0]?.id || TEST_GOVERNORATE_ID,
+      ticket: tickets,
       translations: {
         EN: {
           name: translations.EN.title,
@@ -313,6 +311,7 @@ export default function CreatePlace() {
       if (payload.category) formData.append("category", payload.category);
       if (payload.subCategory) formData.append("subCategory", payload.subCategory);
       if (payload.governorate) formData.append("governorate", payload.governorate);
+      if (payload.ticket) formData.append("ticket", JSON.stringify(payload.ticket));
       if (payload.translations) {
         formData.append("translations", JSON.stringify(payload.translations));
       }

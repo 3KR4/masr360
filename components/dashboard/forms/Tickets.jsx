@@ -4,18 +4,8 @@ import useTranslate from "@/Contexts/useTranslation";
 
 function Tickets() {
   const t = useTranslate();
-  const { specifications, setSpecifications, compsErrors, updateCompsError } =
+  const { tickets, setTickets, compsErrors, updateCompsError } =
     useContext(forms);
-
-  const [tickets, setTickets] = useState({
-    type: "free", // "free" | "static" | "staticEgFr" | "regionAge" | "regionAgeEgFr"
-    price: "",
-    egyptian: "",
-    foreigner: "",
-    students: { egyptian: "", foreigner: "" },
-    adults: { egyptian: "", foreigner: "" },
-    seniors: { egyptian: "", foreigner: "" },
-  });
 
   const selectTicketType = (type) => {
     switch (type) {
@@ -23,25 +13,33 @@ function Tickets() {
         setTickets({ type: "free" });
         break;
       case "static":
-        setTickets({ type: "static", price: "" });
+        setTickets({ type: "static", prices: { staticPrice: "" } });
         break;
       case "staticEgFr":
-        setTickets({ type: "staticEgFr", egyptian: "", foreigner: "" });
+        setTickets({ type: "pricePerRegion", prices: { pricePerRegion: { egyptian: "", foreign: "" } } });
         break;
       case "regionAge":
         setTickets({
-          type: "regionAge",
-          students: { egyptian: "", foreigner: "" },
-          adults: { egyptian: "", foreigner: "" },
-          seniors: { egyptian: "", foreigner: "" },
+          type: "pricePerAge",
+          prices: {
+            pricePerAge: {
+              children: "",
+              adults: "",
+              seniors: "",
+            }
+          },
         });
         break;
       case "regionAgeEgFr":
         setTickets({
-          type: "regionAgeEgFr",
-          students: { egyptian: "", foreigner: "" },
-          adults: { egyptian: "", foreigner: "" },
-          seniors: { egyptian: "", foreigner: "" },
+          type: "ageAndRegion",
+          prices: {
+            ageAndRegion: {
+              students: { egyptian: "", foreign: "" },
+              adults: { egyptian: "", foreign: "" },
+              seniors: { egyptian: "", foreign: "" },
+            }
+          },
         });
         break;
       default:
@@ -50,15 +48,55 @@ function Tickets() {
   };
 
   const handleTicketChange = (group, key, value) => {
-    if (group === "price") {
-      setTickets((prev) => ({ ...prev, price: value }));
-    } else if (group === "egyptian" || group === "foreigner") {
-      setTickets((prev) => ({ ...prev, [group]: value }));
-    } else {
+    if (tickets.type === "static") {
       setTickets((prev) => ({
         ...prev,
-        [group]: { ...prev[group], [key]: value },
+        prices: { staticPrice: value }
       }));
+    } else if (tickets.type === "pricePerRegion") {
+      setTickets((prev) => ({
+        ...prev,
+        prices: {
+          pricePerRegion: {
+            ...prev.prices.pricePerRegion,
+            [group]: value
+          }
+        }
+      }));
+    } else if (tickets.type === "pricePerAge") {
+      setTickets((prev) => ({
+        ...prev,
+        prices: {
+          pricePerAge: {
+            ...prev.prices.pricePerAge,
+            [group]: value
+          }
+        }
+      }));
+    } else if (tickets.type === "ageAndRegion") {
+      setTickets((prev) => ({
+        ...prev,
+        prices: {
+          ageAndRegion: {
+            ...prev.prices.ageAndRegion,
+            [group]: {
+              ...prev.prices.ageAndRegion[group],
+              [key]: value
+            }
+          }
+        }
+      }));
+    }
+  };
+
+  const getActiveValue = (type) => {
+    switch (type) {
+      case "static": return "static";
+      case "pricePerRegion": return "staticEgFr";
+      case "pricePerAge": return "regionAge";
+      case "ageAndRegion": return "regionAgeEgFr";
+      case "free": return "free";
+      default: return "free";
     }
   };
 
@@ -78,11 +116,11 @@ function Tickets() {
             <label
               key={opt.value}
               className={`ticket-option ${
-                tickets.type === opt.value ? "active" : ""
+                getActiveValue(tickets.type) === opt.value ? "active" : ""
               }`}
               onClick={() => selectTicketType(opt.value)}
             >
-              {tickets.type === opt.value && <span>✔</span>} {opt.label}
+              {getActiveValue(tickets.type) === opt.value && <span>✔</span>} {opt.label}
             </label>
           ))}
         </div>
@@ -97,16 +135,16 @@ function Tickets() {
               <input
                 type="number"
                 placeholder={t.dashboard.forms.price}
-                value={tickets.price}
+                value={tickets.prices?.staticPrice || ""}
                 onChange={(e) =>
-                  handleTicketChange("price", null, e.target.value)
+                  handleTicketChange("staticPrice", null, e.target.value)
                 }
               />
             </div>
           </div>
         )}
 
-        {tickets.type === "staticEgFr" && (
+        {tickets.type === "pricePerRegion" && (
           <div className="tickets-prices">
             <div className="ticket-group">
               <label>{t.dashboard.forms.price}</label>
@@ -114,7 +152,7 @@ function Tickets() {
                 <input
                   type="number"
                   placeholder={t.dashboard.forms.egyptian}
-                  value={tickets.egyptian}
+                  value={tickets.prices?.pricePerRegion?.egyptian || ""}
                   onChange={(e) =>
                     handleTicketChange("egyptian", null, e.target.value)
                   }
@@ -122,9 +160,9 @@ function Tickets() {
                 <input
                   type="number"
                   placeholder={t.dashboard.forms.foreigner}
-                  value={tickets.foreigner}
+                  value={tickets.prices?.pricePerRegion?.foreign || ""}
                   onChange={(e) =>
-                    handleTicketChange("foreigner", null, e.target.value)
+                    handleTicketChange("foreign", null, e.target.value)
                   }
                 />
               </div>
@@ -132,27 +170,27 @@ function Tickets() {
           </div>
         )}
 
-        {(tickets.type === "regionAge" || tickets.type === "regionAgeEgFr") && (
+        {(tickets.type === "pricePerAge" || tickets.type === "ageAndRegion") && (
           <div className="tickets-prices">
-            {["students", "adults", "seniors"].map((group) => (
+            {(tickets.type === "pricePerAge" ? ["children", "adults", "seniors"] : ["students", "adults", "seniors"]).map((group) => (
               <div className="ticket-group" key={group}>
                 <label>{t.dashboard.forms[group]}</label>
                 <div className="spec-item">
-                  {(tickets.type === "regionAge"
+                  {(tickets.type === "pricePerAge"
                     ? ["egyptian"]
-                    : ["egyptian", "foreigner"]
+                    : ["egyptian", "foreign"]
                   ).map((key) => (
                     <input
                       key={key}
                       type="number"
                       placeholder={
-                        tickets.type === "regionAge"
+                        tickets.type === "pricePerAge"
                           ? t.dashboard.forms.egyptian
                           : `${t.dashboard.forms[key]} (${
                               key === "egyptian" ? "Local" : "Foreign"
                             })`
                       }
-                      value={tickets[group][key]}
+                      value={tickets.type === "pricePerAge" ? (tickets.prices?.pricePerAge?.[group] || "") : (tickets.prices?.ageAndRegion?.[group]?.[key] || "")}
                       onChange={(e) =>
                         handleTicketChange(group, key, e.target.value)
                       }

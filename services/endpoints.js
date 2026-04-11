@@ -100,5 +100,13 @@ NIGHTS: {
     return `/nights?${params.toString()}`;
   },
   GET_ONE: (id) => `/nights/${id}`,
+},
+CATEGORIES: {
+  CREATE: "/categories",
+  UPDATE: (id) => `/categories/${id}`,
+  DELETE: (id) => `/categories/${id}`,
+  GET_ALL: (type, lang) => `categories?type=${type}&lang=${lang}`,
+  GET_ONE: (id) => `/categories/${id}`,
 }
 };
+
