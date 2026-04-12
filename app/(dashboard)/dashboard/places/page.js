@@ -37,7 +37,7 @@ export default function Places() {
       setLoading(true);
 
       const governorateId = selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
-      const categoryId = selectedCats.cat?._id || "";
+      const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
 
       const res = await getAll(
         searchText,
@@ -46,7 +46,7 @@ export default function Places() {
         locale,
         undefined,  // sort
         governorateId,
-        ""   // categoryId
+        categoryId   // replaced "" with categoryId
       );
       const response = res.data;
 
@@ -61,7 +61,7 @@ export default function Places() {
   const fetchCategories = useCallback(async () => {
     try {
       setCategoriesLoading(true);
-      const res = await getCategories({ type: "places", lang: locale });
+      const res = await getCategories({ type: "place", lang: locale });
       const response = res.data.data || res.data;
       setCategories(response || []);
     } catch (error) {
@@ -110,27 +110,44 @@ export default function Places() {
     return map;
   }, [categories]);
 
-  const getCategoryDisplayName = useCallback((categoryId, subCategoryId) => {
+  const getCategoryDisplayName = useCallback((categoryData, subCategoryData) => {
     if (categoriesLoading) return t.dashboard?.tables?.loading || "Loading...";
 
-    const category = categoriesMap.get(categoryId);
-    const subCategory = categoriesMap.get(subCategoryId);
+    const categoryId = categoryData?._id || categoryData;
+    const subCategoryId = subCategoryData?._id || subCategoryData;
 
-    if (subCategory && subCategory.parentName) {
-      return `${subCategory.parentName} / ${subCategory.name}`;
-    } else if (category) {
-      return category.name;
+    const categoryFromList = categoriesMap.get(categoryId);
+    const subCategoryFromList = categoriesMap.get(subCategoryId);
+
+    const localeKey = String(locale || "EN").toUpperCase();
+
+    const catName = categoryData?.translations?.[localeKey]?.name || categoryFromList?.translations?.[localeKey]?.name || categoryData?.name || categoryFromList?.name;
+    const subCatName = subCategoryData?.translations?.[localeKey]?.name || subCategoryFromList?.translations?.[localeKey]?.name || subCategoryData?.name || subCategoryFromList?.name;
+
+    if (subCatName && catName) {
+      return `${catName} / ${subCatName}`;
+    } else if (catName) {
+      return catName;
     } else {
       return t.dashboard?.tables?.unknownCategory || "Unknown Category";
     }
-  }, [categoriesMap, categoriesLoading, t]);
+  }, [categoriesMap, categoriesLoading, t, locale]);
 
-  const getGovernorateDisplayName = useCallback((governorateId) => {
+  const getGovernorateDisplayName = useCallback((governorateData) => {
     if (governoratesLoading) return t.dashboard?.tables?.loading || "Loading...";
     
-    const gov = governorates.find(g => g._id === governorateId);
-    return gov?.name || "Unknown Governorate";
-  }, [governorates, governoratesLoading, t]);
+    const govId = governorateData?._id || governorateData;
+    const govFromList = governorates.find(g => g._id === govId);
+    
+    const localeKey = String(locale || "EN").toUpperCase();
+    return (
+      governorateData?.translations?.[localeKey]?.name ||
+      govFromList?.translations?.[localeKey]?.name ||
+      governorateData?.name ||
+      govFromList?.name ||
+      "Unknown Governorate"
+    );
+  }, [governorates, governoratesLoading, t, locale]);
 
  const deletePlaces = async (id) => {
     try {
@@ -188,7 +205,7 @@ export default function Places() {
               const placeEntry = localPlaces.find(
                 (x) => String(x.id) === String(item?._id) || x.name === item?.name,
               );
-              const placeGov = governorates.find(g => g._id === item?.governorate?._id);
+              const govId = item?.governorate?._id || item?.governorate;
               const imageUrl = item?.imgs?.[0]?.url || placeEntry?.images?.[0];
               const placeName =
                 item?.translations?.[localeKey]?.name ||
@@ -237,9 +254,9 @@ export default function Places() {
                     </h4>
                   </div>
 
-                  <Link href={`/discover/${placeGov?._id}`} className="link">
+                  <Link href={`/discover/${govId}`} className="link">
                     <FaLocationDot />
-                    {placeGov?.name || getGovernorateDisplayName(item?.governorate?._id)}
+                    {getGovernorateDisplayName(item?.governorate)}
                   </Link>
 
                   <div className="actions">

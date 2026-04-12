@@ -83,6 +83,7 @@ NIGHTS: {
   UPDATE: (id) => `/nights/${id}`,
   DELETE: (id) => `/nights/${id}`,
   GET_ALL: (
+    search,
     page,
     limit,
     lang,
@@ -91,6 +92,7 @@ NIGHTS: {
     categoryId
   ) => {
     const params = new URLSearchParams();
+    if (search) params.append("search", search);
     if (lang) params.append("lang", lang);
     params.append("page", page);
     params.append("limit", limit);

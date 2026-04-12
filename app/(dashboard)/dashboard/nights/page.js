@@ -20,7 +20,7 @@ export default function Nights() {
   const { screenSize, locale } = useContext(mainContext);
 
   const t = useTranslate();
-  const { selectedCats } = useContext(dashboard);
+  const { selectedCats, searchText } = useContext(dashboard);
   const [nights, setNights] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -30,7 +30,8 @@ export default function Nights() {
   const fetchNights = useCallback(async () => {
     try {
       const governorateId = selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
-      const res = await getAll(page, limit, locale, undefined, governorateId);
+      const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
+      const res = await getAll(searchText, page, limit, locale, undefined, governorateId, categoryId);
       const response = res.data[0];
 
       setNights(response?.data ?? []);
@@ -44,7 +45,7 @@ export default function Nights() {
       console.error("Error fetching nights:", error);
       setNights(locale === "EN" ? nightsEn : nightsAr);
     }
-  }, [locale, page, limit, selectedCats]);
+  }, [locale, page, limit, selectedCats, searchText]);
 
   useEffect(() => {
     let mounted = true;

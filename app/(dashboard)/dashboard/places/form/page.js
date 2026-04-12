@@ -25,7 +25,7 @@ import {
 export default function CreatePlace() {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
-  const { setisSubmited, images, setImages, specifications, tickets, setTickets } = useContext(forms);
+  const { setisSubmited, images, setImages, specifications, setSpecifications, tickets, setTickets } = useContext(forms);
 
   const {
     register,
@@ -115,13 +115,19 @@ export default function CreatePlace() {
 
     const loadCategories = async () => {
       try {
-        const res = await getCategories({ type: "tourism", lang: locale });
+        const res = await getCategories({ type: "place", lang: locale });
         const categoriesData = res.data?.data || res.data || [];
+        const localeKey = String(locale || "EN").toUpperCase();
+        
         const options = Array.isArray(categoriesData)
           ? categoriesData.map((cat) => ({
-              id: cat._id,
-              name: cat.name,
-              subcategories: cat.subcategories || [],
+              id: cat._id || cat.id,
+              name: cat.translations?.[localeKey]?.name || cat.name,
+              subcategories: (cat.subCategories || cat.subcategories || []).map(sub => ({
+                id: sub._id || sub.id,
+                name: sub.translations?.[localeKey]?.name || sub.name,
+                raw: sub
+              })),
               raw: cat,
             }))
           : [];
@@ -135,6 +141,24 @@ export default function CreatePlace() {
     loadGovernorates();
     loadCategories();
   }, [locale]);
+
+  useEffect(() => {
+    if (!editId) {
+      setImages([]);
+      setTickets({ type: "free" });
+      if (typeof setSpecifications === 'function') setSpecifications([]);
+      setTranslations({
+        EN: { title: "", description: "" },
+        AR: { title: "", description: "" },
+      });
+      setSelectedCategory(null);
+      setSelectedSubCategory(null);
+      setSelectedGov(null);
+      setValue("mapLocation.link", "");
+      setValue("mapLocation.iFrame", "");
+      setOldImage(null);
+    }
+  }, [editId, setImages, setTickets, setSpecifications, setValue]);
 
   useEffect(() => {
     if (!editId) return;
@@ -167,7 +191,11 @@ export default function CreatePlace() {
         });
 
         // set tickets
-        setTickets(place.ticket || { type: "free" });
+        let apiTicket = place.ticket;
+        if (typeof apiTicket === 'string') {
+          try { apiTicket = JSON.parse(apiTicket); } catch(e) { apiTicket = { type: "free" }; }
+        }
+        setTickets(apiTicket?.type ? apiTicket : { type: "free" });
 
         // Fill location fields when edit data uses flat strings or nested object
         setValue(
@@ -416,10 +444,10 @@ export default function CreatePlace() {
           <SelectOptions
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
-            options={filteredCategoryOptions}
+            options={filteredCategoryOptions.map(cat => ({ ...cat, subcategories: undefined, _subcategories: cat.subcategories }))}
             value={selectedCategory}
             onChange={(cat) => {
-              setSelectedCategory(cat);
+              setSelectedCategory({ ...cat, subcategories: cat._subcategories });
               setSelectedSubCategory(null);
             }}
           />
@@ -429,14 +457,16 @@ export default function CreatePlace() {
               {translationErrors.category}
             </span>
           ) : null}
-          <SelectOptions
-            label={t.dashboard.forms.subCategory}
-            placeholder={t.dashboard.forms.selectSubCategory}
-            options={subCategories}
-            value={selectedSubCategory}
-            disabled={!selectedCategory}
-            onChange={(sub) => setSelectedSubCategory(sub)}
-          />
+          {subCategories.length > 0 && (
+            <SelectOptions
+              label={t.dashboard.forms.subCategory}
+              placeholder={t.dashboard.forms.selectSubCategory}
+              options={subCategories}
+              value={selectedSubCategory}
+              disabled={!selectedCategory}
+              onChange={(sub) => setSelectedSubCategory(sub)}
+            />
+          )}
         </div>
 
         {/* ----------------- Description ----------------- */}
