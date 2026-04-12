@@ -160,6 +160,15 @@ header .actions-btns .userMenu .top {
 .dashboard .table-container .item-rating .row-holder h4 {
   font-size: 14px;
 }
+/* Fixed box so Next/Image fill matches real thumbnails and placeholder */
+.dashboard .table-container.products .item-image {
+  position: relative;
+  flex-shrink: 0;
+  width: calc(54px * 1.1);
+  height: 54px;
+  border-radius: 7px;
+  overflow: hidden;
+}
 .dashboard .table-container .item-image .product-image {
   border-radius: 7px;
   width: unset !important;
@@ -269,6 +278,14 @@ header .actions-btns .userMenu .top {
 .dashboard .table-container.governorates .table-header,
 .dashboard .table-container.governorates .table-item {
   grid-template-columns: 2.5fr 1fr 1fr 1fr;
+}
+.dashboard .table-container.governorates .item-image {
+  position: relative;
+  flex-shrink: 0;
+  width: calc(88px * 1.6);
+  height: 88px;
+  border-radius: 7px;
+  overflow: hidden;
 }
 .dashboard .table-container.governorates .item-image .product-image {
   height: 88px !important;

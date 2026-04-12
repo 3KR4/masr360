@@ -15,6 +15,8 @@ import { getAll, remove } from "@/services/govenorates/govenorates.service";
 import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
 
+const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
+
 export default function Governorates() {
   const { locale, screenSize } = useContext(mainContext);
   const { searchText } = useContext(dashboard);
@@ -85,15 +87,17 @@ export default function Governorates() {
 
           <div className="table-items">
             {governorates?.map((item) => {
-              console.log("xx", item);
+              const imageUrl = item?.img?.url || "";
+              const govName =
+                item?.translations?.[locale]?.name || item?.name || "";
 
               return (
                 <div key={item?._id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
                       <Image
-                        src={item?.img?.url}
-                        alt={item?.name}
+                        src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
+                        alt={govName || "Governorate image"}
                         fill
                         className="product-image"
                       />
@@ -101,7 +105,7 @@ export default function Governorates() {
 
                     <div className="item-details">
                       <Link href={`/`} className="item-name">
-                        {item?.translations?.[locale]?.name || item?.name}
+                        {govName}
                       </Link>
                       <p className="description">
                         {item?.translations?.[locale]?.desc || item?.desc}

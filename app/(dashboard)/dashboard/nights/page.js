@@ -16,6 +16,8 @@ import { getAll, remove } from "@/services/nights/nights.service";
 import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
 
+const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
+
 export default function Nights() {
   const { screenSize, locale } = useContext(mainContext);
 
@@ -137,16 +139,12 @@ export default function Nights() {
                 <div key={itemId} className="table-item">
                   <div className="holder">
                     <Link href={`/nights/${itemId}`} className="item-image">
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={itemName || "Night image"}
-                          fill
-                          className="product-image"
-                        />
-                      ) : (
-                        <div className="item-image-empty" />
-                      )}
+                      <Image
+                        src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
+                        alt={itemName || "Night image"}
+                        fill
+                        className="product-image"
+                      />
                     </Link>
 
                     <div className="item-details">

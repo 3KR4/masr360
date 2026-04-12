@@ -17,6 +17,8 @@ import { useNotification } from "@/Contexts/NotificationContext";
 import { getAll as getCategories } from "@/services/categories/categories.service";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
 
+const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
+
 export default function Places() {
   const { screenSize, locale } = useContext(mainContext);
   const { searchText, selectedCats } = useContext(dashboard);
@@ -168,9 +170,6 @@ export default function Places() {
     }
   };
 
-  console.log(places.length);
-  
-
   return (
     <div className="dash-holder">
       <div className="body">
@@ -226,16 +225,12 @@ export default function Places() {
                 <div key={item?._id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={placeName || "Place image"}
-                          fill
-                          className="product-image"
-                        />
-                      ) : (
-                        <div className="item-image-empty" />
-                      )}
+                      <Image
+                        src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
+                        alt={placeName || "Place image"}
+                        fill
+                        className="product-image"
+                      />
                     </Link>
 
                     <div className="item-details">
