@@ -92,9 +92,7 @@ export default function CreateNights() {
     useEffect(() => {
     const loadGovernorates = async () => {
       try {
-        const res = await getGovernorates("", 1, 200, locale);
-        const governoratesData =
-          res.data?.[0]?.data || res.data?.data || res.data || [];
+        const { governorates: governoratesData } = await getGovernorates("", 1, 200, locale);
         const options = Array.isArray(governoratesData)
           ? governoratesData.map((gov) => ({
               id: gov._id,

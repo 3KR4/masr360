@@ -13,12 +13,14 @@ import { MdEdit } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
 import { getAll, remove } from "@/services/nights/nights.service";
+import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
 
 export default function Nights() {
   const { screenSize, locale } = useContext(mainContext);
 
   const t = useTranslate();
+  const { selectedCats } = useContext(dashboard);
   const [nights, setNights] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -27,7 +29,8 @@ export default function Nights() {
 
   const fetchNights = useCallback(async () => {
     try {
-      const res = await getAll(page, limit, locale);
+      const governorateId = selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
+      const res = await getAll(page, limit, locale, undefined, governorateId);
       const response = res.data[0];
 
       setNights(response?.data ?? []);
@@ -41,7 +44,7 @@ export default function Nights() {
       console.error("Error fetching nights:", error);
       setNights(locale === "EN" ? nightsEn : nightsAr);
     }
-  }, [locale, page, limit]);
+  }, [locale, page, limit, selectedCats]);
 
   useEffect(() => {
     let mounted = true;

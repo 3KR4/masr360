@@ -29,6 +29,14 @@ const FormLangSwitch = ({
               </button>
             ))}
           </div>
+          <button
+            type="submit"
+            className="main-button"
+            disabled={loadingSubmit}
+            style={{ opacity: loadingSubmit ? "0.6" : "1" }}
+          >
+            {loadingSubmit ? "..." : buttonLabel}
+          </button>
         </div>
   )
 }

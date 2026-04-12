@@ -27,6 +27,7 @@ import { getBreadcrumbItems } from "@/utlies/getBreadcrumbItems";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
 import { getAll as getCategoriesAPI } from "@/services/categories/categories.service";
+import { getAll as getGovernoratesAPI } from "@/services/govenorates/govenorates.service";
 
 function Head() {
   const {
@@ -48,12 +49,22 @@ function Head() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [catsSearch, setCatsSearch] = useState("");
   const [productCategories, setProductCategories] = useState([]);
+  const [governoratesData, setGovernoratesData] = useState([]);
 
   // جلب product categories عند تحميل الصفحة
   useEffect(() => {
     if (pageKey == "products_list") {
       getCategoriesAPI({ type: "product", lang: locale }).then((res) => {
         setProductCategories(res.data);
+      });
+    }
+  }, [locale, pageKey]);
+
+  // جلب governorates من API
+  useEffect(() => {
+    if (["places_list", "events_list", "nights_list"].includes(pageKey)) {
+      getGovernoratesAPI("", 1, 10000, locale).then((res) => {
+        setGovernoratesData(res.governorates || []);
       });
     }
   }, [locale, pageKey]);
@@ -95,14 +106,9 @@ function Head() {
     return pathname.split("?")[0] + "/form";
   }
 
-  // ---------- Governorates ----------
-  const citysData =
-    locale == "EN"
-      ? govsEn.map((name, index) => ({ id: index, name }))
-      : govsAr.map((name, index) => ({ id: index, name }));
-
+  // ---------- Governorates من API ----------
   const citys = ["places_list", "events_list", "nights_list"].includes(pageKey)
-    ? citysData
+    ? governoratesData
     : undefined;
 
   // ---------- Categories ----------
@@ -176,22 +182,25 @@ function Head() {
               onClose={() => setActiveMenu(null)}
             >
               {filteredGovs?.length ? (
-                filteredGovs.map((x) => (
-                  <button
-                    key={x.id}
-                    className={selectedCats.gov == x.id ? "active" : ""}
-                    onClick={() => {
-                      updateFilter(
-                        "gov",
-                        selectedCats.gov == x.id ? "" : x.id,
-                        "categories",
-                      );
-                      setActiveMenu(null);
-                    }}
-                  >
-                    {x.name}
-                  </button>
-                ))
+                filteredGovs.map((x) => {
+                  const isActive = selectedCats.gov?._id === x._id || selectedCats.gov?.id === x._id || selectedCats.gov === x._id;
+                  return (
+                    <button
+                      key={x._id}
+                      className={isActive ? "active" : ""}
+                      onClick={() => {
+                        updateFilter(
+                          "gov",
+                          isActive ? null : x,
+                          "categories",
+                        );
+                        setActiveMenu(null);
+                      }}
+                    >
+                      {x.name}
+                    </button>
+                  );
+                })
               ) : (
                 <div className="no-results">{t.head.noResults}</div>
               )}
