@@ -24,6 +24,8 @@ import {
 import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
+import { getAll as getCategories } from "@/services/categories/categories.service";
+
 export default function CreateNights() {
   const { setisSubmited, images, setImages } = useContext(forms);
   const t = useTranslate();
@@ -41,9 +43,6 @@ export default function CreateNights() {
       },
     },
   });
-  const tourismCategories =
-    locale == "EN" ? tourismCategoriesEn : tourismCategoriesAr;
-
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [selectedGov, setSelectedGov] = useState(null);
@@ -51,6 +50,12 @@ export default function CreateNights() {
   const filteredGovernorateOptions = useMemo(
     () => (governorateOptions.length > 0 ? governorateOptions : []),
     [governorateOptions]
+  );
+  
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const filteredCategoryOptions = useMemo(
+    () => (categoryOptions.length > 0 ? categoryOptions : []),
+    [categoryOptions]
   );
   const [loadingContent, setLoadingContent] = useState(false);
   const [oldImage, setOldImage] = useState(null);
@@ -92,9 +97,7 @@ export default function CreateNights() {
     useEffect(() => {
     const loadGovernorates = async () => {
       try {
-        const res = await getGovernorates("", 1, 200, locale);
-        const governoratesData =
-          res.data?.[0]?.data || res.data?.data || res.data || [];
+        const { governorates: governoratesData } = await getGovernorates("", 1, 200, locale);
         const options = Array.isArray(governoratesData)
           ? governoratesData.map((gov) => ({
               id: gov._id,
@@ -109,8 +112,53 @@ export default function CreateNights() {
       }
     };
 
-    loadGovernorates();
+    const loadCategories = async () => {
+      try {
+        const res = await getCategories({ type: "night", lang: locale });
+        const categoriesData = res.data?.data || res.data || [];
+        const localeKey = String(locale || "EN").toUpperCase();
+        
+        const options = Array.isArray(categoriesData)
+          ? categoriesData.map((cat) => ({
+              id: cat._id || cat.id,
+              name: cat.translations?.[localeKey]?.name || cat.name,
+              subcategories: (cat.subCategories || cat.subcategories || []).map(sub => ({
+                id: sub._id || sub.id,
+                name: sub.translations?.[localeKey]?.name || sub.name,
+                raw: sub
+              })),
+              raw: cat,
+            }))
+          : [];
+        setCategoryOptions(options);
+      } catch (err) {
+        console.error("Error loading categories:", err);
+        setCategoryOptions([]);
+      }
+    };
 
+    loadGovernorates();
+    loadCategories();
+  }, [locale]);
+
+  useEffect(() => {
+
+    if (!editId) {
+      setImages([]);
+      setTranslations({
+        EN: { name: "", desc: "" },
+        AR: { name: "", desc: "" },
+      });
+      setSelectedCategory(null);
+      setSelectedSubCategory(null);
+      setSelectedGov(null);
+      setValue("location.link", "");
+      setValue("location.iFrame", "");
+      setOldImage(null);
+    }
+  }, [editId, setImages, setValue]);
+
+  useEffect(() => {
     if (!editId) return;
 
     const fetchNight = async () => {
@@ -136,7 +184,7 @@ export default function CreateNights() {
             gov.location?.iFrame || gov.locationIframe || "",
           );
 
-          const categoryOption = tourismCategories.find(
+          const categoryOption = filteredCategoryOptions.find(
             (item) =>
               String(item.id) === String(gov.category) ||
               String(item.name) === String(gov.category) ||
@@ -184,7 +232,7 @@ export default function CreateNights() {
       };
   
       fetchNight();
-  }, [editId, addNotification, setImages, locale, setValue, tourismCategories, filteredGovernorateOptions]);
+  }, [editId, addNotification, setImages, locale, setValue, filteredCategoryOptions, filteredGovernorateOptions]);
   // SUBMIT VALIDATION --------------------------------------
 
   const onSubmit = async (data) => {
@@ -316,21 +364,23 @@ export default function CreateNights() {
           <SelectOptions
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
-            options={tourismCategories}
+            options={filteredCategoryOptions.map(cat => ({ ...cat, subcategories: undefined, _subcategories: cat.subcategories }))}
             value={selectedCategory}
             onChange={(cat) => {
-              setSelectedCategory(cat);
+              setSelectedCategory({ ...cat, subcategories: cat._subcategories });
               setSelectedSubCategory(null);
             }}
           />
-          <SelectOptions
-            label={t.dashboard.forms.subCategory}
-            placeholder={t.dashboard.forms.selectSubCategory}
-            options={subCategories}
-            value={selectedSubCategory}
-            disabled={!selectedCategory}
-            onChange={(sub) => setSelectedSubCategory(sub)}
-          />
+          {subCategories.length > 0 && (
+            <SelectOptions
+              label={t.dashboard.forms.subCategory}
+              placeholder={t.dashboard.forms.selectSubCategory}
+              options={subCategories}
+              value={selectedSubCategory}
+              disabled={!selectedCategory}
+              onChange={(sub) => setSelectedSubCategory(sub)}
+            />
+          )}
         </div>
 
         <div className="box forInput">

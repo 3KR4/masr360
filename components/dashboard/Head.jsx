@@ -27,6 +27,7 @@ import { getBreadcrumbItems } from "@/utlies/getBreadcrumbItems";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
 import { getAll as getCategoriesAPI } from "@/services/categories/categories.service";
+import { getAll as getGovernoratesAPI } from "@/services/govenorates/govenorates.service";
 
 function Head() {
   const {
@@ -48,12 +49,42 @@ function Head() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [catsSearch, setCatsSearch] = useState("");
   const [productCategories, setProductCategories] = useState([]);
+  const [placesCategories, setPlacesCategories] = useState([]);
+  const [nightsCategories, setNightsCategories] = useState([]);
+  const [governoratesData, setGovernoratesData] = useState([]);
 
   // جلب product categories عند تحميل الصفحة
   useEffect(() => {
     if (pageKey == "products_list") {
       getCategoriesAPI({ type: "product", lang: locale }).then((res) => {
         setProductCategories(res.data);
+      });
+    }
+  }, [locale, pageKey]);
+
+  // جلب places categories عند تحميل الصفحة
+  useEffect(() => {
+    if (pageKey == "places_list") {
+      getCategoriesAPI({ type: "place", lang: locale }).then((res) => {
+        setPlacesCategories(res.data?.data || res.data || []);
+      });
+    }
+  }, [locale, pageKey]);
+
+  // جلب nights categories عند تحميل الصفحة
+  useEffect(() => {
+    if (pageKey == "nights_list") {
+      getCategoriesAPI({ type: "night", lang: locale }).then((res) => {
+        setNightsCategories(res.data?.data || res.data || []);
+      });
+    }
+  }, [locale, pageKey]);
+
+  // جلب governorates من API
+  useEffect(() => {
+    if (["places_list", "events_list", "nights_list"].includes(pageKey)) {
+      getGovernoratesAPI("", 1, 10000, locale).then((res) => {
+        setGovernoratesData(res.governorates || []);
       });
     }
   }, [locale, pageKey]);
@@ -95,30 +126,31 @@ function Head() {
     return pathname.split("?")[0] + "/form";
   }
 
-  // ---------- Governorates ----------
-  const citysData =
-    locale == "EN"
-      ? govsEn.map((name, index) => ({ id: index, name }))
-      : govsAr.map((name, index) => ({ id: index, name }));
-
+  // ---------- Governorates من API ----------
   const citys = ["places_list", "events_list", "nights_list"].includes(pageKey)
-    ? citysData
+    ? governoratesData
     : undefined;
 
   // ---------- Categories ----------
   const tourismCategories =
     locale == "EN" ? tourismCategoriesEn : tourismCategoriesAr;
 
-  const cats = ["places_list", "events_list", "nights_list"].includes(pageKey)
-    ? tourismCategories
-    : undefined;
+  const cats = pageKey === "places_list" 
+    ? placesCategories 
+    : pageKey === "nights_list"
+      ? nightsCategories
+      : ["events_list"].includes(pageKey)
+        ? tourismCategories
+        : undefined;
   
   // Product Categories من الـ API
   const prodCats = pageKey == "products_list" ? productCategories : undefined;
 
-  const subCats = tourismCategories?.find(
-    (x) => x.name == selectedCats.cat.name,
-  )?.subcategories;
+  const subCats = (pageKey === "places_list" || pageKey === "nights_list")
+    ? selectedCats.cat?.subCategories
+    : tourismCategories?.find(
+        (x) => x.name == selectedCats.cat?.name,
+      )?.subcategories;
 
   const filteredGovs = citys?.filter((x) =>
     x.name.toLowerCase().includes(catsSearch.toLowerCase()),
@@ -165,7 +197,7 @@ function Head() {
           )}
 
           {/* ---------- Governorates ---------- */}
-          {citys && (
+          {citys?.length > 0 && (
             <FilterMenu
               label={t.head.filterGov}
               active={activeMenu == "gov"}
@@ -176,22 +208,25 @@ function Head() {
               onClose={() => setActiveMenu(null)}
             >
               {filteredGovs?.length ? (
-                filteredGovs.map((x) => (
-                  <button
-                    key={x.id}
-                    className={selectedCats.gov == x.id ? "active" : ""}
-                    onClick={() => {
-                      updateFilter(
-                        "gov",
-                        selectedCats.gov == x.id ? "" : x.id,
-                        "categories",
-                      );
-                      setActiveMenu(null);
-                    }}
-                  >
-                    {x.name}
-                  </button>
-                ))
+                filteredGovs.map((x) => {
+                  const isActive = selectedCats.gov?._id === x._id || selectedCats.gov?.id === x._id || selectedCats.gov === x._id;
+                  return (
+                    <button
+                      key={x._id}
+                      className={isActive ? "active" : ""}
+                      onClick={() => {
+                        updateFilter(
+                          "gov",
+                          isActive ? null : x,
+                          "categories",
+                        );
+                        setActiveMenu(null);
+                      }}
+                    >
+                      {x.name}
+                    </button>
+                  );
+                })
               ) : (
                 <div className="no-results">{t.head.noResults}</div>
               )}
@@ -199,7 +234,7 @@ function Head() {
           )}
 
           {/* ---------- Categories ---------- */}
-          {cats?.length && (
+          {cats?.length > 0 && (
             <FilterMenu
               label={t.head.filterCat}
               active={activeMenu == "cat"}
@@ -210,29 +245,32 @@ function Head() {
               onClose={() => setActiveMenu(null)}
             >
               {filteredCats?.length ? (
-                filteredCats.map((x) => (
+                filteredCats.map((x) => {
+                  const isActive = (selectedCats.cat?._id || selectedCats.cat?.id) === (x._id || x.id);
+                  return (
                   <button
-                    key={x.id}
-                    className={selectedCats.cat?.id == x.id ? "active" : ""}
+                    key={x._id || x.id}
+                    className={isActive ? "active" : ""}
                     onClick={() => {
                       updateFilter(
                         "cat",
-                        selectedCats.cat?.id == x.id ? null : x,
+                        isActive ? null : x,
                         "categories",
                       );
                       updateFilter("subCat", null, "categories");
                       setActiveMenu(null);
                     }}
                   >
-                    {x.icon} {x.name}
+                    {x.icon && <span>{x.icon} </span>}{x.name}
                   </button>
-                ))
+                  );
+                })
               ) : (
                 <div className="no-results">{t.head.noResults}</div>
               )}
             </FilterMenu>
           )}
-          {subCats?.length && (
+          {subCats?.length > 0 && (
             <FilterMenu
               label={t.head.filterSubCat}
               active={activeMenu == "subCat"}
@@ -243,14 +281,16 @@ function Head() {
               onClose={() => setActiveMenu(null)}
             >
               {filteredSubCats?.length ? (
-                filteredSubCats.map((x) => (
+                filteredSubCats.map((x) => {
+                  const isActive = (selectedCats.subCat?._id || selectedCats.subCat?.id) === (x._id || x.id);
+                  return (
                   <button
-                    key={x.id}
-                    className={selectedCats.subCat?.id == x.id ? "active" : ""}
+                    key={x._id || x.id}
+                    className={isActive ? "active" : ""}
                     onClick={() => {
                       updateFilter(
                         "subCat",
-                        selectedCats.subCat?.id == x.id ? null : x,
+                        isActive ? null : x,
                         "categories",
                       );
                       setActiveMenu(null);
@@ -258,7 +298,8 @@ function Head() {
                   >
                     {x.name}
                   </button>
-                ))
+                  );
+                })
               ) : (
                 <div className="no-results">{t.head.noResults}</div>
               )}
@@ -266,7 +307,7 @@ function Head() {
           )}
 
           {/* ---------- Product Categories ---------- */}
-          {prodCats?.length && (
+          {prodCats?.length > 0 && (
             <FilterMenu
               label={t.head.filterCat}
               active={activeMenu == "prodCat"}

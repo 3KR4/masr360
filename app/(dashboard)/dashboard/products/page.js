@@ -20,6 +20,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { getAll, remove } from "@/services/porducts/products.service";
 import CategoryName from "@/components/dashboard/CategoryName";
 
+const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
+
 export default function Products() {
   const { screenSize, locale } = useContext(mainContext);
   const { searchText, selectedCats } = useContext(dashboard);
@@ -112,16 +114,12 @@ export default function Products() {
                 <div key={item?._id || item?.id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={productName}
-                          fill
-                          className="product-image"
-                        />
-                      ) : (
-                        <div className="item-image-empty" />
-                      )}
+                      <Image
+                        src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
+                        alt={productName}
+                        fill
+                        className="product-image"
+                      />
                     </Link>
 
                     <div className="item-details">

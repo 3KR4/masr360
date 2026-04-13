@@ -125,7 +125,7 @@ function Tickets() {
           ))}
         </div>
 
-        {!tickets.type.startsWith("free") && <hr />}
+        {!String(tickets?.type || "free").startsWith("free") && <hr />}
 
         {/* عرض الحقول بناءً على الاختيار */}
         {tickets.type === "static" && (

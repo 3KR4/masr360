@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useContext, useState, useEffect, useCallback, useMemo } from "react";
-import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
@@ -16,6 +15,10 @@ import useTranslate from "@/Contexts/useTranslation";
 import { getAll, remove } from "@/services/places/places.service";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { getAll as getCategories } from "@/services/categories/categories.service";
+import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
+
+const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
+
 export default function Places() {
   const { screenSize, locale } = useContext(mainContext);
   const { searchText, selectedCats } = useContext(dashboard);
@@ -25,45 +28,42 @@ export default function Places() {
   const [places, setPlaces] = useState([]);
   const { addNotification } = useNotification();
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const limit = 5;
-  const [pageCount, setPageCount] = useState(0);
+  const limit = 100; // عرض جميع الأماكن بدون تقسيم
   const [categories, setCategories] = useState([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [governorates, setGovernorates] = useState([]);
+  const [governoratesLoading, setGovernoratesLoading] = useState(true);
 
   const fetchPlaces = useCallback(async () => {
     try {
       setLoading(true);
 
-      const governorateId = selectedCats.gov || "";
-      const categoryId = selectedCats.cat?.id || "";
+      const governorateId = selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
+      const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
 
       const res = await getAll(
         searchText,
-        page,
+        1,
         limit,
         locale,
-        "createdAt,desc",
+        undefined,  // sort
         governorateId,
-        categoryId
+        categoryId   // replaced "" with categoryId
       );
       const response = res.data;
 
       setPlaces(response?.places ?? []);
-
-      const total = response?.count ?? 0;
-      setPageCount(Math.ceil(total / limit));
     } catch (error) {
       console.error("Error fetching places:", error);
     } finally {
       setLoading(false);
     }
-  }, [page, searchText, limit, locale, selectedCats]);
+  }, [searchText, limit, locale, selectedCats]);
 
   const fetchCategories = useCallback(async () => {
     try {
       setCategoriesLoading(true);
-      const res = await getCategories({ type: "places", lang: locale });
+      const res = await getCategories({ type: "place", lang: locale });
       const response = res.data.data || res.data;
       setCategories(response || []);
     } catch (error) {
@@ -74,6 +74,19 @@ export default function Places() {
     }
   }, [locale]);
 
+  const fetchGovernoratesData = useCallback(async () => {
+    try {
+      setGovernoratesLoading(true);
+      const { governorates: govData } = await getGovernorates("", 1, 10000, locale);
+      setGovernorates(govData || []);
+    } catch (error) {
+      console.error("Error fetching governorates:", error);
+      setGovernorates([]);
+    } finally {
+      setGovernoratesLoading(false);
+    }
+  }, [locale]);
+
   useEffect(() => {
     fetchPlaces();
   }, [fetchPlaces]);
@@ -81,6 +94,10 @@ export default function Places() {
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
+
+  useEffect(() => {
+    fetchGovernoratesData();
+  }, [fetchGovernoratesData]);
 
   const categoriesMap = useMemo(() => {
     const map = new Map();
@@ -95,20 +112,44 @@ export default function Places() {
     return map;
   }, [categories]);
 
-  const getCategoryDisplayName = useCallback((categoryId, subCategoryId) => {
-    if (categoriesLoading) return t.dashboard.tables.loading || "Loading...";
+  const getCategoryDisplayName = useCallback((categoryData, subCategoryData) => {
+    if (categoriesLoading) return t.dashboard?.tables?.loading || "Loading...";
 
-    const category = categoriesMap.get(categoryId);
-    const subCategory = categoriesMap.get(subCategoryId);
+    const categoryId = categoryData?._id || categoryData;
+    const subCategoryId = subCategoryData?._id || subCategoryData;
 
-    if (subCategory && subCategory.parentName) {
-      return `${subCategory.parentName} / ${subCategory.name}`;
-    } else if (category) {
-      return category.name;
+    const categoryFromList = categoriesMap.get(categoryId);
+    const subCategoryFromList = categoriesMap.get(subCategoryId);
+
+    const localeKey = String(locale || "EN").toUpperCase();
+
+    const catName = categoryData?.translations?.[localeKey]?.name || categoryFromList?.translations?.[localeKey]?.name || categoryData?.name || categoryFromList?.name;
+    const subCatName = subCategoryData?.translations?.[localeKey]?.name || subCategoryFromList?.translations?.[localeKey]?.name || subCategoryData?.name || subCategoryFromList?.name;
+
+    if (subCatName && catName) {
+      return `${catName} / ${subCatName}`;
+    } else if (catName) {
+      return catName;
     } else {
-      return t.dashboard.tables.unknownCategory || "Unknown Category";
+      return t.dashboard?.tables?.unknownCategory || "Unknown Category";
     }
-  }, [categoriesMap, categoriesLoading, t]);
+  }, [categoriesMap, categoriesLoading, t, locale]);
+
+  const getGovernorateDisplayName = useCallback((governorateData) => {
+    if (governoratesLoading) return t.dashboard?.tables?.loading || "Loading...";
+    
+    const govId = governorateData?._id || governorateData;
+    const govFromList = governorates.find(g => g._id === govId);
+    
+    const localeKey = String(locale || "EN").toUpperCase();
+    return (
+      governorateData?.translations?.[localeKey]?.name ||
+      govFromList?.translations?.[localeKey]?.name ||
+      governorateData?.name ||
+      govFromList?.name ||
+      "Unknown Governorate"
+    );
+  }, [governorates, governoratesLoading, t, locale]);
 
  const deletePlaces = async (id) => {
     try {
@@ -128,9 +169,6 @@ export default function Places() {
       });
     }
   };
-
-  console.log(places.length);
-  
 
   return (
     <div className="dash-holder">
@@ -161,15 +199,12 @@ export default function Places() {
           </div>
 
           <div className="table-items">
-            {places.slice(0, 7).map((item) => {
+            {places.map((item) => {
               const localeKey = String(locale || "EN").toUpperCase();
               const placeEntry = localPlaces.find(
                 (x) => String(x.id) === String(item?._id) || x.name === item?.name,
               );
-              const placeGov =
-                locale == "EN"
-                  ? governoratesEn?.find((x) => x.id == item?.governorate?._id)
-                  : governoratesAr?.find((x) => x.id == item?.governorate?._id);
+              const govId = item?.governorate?._id || item?.governorate;
               const imageUrl = item?.imgs?.[0]?.url || placeEntry?.images?.[0];
               const placeName =
                 item?.translations?.[localeKey]?.name ||
@@ -190,16 +225,12 @@ export default function Places() {
                 <div key={item?._id} className="table-item">
                   <div className="holder">
                     <Link href={`/`} className="item-image">
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={placeName || "Place image"}
-                          fill
-                          className="product-image"
-                        />
-                      ) : (
-                        <div className="item-image-empty" />
-                      )}
+                      <Image
+                        src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
+                        alt={placeName || "Place image"}
+                        fill
+                        className="product-image"
+                      />
                     </Link>
 
                     <div className="item-details">
@@ -218,9 +249,9 @@ export default function Places() {
                     </h4>
                   </div>
 
-                  <Link href={`/discover/${placeGov?.id}`} className="link">
+                  <Link href={`/discover/${govId}`} className="link">
                     <FaLocationDot />
-                    {placeGov?.name}
+                    {getGovernorateDisplayName(item?.governorate)}
                   </Link>
 
                   <div className="actions">
@@ -246,14 +277,6 @@ export default function Places() {
             })}
           </div>
         </div>
-        <Pagination
-          pageCount={pageCount}
-          screenSize={screenSize}
-          isDashBoard={true}
-          onPageChange={(selectedPage) => {
-            setPage(selectedPage.selected + 1);
-          }}
-        />
       </div>
     </div>
   );

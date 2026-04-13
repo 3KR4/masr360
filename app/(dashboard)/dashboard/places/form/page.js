@@ -22,10 +22,91 @@ import {
   tourismCategoriesAr,
 } from "@/data";
 
+/** Axios body may be { place, ticket } or a legacy flat place object. */
+function unwrapPlaceGetOneResponse(data) {
+  const root = data?.data ?? data;
+  const place = root?.place ?? root;
+  const ticketField = root?.ticket ?? place?.ticket;
+  return { place, ticketField };
+}
+
+function firstTicketDoc(ticketField) {
+  if (ticketField == null) return null;
+  if (Array.isArray(ticketField)) return ticketField[0] ?? null;
+  if (typeof ticketField === "string") {
+    try {
+      const parsed = JSON.parse(ticketField);
+      return Array.isArray(parsed) ? parsed[0] ?? null : parsed;
+    } catch {
+      return null;
+    }
+  }
+  return ticketField;
+}
+
+/** API uses `pricing`; dashboard Tickets context uses `prices`. */
+function mapApiTicketToForm(ticketDoc) {
+  if (!ticketDoc || typeof ticketDoc !== "object") return { type: "free" };
+  const type = ticketDoc.type;
+  const pricing = ticketDoc.pricing || ticketDoc.prices || {};
+  if (!type || type === "free") return { type: "free" };
+  const numStr = (v) => (v != null && v !== "" ? String(v) : "");
+
+  if (type === "static") {
+    return {
+      type: "static",
+      prices: { staticPrice: numStr(pricing.staticPrice) },
+    };
+  }
+  if (type === "pricePerRegion") {
+    const p = pricing.pricePerRegion || {};
+    return {
+      type: "pricePerRegion",
+      prices: {
+        pricePerRegion: {
+          egyptian: numStr(p.egyptian),
+          foreign: numStr(p.foreign),
+        },
+      },
+    };
+  }
+  if (type === "pricePerAge") {
+    const p = pricing.pricePerAge || {};
+    return {
+      type: "pricePerAge",
+      prices: {
+        pricePerAge: {
+          children: numStr(p.children),
+          adults: numStr(p.adults),
+          seniors: numStr(p.seniors),
+        },
+      },
+    };
+  }
+  if (type === "ageAndRegion") {
+    const a = pricing.ageAndRegion || {};
+    const mapPair = (group) => ({
+      egyptian: numStr(group?.egyptian),
+      foreign: numStr(group?.foreign),
+    });
+    return {
+      type: "ageAndRegion",
+      prices: {
+        ageAndRegion: {
+          students: mapPair(a.students),
+          adults: mapPair(a.adults),
+          seniors: mapPair(a.seniors),
+        },
+      },
+    };
+  }
+  return { type: "free" };
+}
+
 export default function CreatePlace() {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
-  const { setisSubmited, images, setImages, specifications, tickets, setTickets } = useContext(forms);
+  const { setisSubmited, images, setImages, specifications, setSpecifications, tickets, setTickets } = useContext(forms);
 
   const {
     register,
@@ -60,6 +141,8 @@ export default function CreatePlace() {
   });
   const [governorateOptions, setGovernorateOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
+  /** Raw place from GET one; category/gov selects sync when option lists load. */
+  const [editPlaceSnapshot, setEditPlaceSnapshot] = useState(null);
 
   const TEST_CATEGORY_ID = "6984f12c888f9d5d903f3a9a";
   const TEST_GOVERNORATE_ID = "699f4cb48c0b04cebf3b52cb";
@@ -98,9 +181,7 @@ export default function CreatePlace() {
   useEffect(() => {
     const loadGovernorates = async () => {
       try {
-        const res = await getGovernorates("", 1, 200, locale);
-        const governoratesData =
-          res.data?.[0]?.data || res.data?.data || res.data || [];
+        const { governorates: governoratesData } = await getGovernorates("", 1, 200, locale);
         const options = Array.isArray(governoratesData)
           ? governoratesData.map((gov) => ({
               id: gov._id,
@@ -117,13 +198,19 @@ export default function CreatePlace() {
 
     const loadCategories = async () => {
       try {
-        const res = await getCategories({ type: "tourism", lang: locale });
+        const res = await getCategories({ type: "place", lang: locale });
         const categoriesData = res.data?.data || res.data || [];
+        const localeKey = String(locale || "EN").toUpperCase();
+        
         const options = Array.isArray(categoriesData)
           ? categoriesData.map((cat) => ({
-              id: cat._id,
-              name: cat.name,
-              subcategories: cat.subcategories || [],
+              id: cat._id || cat.id,
+              name: cat.translations?.[localeKey]?.name || cat.name,
+              subcategories: (cat.subCategories || cat.subcategories || []).map(sub => ({
+                id: sub._id || sub.id,
+                name: sub.translations?.[localeKey]?.name || sub.name,
+                raw: sub
+              })),
               raw: cat,
             }))
           : [];
@@ -139,21 +226,40 @@ export default function CreatePlace() {
   }, [locale]);
 
   useEffect(() => {
+    if (!editId) {
+      setImages([]);
+      setTickets({ type: "free" });
+      if (typeof setSpecifications === 'function') setSpecifications([]);
+      setTranslations({
+        EN: { title: "", description: "" },
+        AR: { title: "", description: "" },
+      });
+      setSelectedCategory(null);
+      setSelectedSubCategory(null);
+      setSelectedGov(null);
+      setValue("mapLocation.link", "");
+      setValue("mapLocation.iFrame", "");
+      setOldImage(null);
+      setEditPlaceSnapshot(null);
+    }
+  }, [editId, setImages, setTickets, setSpecifications, setValue]);
+
+  useEffect(() => {
     if (!editId) return;
 
     const fetchPlaces = async () => {
       try {
         setLoadingContent(true);
+        setEditPlaceSnapshot(null);
 
         const res = await getOne(editId);
-        const place = res.data
+        const { place, ticketField } = unwrapPlaceGetOneResponse(res.data);
 
-        console.log(place);
-        
-
-        if (!place) {
+        if (!place || typeof place !== "object") {
           throw new Error("Place data is missing");
         }
+
+        setEditPlaceSnapshot(place);
 
         const formatTranslation = (translation) => ({
           title: translation?.title ?? translation?.name ?? place.name ?? "",
@@ -162,64 +268,24 @@ export default function CreatePlace() {
 
         const translationsData = place.translations || {};
 
-        // set translations
         setTranslations({
           EN: formatTranslation(translationsData.EN),
           AR: formatTranslation(translationsData.AR),
         });
 
-        // set tickets
-        setTickets(place.ticket || { type: "free" });
+        const ticketDoc = firstTicketDoc(ticketField);
+        setTickets(mapApiTicketToForm(ticketDoc));
 
-        // Fill location fields when edit data uses flat strings or nested object
-        setValue(
-          "mapLocation.link",
-          place.location
-          
-        );
+        const locLink =
+          typeof place.location === "string"
+            ? place.location
+            : (place.location?.link ?? "");
+        setValue("mapLocation.link", locLink);
         setValue(
           "mapLocation.iFrame",
-          place.location?.iFrame || place.locationIframe || ""
+          place.locationIframe ?? place.location?.iFrame ?? ""
         );
 
-        // Set category option if the API returns expanded data
-        const categoryOption = filteredCategoryOptions.find(
-          (cat) =>
-            cat.id === place.category ||
-            cat.id === place.category?._id ||
-            cat.name === place.category ||
-            cat.name === place.category?.name
-        );
-        if (categoryOption) {
-          setSelectedCategory(categoryOption);
-          const selectedSub = categoryOption.subcategories?.find(
-            (sub) =>
-              sub.id === place.subCategory ||
-              sub.id === place.subCategory?._id ||
-              sub.name === place.subCategory ||
-              sub.name === place.subCategory?.name
-          );
-          if (selectedSub) {
-            setSelectedSubCategory(selectedSub);
-          }
-        }
-
-        // Set governorate option from static values
-        const govLabel =
-          locale === "EN"
-            ? place.governorate?.name
-            : place.governorate?.translations?.AR?.name || place.governorate?.name;
-        const govOption = filteredGovernorateOptions.find(
-          (gov) =>
-            gov.id === place.governorate ||
-            gov.id === place.governorate?._id ||
-            gov.name === govLabel
-        );
-        if (govOption) {
-          setSelectedGov(govOption);
-        }
-
-        // Use image data if available
         const existingImage = place.img || place.imgs?.[0] || place.imgs;
         if (existingImage) {
           const image = Array.isArray(existingImage)
@@ -240,12 +306,65 @@ export default function CreatePlace() {
     };
 
     fetchPlaces();
+  }, [editId, addNotification, setImages, setValue, setTickets]);
+
+  useEffect(() => {
+    if (!editId || !editPlaceSnapshot) return;
+
+    const place = editPlaceSnapshot;
+
+    const categoryOption = filteredCategoryOptions.find(
+      (cat) =>
+        cat.id === place.category ||
+        cat.id === place.category?._id ||
+        cat.name === place.category ||
+        cat.name === place.category?.name
+    );
+    if (categoryOption) {
+      setSelectedCategory(categoryOption);
+      const selectedSub = categoryOption.subcategories?.find(
+        (sub) =>
+          sub.id === place.subCategory ||
+          sub.id === place.subCategory?._id ||
+          sub.name === place.subCategory ||
+          sub.name === place.subCategory?.name
+      );
+      setSelectedSubCategory(selectedSub || null);
+    } else if (typeof place.category === "string" && place.category) {
+      setSelectedCategory({
+        id: place.category,
+        name: "",
+        subcategories: [],
+        raw: null,
+      });
+      setSelectedSubCategory(null);
+    }
+
+    const govLabel =
+      locale === "EN"
+        ? place.governorate?.name
+        : place.governorate?.translations?.AR?.name || place.governorate?.name;
+    const govOption = filteredGovernorateOptions.find(
+      (gov) =>
+        gov.id === place.governorate ||
+        gov.id === place.governorate?._id ||
+        gov.name === govLabel
+    );
+    if (govOption) {
+      setSelectedGov(govOption);
+    } else if (typeof place.governorate === "string" && place.governorate) {
+      setSelectedGov({
+        id: place.governorate,
+        name: "",
+        raw: null,
+      });
+    }
   }, [
     editId,
-    addNotification,
-    setImages,
-    setValue,
-    setTickets,
+    editPlaceSnapshot,
+    filteredCategoryOptions,
+    filteredGovernorateOptions,
+    locale,
   ]);
 
 
@@ -275,6 +394,26 @@ export default function CreatePlace() {
       return;
     }
 
+    const cleanObject = (obj) => {
+      const cleaned = {};
+      for (const [key, val] of Object.entries(obj)) {
+        if (typeof val === 'object' && val !== null) {
+          const nested = cleanObject(val);
+          if (Object.keys(nested).length > 0) cleaned[key] = nested;
+        } else if (val !== "" && val !== null && val !== undefined) {
+          cleaned[key] = Number(val);
+        }
+      }
+      return cleaned;
+    };
+
+    const formattedTicket = {
+      type: tickets.type,
+    };
+    if (tickets.type !== "free" && tickets.prices) {
+      formattedTicket.pricing = cleanObject(tickets.prices);
+    }
+
     const finalData = {
       name: translations.EN.title,
       desc: translations.EN.description,
@@ -283,7 +422,7 @@ export default function CreatePlace() {
       subCategory: selectedSubCategory?.id || null,
       governorate:
         selectedGov?.id || governorateOptions?.[0]?.id || TEST_GOVERNORATE_ID,
-      ticket: tickets,
+      ticket: formattedTicket,
       translations: {
         EN: {
           name: translations.EN.title,
@@ -299,7 +438,6 @@ export default function CreatePlace() {
         return acc;
       }, {}),
       location: data.mapLocation?.link || "",
-      locationiframe: data.mapLocation?.iFrame || "",
       locationIframe: data.mapLocation?.iFrame || "",
     };
 
@@ -321,7 +459,6 @@ export default function CreatePlace() {
       }
 
       if (payload.location) formData.append("location", payload.location);
-      if (payload.locationiframe) formData.append("locationiframe", payload.locationiframe);
       if (payload.locationIframe) formData.append("locationIframe", payload.locationIframe);
 
       images.forEach((image) => {
@@ -418,10 +555,10 @@ export default function CreatePlace() {
           <SelectOptions
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
-            options={filteredCategoryOptions}
+            options={filteredCategoryOptions.map(cat => ({ ...cat, subcategories: undefined, _subcategories: cat.subcategories }))}
             value={selectedCategory}
             onChange={(cat) => {
-              setSelectedCategory(cat);
+              setSelectedCategory({ ...cat, subcategories: cat._subcategories });
               setSelectedSubCategory(null);
             }}
           />
@@ -431,14 +568,16 @@ export default function CreatePlace() {
               {translationErrors.category}
             </span>
           ) : null}
-          <SelectOptions
-            label={t.dashboard.forms.subCategory}
-            placeholder={t.dashboard.forms.selectSubCategory}
-            options={subCategories}
-            value={selectedSubCategory}
-            disabled={!selectedCategory}
-            onChange={(sub) => setSelectedSubCategory(sub)}
-          />
+          {subCategories.length > 0 && (
+            <SelectOptions
+              label={t.dashboard.forms.subCategory}
+              placeholder={t.dashboard.forms.selectSubCategory}
+              options={subCategories}
+              value={selectedSubCategory}
+              disabled={!selectedCategory}
+              onChange={(sub) => setSelectedSubCategory(sub)}
+            />
+          )}
         </div>
 
         {/* ----------------- Description ----------------- */}

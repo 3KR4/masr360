@@ -13,12 +13,16 @@ import { MdEdit } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
 import { getAll, remove } from "@/services/nights/nights.service";
+import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
+
+const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
 
 export default function Nights() {
   const { screenSize, locale } = useContext(mainContext);
 
   const t = useTranslate();
+  const { selectedCats, searchText } = useContext(dashboard);
   const [nights, setNights] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -27,7 +31,9 @@ export default function Nights() {
 
   const fetchNights = useCallback(async () => {
     try {
-      const res = await getAll(page, limit, locale);
+      const governorateId = selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
+      const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
+      const res = await getAll(searchText, page, limit, locale, undefined, governorateId, categoryId);
       const response = res.data[0];
 
       setNights(response?.data ?? []);
@@ -41,7 +47,7 @@ export default function Nights() {
       console.error("Error fetching nights:", error);
       setNights(locale === "EN" ? nightsEn : nightsAr);
     }
-  }, [locale, page, limit]);
+  }, [locale, page, limit, selectedCats, searchText]);
 
   useEffect(() => {
     let mounted = true;
@@ -133,16 +139,12 @@ export default function Nights() {
                 <div key={itemId} className="table-item">
                   <div className="holder">
                     <Link href={`/nights/${itemId}`} className="item-image">
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={itemName || "Night image"}
-                          fill
-                          className="product-image"
-                        />
-                      ) : (
-                        <div className="item-image-empty" />
-                      )}
+                      <Image
+                        src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
+                        alt={itemName || "Night image"}
+                        fill
+                        className="product-image"
+                      />
                     </Link>
 
                     <div className="item-details">
