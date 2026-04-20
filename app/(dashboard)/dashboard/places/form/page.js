@@ -15,12 +15,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { getOne, update, create } from "@/services/places/places.service";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
 import { getAll as getCategories } from "@/services/categories/categories.service";
-import {
-  govsEn,
-  govsAr,
-  tourismCategoriesEn,
-  tourismCategoriesAr,
-} from "@/data";
 
 /** Axios body may be { place, ticket } or a legacy flat place object. */
 function unwrapPlaceGetOneResponse(data) {
@@ -36,7 +30,7 @@ function firstTicketDoc(ticketField) {
   if (typeof ticketField === "string") {
     try {
       const parsed = JSON.parse(ticketField);
-      return Array.isArray(parsed) ? parsed[0] ?? null : parsed;
+      return Array.isArray(parsed) ? (parsed[0] ?? null) : parsed;
     } catch {
       return null;
     }
@@ -106,7 +100,15 @@ function mapApiTicketToForm(ticketDoc) {
 export default function CreatePlace() {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
-  const { setisSubmited, images, setImages, specifications, setSpecifications, tickets, setTickets } = useContext(forms);
+  const {
+    setisSubmited,
+    images,
+    setImages,
+    specifications,
+    setSpecifications,
+    tickets,
+    setTickets,
+  } = useContext(forms);
 
   const {
     register,
@@ -126,7 +128,7 @@ export default function CreatePlace() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [selectedGov, setSelectedGov] = useState(null);
-    const [loadingContent, setLoadingContent] = useState(false);
+  const [loadingContent, setLoadingContent] = useState(false);
   const [curentCreateLocale, setCurentCreateLocale] = useState("EN");
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [translationErrors, setTranslationErrors] = useState({});
@@ -161,19 +163,15 @@ export default function CreatePlace() {
     }));
   };
 
-  // ----------------- Data -----------------
-  const govs = locale === "EN" ? govsEn : govsAr;
-  const tourismCategories =
-    locale === "EN" ? tourismCategoriesEn : tourismCategoriesAr;
 
   const filteredGovernorateOptions = useMemo(
     () => (governorateOptions.length > 0 ? governorateOptions : []),
-    [governorateOptions]
+    [governorateOptions],
   );
 
   const filteredCategoryOptions = useMemo(
     () => (categoryOptions.length > 0 ? categoryOptions : []),
-    [categoryOptions]
+    [categoryOptions],
   );
 
   const subCategories = selectedCategory?.subcategories || [];
@@ -181,7 +179,12 @@ export default function CreatePlace() {
   useEffect(() => {
     const loadGovernorates = async () => {
       try {
-        const { governorates: governoratesData } = await getGovernorates("", 1, 200, locale);
+        const { governorates: governoratesData } = await getGovernorates(
+          "",
+          1,
+          200,
+          locale,
+        );
         const options = Array.isArray(governoratesData)
           ? governoratesData.map((gov) => ({
               id: gov._id,
@@ -201,16 +204,18 @@ export default function CreatePlace() {
         const res = await getCategories({ type: "place", lang: locale });
         const categoriesData = res.data?.data || res.data || [];
         const localeKey = String(locale || "EN").toUpperCase();
-        
+
         const options = Array.isArray(categoriesData)
           ? categoriesData.map((cat) => ({
               id: cat._id || cat.id,
               name: cat.translations?.[localeKey]?.name || cat.name,
-              subcategories: (cat.subCategories || cat.subcategories || []).map(sub => ({
-                id: sub._id || sub.id,
-                name: sub.translations?.[localeKey]?.name || sub.name,
-                raw: sub
-              })),
+              subcategories: (cat.subCategories || cat.subcategories || []).map(
+                (sub) => ({
+                  id: sub._id || sub.id,
+                  name: sub.translations?.[localeKey]?.name || sub.name,
+                  raw: sub,
+                }),
+              ),
               raw: cat,
             }))
           : [];
@@ -229,7 +234,7 @@ export default function CreatePlace() {
     if (!editId) {
       setImages([]);
       setTickets({ type: "free" });
-      if (typeof setSpecifications === 'function') setSpecifications([]);
+      if (typeof setSpecifications === "function") setSpecifications([]);
       setTranslations({
         EN: { title: "", description: "" },
         AR: { title: "", description: "" },
@@ -263,7 +268,8 @@ export default function CreatePlace() {
 
         const formatTranslation = (translation) => ({
           title: translation?.title ?? translation?.name ?? place.name ?? "",
-          description: translation?.description ?? translation?.desc ?? place.desc ?? "",
+          description:
+            translation?.description ?? translation?.desc ?? place.desc ?? "",
         });
 
         const translationsData = place.translations || {};
@@ -283,7 +289,7 @@ export default function CreatePlace() {
         setValue("mapLocation.link", locLink);
         setValue(
           "mapLocation.iFrame",
-          place.locationIframe ?? place.location?.iFrame ?? ""
+          place.locationIframe ?? place.location?.iFrame ?? "",
         );
 
         const existingImage = place.img || place.imgs?.[0] || place.imgs;
@@ -318,7 +324,7 @@ export default function CreatePlace() {
         cat.id === place.category ||
         cat.id === place.category?._id ||
         cat.name === place.category ||
-        cat.name === place.category?.name
+        cat.name === place.category?.name,
     );
     if (categoryOption) {
       setSelectedCategory(categoryOption);
@@ -327,7 +333,7 @@ export default function CreatePlace() {
           sub.id === place.subCategory ||
           sub.id === place.subCategory?._id ||
           sub.name === place.subCategory ||
-          sub.name === place.subCategory?.name
+          sub.name === place.subCategory?.name,
       );
       setSelectedSubCategory(selectedSub || null);
     } else if (typeof place.category === "string" && place.category) {
@@ -348,7 +354,7 @@ export default function CreatePlace() {
       (gov) =>
         gov.id === place.governorate ||
         gov.id === place.governorate?._id ||
-        gov.name === govLabel
+        gov.name === govLabel,
     );
     if (govOption) {
       setSelectedGov(govOption);
@@ -367,10 +373,8 @@ export default function CreatePlace() {
     locale,
   ]);
 
-
   // ----------------- Submit -----------------
   const onSubmit = (data) => {
-    
     setisSubmited(true);
     setLoadingSubmit(true);
 
@@ -379,13 +383,15 @@ export default function CreatePlace() {
       validationErrors.enTitle = t.dashboard.forms.errors.titleRequired;
     }
     if (!translations.EN.description.trim()) {
-      validationErrors.enDescription = t.dashboard.forms.errors.descriptionRequired;
+      validationErrors.enDescription =
+        t.dashboard.forms.errors.descriptionRequired;
     }
     if (!translations.AR.title.trim()) {
       validationErrors.arTitle = t.dashboard.forms.errors.titleRequired;
     }
     if (!translations.AR.description.trim()) {
-      validationErrors.arDescription = t.dashboard.forms.errors.descriptionRequired;
+      validationErrors.arDescription =
+        t.dashboard.forms.errors.descriptionRequired;
     }
 
     if (Object.keys(validationErrors).length) {
@@ -397,7 +403,7 @@ export default function CreatePlace() {
     const cleanObject = (obj) => {
       const cleaned = {};
       for (const [key, val] of Object.entries(obj)) {
-        if (typeof val === 'object' && val !== null) {
+        if (typeof val === "object" && val !== null) {
           const nested = cleanObject(val);
           if (Object.keys(nested).length > 0) cleaned[key] = nested;
         } else if (val !== "" && val !== null && val !== undefined) {
@@ -447,19 +453,26 @@ export default function CreatePlace() {
       if (payload.name !== undefined) formData.append("name", payload.name);
       if (payload.desc !== undefined) formData.append("desc", payload.desc);
       if (payload.category) formData.append("category", payload.category);
-      if (payload.subCategory) formData.append("subCategory", payload.subCategory);
-      if (payload.governorate) formData.append("governorate", payload.governorate);
-      if (payload.ticket) formData.append("ticket", JSON.stringify(payload.ticket));
+      if (payload.subCategory)
+        formData.append("subCategory", payload.subCategory);
+      if (payload.governorate)
+        formData.append("governorate", payload.governorate);
+      if (payload.ticket)
+        formData.append("ticket", JSON.stringify(payload.ticket));
       if (payload.translations) {
         formData.append("translations", JSON.stringify(payload.translations));
       }
 
       if (Object.keys(payload.specifications).length) {
-        formData.append("specifications", JSON.stringify(payload.specifications));
+        formData.append(
+          "specifications",
+          JSON.stringify(payload.specifications),
+        );
       }
 
       if (payload.location) formData.append("location", payload.location);
-      if (payload.locationIframe) formData.append("locationIframe", payload.locationIframe);
+      if (payload.locationIframe)
+        formData.append("locationIframe", payload.locationIframe);
 
       images.forEach((image) => {
         if (image instanceof File) {
@@ -555,10 +568,17 @@ export default function CreatePlace() {
           <SelectOptions
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
-            options={filteredCategoryOptions.map(cat => ({ ...cat, subcategories: undefined, _subcategories: cat.subcategories }))}
+            options={filteredCategoryOptions.map((cat) => ({
+              ...cat,
+              subcategories: undefined,
+              _subcategories: cat.subcategories,
+            }))}
             value={selectedCategory}
             onChange={(cat) => {
-              setSelectedCategory({ ...cat, subcategories: cat._subcategories });
+              setSelectedCategory({
+                ...cat,
+                subcategories: cat._subcategories,
+              });
               setSelectedSubCategory(null);
             }}
           />
@@ -642,7 +662,6 @@ export default function CreatePlace() {
             </label>
             <div className="inputHolder">
               <div className="holder">
-                
                 <input
                   type="url"
                   id="locationIframe"
@@ -650,8 +669,7 @@ export default function CreatePlace() {
                   {...register("mapLocation.iFrame", {
                     required: t.dashboard.forms.errors.googleMapsIframeRequired,
                     pattern: {
-                      value:
-                        /^https/i,
+                      value: /^https/i,
                       message: t.dashboard.forms.errors.googleMapsIframeInvalid,
                     },
                   })}
