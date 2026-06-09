@@ -16,6 +16,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: "/api/v1/:path*",
+        destination: "http://localhost:2005/api/v1/:path*",
+      },
+      {
         source: "/api-proxy/:path*",
         destination: "http://101.46.70.242/:path*",
       },

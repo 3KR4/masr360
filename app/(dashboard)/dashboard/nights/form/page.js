@@ -23,13 +23,12 @@ import {
 } from "@/data";
 import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
 import { useSearchParams, useRouter } from "next/navigation";
-import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
-import { getAll as getCategories } from "@/services/categories/categories.service";
 
 export default function CreateNights() {
   const { setisSubmited, images, setImages } = useContext(forms);
   const t = useTranslate();
-  const { locale } = useContext(mainContext);
+  const { locale, governorates, nightCategories, referenceDataLoading } =
+    useContext(mainContext);
   const {
     register,
     handleSubmit,
@@ -94,52 +93,36 @@ export default function CreateNights() {
 
   // GET ONE NIGHT --------------------------------------
 
-    useEffect(() => {
-    const loadGovernorates = async () => {
-      try {
-        const { governorates: governoratesData } = await getGovernorates("", 1, 200, locale);
-        const options = Array.isArray(governoratesData)
-          ? governoratesData.map((gov) => ({
-              id: gov._id,
-              name: gov.translations?.[locale]?.name || gov.name || "",
-              raw: gov,
-            }))
-          : [];
-        setGovernorateOptions(options);
-      } catch (err) {
-        console.error("Error loading governorates:", err);
-        setGovernorateOptions([]);
-      }
-    };
+  useEffect(() => {
+    const localeKey = String(locale || "EN").toUpperCase();
 
-    const loadCategories = async () => {
-      try {
-        const res = await getCategories({ type: "night", lang: locale });
-        const categoriesData = res.data?.data || res.data || [];
-        const localeKey = String(locale || "EN").toUpperCase();
-        
-        const options = Array.isArray(categoriesData)
-          ? categoriesData.map((cat) => ({
-              id: cat._id || cat.id,
-              name: cat.translations?.[localeKey]?.name || cat.name,
-              subcategories: (cat.subCategories || cat.subcategories || []).map(sub => ({
+    setGovernorateOptions(
+      Array.isArray(governorates)
+        ? governorates.map((gov) => ({
+            id: gov._id,
+            name: gov.translations?.[localeKey]?.name || gov.name || "",
+            raw: gov,
+          }))
+        : [],
+    );
+
+    setCategoryOptions(
+      Array.isArray(nightCategories)
+        ? nightCategories.map((cat) => ({
+            id: cat._id || cat.id,
+            name: cat.translations?.[localeKey]?.name || cat.name,
+            subcategories: (cat.subCategories || cat.subcategories || []).map(
+              (sub) => ({
                 id: sub._id || sub.id,
                 name: sub.translations?.[localeKey]?.name || sub.name,
-                raw: sub
-              })),
-              raw: cat,
-            }))
-          : [];
-        setCategoryOptions(options);
-      } catch (err) {
-        console.error("Error loading categories:", err);
-        setCategoryOptions([]);
-      }
-    };
-
-    loadGovernorates();
-    loadCategories();
-  }, [locale]);
+                raw: sub,
+              }),
+            ),
+            raw: cat,
+          }))
+        : [],
+    );
+  }, [governorates, nightCategories, locale]);
 
   useEffect(() => {
 
@@ -356,6 +339,7 @@ export default function CreateNights() {
             placeholder={t.dashboard.forms.selectGovernorate}
             options={filteredGovernorateOptions}
             value={selectedGov}
+            loading={referenceDataLoading}
             onChange={(gov) => setSelectedGov(gov)}
           />
         </div>
@@ -366,6 +350,7 @@ export default function CreateNights() {
             placeholder={t.dashboard.forms.categoryPlaceholder}
             options={filteredCategoryOptions.map(cat => ({ ...cat, subcategories: undefined, _subcategories: cat.subcategories }))}
             value={selectedCategory}
+            loading={referenceDataLoading}
             onChange={(cat) => {
               setSelectedCategory({ ...cat, subcategories: cat._subcategories });
               setSelectedSubCategory(null);
@@ -377,6 +362,7 @@ export default function CreateNights() {
               placeholder={t.dashboard.forms.selectSubCategory}
               options={subCategories}
               value={selectedSubCategory}
+              loading={referenceDataLoading}
               disabled={!selectedCategory}
               onChange={(sub) => setSelectedSubCategory(sub)}
             />

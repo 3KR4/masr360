@@ -1,6 +1,7 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useCallback, useContext, useState, useEffect } from "react";
 import Rating from "@mui/material/Rating";
+import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
@@ -23,23 +24,33 @@ export default function Governorates() {
   const t = useTranslate();
   const [governorates, setgovernorates] = useState([]);
   const [loading, setLoading] = useState(false);
-  const limit = 10000;
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
+  const limit = 6;
   const { addNotification } = useNotification();
-  const fetchGovernorates = async () => {
+  const fetchGovernorates = useCallback(async () => {
     try {
       setLoading(true);
 
-      const { governorates: govData } = await getAll(searchText, 1, limit, locale);
+      const { governorates: govData, totalCount } = await getAll(
+        searchText,
+        page,
+        limit,
+        locale,
+      );
       setgovernorates(govData || []);
+      setPageCount(Math.max(1, Math.ceil((totalCount || 0) / limit)));
     } catch (error) {
       console.error("Error fetching governorates:", error);
+      setPageCount(1);
     } finally {
       setLoading(false);
     }
-  };
+  }, [limit, locale, page, searchText]);
+
   useEffect(() => {
     fetchGovernorates();
-  }, [locale, searchText]);
+  }, [fetchGovernorates]);
 
   const deleteGovernorates = async (id) => {
     try {
@@ -146,6 +157,14 @@ export default function Governorates() {
             })}
           </div>
         </div>
+        <Pagination
+          pageCount={pageCount}
+          screenSize={screenSize}
+          isDashBoard={true}
+          onPageChange={(selectedPage) => {
+            setPage(selectedPage.selected + 1);
+          }}
+        />
       </div>
     </div>
   );

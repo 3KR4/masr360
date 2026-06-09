@@ -13,6 +13,7 @@ function SelectOptions({
   onChange,
   searchKey = "name",
   disabled = false,
+  loading = false,
 }) {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
@@ -45,6 +46,15 @@ function SelectOptions({
   }, [options, search, searchKey]);
 
   const renderOptions = () => {
+    if (loading) {
+      return (
+        <div className="select-options-loading">
+          <span className="loader" />
+          <p>{t.dashboard.forms.loading || "Loading..."}</p>
+        </div>
+      );
+    }
+
     if (filteredOptions.length === 0) {
       return <div className="no-results">{t.dashboard.forms.noResults}</div>;
     }
@@ -98,6 +108,10 @@ function SelectOptions({
                 placeholder={t.header.search_placeholder}
                 className="search-input"
               />
+            ) : loading ? (
+              <span className="select-loading-inline">
+                <span className="loader" />
+              </span>
             ) : value ? (
               value?.name
             ) : (

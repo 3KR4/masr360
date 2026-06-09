@@ -4,6 +4,8 @@ export const ENDPOINTS = {
     SEND_MAIL: `/auth/verify`,
     VERIFY_OTP: `/auth/validateOtp`,
     LOGIN: "/auth/login",
+    REFRESH: "/auth/refresh",
+    LOGOUT: "/auth/logout",
     GET_CURENT_USER: "/users/me",
   },
   CATEGORIES: {
@@ -55,6 +57,8 @@ export const ENDPOINTS = {
   CREATE: "/places",
   UPDATE: (id) => `/places/${id}`,
   DELETE: (id) => `/places/${id}`,
+  DELETE_IMAGE: (imgId, type, typeId) =>
+    `/images/${imgId}?entityType=${type}&entityId=${typeId}`,
 
   GET_ALL: (
     search,

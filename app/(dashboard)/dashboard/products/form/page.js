@@ -14,7 +14,6 @@ import {
   getOne,
   removeImage,
 } from "@/services/porducts/products.service";
-import { getAll as getCategories } from "@/services/categories/categories.service";
 import useTranslate from "@/Contexts/useTranslation";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/Contexts/NotificationContext";
@@ -66,7 +65,8 @@ export default function Product() {
     formState: { errors },
   } = useForm();
 
-  const { locale } = useContext(mainContext);
+  const { locale, productCategories, referenceDataLoading } =
+    useContext(mainContext);
 
   // Reset form for create mode
   useEffect(() => {
@@ -90,41 +90,32 @@ export default function Product() {
     setValue("stock", 0);
     setValue("price", 0);
     setValue("sale", "");
-  }, [isEditMode, setImages, setTags, setSpecifications, setOldImages, setCurentCreateLocale, setisSubmited, setValue]);
+  }, [
+    isEditMode,
+    setImages,
+    setTags,
+    setSpecifications,
+    setOldImages,
+    setCurentCreateLocale,
+    setisSubmited,
+    setValue,
+    updateCompsError,
+    updateCompsInput,
+  ]);
 
-  // Fetch categories
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await getCategories({ type: "product", lang: locale });
-        const rawCategories = Array.isArray(res.data?.data?.data)
-          ? res.data.data.data
-          : Array.isArray(res.data?.data)
-            ? res.data.data
-            : Array.isArray(res.data)
-              ? res.data
-              : [];
-
-        const formattedCategories = rawCategories.map((cat) => ({
-          id: cat._id || cat.id,
-          name: cat.name,
-          icon: cat.icon,
-          subcategories: (cat.subCategories || cat.subcategories || []).map((sub) => ({
-            id: sub._id || sub.id,
-            name: sub.name,
-          })),
-        }));
-        setCategories(formattedCategories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        addNotification({
-          type: "warning",
-          message: "Failed to load categories",
-        });
-      }
-    };
-    fetchCategories();
-  }, [addNotification, locale]);
+    const localeKey = String(locale || "EN").toUpperCase();
+    const formattedCategories = (productCategories || []).map((cat) => ({
+      id: cat._id || cat.id,
+      name: cat.translations?.[localeKey]?.name || cat.name,
+      icon: cat.icon,
+      subcategories: (cat.subCategories || cat.subcategories || []).map((sub) => ({
+        id: sub._id || sub.id,
+        name: sub.translations?.[localeKey]?.name || sub.name,
+      })),
+    }));
+    setCategories(formattedCategories);
+  }, [locale, productCategories]);
 
   useEffect(() => {
     if (!productCategoryId || !categories.length) return;
@@ -434,6 +425,7 @@ export default function Product() {
             placeholder={t.dashboard.forms.categoryPlaceholder}
             options={categories}
             value={selectedCategory}
+            loading={referenceDataLoading}
             onChange={(cat) => {
               setSelectedCategory(cat);
             }}

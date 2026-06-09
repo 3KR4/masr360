@@ -1,8 +1,9 @@
-// services/api.js
 import axios from "axios";
 
 // -------------------- BASE CONFIG --------------------
-const BASE_URL = "https://api.m360travel.com/api/v1";
+// const BASE_URL = "https://api.m360travel.com/api/v1";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:2005/api/v1";
 
 // Instance بدون interceptors (للـ refresh فقط)
 export const plainApi = axios.create({
@@ -15,6 +16,14 @@ const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
 });
+
+const PUBLIC_AUTH_ROUTES = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/verify",
+  "/auth/validateOtp",
+  "/auth/refresh",
+];
 
 // -------------------- TOKEN STORAGE --------------------
 let accessToken = null;
@@ -31,6 +40,15 @@ export const clearAuth = () => {
 };
 
 export const getAccessToken = () => accessToken;
+
+const shouldSkipAuth = (config = {}) => {
+  if (config.skipAuth) {
+    return true;
+  }
+
+  const requestUrl = config.url || "";
+  return PUBLIC_AUTH_ROUTES.some((route) => requestUrl.includes(route));
+};
 
 // -------------------- REFRESH CONTROL --------------------
 let refreshPromise = null;
@@ -57,12 +75,15 @@ const refreshToken = async () => {
 
 // -------------------- REQUEST INTERCEPTOR --------------------
 api.interceptors.request.use(async (config) => {
-  // لو مفيش توكن → حاول تجيبه
+  if (shouldSkipAuth(config)) {
+    return config;
+  }
+
   if (!accessToken) {
     try {
       await refreshToken();
     } catch (err) {
-      return config; // سيبه يكمل بدون توكن
+      return config;
     }
   }
 
@@ -72,6 +93,7 @@ api.interceptors.request.use(async (config) => {
 
   return config;
 });
+
 // -------------------- RESPONSE INTERCEPTOR --------------------
 api.interceptors.response.use(
   (response) => response,
@@ -80,20 +102,20 @@ api.interceptors.response.use(
 
     if (
       error.response?.status === 401 &&
+      original &&
       !original._retry &&
-      !original.url.includes("/auth/refresh") &&
+      !shouldSkipAuth(original) &&
       accessToken
     ) {
       original._retry = true;
 
       try {
         await refreshToken();
-
-        // نحط التوكن الجديد ونعيد الطلب
         original.headers.Authorization = `Bearer ${accessToken}`;
         return api(original);
       } catch (err) {
-        // logout / redirect
+        clearAuth();
+
         if (typeof window !== "undefined") {
           const currentPath = window.location.pathname;
 
@@ -101,6 +123,7 @@ api.interceptors.response.use(
             window.location.href = "/register";
           }
         }
+
         return Promise.reject(err);
       }
     }

@@ -24,6 +24,199 @@
   align-items: center;
 }
 
+.dashboard-toolbar-shell {
+  margin: 14px 15px 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.dashboard-toolbar-row {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) repeat(3, minmax(210px, 0.52fr));
+  gap: 7px;
+  align-items: center;
+}
+
+.dashboard-toolbar-row.governorates-toolbar-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.dashboard-toolbar-search {
+  min-width: 0;
+}
+
+.dashboard-toolbar-search-input {
+  height: 42px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  padding-inline: 16px 8px;
+  transition: 0.2s ease;
+}
+
+.dashboard-toolbar-search-input input {
+  flex: 1;
+  height: 100%;
+  padding-left: 4px;
+  padding-right: 10px;
+}
+
+.dashboard-toolbar-search-input .main-ico {
+  width: 29px;
+  height: 29px;
+  padding: 6px;
+  border-radius: 14px;
+  color: var(--paragraph);
+  background: transparent;
+  transition: 0.2s ease;
+}
+
+.dashboard-toolbar-search-input.has-value .main-ico {
+  background: var(--hover-color);
+  color: #fff;
+}
+
+.dashboard-toolbar-inline-badge {
+  min-height: 50px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #8c5c14;
+}
+
+.toolbar-filter-menu {
+  position: relative;
+}
+
+.toolbar-filter-trigger {
+  border: 1px solid var(--border-color);
+  text-align: start;
+  background: #fff;
+  border-radius: 16px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  transition: all 0.2s;
+  display: flex;
+}
+
+.toolbar-filter-trigger:hover {
+  border-color: var(--hover-color);
+}
+
+.toolbar-filter-copy {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar-filter-copy strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toolbar-filter-trigger .main-ico {
+  width: 29px;
+  height: 29px;
+  padding: 4px;
+  border-radius: 14px;
+  color: var(--paragraph);
+  background: transparent;
+  transition: 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toolbar-filter-trigger:hover .main-ico {
+  background: var(--hover-color);
+  color: #fff;
+}
+
+.toolbar-filter-trigger.disabled {
+  background: #f5f6f7;
+  color: #8d8d8d;
+  cursor: not-allowed;
+}
+
+.toolbar-filter-trigger.disabled .main-ico {
+  opacity: 0.45;
+}
+
+.toolbar-filter-dropdown {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(20, 16, 8, 0.12);
+  padding: 12px;
+  z-index: 15;
+  display: none;
+}
+
+.toolbar-filter-dropdown.active {
+  display: grid;
+  gap: 10px;
+}
+
+.toolbar-filter-search {
+  height: 42px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-inline: 12px;
+}
+
+.toolbar-filter-search input {
+  flex: 1;
+  height: 100%;
+}
+
+.toolbar-filter-options {
+  max-height: 260px;
+  overflow: auto;
+  display: grid;
+  gap: 8px;
+}
+
+.toolbar-filter-options button,
+.toolbar-filter-options .no-results {
+  width: 100%;
+  min-height: 40px;
+  border-radius: 12px;
+  text-align: start;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  background: var(--section-color);
+}
+
+.toolbar-filter-options button:hover,
+.toolbar-filter-options button.active {
+  color: var(--main-color);
+  background: var(--second-color);
+  border-color: var(--main-color);
+}
+
 .dashboard .head .right {
   display: flex;
   align-items: center;
@@ -342,4 +535,20 @@ header .actions-btns .userMenu .top {
 .dashboard .table-container .item-startAt .main-color {
   color: var(--hover-color);
   font-size: 16px;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-toolbar-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-toolbar-shell {
+    margin-inline: 10px;
+  }
+
+  .dashboard-toolbar-row {
+    grid-template-columns: 1fr;
+  }
 }

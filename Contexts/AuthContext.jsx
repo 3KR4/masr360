@@ -1,24 +1,37 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
-import api, { plainApi, setAccessToken } from "@/services/axios";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import api, { clearAuth, setAccessToken } from "@/services/axios";
+import {
+  getCurentUser,
+  refreshAuthSession,
+} from "@/services/auth/auth.service";
 
 const AuthContext = createContext(null);
 
+const getStoredUser = () => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  } catch {
+    return null;
+  }
+};
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(getStoredUser);
+  const [loading, setLoading] = useState(() => !getStoredUser());
 
-  // ================= LOGIN =================
-  const login = ({ user, accessToken }) => {
-    setAccessToken(accessToken);
-
-    // ✅ حط اليوزر فورًا
+  const login = ({ user, accessToken, token }) => {
+    setAccessToken(accessToken || token || null);
     setUser(user);
     localStorage.setItem("user", JSON.stringify(user));
   };
 
-  // ================= LOGOUT =================
   const logout = async () => {
     try {
       await api.post("/auth/logout");
@@ -27,52 +40,47 @@ export const AuthProvider = ({ children }) => {
     }
 
     setUser(null);
-    setAccessToken(null);
-    localStorage.removeItem("user"); // ✅ clear cache
-
+    clearAuth();
+    localStorage.removeItem("user");
     window.location.href = "/";
   };
 
-  // ================= FETCH USER =================
-  const fetchUser = async () => {
-    try {
-      const res = await api.get("/users/me");
-      setUser(res.data.user);
+  const fetchUser = useCallback(async () => {
+    const res = await getCurentUser();
+    const currentUser = res.data?.user || null;
 
-      // ✅ save in localStorage
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-    } catch (err) {
-      setUser(null);
-      localStorage.removeItem("user");
-    }
-  };
+    setUser(currentUser);
 
-  // ================= REFRESH TOKEN =================
-  const refreshAuth = async () => {
-    try {
-      const res = await plainApi.post("/auth/refresh");
-      setAccessToken(res.data.accessToken);
-
-      await fetchUser();
-    } catch (err) {
-      setUser(null);
+    if (currentUser) {
+      localStorage.setItem("user", JSON.stringify(currentUser));
+    } else {
       localStorage.removeItem("user");
     }
 
-    setLoading(false);
-  };
-
-  // ================= INIT =================
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser)); // ✅ instant UI
-      setLoading(false); // ✅ منع الفلاش
-    }
-
-    refreshAuth();
+    return currentUser;
   }, []);
+
+  const refreshCurrentUser = useCallback(async () => {
+    try {
+      const res = await refreshAuthSession();
+      setAccessToken(res.data.accessToken);
+      return await fetchUser();
+    } catch (err) {
+      clearAuth();
+      setUser(null);
+      localStorage.removeItem("user");
+      return null;
+    }
+  }, [fetchUser]);
+
+  useEffect(() => {
+    const initAuth = async () => {
+      await refreshCurrentUser();
+      setLoading(false);
+    };
+
+    initAuth();
+  }, [refreshCurrentUser]);
 
   return (
     <AuthContext.Provider
@@ -82,6 +90,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         loading,
         isAuthenticated: !!user,
+        refreshCurrentUser,
       }}
     >
       {children}
@@ -89,5 +98,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// ================= HOOK =================
 export const useAuth = () => useContext(AuthContext);

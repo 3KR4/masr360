@@ -21,6 +21,7 @@ import { FaHeadset } from "react-icons/fa";
 import { MdEventNote, MdLogout, MdSunny } from "react-icons/md";
 import { IoMenu, IoLanguage } from "react-icons/io5";
 import { HiChartBar } from "react-icons/hi2";
+import { TbCategoryPlus } from "react-icons/tb";
 
 import { mainContext } from "@/Contexts/mainContext";
 import useTranslate from "@/Contexts/useTranslation";
@@ -37,12 +38,11 @@ function SideNav() {
   };
 
   // ---------- Open / Close nav ----------
-  const [isNavOpen, setIsNavOpen] = useState(null);
-
-  useEffect(() => {
+  const [isNavOpen, setIsNavOpen] = useState(() => {
+    if (typeof window === "undefined") return null;
     const saved = localStorage.getItem("nav-open");
-    setIsNavOpen(saved === null ? true : saved === "true");
-  }, []);
+    return saved === null ? true : saved === "true";
+  });
 
   useEffect(() => {
     if (isNavOpen !== null) {
@@ -91,6 +91,13 @@ function SideNav() {
           active={isActive("/dashboard/governorates")}
           icon={<RiGovernmentFill />}
           text={t.sideNav.governorates}
+        />
+
+        <NavLink
+          href="/dashboard/categories"
+          active={isActive("/dashboard/categories")}
+          icon={<TbCategoryPlus />}
+          text={t.sideNav.categories || t.dashboard.tables.categories}
         />
 
         <NavLink

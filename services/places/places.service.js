@@ -39,3 +39,7 @@ export const getAll = (
 export const getOne = (id) => {
   return api.get(ENDPOINTS.Places.GET_ONE(id));
 };
+
+export const removeImage = (imgId, type, typeId) => {
+  return api.delete(ENDPOINTS.Places.DELETE_IMAGE(imgId, type, typeId));
+};

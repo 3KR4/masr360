@@ -1,33 +1,31 @@
 "use client";
+
+import React, { useContext, useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import useTranslate from "@/Contexts/useTranslation";
 import { useNotification } from "@/Contexts/NotificationContext";
-
 import Image from "next/image";
-import "@/styles/pages/cart.css";
-import "@/styles/pages/tables.css";
-import { FaTrashAlt, FaEye } from "react-icons/fa";
+import Link from "next/link";
+import { FaEye, FaTrashAlt } from "react-icons/fa";
+import { BiSolidPurchaseTagAlt } from "react-icons/bi";
+import { MdEdit } from "react-icons/md";
 import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
 import { dashboard } from "@/Contexts/dashboard";
-import Link from "next/link";
-import { BiSolidPurchaseTagAlt } from "react-icons/bi";
-import { MdEdit } from "react-icons/md";
-import React, { useContext, useState, useEffect } from "react";
-
-
 import { getAll, remove } from "@/services/porducts/products.service";
 import CategoryName from "@/components/dashboard/CategoryName";
+import "@/styles/pages/cart.css";
+import "@/styles/pages/tables.css";
 
 const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
 
 export default function Products() {
   const { screenSize, locale } = useContext(mainContext);
   const { searchText, selectedCats } = useContext(dashboard);
-
   const t = useTranslate();
   const { addNotification } = useNotification();
+
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -44,7 +42,7 @@ export default function Products() {
         lang: locale?.toLowerCase() || "en",
       });
       const response = res.data;
-      setProducts(response?.products );
+      setProducts(response?.products);
       setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
       addNotification({
         type: "success",
@@ -106,14 +104,15 @@ export default function Products() {
           </div>
 
           <div className="table-items">
-            {products?.slice(0, 10).map((item) => {
+            {products?.map((item) => {
               const imageUrl = item?.imgs?.[0]?.url || item?.images?.[0] || "";
               const productName =
                 item?.name || item?.translations?.[locale]?.name || "";
+
               return (
                 <div key={item?._id || item?.id} className="table-item">
                   <div className="holder">
-                    <Link href={`/`} className="item-image">
+                    <Link href="/" className="item-image">
                       <Image
                         src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
                         alt={productName}
@@ -123,22 +122,18 @@ export default function Products() {
                     </Link>
 
                     <div className="item-details">
-                      <Link href={`/market/${item?._id || item?.id}`} className="item-name">
+                      <Link
+                        href={`/market/${item?._id || item?.id}`}
+                        className="item-name"
+                      >
                         {productName}
                       </Link>
-                      {screenSize !== "small" && (
-                        <>
-                          <Link
-                            href={`/market?cat=${item?.category}`}
-                            className="link"
-                          >
-                            <span>
-                              {t.favorites.tableHeaders.product.category}:
-                            </span>{" "}
-                            <CategoryName categoryId={item?.category} />
-                          </Link>
-                        </>
-                      )}
+                      {screenSize !== "small" ? (
+                        <Link href={`/market?cat=${item?.category}`} className="link">
+                          <span>{t.favorites.tableHeaders.product.category}:</span>{" "}
+                          <CategoryName categoryId={item?.category} />
+                        </Link>
+                      ) : null}
                     </div>
                   </div>
 
@@ -151,6 +146,7 @@ export default function Products() {
                       dashboard={true}
                     />
                   </div>
+
                   <div className="item-rating">
                     <h4>{item?.reviewsCount} review</h4>
                     <div className="row-holder">
@@ -164,6 +160,7 @@ export default function Products() {
                       <h4>({item?.avgRating})</h4>
                     </div>
                   </div>
+
                   <div className="item-overview">
                     <h4>
                       3000 <FaEye />
@@ -172,11 +169,16 @@ export default function Products() {
                       1500 <BiSolidPurchaseTagAlt />
                     </h4>
                   </div>
+
                   <div className="item-stock">
                     <h4
-                      className={`${
-                        item?.quantity == 0 ? "out" : item?.quantity < 10 ? "low" : ""
-                      }`}
+                      className={
+                        item?.quantity == 0
+                          ? "out"
+                          : item?.quantity < 10
+                            ? "low"
+                            : ""
+                      }
                     >
                       {item?.quantity}
                     </h4>
@@ -190,7 +192,6 @@ export default function Products() {
                     <Link href={`/dashboard/products/form?edit=${item?._id || item?.id}`}>
                       <MdEdit className="edit" />
                     </Link>
-
                     <hr />
                     <FaTrashAlt
                       className="delete"
@@ -202,6 +203,7 @@ export default function Products() {
             })}
           </div>
         </div>
+
         <Pagination
           pageCount={pageCount}
           screenSize={screenSize}

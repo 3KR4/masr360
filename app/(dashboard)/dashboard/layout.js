@@ -5,6 +5,7 @@ import { DashBoardProvider } from "@/Contexts/dashboard";
 import "@/styles/globals.css";
 import "@/styles/dashboard/globals.css";
 import Head from "@/components/dashboard/Head";
+import Toolbar from "@/components/dashboard/Toolbar";
 import { FormsCompsProvider } from "@/Contexts/forms";
 import { NotificationProvider } from "@/Contexts/NotificationContext";
   import NotificationHolder from "@/components/settings/NotificationHolder";
@@ -63,6 +64,7 @@ export default function RootLayout({ children }) {
 
                   <div className="dash-holder">
                     <Head />
+                    <Toolbar />
                     {children}
                   </div>
                 </div>

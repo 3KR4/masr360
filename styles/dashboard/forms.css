@@ -53,6 +53,34 @@
   text-transform: uppercase;
   transition: 0.3s;
 }
+.dashboard form .main-button.submit-button {
+  position: relative;
+}
+.dashboard form .main-button.submit-button.is-loading {
+  opacity: 0.6;
+}
+.submit-button-label,
+.submit-button-loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+.submit-button-label {
+  opacity: 1;
+}
+.submit-button-loader {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.submit-button.is-loading .submit-button-label {
+  opacity: 0;
+}
+.submit-button.is-loading .submit-button-loader {
+  opacity: 1;
+}
 .box.forInput label {
   padding-left: 4px;
   text-transform: uppercase;
@@ -100,6 +128,36 @@
 }
 .filters .btn svg:first-child {
   border: none;
+}
+
+.select-loading-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 26px;
+  min-height: 18px;
+}
+
+.select-loading-inline .loader,
+.select-options-loading .loader {
+  width: 18px;
+  height: 18px;
+  border-width: 3px;
+  opacity: 1;
+}
+
+.select-options-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 80px;
+  color: var(--paragraph);
+}
+
+.select-options-loading p {
+  font-size: 13px;
+  font-weight: 500;
 }
 .box.forInput .inputHolder.tags {
   border: 1px solid var(--border-color);

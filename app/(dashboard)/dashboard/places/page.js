@@ -1,64 +1,71 @@
 "use client";
 
-import React, { useContext, useState, useEffect, useCallback, useMemo } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import "@/styles/pages/cart.css";
-import "@/styles/pages/tables.css";
-import { FaTrashAlt, FaEye } from "react-icons/fa";
+import Link from "next/link";
+import { FaEye, FaTrashAlt } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { MdEdit } from "react-icons/md";
+import Pagination from "@/components/settings/Pagination";
 import { mainContext } from "@/Contexts/mainContext";
 import { dashboard } from "@/Contexts/dashboard";
-import { placesAr, placesEn, governoratesEn, governoratesAr } from "@/data";
-import Link from "next/link";
-import { MdEdit } from "react-icons/md";
-import { FaLocationDot } from "react-icons/fa6";
+import { placesAr, placesEn } from "@/data";
 import useTranslate from "@/Contexts/useTranslation";
 import { getAll, remove } from "@/services/places/places.service";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { getAll as getCategories } from "@/services/categories/categories.service";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
+import "@/styles/pages/cart.css";
+import "@/styles/pages/tables.css";
 
 const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
 
 export default function Places() {
   const { screenSize, locale } = useContext(mainContext);
   const { searchText, selectedCats } = useContext(dashboard);
-
   const t = useTranslate();
   const localPlaces = locale === "EN" ? placesEn : placesAr;
-  const [places, setPlaces] = useState([]);
   const { addNotification } = useNotification();
+
+  const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
-  const limit = 100; // عرض جميع الأماكن بدون تقسيم
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
   const [categories, setCategories] = useState([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [governorates, setGovernorates] = useState([]);
   const [governoratesLoading, setGovernoratesLoading] = useState(true);
 
+  const limit = 6;
+
   const fetchPlaces = useCallback(async () => {
     try {
       setLoading(true);
 
-      const governorateId = selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
+      const governorateId =
+        selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
       const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
 
       const res = await getAll(
         searchText,
-        1,
+        page,
         limit,
         locale,
-        undefined,  // sort
+        undefined,
         governorateId,
-        categoryId   // replaced "" with categoryId
+        categoryId,
       );
-      const response = res.data;
 
+      const response = res.data;
       setPlaces(response?.places ?? []);
+      setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
     } catch (error) {
       console.error("Error fetching places:", error);
+      setPageCount(1);
     } finally {
       setLoading(false);
     }
-  }, [searchText, limit, locale, selectedCats]);
+  }, [limit, locale, page, searchText, selectedCats]);
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -101,10 +108,10 @@ export default function Places() {
 
   const categoriesMap = useMemo(() => {
     const map = new Map();
-    categories.forEach(category => {
+    categories.forEach((category) => {
       map.set(category._id, category);
       if (category.subCategories) {
-        category.subCategories.forEach(sub => {
+        category.subCategories.forEach((sub) => {
           map.set(sub._id, { ...sub, parentName: category.name });
         });
       }
@@ -112,51 +119,57 @@ export default function Places() {
     return map;
   }, [categories]);
 
-  const getCategoryDisplayName = useCallback((categoryData, subCategoryData) => {
-    if (categoriesLoading) return t.dashboard?.tables?.loading || "Loading...";
+  const getCategoryDisplayName = useCallback(
+    (categoryData, subCategoryData) => {
+      if (categoriesLoading) return t.dashboard?.tables?.loading || "Loading...";
 
-    const categoryId = categoryData?._id || categoryData;
-    const subCategoryId = subCategoryData?._id || subCategoryData;
+      const categoryId = categoryData?._id || categoryData;
+      const subCategoryId = subCategoryData?._id || subCategoryData;
+      const categoryFromList = categoriesMap.get(categoryId);
+      const subCategoryFromList = categoriesMap.get(subCategoryId);
+      const localeKey = String(locale || "EN").toUpperCase();
 
-    const categoryFromList = categoriesMap.get(categoryId);
-    const subCategoryFromList = categoriesMap.get(subCategoryId);
+      const catName =
+        categoryData?.translations?.[localeKey]?.name ||
+        categoryFromList?.translations?.[localeKey]?.name ||
+        categoryData?.name ||
+        categoryFromList?.name;
+      const subCatName =
+        subCategoryData?.translations?.[localeKey]?.name ||
+        subCategoryFromList?.translations?.[localeKey]?.name ||
+        subCategoryData?.name ||
+        subCategoryFromList?.name;
 
-    const localeKey = String(locale || "EN").toUpperCase();
-
-    const catName = categoryData?.translations?.[localeKey]?.name || categoryFromList?.translations?.[localeKey]?.name || categoryData?.name || categoryFromList?.name;
-    const subCatName = subCategoryData?.translations?.[localeKey]?.name || subCategoryFromList?.translations?.[localeKey]?.name || subCategoryData?.name || subCategoryFromList?.name;
-
-    if (subCatName && catName) {
-      return `${catName} / ${subCatName}`;
-    } else if (catName) {
-      return catName;
-    } else {
+      if (subCatName && catName) return `${catName} / ${subCatName}`;
+      if (catName) return catName;
       return t.dashboard?.tables?.unknownCategory || "Unknown Category";
-    }
-  }, [categoriesMap, categoriesLoading, t, locale]);
+    },
+    [categoriesLoading, categoriesMap, locale, t],
+  );
 
-  const getGovernorateDisplayName = useCallback((governorateData) => {
-    if (governoratesLoading) return t.dashboard?.tables?.loading || "Loading...";
-    
-    const govId = governorateData?._id || governorateData;
-    const govFromList = governorates.find(g => g._id === govId);
-    
-    const localeKey = String(locale || "EN").toUpperCase();
-    return (
-      governorateData?.translations?.[localeKey]?.name ||
-      govFromList?.translations?.[localeKey]?.name ||
-      governorateData?.name ||
-      govFromList?.name ||
-      "Unknown Governorate"
-    );
-  }, [governorates, governoratesLoading, t, locale]);
+  const getGovernorateDisplayName = useCallback(
+    (governorateData) => {
+      if (governoratesLoading) return t.dashboard?.tables?.loading || "Loading...";
 
- const deletePlaces = async (id) => {
+      const govId = governorateData?._id || governorateData;
+      const govFromList = governorates.find((g) => g._id === govId);
+      const localeKey = String(locale || "EN").toUpperCase();
+
+      return (
+        governorateData?.translations?.[localeKey]?.name ||
+        govFromList?.translations?.[localeKey]?.name ||
+        governorateData?.name ||
+        govFromList?.name ||
+        "Unknown Governorate"
+      );
+    },
+    [governorates, governoratesLoading, locale, t],
+  );
+
+  const deletePlaces = async (id) => {
     try {
       await remove(id);
-
-      await fetchPlaces(); 
-
+      await fetchPlaces();
       addNotification({
         type: "success",
         message: "Place has been deleted successfully",
@@ -183,12 +196,8 @@ export default function Places() {
                 <div className="header-item">
                   {t.dashboard.tables.categoriesAndSubcategories}
                 </div>
-                <div className="header-item">
-                  {t.dashboard.tables.viewsCount}
-                </div>
-                <div className="header-item">
-                  {t.dashboard.tables.governorate}
-                </div>
+                <div className="header-item">{t.dashboard.tables.viewsCount}</div>
+                <div className="header-item">{t.dashboard.tables.governorate}</div>
                 <div className="header-item">{t.dashboard.tables.actions}</div>
               </>
             ) : (
@@ -221,10 +230,11 @@ export default function Places() {
                 item?.translations?.AR?.desc ||
                 placeEntry?.description ||
                 "";
+
               return (
                 <div key={item?._id} className="table-item">
                   <div className="holder">
-                    <Link href={`/`} className="item-image">
+                    <Link href="/" className="item-image">
                       <Image
                         src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
                         alt={placeName || "Place image"}
@@ -234,15 +244,17 @@ export default function Places() {
                     </Link>
 
                     <div className="item-details">
-                      <Link href={`/`} className="item-name">
+                      <Link href="/" className="item-name">
                         {placeName}
                       </Link>
                       <p className="description">{placeDescription}</p>
                     </div>
                   </div>
+
                   <div className="categories">
                     <h4>{getCategoryDisplayName(item?.category, item?.subCategory)}</h4>
                   </div>
+
                   <div className="item-overview">
                     <h4>
                       15000 <FaEye />
@@ -260,10 +272,7 @@ export default function Places() {
                     </Link>
                     <hr />
                     <Link href={`/dashboard/places/form?edit=${item?._id}`}>
-                      <MdEdit
-                        className="edit"
-                        title={t.dashboard.tables.edit}
-                      />
+                      <MdEdit className="edit" title={t.dashboard.tables.edit} />
                     </Link>
                     <hr />
                     <FaTrashAlt
@@ -277,6 +286,15 @@ export default function Places() {
             })}
           </div>
         </div>
+
+        <Pagination
+          pageCount={pageCount}
+          screenSize={screenSize}
+          isDashBoard={true}
+          onPageChange={(selectedPage) => {
+            setPage(selectedPage.selected + 1);
+          }}
+        />
       </div>
     </div>
   );

@@ -31,6 +31,14 @@ import {
 } from "@/services/auth/auth.service";
 import Link from "next/link";
 
+const STEPS = {
+  ACCOUNT: 1,
+  LOGIN: 2,
+  EMAIL_VERIFY: 3,
+  FORGET_PASS_VERIFY: 4,
+  VIEW_OR_UPDATE_PASS: 5,
+};
+
 export default function Register() {
   const { login } = useAuth();
   const t = useTranslate();
@@ -39,13 +47,6 @@ export default function Register() {
   const router = useRouter();
   const { addNotification } = useNotification();
   const redirectTo = searchParams.get("redirect") || "/";
-  const STEPS = {
-    ACCOUNT: 1,
-    LOGIN: 2,
-    EMAIL_VERIFY: 3,
-    FORGET_PASS_VERIFY: 4,
-    VIEW_OR_UPDATE_PASS: 5,
-  };
   const [registeredUser, setRegisteredUser] = useState(null);
   const options = useMemo(() => countryList().getData(), []);
   const [step, setStep] = useState(STEPS.ACCOUNT);
@@ -94,7 +95,7 @@ export default function Register() {
         if (res) {
           login({
             user: res.data.user,
-            token: res.data.accessToken,
+            accessToken: res.data.accessToken,
           });
           router.push(redirectTo);
           addNotification({
@@ -117,13 +118,21 @@ export default function Register() {
         };
 
         const res1 = await registerUser(payload);
-
-        setRegisteredUser(res1.data.user);
         const res2 = await sendVerficationMail({
-          email: res1.data.user.email,
+          email: data.email,
         });
-        if (res2) {
+        if (res1 && res2) {
+          setRegisteredUser({
+            email: data.email,
+            id: res2.data?.data?.userId,
+          });
+          setUserId(res2.data?.data?.userId);
           setStep(STEPS.EMAIL_VERIFY);
+          addNotification({
+            type: "success",
+            message:
+              res1.data?.message || "Your account has been created successfully",
+          });
         }
 
         return;
@@ -140,7 +149,7 @@ export default function Register() {
         if (res) {
           login({
             user: res.data.user,
-            token: res.data.token,
+            accessToken: res.data.accessToken || res.data.token,
           });
           router.push(redirectTo);
           addNotification({
@@ -152,10 +161,15 @@ export default function Register() {
       }
     } catch (err) {
       console.log("err", err);
+      const message =
+        err?.response?.data?.message ||
+        err?.response?.data?.errors?.[0]?.msg ||
+        err?.message ||
+        "Something went wrong";
 
       if (
-        err.response.data.message == "user already registered" ||
-        err.response.data.message == "user is not verified"
+        message == "user already registered" ||
+        message == "user is not verified"
       ) {
         const res2 = await sendVerficationMail({
           email: data.email,
@@ -167,7 +181,7 @@ export default function Register() {
       } else {
         addNotification({
           type: "warning",
-          message: err.response.data.message,
+          message,
         });
       }
       setLoading(false);

@@ -12,9 +12,12 @@ import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
 import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
 import { useSearchParams, useRouter } from "next/navigation";
-import { getOne, update, create } from "@/services/places/places.service";
-import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
-import { getAll as getCategories } from "@/services/categories/categories.service";
+import {
+  getOne,
+  update,
+  create,
+  removeImage,
+} from "@/services/places/places.service";
 
 /** Axios body may be { place, ticket } or a legacy flat place object. */
 function unwrapPlaceGetOneResponse(data) {
@@ -53,7 +56,7 @@ function mapApiTicketToForm(ticketDoc) {
     };
   }
   if (type === "pricePerRegion") {
-    const p = pricing.pricePerRegion || {};
+    const p = pricing.pricePerRegion || pricing || {};
     return {
       type: "pricePerRegion",
       prices: {
@@ -65,7 +68,7 @@ function mapApiTicketToForm(ticketDoc) {
     };
   }
   if (type === "pricePerAge") {
-    const p = pricing.pricePerAge || {};
+    const p = pricing.pricePerAge || pricing || {};
     return {
       type: "pricePerAge",
       prices: {
@@ -98,7 +101,8 @@ function mapApiTicketToForm(ticketDoc) {
 }
 
 export default function CreatePlace() {
-  const { locale } = useContext(mainContext);
+  const { locale, governorates, placeCategories, referenceDataLoading } =
+    useContext(mainContext);
   const t = useTranslate();
   const {
     setisSubmited,
@@ -132,7 +136,7 @@ export default function CreatePlace() {
   const [curentCreateLocale, setCurentCreateLocale] = useState("EN");
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [translationErrors, setTranslationErrors] = useState({});
-  const [oldImage, setOldImage] = useState(null);
+  const [oldImages, setOldImages] = useState([]);
   const searchParams = useSearchParams();
   const router = useRouter();
   const editId = searchParams.get("edit");
@@ -177,58 +181,35 @@ export default function CreatePlace() {
   const subCategories = selectedCategory?.subcategories || [];
 
   useEffect(() => {
-    const loadGovernorates = async () => {
-      try {
-        const { governorates: governoratesData } = await getGovernorates(
-          "",
-          1,
-          200,
-          locale,
-        );
-        const options = Array.isArray(governoratesData)
-          ? governoratesData.map((gov) => ({
-              id: gov._id,
-              name: gov.translations?.[locale]?.name || gov.name || "",
-              raw: gov,
-            }))
-          : [];
-        setGovernorateOptions(options);
-      } catch (err) {
-        console.error("Error loading governorates:", err);
-        setGovernorateOptions([]);
-      }
-    };
+    const localeKey = String(locale || "EN").toUpperCase();
 
-    const loadCategories = async () => {
-      try {
-        const res = await getCategories({ type: "place", lang: locale });
-        const categoriesData = res.data?.data || res.data || [];
-        const localeKey = String(locale || "EN").toUpperCase();
+    setGovernorateOptions(
+      Array.isArray(governorates)
+        ? governorates.map((gov) => ({
+            id: gov._id,
+            name: gov.translations?.[localeKey]?.name || gov.name || "",
+            raw: gov,
+          }))
+        : [],
+    );
 
-        const options = Array.isArray(categoriesData)
-          ? categoriesData.map((cat) => ({
-              id: cat._id || cat.id,
-              name: cat.translations?.[localeKey]?.name || cat.name,
-              subcategories: (cat.subCategories || cat.subcategories || []).map(
-                (sub) => ({
-                  id: sub._id || sub.id,
-                  name: sub.translations?.[localeKey]?.name || sub.name,
-                  raw: sub,
-                }),
-              ),
-              raw: cat,
-            }))
-          : [];
-        setCategoryOptions(options);
-      } catch (err) {
-        console.error("Error loading categories:", err);
-        setCategoryOptions([]);
-      }
-    };
-
-    loadGovernorates();
-    loadCategories();
-  }, [locale]);
+    setCategoryOptions(
+      Array.isArray(placeCategories)
+        ? placeCategories.map((cat) => ({
+            id: cat._id || cat.id,
+            name: cat.translations?.[localeKey]?.name || cat.name,
+            subcategories: (cat.subCategories || cat.subcategories || []).map(
+              (sub) => ({
+                id: sub._id || sub.id,
+                name: sub.translations?.[localeKey]?.name || sub.name,
+                raw: sub,
+              }),
+            ),
+            raw: cat,
+          }))
+        : [],
+    );
+  }, [governorates, placeCategories, locale]);
 
   useEffect(() => {
     if (!editId) {
@@ -244,7 +225,7 @@ export default function CreatePlace() {
       setSelectedGov(null);
       setValue("mapLocation.link", "");
       setValue("mapLocation.iFrame", "");
-      setOldImage(null);
+      setOldImages([]);
       setEditPlaceSnapshot(null);
     }
   }, [editId, setImages, setTickets, setSpecifications, setValue]);
@@ -292,13 +273,15 @@ export default function CreatePlace() {
           place.locationIframe ?? place.location?.iFrame ?? "",
         );
 
-        const existingImage = place.img || place.imgs?.[0] || place.imgs;
-        if (existingImage) {
-          const image = Array.isArray(existingImage)
-            ? existingImage[0]
-            : existingImage;
-          setImages([image]);
-          setOldImage(image);
+        const existingImages = Array.isArray(place.imgs)
+          ? place.imgs
+          : place.img
+            ? [place.img]
+            : [];
+
+        if (existingImages.length) {
+          setImages(existingImages);
+          setOldImages(existingImages);
         }
       } catch (err) {
         console.error(err);
@@ -400,24 +383,61 @@ export default function CreatePlace() {
       return;
     }
 
-    const cleanObject = (obj) => {
-      const cleaned = {};
-      for (const [key, val] of Object.entries(obj)) {
-        if (typeof val === "object" && val !== null) {
-          const nested = cleanObject(val);
-          if (Object.keys(nested).length > 0) cleaned[key] = nested;
-        } else if (val !== "" && val !== null && val !== undefined) {
-          cleaned[key] = Number(val);
-        }
-      }
-      return cleaned;
-    };
-
     const formattedTicket = {
       type: tickets.type,
+      pricing: {},
     };
-    if (tickets.type !== "free" && tickets.prices) {
-      formattedTicket.pricing = cleanObject(tickets.prices);
+
+    if (tickets.type === "static") {
+      formattedTicket.pricing = {
+        staticPrice: Number(tickets?.prices?.staticPrice || 0),
+      };
+    }
+
+    if (tickets.type === "pricePerRegion") {
+      formattedTicket.pricing = {
+        egyptian: Number(tickets?.prices?.pricePerRegion?.egyptian || 0),
+        foreign: Number(tickets?.prices?.pricePerRegion?.foreign || 0),
+      };
+    }
+
+    if (tickets.type === "pricePerAge") {
+      formattedTicket.pricing = {
+        children: Number(tickets?.prices?.pricePerAge?.children || 0),
+        adults: Number(tickets?.prices?.pricePerAge?.adults || 0),
+        seniors: Number(tickets?.prices?.pricePerAge?.seniors || 0),
+      };
+    }
+
+    if (tickets.type === "ageAndRegion") {
+      formattedTicket.pricing = {
+        ageAndRegion: {
+          students: {
+            egyptian: Number(
+              tickets?.prices?.ageAndRegion?.students?.egyptian || 0,
+            ),
+            foreign: Number(
+              tickets?.prices?.ageAndRegion?.students?.foreign || 0,
+            ),
+          },
+          adults: {
+            egyptian: Number(
+              tickets?.prices?.ageAndRegion?.adults?.egyptian || 0,
+            ),
+            foreign: Number(
+              tickets?.prices?.ageAndRegion?.adults?.foreign || 0,
+            ),
+          },
+          seniors: {
+            egyptian: Number(
+              tickets?.prices?.ageAndRegion?.seniors?.egyptian || 0,
+            ),
+            foreign: Number(
+              tickets?.prices?.ageAndRegion?.seniors?.foreign || 0,
+            ),
+          },
+        },
+      };
     }
 
     const finalData = {
@@ -425,7 +445,6 @@ export default function CreatePlace() {
       desc: translations.EN.description,
       category:
         selectedCategory?.id || categoryOptions?.[0]?.id || TEST_CATEGORY_ID,
-      subCategory: selectedSubCategory?.id || null,
       governorate:
         selectedGov?.id || governorateOptions?.[0]?.id || TEST_GOVERNORATE_ID,
       ticket: formattedTicket,
@@ -439,10 +458,6 @@ export default function CreatePlace() {
           desc: translations.AR.description,
         },
       },
-      specifications: specifications.reduce((acc, item) => {
-        acc[item.key] = item.value;
-        return acc;
-      }, {}),
       location: data.mapLocation?.link || "",
       locationIframe: data.mapLocation?.iFrame || "",
     };
@@ -453,21 +468,12 @@ export default function CreatePlace() {
       if (payload.name !== undefined) formData.append("name", payload.name);
       if (payload.desc !== undefined) formData.append("desc", payload.desc);
       if (payload.category) formData.append("category", payload.category);
-      if (payload.subCategory)
-        formData.append("subCategory", payload.subCategory);
       if (payload.governorate)
         formData.append("governorate", payload.governorate);
       if (payload.ticket)
         formData.append("ticket", JSON.stringify(payload.ticket));
       if (payload.translations) {
         formData.append("translations", JSON.stringify(payload.translations));
-      }
-
-      if (Object.keys(payload.specifications).length) {
-        formData.append(
-          "specifications",
-          JSON.stringify(payload.specifications),
-        );
       }
 
       if (payload.location) formData.append("location", payload.location);
@@ -489,6 +495,26 @@ export default function CreatePlace() {
 
         if (editId) {
           await update(editId, payload);
+          const currentImagePublicIds = new Set(
+            images
+              .filter(
+                (image) => image && !(image instanceof File) && image.publicId,
+              )
+              .map((image) => image.publicId),
+          );
+
+          const removedImages = oldImages.filter(
+            (image) =>
+              image?.publicId && !currentImagePublicIds.has(image.publicId),
+          );
+
+          if (removedImages.length) {
+            await Promise.all(
+              removedImages.map((image) =>
+                removeImage(image.publicId, "place", editId),
+              ),
+            );
+          }
           addNotification({
             type: "success",
             message: "تم تحديث المكان بنجاح ✅",
@@ -522,7 +548,10 @@ export default function CreatePlace() {
         {/* ----------------- Title ----------------- */}
         <div className="row-holder two-column">
           <div className="box forInput">
-            <label htmlFor="title">{t.dashboard.forms.title}</label>
+            <div>
+              <label htmlFor="title">{t.dashboard.forms.title}</label>
+              <label>({curentCreateLocale.toUpperCase()})</label>
+            </div>
             <div className="inputHolder">
               <div className="holder">
                 <input
@@ -532,7 +561,7 @@ export default function CreatePlace() {
                   onChange={(e) =>
                     handleTranslationChange("title", e.target.value)
                   }
-                  placeholder={t.dashboard.forms.titlePlaceholder}
+                  placeholder={`${t.dashboard.forms.titlePlaceholder} (${curentCreateLocale.toUpperCase()})`}
                 />
               </div>
               {(translationErrors.enTitle && curentCreateLocale === "EN") ||
@@ -553,6 +582,7 @@ export default function CreatePlace() {
             placeholder={t.dashboard.forms.selectGovernorate}
             options={filteredGovernorateOptions}
             value={selectedGov}
+            loading={referenceDataLoading}
             onChange={(gov) => setSelectedGov(gov)}
           />
           {translationErrors.governorate ? (
@@ -574,6 +604,7 @@ export default function CreatePlace() {
               _subcategories: cat.subcategories,
             }))}
             value={selectedCategory}
+            loading={referenceDataLoading}
             onChange={(cat) => {
               setSelectedCategory({
                 ...cat,
@@ -588,21 +619,23 @@ export default function CreatePlace() {
               {translationErrors.category}
             </span>
           ) : null}
-          {subCategories.length > 0 && (
-            <SelectOptions
-              label={t.dashboard.forms.subCategory}
-              placeholder={t.dashboard.forms.selectSubCategory}
-              options={subCategories}
-              value={selectedSubCategory}
-              disabled={!selectedCategory}
-              onChange={(sub) => setSelectedSubCategory(sub)}
-            />
-          )}
+          <SelectOptions
+            label={t.dashboard.forms.subCategory}
+            placeholder={t.dashboard.forms.selectSubCategory}
+            options={subCategories}
+            value={selectedSubCategory}
+            loading={referenceDataLoading}
+            disabled={!selectedCategory}
+            onChange={(sub) => setSelectedSubCategory(sub)}
+          />
         </div>
 
         {/* ----------------- Description ----------------- */}
         <div className="box forInput">
-          <label htmlFor="description">{t.dashboard.forms.description}</label>
+          <div>
+            <label htmlFor="description">{t.dashboard.forms.description}</label>
+            <label>({curentCreateLocale.toUpperCase()})</label>
+          </div>
           <div className="inputHolder">
             <div className="holder">
               <textarea
@@ -611,7 +644,7 @@ export default function CreatePlace() {
                 onChange={(e) =>
                   handleTranslationChange("description", e.target.value)
                 }
-                placeholder={t.dashboard.forms.descriptionPlaceholder}
+                placeholder={`${t.dashboard.forms.descriptionPlaceholder} (${curentCreateLocale.toUpperCase()})`}
               />
             </div>
             {(translationErrors.enDescription && curentCreateLocale === "EN") ||

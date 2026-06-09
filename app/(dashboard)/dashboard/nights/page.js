@@ -1,53 +1,66 @@
 "use client";
-import React, { useContext, useState, useEffect, useCallback } from "react";
+
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
-import "@/styles/pages/cart.css";
-import "@/styles/pages/tables.css";
-import { FaTrashAlt, FaEye } from "react-icons/fa";
+import Link from "next/link";
+import { FaEye, FaTrashAlt } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { MdEdit } from "react-icons/md";
 import { mainContext } from "@/Contexts/mainContext";
 import { nightsAr, nightsEn, governoratesEn, governoratesAr } from "@/data";
-import Link from "next/link";
-import { MdEdit } from "react-icons/md";
-import { FaLocationDot } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
 import { getAll, remove } from "@/services/nights/nights.service";
 import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
+import "@/styles/pages/cart.css";
+import "@/styles/pages/tables.css";
 
 const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
 
 export default function Nights() {
   const { screenSize, locale } = useContext(mainContext);
-
   const t = useTranslate();
   const { selectedCats, searchText } = useContext(dashboard);
+  const { addNotification } = useNotification();
+
   const [nights, setNights] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const limit = 5;
-  const { addNotification } = useNotification();
 
   const fetchNights = useCallback(async () => {
     try {
-      const governorateId = selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
+      const governorateId =
+        selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
       const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
-      const res = await getAll(searchText, page, limit, locale, undefined, governorateId, categoryId);
+      const res = await getAll(
+        searchText,
+        page,
+        limit,
+        locale,
+        undefined,
+        governorateId,
+        categoryId,
+      );
       const response = res.data[0];
 
       setNights(response?.data ?? []);
 
       const totalCountRaw = response?.totalCount?.[0];
-      const total = typeof totalCountRaw === "number"
-        ? totalCountRaw
-        : totalCountRaw?.count ?? 0;
+      const total =
+        typeof totalCountRaw === "number"
+          ? totalCountRaw
+          : totalCountRaw?.count ?? 0;
+
       setPageCount(Math.max(1, Math.ceil(total / limit)));
     } catch (error) {
       console.error("Error fetching nights:", error);
       setNights(locale === "EN" ? nightsEn : nightsAr);
+      setPageCount(1);
     }
-  }, [locale, page, limit, selectedCats, searchText]);
+  }, [limit, locale, page, searchText, selectedCats]);
 
   useEffect(() => {
     let mounted = true;
@@ -81,8 +94,6 @@ export default function Nights() {
     }
   };
 
-  
-
   return (
     <div className="dash-holder">
       <div className="body">
@@ -97,12 +108,8 @@ export default function Nights() {
                   {t.dashboard.tables.categoriesAndSubcategories}
                 </div>
                 <div className="header-item">{t.dashboard.tables.reviews}</div>
-                <div className="header-item">
-                  {t.dashboard.tables.viewsCount}
-                </div>
-                <div className="header-item">
-                  {t.dashboard.tables.governorate}
-                </div>
+                <div className="header-item">{t.dashboard.tables.viewsCount}</div>
+                <div className="header-item">{t.dashboard.tables.governorate}</div>
                 <div className="header-item">{t.dashboard.tables.actions}</div>
               </>
             ) : (
@@ -113,10 +120,9 @@ export default function Nights() {
           </div>
 
           <div className="table-items">
-            {nights.slice(0, 7).map((item) => {
+            {nights.map((item) => {
               const itemId = item?._id || item?.id;
               const imageUrl = item?.imgs?.[0]?.url || item?.img?.url || "";
-  
               const localeKey = String(locale || "EN").toUpperCase();
               const itemName =
                 item?.translations?.[localeKey]?.name ||
@@ -132,9 +138,14 @@ export default function Nights() {
                 item?.translations?.AR?.desc ||
                 "";
               const placeGov =
-                locale == "EN"
-                  ? governoratesEn?.find((x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id)
-                  : governoratesAr?.find((x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id);
+                locale === "EN"
+                  ? governoratesEn?.find(
+                      (x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id,
+                    )
+                  : governoratesAr?.find(
+                      (x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id,
+                    );
+
               return (
                 <div key={itemId} className="table-item">
                   <div className="holder">
@@ -154,10 +165,11 @@ export default function Nights() {
                       <p className="description">{itemDescription}</p>
                     </div>
                   </div>
+
                   <div className="categories">
-                    <h4>{t.dashboard.tables.ancientEgypt}</h4>/
-                    <h4>{t.dashboard.tables.deserts}</h4>
+                    <h4>{t.dashboard.tables.ancientEgypt}</h4>/<h4>{t.dashboard.tables.deserts}</h4>
                   </div>
+
                   <div className="item-rating">
                     <h4>
                       {item?.reviewsCount} {t.dashboard.tables.review}
@@ -173,6 +185,7 @@ export default function Nights() {
                       <h4>({item?.rate})</h4>
                     </div>
                   </div>
+
                   <div className="item-overview">
                     <h4>
                       15000 <FaEye />
@@ -190,10 +203,7 @@ export default function Nights() {
                     </Link>
                     <hr />
                     <Link href={`/dashboard/nights/form?edit=${itemId}`}>
-                      <MdEdit
-                        className="edit"
-                        title={t.dashboard.tables.edit}
-                      />
+                      <MdEdit className="edit" title={t.dashboard.tables.edit} />
                     </Link>
                     <hr />
                     <FaTrashAlt
@@ -207,6 +217,7 @@ export default function Nights() {
             })}
           </div>
         </div>
+
         <Pagination
           pageCount={pageCount}
           screenSize={screenSize}
@@ -214,10 +225,6 @@ export default function Nights() {
           onPageChange={(selectedPage) => {
             setPage(selectedPage.selected + 1);
           }}
-          nextText={t.dashboard.tables.next}
-          prevText={t.dashboard.tables.prev}
-          firstText={t.dashboard.tables.first}
-          lastText={t.dashboard.tables.last}
         />
       </div>
     </div>
