@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import useTranslate from "@/Contexts/useTranslation";
@@ -14,36 +14,85 @@ import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
 import { dashboard } from "@/Contexts/dashboard";
 import { getAll, remove } from "@/services/porducts/products.service";
-import CategoryName from "@/components/dashboard/CategoryName";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 
 const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
 
 export default function Products() {
-  const { screenSize, locale } = useContext(mainContext);
+  const { screenSize, locale, productCategories } = useContext(mainContext);
   const { searchText, selectedCats } = useContext(dashboard);
   const t = useTranslate();
   const { addNotification } = useNotification();
 
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const limit = 20;
 
-  const deleteProduct = async (id) => {
+  const categoriesMap = useMemo(() => {
+    const map = new Map();
+    (productCategories || []).forEach((category) => {
+      map.set(category._id || category.id, category);
+    });
+    return map;
+  }, [productCategories]);
+
+  const fetchProducts = useCallback(async () => {
     try {
-      await remove(id);
-      const res = await getAll({
+      setLoading(true);
+      const { products: productsData, totalCount } = await getAll({
         page,
         limit,
         search: searchText?.trim() || "",
         category: selectedCats.category?._id || "",
         lang: locale?.toLowerCase() || "en",
       });
-      const response = res.data;
-      setProducts(response?.products);
-      setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
+      const filteredProducts = selectedCats.subCat?._id
+        ? (productsData || []).filter((product) => {
+            const subCategoryId =
+              product?.subCategory?._id || product?.subCategory?.id || product?.subCategory;
+            return String(subCategoryId) === String(selectedCats.subCat._id);
+          })
+        : (productsData || []);
+      setProducts(filteredProducts);
+      setPageCount(
+        selectedCats.subCat?._id
+          ? 1
+          : Math.max(1, Math.ceil((totalCount || 0) / limit)),
+      );
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+      setProducts([]);
+      setPageCount(1);
+    } finally {
+      setLoading(false);
+    }
+  }, [limit, locale, page, searchText, selectedCats.category, selectedCats.subCat]);
+
+  const getCategoryDisplayName = useCallback(
+    (categoryData) => {
+      const localeKey = String(locale || "EN").toUpperCase();
+      const categoryId = categoryData?._id || categoryData?.id || categoryData;
+      const categoryFromList = categoriesMap.get(categoryId);
+
+      return (
+        categoryData?.translations?.[localeKey]?.name ||
+        categoryFromList?.translations?.[localeKey]?.name ||
+        categoryData?.name ||
+        categoryFromList?.name ||
+        t.dashboard?.tables?.unknownCategory ||
+        "Unknown Category"
+      );
+    },
+    [categoriesMap, locale, t],
+  );
+
+  const deleteProduct = async (id) => {
+    try {
+      await remove(id);
+      await fetchProducts();
       addNotification({
         type: "success",
         message: "Product has been deleted successfully",
@@ -58,27 +107,12 @@ export default function Products() {
   };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await getAll({
-          page,
-          limit,
-          search: searchText?.trim() || "",
-          category: selectedCats.category?._id || "",
-          lang: locale?.toLowerCase() || "en",
-        });
-        const response = res.data;
+    setPage(1);
+  }, [locale, searchText, selectedCats.category, selectedCats.subCat]);
 
-        setProducts(response?.products);
-        setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
-      } catch (err) {
-        console.error("Failed to fetch products:", err);
-        setPageCount(1);
-      }
-    };
-
+  useEffect(() => {
     fetchProducts();
-  }, [locale, page, searchText, selectedCats.category]);
+  }, [fetchProducts]);
 
   return (
     <div className="dash-holder">
@@ -98,40 +132,57 @@ export default function Products() {
               </>
             ) : (
               <div className="header-item" style={{ fontSize: "17px" }}>
-                cart items
+                {t.dashboard.tables.cartItems}
               </div>
             )}
           </div>
 
           <div className="table-items">
-            {products?.map((item) => {
+            {products.map((item) => {
+              const localeKey = String(locale || "EN").toUpperCase();
               const imageUrl = item?.imgs?.[0]?.url || item?.images?.[0] || "";
+              const productId = item?._id || item?.id;
               const productName =
-                item?.name || item?.translations?.[locale]?.name || "";
+                item?.translations?.[localeKey]?.name ||
+                item?.name ||
+                item?.translations?.EN?.name ||
+                item?.translations?.AR?.name ||
+                "";
+              const productDescription =
+                item?.translations?.[localeKey]?.desc ||
+                item?.desc ||
+                item?.description ||
+                item?.translations?.EN?.desc ||
+                item?.translations?.AR?.desc ||
+                "";
+              const viewsCount =
+                item?.viewsCount || item?.views || item?.viewCount || 0;
+              const salesCount =
+                item?.salesCount || item?.ordersCount || item?.soldCount || 0;
 
               return (
-                <div key={item?._id || item?.id} className="table-item">
+                <div key={productId} className="table-item">
                   <div className="holder">
-                    <Link href="/" className="item-image">
+                    <Link href={`/marketplace/${productId}`} className="item-image">
                       <Image
                         src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
-                        alt={productName}
+                        alt={productName || "Product image"}
                         fill
                         className="product-image"
                       />
                     </Link>
 
                     <div className="item-details">
-                      <Link
-                        href={`/market/${item?._id || item?.id}`}
-                        className="item-name"
-                      >
+                      <Link href={`/marketplace/${productId}`} className="item-name">
                         {productName}
                       </Link>
+                      <p className="description">{productDescription}</p>
                       {screenSize !== "small" ? (
-                        <Link href={`/market?cat=${item?.category}`} className="link">
-                          <span>{t.favorites.tableHeaders.product.category}:</span>{" "}
-                          <CategoryName categoryId={item?.category} />
+                        <Link
+                          href={`/marketplace?cat=${item?.category?._id || item?.category}`}
+                          className="link product-category-link"
+                        >
+                          {getCategoryDisplayName(item?.category)}
                         </Link>
                       ) : null}
                     </div>
@@ -148,25 +199,27 @@ export default function Products() {
                   </div>
 
                   <div className="item-rating">
-                    <h4>{item?.reviewsCount} review</h4>
+                    <h4>
+                      {item?.reviewsCount || 0} {t.dashboard.tables.review}
+                    </h4>
                     <div className="row-holder">
                       <Rating
                         name="read-only"
-                        value={item?.avgRating}
+                        value={item?.avgRating || 0}
                         precision={0.1}
                         readOnly
                         sx={{ color: "#ea8c43", fontSize: "19px" }}
                       />
-                      <h4>({item?.avgRating})</h4>
+                      <h4>({item?.avgRating || 0})</h4>
                     </div>
                   </div>
 
                   <div className="item-overview">
                     <h4>
-                      3000 <FaEye />
+                      {viewsCount} <FaEye />
                     </h4>
                     <h4 className="green">
-                      1500 <BiSolidPurchaseTagAlt />
+                      {salesCount} <BiSolidPurchaseTagAlt />
                     </h4>
                   </div>
 
@@ -185,22 +238,35 @@ export default function Products() {
                   </div>
 
                   <div className="actions">
-                    <Link href={`/marketplace/${item?._id || item?.id}`}>
-                      <FaEye className="view" />
+                    <Link href={`/marketplace/${productId}`}>
+                      <FaEye className="view" title={t.dashboard.tables.view} />
                     </Link>
                     <hr />
-                    <Link href={`/dashboard/products/form?edit=${item?._id || item?.id}`}>
-                      <MdEdit className="edit" />
+                    <Link href={`/dashboard/products/form?edit=${productId}`}>
+                      <MdEdit className="edit" title={t.dashboard.tables.edit} />
                     </Link>
                     <hr />
                     <FaTrashAlt
                       className="delete"
-                      onClick={() => deleteProduct(item?._id || item?.id)}
+                      title={t.dashboard.tables.delete}
+                      onClick={() => deleteProduct(productId)}
                     />
                   </div>
                 </div>
               );
             })}
+
+            {!loading && products.length === 0 ? (
+              <div className="table-item">
+                <div className="holder">
+                  <div className="item-details">
+                    <p className="description">
+                      {t.dashboard?.forms?.noResults || "No products found"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
 

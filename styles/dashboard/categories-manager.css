@@ -2,19 +2,6 @@
   gap: 18px;
 }
 
-.categories-admin-hero {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: flex-end;
-  padding: 20px 24px;
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at top left, rgba(230, 162, 60, 0.14), transparent 32%),
-    linear-gradient(135deg, #fffdf7, #ffffff 42%, #f7f4ec);
-}
-
 .categories-admin-hero .eyebrow,
 .category-editor-panel .eyebrow {
   color: var(--hover-color);
@@ -25,28 +12,19 @@
   margin-bottom: 8px;
 }
 
-.categories-admin-hero h1 {
-  font-size: 30px;
-  line-height: 1;
-  margin-bottom: 8px;
-}
-
-.categories-admin-hero .intro,
 .category-editor-panel .editor-head p {
   max-width: 760px;
   color: var(--paragraph);
 }
 
 .categories-admin-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.8fr) minmax(320px, 0.9fr);
-  gap: 18px;
-  align-items: start;
+  display: block;
 }
 
 .categories-grid-holder {
   display: grid;
-  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .category-type-panel,
@@ -55,6 +33,7 @@
   border-radius: 20px;
   background: #fff;
   overflow: hidden;
+  height: fit-content;
 }
 
 .category-type-header {
@@ -62,7 +41,7 @@
   justify-content: space-between;
   gap: 14px;
   align-items: center;
-  padding: 18px 20px;
+    padding: 13px 14px;
   border-bottom: 1px solid var(--border-color);
   background:
     linear-gradient(180deg, rgba(245, 238, 220, 0.86), rgba(255, 255, 255, 0.96));
@@ -98,8 +77,8 @@
 
 .category-card-list {
   display: grid;
-  gap: 14px;
-  padding: 18px;
+  gap: 10px;
+  padding: 10px;
 }
 
 .category-card {
@@ -115,7 +94,15 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  align-items: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.root-category-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
 }
 
 .category-copy h3 {
@@ -131,7 +118,7 @@
 .hover-actions,
 .pill-actions {
   display: flex;
-  gap: 8px;
+  gap: 5px;
 }
 
 .icon-button,
@@ -259,6 +246,13 @@
   font-size: 18px;
 }
 
+.root-category-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  font-size: 18px;
+}
+
 .subcategory-copy {
   display: grid;
   gap: 3px;
@@ -282,12 +276,49 @@
 
 .inline-add {
   margin-top: 12px;
+  width: 100%;
 }
 
 .category-editor-panel {
   padding: 20px;
-  position: sticky;
-  top: 18px;
+  width: min(680px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(20, 16, 8, 0.22);
+}
+
+.category-editor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 16, 8, 0.42);
+  backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  z-index: 70;
+}
+
+.category-editor-panel.modal-open {
+  animation: category-dialog-in 0.22s ease;
+}
+
+@keyframes category-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.category-editor-panel .editor-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .category-editor-panel .editor-head h2 {
@@ -305,6 +336,10 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+}
+
+.bilingual-grid {
+  grid-template-columns: 1fr 1fr;
 }
 
 .editor-field {
@@ -346,16 +381,16 @@
 }
 
 @media (max-width: 1100px) {
-  .categories-admin-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .category-editor-panel {
-    position: static;
+  .categories-grid-holder {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 768px) {
+  .categories-grid-holder {
+    grid-template-columns: 1fr;
+  }
+
   .categories-admin-hero,
   .category-type-header,
   .category-card-top,
@@ -367,6 +402,10 @@
   .editor-grid,
   .editor-actions {
     grid-template-columns: 1fr;
+  }
+
+  .category-editor-panel {
+    width: min(100%, calc(100vw - 20px));
   }
 
   .subcategory-content {

@@ -1,5 +1,6 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
+
+import React, { useContext, useEffect, useState } from "react";
 import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
 import "@/styles/dashboard/forms.css";
@@ -15,18 +16,21 @@ import {
   removeImage,
 } from "@/services/porducts/products.service";
 import useTranslate from "@/Contexts/useTranslation";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useNotification } from "@/Contexts/NotificationContext";
-import { useSearchParams } from "next/navigation";
 import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
 import { mainContext } from "@/Contexts/mainContext";
 
+function unwrapProductGetOneResponse(data) {
+  return data?.data?.data || data?.data || data?.product || data;
+}
+
 export default function Product() {
-  const { 
-    setisSubmited, 
-    images, 
-    setImages, 
-    tags, 
+  const {
+    setisSubmited,
+    images,
+    setImages,
+    tags,
     specifications,
     setTags,
     setSpecifications,
@@ -39,36 +43,32 @@ export default function Product() {
   const editId = searchParams.get("edit");
   const isEditMode = Boolean(editId);
   const [curentCreateLocale, setCurentCreateLocale] = useState("EN");
-
   const [oldImages, setOldImages] = useState([]);
   const { addNotification } = useNotification();
   const router = useRouter();
 
-  // Categories state
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [productCategoryId, setProductCategoryId] = useState(null);
-
-  console.log("categories:", categories);
-
-  // Translations state for multilingual fields
+  const [productSubCategoryId, setProductSubCategoryId] = useState(null);
   const [translations, setTranslations] = useState({
     EN: { title: "", description: "" },
     AR: { title: "", description: "" },
   });
+  const [translationErrors, setTranslationErrors] = useState({});
 
   const {
     register,
     handleSubmit,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm();
 
   const { locale, productCategories, referenceDataLoading } =
     useContext(mainContext);
+  const subCategories = selectedCategory?.subcategories || [];
 
-  // Reset form for create mode
   useEffect(() => {
     if (isEditMode) return;
 
@@ -77,31 +77,23 @@ export default function Product() {
       AR: { title: "", description: "" },
     });
     setSelectedCategory(null);
+    setSelectedSubCategory(null);
     setProductCategoryId(null);
+    setProductSubCategoryId(null);
     setImages([]);
     setTags([]);
     setSpecifications([]);
     setOldImages([]);
     setCurentCreateLocale("EN");
     setisSubmited(false);
+    setTranslationErrors({});
     updateCompsInput?.("tags", "");
     updateCompsError?.("tags", "");
     updateCompsError?.("specs", "");
     setValue("stock", 0);
     setValue("price", 0);
     setValue("sale", "");
-  }, [
-    isEditMode,
-    setImages,
-    setTags,
-    setSpecifications,
-    setOldImages,
-    setCurentCreateLocale,
-    setisSubmited,
-    setValue,
-    updateCompsError,
-    updateCompsInput,
-  ]);
+  }, [isEditMode]);
 
   useEffect(() => {
     const localeKey = String(locale || "EN").toUpperCase();
@@ -127,7 +119,18 @@ export default function Product() {
     }
   }, [categories, productCategoryId, selectedCategory]);
 
-  // Handle translation changes
+  useEffect(() => {
+    if (!productSubCategoryId || !selectedCategory?.subcategories?.length) return;
+    if (selectedSubCategory?.id === productSubCategoryId) return;
+
+    const matchedSubCategory = selectedCategory.subcategories.find(
+      (sub) => sub.id === productSubCategoryId,
+    );
+    if (matchedSubCategory) {
+      setSelectedSubCategory(matchedSubCategory);
+    }
+  }, [productSubCategoryId, selectedCategory, selectedSubCategory]);
+
   const handleTranslationChange = (field, value) => {
     setTranslations((prev) => ({
       ...prev,
@@ -136,9 +139,12 @@ export default function Product() {
         [field]: value,
       },
     }));
+    setTranslationErrors((prev) => ({
+      ...prev,
+      [`${curentCreateLocale}.${field}`]: null,
+    }));
   };
 
-  // Fetch product data for edit mode
   useEffect(() => {
     if (!editId) return;
 
@@ -146,85 +152,109 @@ export default function Product() {
       try {
         setLoading(true);
         const res = await getOne(editId);
-        console.log("API Response:", res.data); // تحقق من صيغة البيانات
-        
-        // معالجة صيغ متعددة للبيانات من API
-        const product = res.data?.data?.data || res.data?.data || res.data?.product || res.data;
+        const product = unwrapProductGetOneResponse(res.data);
 
         if (!product) {
           throw new Error("Product not found");
         }
 
-        // Set translations
-        const translations = product.translations || {};
+        const productTranslations = product.translations || {};
         setTranslations({
           EN: {
-            title: translations.EN?.name || translations.en?.name || product.name || "",
-            description: translations.EN?.desc || translations.en?.desc || product.desc || product.description || "",
+            title:
+              productTranslations.EN?.name ||
+              productTranslations.en?.name ||
+              product.name ||
+              "",
+            description:
+              productTranslations.EN?.desc ||
+              productTranslations.en?.desc ||
+              product.desc ||
+              product.description ||
+              "",
           },
           AR: {
-            title: translations.AR?.name || translations.ar?.name || product.name || "",
-            description: translations.AR?.desc || translations.ar?.desc || product.desc || product.description || "",
+            title:
+              productTranslations.AR?.name ||
+              productTranslations.ar?.name ||
+              product.name ||
+              "",
+            description:
+              productTranslations.AR?.desc ||
+              productTranslations.ar?.desc ||
+              product.desc ||
+              product.description ||
+              "",
           },
         });
 
-        // Set form values for non-translated fields
         setValue("stock", product.quantity || product.stock || 0);
         setValue("price", product.price || 0);
         setValue("sale", product.discount || product.sale || "");
 
-        // Set category
         if (product.category) {
-          const categoryId = typeof product.category === 'string'
-            ? product.category
-            : (product.category._id || product.category.id);
+          const categoryId =
+            typeof product.category === "string"
+              ? product.category
+              : (product.category._id || product.category.id);
 
           setProductCategoryId(categoryId);
 
-          // Find the category from the fetched categories list
           const matchedCategory = categories.find((cat) => cat.id === categoryId);
-
           if (matchedCategory) {
             setSelectedCategory(matchedCategory);
           } else {
             setSelectedCategory({
               id: categoryId,
-              name: typeof product.category === 'object' ? product.category.name || "" : "",
+              name:
+                typeof product.category === "object" ? product.category.name || "" : "",
             });
           }
         }
 
-        // Set images
-        if (product.imgs && product.imgs.length > 0) {
-          setImages(product.imgs);
-          setOldImages(product.imgs);
+        if (product.subCategory) {
+          const subCategoryId =
+            typeof product.subCategory === "string"
+              ? product.subCategory
+              : (product.subCategory._id || product.subCategory.id);
+          setProductSubCategoryId(subCategoryId);
         }
 
-        // Set tags - handle string JSON or array
+        const existingImages = Array.isArray(product.imgs)
+          ? product.imgs
+          : product.img
+            ? [product.img]
+            : [];
+
+        if (existingImages.length) {
+          setImages(existingImages);
+          setOldImages(existingImages);
+        }
+
         if (product.tags) {
           try {
-            const parsedTags = typeof product.tags === 'string' 
-              ? JSON.parse(product.tags) 
-              : product.tags;
+            const parsedTags =
+              typeof product.tags === "string"
+                ? JSON.parse(product.tags)
+                : product.tags;
             if (Array.isArray(parsedTags)) {
               setTags(parsedTags);
-              console.log("Tags loaded:", parsedTags);
             }
           } catch (error) {
             console.error("Error parsing tags:", error);
           }
         }
 
-        // Set specifications - convert object to array
-        if (product.specifications && Object.keys(product.specifications).length > 0) {
+        if (
+          product.specifications &&
+          typeof product.specifications === "object" &&
+          Object.keys(product.specifications).length > 0
+        ) {
           const specsArray = Object.entries(product.specifications).map(
-            ([key, value]) => ({ key, value })
+            ([key, value]) => ({ key, value: String(value) }),
           );
           setSpecifications(specsArray);
-          console.log("Specifications loaded:", specsArray);
         }
-
-        console.log("Product loaded successfully:", product);
       } catch (err) {
         console.error("Error fetching product:", err);
         addNotification({
@@ -237,49 +267,52 @@ export default function Product() {
     };
 
     fetchProduct();
-  }, [editId, addNotification, setImages, setValue, categories, setTags, setSpecifications]);
+  }, [editId, addNotification, categories, setImages, setSpecifications, setTags, setValue]);
 
   const onSubmit = async (data) => {
     setisSubmited(true);
 
-    // Validate translations
+    const validationErrors = {};
     if (!translations.EN.title?.trim()) {
-      addNotification({
-        type: "warning",
-        message: "English title is required",
-      });
-      return;
+      validationErrors["EN.title"] = "English title is required";
     }
     if (!translations.AR.title?.trim()) {
+      validationErrors["AR.title"] = "Arabic title is required";
+    }
+    if (!translations.EN.description?.trim()) {
+      validationErrors["EN.description"] =
+        t.dashboard.forms.errors.descriptionRequired || "Description is required";
+    }
+    if (!translations.AR.description?.trim()) {
+      validationErrors["AR.description"] =
+        t.dashboard.forms.errors.descriptionRequired || "Description is required";
+    }
+
+    if (Object.keys(validationErrors).length) {
+      setTranslationErrors(validationErrors);
+      return;
+    }
+
+    if (!selectedCategory) {
       addNotification({
         type: "warning",
-        message: "Arabic title is required",
+        message: "Please choose a category",
       });
       return;
     }
 
-// Validate category selection
-      if (!selectedCategory) {
-        addNotification({
-          type: "warning",
-          message: "Please choose a category",
-        });
-        return;
-      }
+    if (!images || images.length === 0) {
+      addNotification({
+        type: "warning",
+        message: "At least one image is required",
+      });
+      return;
+    }
 
-      // Validate images
-      if (!images || images.length === 0) {
-        addNotification({
-          type: "warning",
-          message: "At least one image is required",
-        });
-        return;
-      }
+    setLoading(true);
 
-      setLoading(true);
-
-      try {
-        const formData = new FormData();
+    try {
+      const formData = new FormData();
       const translationsPayload = {
         EN: {
           name: translations.EN.title,
@@ -291,18 +324,27 @@ export default function Product() {
         },
       };
 
-      // Add basic data
-      formData.append("name", translationsPayload.EN.name || translationsPayload.AR.name);
-      formData.append("desc", translationsPayload.EN.desc || translationsPayload.AR.desc || "");
+      formData.append(
+        "name",
+        translationsPayload.EN.name || translationsPayload.AR.name,
+      );
+      formData.append(
+        "desc",
+        translationsPayload.EN.desc || translationsPayload.AR.desc || "",
+      );
       formData.append("price", data.price);
       if (data.sale) formData.append("discount", data.sale);
       formData.append("quantity", data.stock);
       formData.append("category", selectedCategory.id || selectedCategory.value);
+      if (selectedSubCategory?.id) {
+        formData.append("subCategory", selectedSubCategory.id);
+      }
       formData.append("translations", JSON.stringify(translationsPayload));
 
       if (tags?.length > 0) {
         formData.append("tags", JSON.stringify(tags));
       }
+
       if (specifications?.length > 0) {
         const specsPayload = specifications.reduce((acc, item) => {
           if (item.key?.trim() && item.value?.trim()) {
@@ -316,41 +358,30 @@ export default function Product() {
         }
       }
 
-      // TODO: Add tags and specs if needed
-      // if (data.tags) formData.append("tags", JSON.stringify(data.tags));
-      // if (data.specs) formData.append("specs", JSON.stringify(data.specs));
-
-      // Handle images
       if (editId) {
-        // Handle removed images in edit mode
-        const oldImageIds = oldImages.map((img) => img.publicId || img._id);
-        const currentImageIds = images
-          .filter((img) => !(img instanceof File))
-          .map((img) => img.publicId || img._id);
-
-        const removedImages = oldImageIds.filter(
-          (id) => !currentImageIds.includes(id),
+        const currentImagePublicIds = new Set(
+          images
+            .filter((img) => !(img instanceof File) && img.publicId)
+            .map((img) => img.publicId),
+        );
+        const removedImages = oldImages.filter(
+          (image) => image?.publicId && !currentImagePublicIds.has(image.publicId),
         );
 
-        // Delete removed images
-        for (const imgId of removedImages) {
-          await removeImage(imgId, "product", editId);
+        if (removedImages.length) {
+          await Promise.all(
+            removedImages.map((image) =>
+              removeImage(image.publicId, "product", editId),
+            ),
+          );
         }
-
-        // Add new images using same field name as create
-        images.forEach((image) => {
-          if (image instanceof File) {
-            formData.append("imgs", image);
-          }
-        });
-      } else {
-        // In create mode, add all images
-        images.forEach((image) => {
-          if (image instanceof File) {
-            formData.append("imgs", image);
-          }
-        });
       }
+
+      images.forEach((image) => {
+        if (image instanceof File) {
+          formData.append("imgs", image);
+        }
+      });
 
       if (editId) {
         await update(editId, formData);
@@ -383,9 +414,7 @@ export default function Product() {
   return (
     <div className="body">
       <form onSubmit={handleSubmit(onSubmit)}>
-
-        {/* ---------- TITLE & CATEGORY ---------- */}
-        <div className="row-holder two-column">
+        <div className="row-holder">
           <div className="box forInput">
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <label htmlFor="title">{t.dashboard.forms.title}</label>
@@ -398,41 +427,82 @@ export default function Product() {
                   type="text"
                   placeholder={`${t.dashboard.forms.titlePlaceholder} (${curentCreateLocale})`}
                   value={translations[curentCreateLocale]?.title || ""}
-                  onChange={(e) =>
-                    handleTranslationChange("title", e.target.value)
-                  }
+                  onChange={(e) => handleTranslationChange("title", e.target.value)}
                 />
               </div>
-              {curentCreateLocale === "EN" &&
-                !translations.EN.title?.trim() && (
-                  <span className="error">
-                    <CircleAlert />
-                    English title is required
-                  </span>
-                )}
-              {curentCreateLocale === "AR" &&
-                !translations.AR.title?.trim() && (
-                  <span className="error">
-                    <CircleAlert />
-                    Arabic title is required
-                  </span>
-                )}
+              {translationErrors[`${curentCreateLocale}.title`] && (
+                <span className="error">
+                  <CircleAlert />
+                  {translationErrors[`${curentCreateLocale}.title`]}
+                </span>
+              )}
             </div>
           </div>
+        </div>
 
+        <div className="row-holder two-column">
           <SelectOptions
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
-            options={categories}
+            options={categories.map((cat) => ({
+              ...cat,
+              subcategories: undefined,
+              _subcategories: cat.subcategories,
+            }))}
             value={selectedCategory}
             loading={referenceDataLoading}
             onChange={(cat) => {
-              setSelectedCategory(cat);
+              setSelectedCategory({ ...cat, subcategories: cat._subcategories });
+              setSelectedSubCategory(null);
+              setProductSubCategoryId(null);
             }}
+          />
+
+          <SelectOptions
+            label={t.dashboard.forms.subCategory}
+            placeholder={
+              !selectedCategory
+                ? t.dashboard.forms.selectSubCategory
+                : subCategories.length > 0
+                  ? t.dashboard.forms.selectSubCategory
+                  : locale === "AR"
+                    ? "لا توجد أقسام فرعية بعد"
+                    : "No nested categories yet"
+            }
+            options={subCategories}
+            value={selectedSubCategory}
+            loading={referenceDataLoading}
+            disabled={!selectedCategory || subCategories.length === 0}
+            onChange={(sub) => setSelectedSubCategory(sub)}
           />
         </div>
 
-        {/* ---------- STOCK / PRICE / SALE ---------- */}
+        <div className="box forInput">
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <label htmlFor="description">{t.dashboard.forms.description}</label>
+            <span className="lang-badge">({curentCreateLocale})</span>
+          </div>
+          <div className="inputHolder">
+            <div className="holder">
+              <textarea
+                id="description"
+                value={translations[curentCreateLocale]?.description || ""}
+                onChange={(e) =>
+                  handleTranslationChange("description", e.target.value)
+                }
+                placeholder={`${t.dashboard.forms.descriptionPlaceholder} (${curentCreateLocale})`}
+                rows={4}
+              />
+            </div>
+            {translationErrors[`${curentCreateLocale}.description`] && (
+              <span className="error">
+                <CircleAlert />
+                {translationErrors[`${curentCreateLocale}.description`]}
+              </span>
+            )}
+          </div>
+        </div>
+
         <div className="row-holder">
           <InputBox
             label={t.dashboard.forms.stock}
@@ -483,28 +553,6 @@ export default function Product() {
           </InputBox>
         </div>
 
-        {/* ---------- DESCRIPTION ---------- */}
-        <div className="box forInput">
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <label htmlFor="description">{t.dashboard.forms.description}</label>
-            <span className="lang-badge">({curentCreateLocale})</span>
-          </div>
-          <div className="inputHolder">
-            <div className="holder">
-              <textarea
-                id="description"
-                value={translations[curentCreateLocale]?.description || ""}
-                onChange={(e) =>
-                  handleTranslationChange("description", e.target.value)
-                }
-                placeholder={`${t.dashboard.forms.descriptionPlaceholder} (${curentCreateLocale})`}
-                rows={4}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* ---------- TAGS / SPECS / IMAGES ---------- */}
         <div className="row-holder two-column">
           <div className="column-holder">
             <Tags />
@@ -518,32 +566,17 @@ export default function Product() {
           setCurentCreateLocale={setCurentCreateLocale}
           loadingSubmit={loading}
           editId={isEditMode}
-          submitLabel={isEditMode ? t.dashboard.forms.editProduct : t.dashboard.forms.createProduct}
-        />
-
-        {/* ---------- SUBMIT ---------- */}
-        <button
-          type="submit"
-          className="main-button"
-          disabled={loading}
-          onClick={() => setisSubmited(true)}
-        >
-          <span
-            className="loader"
-            style={{ opacity: loading ? "1" : "0" }}
-          ></span>
-          <span style={{ opacity: loading ? "0" : "1" }}>
-            {isEditMode
+          submitLabel={
+            isEditMode
               ? t.dashboard.forms.editProduct
-              : t.dashboard.forms.createProduct}
-          </span>
-        </button>
+              : t.dashboard.forms.createProduct
+          }
+        />
       </form>
     </div>
   );
 }
 
-/* ---------- Reusable Input ---------- */
 function InputBox({ label, placeholder, error, children }) {
   return (
     <div className="box forInput">

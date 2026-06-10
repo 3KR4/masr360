@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useContext, useMemo, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
-import { LuSettings2 } from "react-icons/lu";
 import { dashboard } from "@/Contexts/dashboard";
 import { mainContext } from "@/Contexts/mainContext";
 import { getBreadcrumbItems } from "@/utlies/getBreadcrumbItems";
@@ -12,6 +11,7 @@ import useTranslate from "@/Contexts/useTranslation";
 
 function FilterMenu({
   label,
+  triggerLabel,
   active,
   value,
   search,
@@ -36,7 +36,7 @@ function FilterMenu({
         }}
       >
         <div className="toolbar-filter-copy">
-          <strong className="ellipsis">{value?.name || value || label}</strong>
+          <strong className="ellipsis">{value?.name || value || triggerLabel || label}</strong>
         </div>
         {active ? <IoMdClose className="main-ico" /> : <IoIosArrowDown className="main-ico" />}
       </button>
@@ -98,6 +98,8 @@ function DashboardToolbar() {
   const subCats =
     pageKey === "places_list" || pageKey === "nights_list"
       ? selectedCats.cat?.subCategories
+      : pageKey === "products_list"
+        ? selectedCats.category?.subCategories
       : undefined;
 
   const filteredGovs = citys?.filter((x) =>
@@ -116,18 +118,20 @@ function DashboardToolbar() {
     (x.name || "").toLowerCase().includes(catsSearch.toLowerCase()),
   );
 
-  const filtersCount = useMemo(() => {
-    return [
-      selectedCats.gov,
-      selectedCats.cat,
-      selectedCats.subCat,
-      selectedCats.category,
-      searchText?.trim(),
-    ].filter(Boolean).length;
-  }, [searchText, selectedCats]);
-
   const isGovernoratesPage = pageKey === "governorates_list";
+  const isCategoriesPage = pageKey === "categories_list";
   const isPlacesPage = pageKey === "places_list";
+  const shouldShowSubCatFilter =
+    pageKey === "places_list" || pageKey === "nights_list" || pageKey === "products_list";
+  const selectedParentCategory =
+    pageKey === "products_list" ? selectedCats.category : selectedCats.cat;
+  const subCatTriggerLabel = !selectedParentCategory
+    ? t.head.filterSubCat
+    : (subCats?.length ?? 0) > 0
+      ? t.head.filterSubCat
+      : locale === "AR"
+        ? "لا توجد أقسام فرعية بعد"
+        : "No sub categories yet";
 
   const openMenu = (menu) => {
     setActiveMenu(menu);
@@ -141,36 +145,29 @@ function DashboardToolbar() {
   return (
     <div className="dashboard-toolbar-shell">
       <div
-        className={`dashboard-toolbar-row ${isGovernoratesPage ? "governorates-toolbar-row" : ""}`}
+        className={`dashboard-toolbar-row ${isGovernoratesPage || isCategoriesPage ? "governorates-toolbar-row" : ""} ${pageKey === "products_list" ? "products-toolbar-row" : ""}`}
       >
-        <div className="dashboard-toolbar-search compact">
-          <div
-            className={`dashboard-toolbar-search-input ${searchText ? "has-value" : ""}`}
-          >
-            <input
-              ref={inputRef}
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              placeholder={`${t.head.searchIn} ${navigationitems[0]?.name}`}
-            />
-            {searchText ? (
-              <IoIosClose
-                className="main-ico"
-                onClick={() => setSearchText("")}
-                style={{ padding: "0px" }}
+        {!isCategoriesPage ? (
+          <div className="dashboard-toolbar-search compact">
+            <div
+              className={`dashboard-toolbar-search-input ${searchText ? "has-value" : ""}`}
+            >
+              <input
+                ref={inputRef}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder={`${t.head.searchIn} ${navigationitems[0]?.name}`}
               />
-            ) : (
-              <FaSearch className="main-ico" onClick={() => inputRef.current?.focus()} />
-            )}
-          </div>
-        </div>
-
-        {!isGovernoratesPage && !isPlacesPage ? (
-          <div className="dashboard-toolbar-inline-badge">
-            <span className="toolbar-badge">
-              <LuSettings2 />
-              {filtersCount} active
-            </span>
+              {searchText ? (
+                <IoIosClose
+                  className="main-ico"
+                  onClick={() => setSearchText("")}
+                  style={{ padding: "0px" }}
+                />
+              ) : (
+                <FaSearch className="main-ico" onClick={() => inputRef.current?.focus()} />
+              )}
+            </div>
           </div>
         ) : null}
 
@@ -245,14 +242,15 @@ function DashboardToolbar() {
           </FilterMenu>
         )}
 
-        {(pageKey === "places_list" || (subCats?.length ?? 0) > 0) && (
+        {shouldShowSubCatFilter && (
           <FilterMenu
             label={t.head.filterSubCat}
+            triggerLabel={subCatTriggerLabel}
             active={activeMenu === "subCat"}
             value={selectedCats.subCat}
             search={catsSearch}
             setSearch={setCatsSearch}
-            disabled={!selectedCats.cat}
+            disabled={!selectedParentCategory || (subCats?.length ?? 0) === 0}
             onOpen={() => openMenu("subCat")}
             onClose={() => setActiveMenu(null)}
           >
@@ -302,6 +300,7 @@ function DashboardToolbar() {
                       selectedCats.category?._id == x._id ? null : x,
                       "categories",
                     );
+                    updateFilter("subCat", null, "categories");
                     setActiveMenu(null);
                   }}
                 >

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext, useMemo, useState } from "react";
-import { CircleAlert, Layers2, PencilLine, Plus, Shapes, Trash2 } from "lucide-react";
+import { CircleAlert, Layers2, PencilLine, Plus, Shapes, Trash2, X } from "lucide-react";
 import { mainContext } from "@/Contexts/mainContext";
 import { useNotification } from "@/Contexts/NotificationContext";
 import useTranslate from "@/Contexts/useTranslation";
@@ -81,6 +81,7 @@ export default function CategoriesManagerPage() {
   const { addNotification } = useNotification();
   const t = useTranslate();
   const [formState, setFormState] = useState(EMPTY_FORM);
+  const [editorOpen, setEditorOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState("");
   const [errors, setErrors] = useState({});
@@ -104,16 +105,19 @@ export default function CategoriesManagerPage() {
   const resetForm = () => {
     setFormState(EMPTY_FORM);
     setErrors({});
+    setEditorOpen(false);
   };
 
   const openCreate = (type, parent = null) => {
     setFormState(buildFormState(null, type, parent?._id || null));
     setErrors({});
+    setEditorOpen(true);
   };
 
   const openEdit = (item, type, parent = null) => {
     setFormState(buildFormState(item, type, parent));
     setErrors({});
+    setEditorOpen(true);
   };
 
   const validateForm = () => {
@@ -205,25 +209,6 @@ export default function CategoriesManagerPage() {
 
   return (
     <div className="body categories-admin-page">
-      <div className="categories-admin-hero">
-        <div>
-          <p className="eyebrow">Reference Data</p>
-          <h1>{t.dashboard.tables.categories || "Categories"}</h1>
-          <p className="intro">
-            Manage master categories and nested subcategories for places, nights,
-            and products from one shared source across the whole application.
-          </p>
-        </div>
-        <button
-          type="button"
-          className="main-button"
-          onClick={() => openCreate("place")}
-        >
-          <Plus size={16} />
-          Create category
-        </button>
-      </div>
-
       <div className="categories-admin-layout">
         <div className="categories-grid-holder">
           {sections.map((section) => {
@@ -256,9 +241,15 @@ export default function CategoriesManagerPage() {
                     section.items.map((item) => (
                       <article key={item._id} className="category-card">
                         <div className="category-card-top">
-                          <div className="category-copy">
-                            <h3>{getCategoryName(item, locale)}</h3>
-                            <p>{item?.translations?.AR?.name || "No Arabic title"}</p>
+                          <div className="root-category-content">
+                            <CategoryIcon
+                              icon={item.icon}
+                              className="subcategory-icon root-category-icon"
+                            />
+                            <div className="category-copy">
+                              <h3>{getCategoryName(item, locale)}</h3>
+                              <p>{item?.translations?.AR?.name || "No Arabic title"}</p>
+                            </div>
                           </div>
 
                           <div className="hover-actions">
@@ -278,14 +269,6 @@ export default function CategoriesManagerPage() {
                               <Trash2 size={15} />
                             </button>
                           </div>
-                        </div>
-
-                        <div className="category-meta-row">
-                          <span className="type-badge">{section.key}</span>
-                          <span className="icon-token">
-                            <span>Icon</span>
-                            <CategoryIcon icon={item.icon} />
-                          </span>
                         </div>
 
                         <div className="subcategory-strip">
@@ -350,96 +333,110 @@ export default function CategoriesManagerPage() {
             );
           })}
         </div>
+      </div>
 
-        <aside className="category-editor-panel">
-          <div className="editor-head">
-            <p className="eyebrow">Editor</p>
-            <h2>{currentTitle}</h2>
-            <p>
-              {formState.parent
-                ? "This category will be created under the selected parent item."
-                : "Use the shared reference source so all screens can consume the same data."}
-            </p>
-          </div>
+      {editorOpen ? (
+        <div className="category-editor-overlay" onClick={resetForm}>
+          <aside
+            className="category-editor-panel modal-open"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="editor-head">
+              <div>
+                <h2>{currentTitle}</h2>
+              </div>
 
-          <form onSubmit={handleSubmit} className="category-editor-form">
-            <div className="editor-grid">
-              <label className="editor-field">
-                <span>Type</span>
-                <input value={formState.type} disabled />
-              </label>
-
-              <label className="editor-field">
-                <span>Icon</span>
-                <input
-                  value={formState.icon}
-                  onChange={(e) =>
-                    setFormState((prev) => ({ ...prev, icon: e.target.value }))
-                  }
-                  placeholder="Optional icon text"
-                />
-              </label>
-            </div>
-
-            <label className="editor-field">
-              <span>English Name</span>
-              <input
-                value={formState.EN.name}
-                onChange={(e) =>
-                  setFormState((prev) => ({
-                    ...prev,
-                    EN: { ...prev.EN, name: e.target.value },
-                  }))
-                }
-                placeholder="Enter English category name"
-              />
-              {errors.enName ? (
-                <small className="field-error">
-                  <CircleAlert size={14} />
-                  {errors.enName}
-                </small>
-              ) : null}
-            </label>
-
-            <label className="editor-field">
-              <span>Arabic Name</span>
-              <input
-                value={formState.AR.name}
-                onChange={(e) =>
-                  setFormState((prev) => ({
-                    ...prev,
-                    AR: { ...prev.AR, name: e.target.value },
-                  }))
-                }
-                placeholder="Enter Arabic category name"
-              />
-              {errors.arName ? (
-                <small className="field-error">
-                  <CircleAlert size={14} />
-                  {errors.arName}
-                </small>
-              ) : null}
-            </label>
-
-            <div className="editor-actions">
               <button
                 type="button"
-                className="ghost-action wide"
+                className="icon-button"
                 onClick={resetForm}
+                aria-label="Close editor"
               >
-                Reset
-              </button>
-              <button type="submit" className="main-button" disabled={submitting}>
-                {submitting ? "Saving..." : formState.mode === "edit" ? "Update" : "Create"}
+                <X size={16} />
               </button>
             </div>
-          </form>
 
-          {referenceDataLoading ? (
-            <div className="panel-note">Refreshing shared reference data...</div>
-          ) : null}
-        </aside>
-      </div>
+            <form onSubmit={handleSubmit} className="category-editor-form">
+              <div className="editor-grid">
+                <label className="editor-field">
+                  <span>Type</span>
+                  <input value={formState.type} disabled />
+                </label>
+
+                <label className="editor-field">
+                  <span>Icon</span>
+                  <input
+                    value={formState.icon}
+                    onChange={(e) =>
+                      setFormState((prev) => ({ ...prev, icon: e.target.value }))
+                    }
+                    placeholder="Optional icon text"
+                  />
+                </label>
+              </div>
+
+              <div className="editor-grid bilingual-grid">
+                <label className="editor-field">
+                  <span>English Name</span>
+                  <input
+                    value={formState.EN.name}
+                    onChange={(e) =>
+                      setFormState((prev) => ({
+                        ...prev,
+                        EN: { ...prev.EN, name: e.target.value },
+                      }))
+                    }
+                    placeholder="Enter English category name"
+                  />
+                  {errors.enName ? (
+                    <small className="field-error">
+                      <CircleAlert size={14} />
+                      {errors.enName}
+                    </small>
+                  ) : null}
+                </label>
+
+                <label className="editor-field">
+                  <span>Arabic Name</span>
+                  <input
+                    value={formState.AR.name}
+                    onChange={(e) =>
+                      setFormState((prev) => ({
+                        ...prev,
+                        AR: { ...prev.AR, name: e.target.value },
+                      }))
+                    }
+                    placeholder="Enter Arabic category name"
+                  />
+                  {errors.arName ? (
+                    <small className="field-error">
+                      <CircleAlert size={14} />
+                      {errors.arName}
+                    </small>
+                  ) : null}
+                </label>
+              </div>
+
+              <div className="editor-actions">
+                <button
+                  type="button"
+                  className="ghost-action wide"
+                  onClick={resetForm}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="main-button" disabled={submitting} style={{ width: "100%"}}>
+                  {submitting ? "Saving..." : formState.mode === "edit" ? "Update" : "Create"}
+                </button>
+              </div>
+            </form>
+
+            {referenceDataLoading ? (
+              <div className="panel-note">Refreshing shared reference data...</div>
+            ) : null}
+          </aside>
+        </div>
+      ) : null}
     </div>
   );
 }

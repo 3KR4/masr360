@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import Image from "next/image";
@@ -9,11 +9,12 @@ import { FaEye, FaTrashAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { mainContext } from "@/Contexts/mainContext";
-import { nightsAr, nightsEn, governoratesEn, governoratesAr } from "@/data";
 import useTranslate from "@/Contexts/useTranslation";
 import { getAll, remove } from "@/services/nights/nights.service";
 import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
+import { getAll as getCategories } from "@/services/categories/categories.service";
+import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 
@@ -26,16 +27,22 @@ export default function Nights() {
   const { addNotification } = useNotification();
 
   const [nights, setNights] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
-  const limit = 5;
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [governorates, setGovernorates] = useState([]);
+  const [governoratesLoading, setGovernoratesLoading] = useState(true);
+  const limit = 6;
 
   const fetchNights = useCallback(async () => {
     try {
+      setLoading(true);
       const governorateId =
         selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
       const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
-      const res = await getAll(
+      const { nights: nightsData, totalCount } = await getAll(
         searchText,
         page,
         limit,
@@ -44,38 +51,121 @@ export default function Nights() {
         governorateId,
         categoryId,
       );
-      const response = res.data[0];
-
-      setNights(response?.data ?? []);
-
-      const totalCountRaw = response?.totalCount?.[0];
-      const total =
-        typeof totalCountRaw === "number"
-          ? totalCountRaw
-          : totalCountRaw?.count ?? 0;
-
-      setPageCount(Math.max(1, Math.ceil(total / limit)));
+      setNights(nightsData || []);
+      setPageCount(Math.max(1, Math.ceil((totalCount || 0) / limit)));
     } catch (error) {
       console.error("Error fetching nights:", error);
-      setNights(locale === "EN" ? nightsEn : nightsAr);
+      setNights([]);
       setPageCount(1);
+    } finally {
+      setLoading(false);
     }
   }, [limit, locale, page, searchText, selectedCats]);
 
+  const fetchCategories = useCallback(async () => {
+    try {
+      setCategoriesLoading(true);
+      const res = await getCategories({ type: "night", lang: locale });
+      setCategories(res.data || []);
+    } catch (error) {
+      console.error("Error fetching night categories:", error);
+      setCategories([]);
+    } finally {
+      setCategoriesLoading(false);
+    }
+  }, [locale]);
+
+  const fetchGovernoratesData = useCallback(async () => {
+    try {
+      setGovernoratesLoading(true);
+      const { governorates: govData } = await getGovernorates("", 1, 10000, locale);
+      setGovernorates(govData || []);
+    } catch (error) {
+      console.error("Error fetching governorates:", error);
+      setGovernorates([]);
+    } finally {
+      setGovernoratesLoading(false);
+    }
+  }, [locale]);
+
   useEffect(() => {
-    let mounted = true;
+    setPage(1);
+  }, [locale, searchText, selectedCats.cat, selectedCats.gov, selectedCats.subCat]);
 
-    const loadNights = async () => {
-      if (!mounted) return;
-      await fetchNights();
-    };
-
-    loadNights();
-
-    return () => {
-      mounted = false;
-    };
+  useEffect(() => {
+    fetchNights();
   }, [fetchNights]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
+  useEffect(() => {
+    fetchGovernoratesData();
+  }, [fetchGovernoratesData]);
+
+  const categoriesMap = useMemo(() => {
+    const map = new Map();
+    categories.forEach((category) => {
+      map.set(category._id || category.id, category);
+      if (category.subCategories) {
+        category.subCategories.forEach((sub) => {
+          map.set(sub._id || sub.id, { ...sub, parentName: category.name });
+        });
+      }
+    });
+    return map;
+  }, [categories]);
+
+  const getCategoryDisplayName = useCallback(
+    (categoryData, subCategoryData) => {
+      if (categoriesLoading) return t.dashboard?.tables?.loading || "Loading...";
+
+      const categoryId = categoryData?._id || categoryData?.id || categoryData;
+      const subCategoryId =
+        subCategoryData?._id || subCategoryData?.id || subCategoryData;
+      const categoryFromList = categoriesMap.get(categoryId);
+      const subCategoryFromList = categoriesMap.get(subCategoryId);
+      const localeKey = String(locale || "EN").toUpperCase();
+
+      const catName =
+        categoryData?.translations?.[localeKey]?.name ||
+        categoryFromList?.translations?.[localeKey]?.name ||
+        categoryData?.name ||
+        categoryFromList?.name;
+      const subCatName =
+        subCategoryData?.translations?.[localeKey]?.name ||
+        subCategoryFromList?.translations?.[localeKey]?.name ||
+        subCategoryData?.name ||
+        subCategoryFromList?.name;
+
+      if (subCatName && catName) return `${catName} / ${subCatName}`;
+      if (catName) return catName;
+      return t.dashboard?.tables?.unknownCategory || "Unknown Category";
+    },
+    [categoriesLoading, categoriesMap, locale, t],
+  );
+
+  const getGovernorateDisplayName = useCallback(
+    (governorateData) => {
+      if (governoratesLoading) return t.dashboard?.tables?.loading || "Loading...";
+
+      const govId = governorateData?._id || governorateData?.id || governorateData;
+      const govFromList = governorates.find(
+        (g) => String(g._id || g.id) === String(govId),
+      );
+      const localeKey = String(locale || "EN").toUpperCase();
+
+      return (
+        governorateData?.translations?.[localeKey]?.name ||
+        govFromList?.translations?.[localeKey]?.name ||
+        governorateData?.name ||
+        govFromList?.name ||
+        "Unknown Governorate"
+      );
+    },
+    [governorates, governoratesLoading, locale, t],
+  );
 
   const deleteNight = async (id) => {
     try {
@@ -122,8 +212,8 @@ export default function Nights() {
           <div className="table-items">
             {nights.map((item) => {
               const itemId = item?._id || item?.id;
-              const imageUrl = item?.imgs?.[0]?.url || item?.img?.url || "";
               const localeKey = String(locale || "EN").toUpperCase();
+              const imageUrl = item?.imgs?.[0]?.url || item?.img?.url || "";
               const itemName =
                 item?.translations?.[localeKey]?.name ||
                 item?.name ||
@@ -137,14 +227,7 @@ export default function Nights() {
                 item?.translations?.EN?.desc ||
                 item?.translations?.AR?.desc ||
                 "";
-              const placeGov =
-                locale === "EN"
-                  ? governoratesEn?.find(
-                      (x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id,
-                    )
-                  : governoratesAr?.find(
-                      (x) => x.id == item?.governorate?.id || x.id == item?.governorate?._id,
-                    );
+              const govId = item?.governorate?._id || item?.governorate?.id || item?.governorate;
 
               return (
                 <div key={itemId} className="table-item">
@@ -167,7 +250,7 @@ export default function Nights() {
                   </div>
 
                   <div className="categories">
-                    <h4>{t.dashboard.tables.ancientEgypt}</h4>/<h4>{t.dashboard.tables.deserts}</h4>
+                    <h4>{getCategoryDisplayName(item?.category, item?.subCategory)}</h4>
                   </div>
 
                   <div className="item-rating">
@@ -192,9 +275,9 @@ export default function Nights() {
                     </h4>
                   </div>
 
-                  <Link href={`/discover/${placeGov?.id}`} className="link">
+                  <Link href={`/discover/${govId || ""}`} className="link">
                     <FaLocationDot />
-                    {placeGov?.name}
+                    {getGovernorateDisplayName(item?.governorate)}
                   </Link>
 
                   <div className="actions">
@@ -215,6 +298,18 @@ export default function Nights() {
                 </div>
               );
             })}
+
+            {!loading && nights.length === 0 ? (
+              <div className="table-item">
+                <div className="holder">
+                  <div className="item-details">
+                    <p className="description">
+                      {t.dashboard?.forms?.noResults || "No nights found"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
 

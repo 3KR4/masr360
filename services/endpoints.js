@@ -25,6 +25,8 @@ export const ENDPOINTS = {
     CREATE: "/products",
     UPDATE: (id) => `/products/${id}`,
     DELETE: (id) => `/products/${id}`,
+    DELETE_IMAGE: (imgId, type, typeId) =>
+      `/images/${imgId}?entityType=${type}&entityId=${typeId}`,
     GET_ALL: (
   search,
   page,
@@ -86,6 +88,8 @@ NIGHTS: {
   CREATE: "/nights",
   UPDATE: (id) => `/nights/${id}`,
   DELETE: (id) => `/nights/${id}`,
+  DELETE_IMAGE: (imgId, type, typeId) =>
+    `/images/${imgId}?entityType=${type}&entityId=${typeId}`,
   GET_ALL: (
     search,
     page,

@@ -13,16 +13,26 @@ import {
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { forms } from "@/Contexts/forms";
 import useTranslate from "@/Contexts/useTranslation";
-import { FaCheck } from "react-icons/fa";
 import { mainContext } from "@/Contexts/mainContext";
 import { useNotification } from "@/Contexts/NotificationContext";
-
-import {
-  tourismCategoriesEn,
-  tourismCategoriesAr,
-} from "@/data";
 import FormLangSwitch from "@/components/dashboard/forms/FormLangSwitch";
 import { useSearchParams, useRouter } from "next/navigation";
+
+function unwrapNightGetOneResponse(data) {
+  return data?.night || data?.data?.night || data?.data || data;
+}
+
+function normalizeMapEmbedValue(value) {
+  const rawValue = String(value || "").trim();
+  if (!rawValue) return "";
+
+  const srcMatch = rawValue.match(/src=["']([^"']+)["']/i);
+  if (srcMatch?.[1]) {
+    return srcMatch[1].trim();
+  }
+
+  return rawValue;
+}
 
 export default function CreateNights() {
   const { setisSubmited, images, setImages } = useContext(forms);
@@ -56,8 +66,8 @@ export default function CreateNights() {
     () => (categoryOptions.length > 0 ? categoryOptions : []),
     [categoryOptions]
   );
-  const [loadingContent, setLoadingContent] = useState(false);
-  const [oldImage, setOldImage] = useState(null);
+  const [, setLoadingContent] = useState(false);
+  const [oldImages, setOldImages] = useState([]);
   const { addNotification } = useNotification();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -137,7 +147,7 @@ export default function CreateNights() {
       setSelectedGov(null);
       setValue("location.link", "");
       setValue("location.iFrame", "");
-      setOldImage(null);
+      setOldImages([]);
     }
   }, [editId, setImages, setValue]);
 
@@ -149,38 +159,50 @@ export default function CreateNights() {
           setLoadingContent(true);
   
           const res = await getOne(editId);
-          const gov = res.data?.night || res.data;
+          const night = unwrapNightGetOneResponse(res.data);
 
-          if (!gov) {
+          if (!night) {
             throw new Error("Night data not found");
           }
 
-          // set translations
-          setTranslations({
-            EN: gov.translations?.EN || { name: gov.name, desc: gov.desc },
-            AR: gov.translations?.AR || { name: gov.name, desc: gov.desc },
+          const formatTranslation = (translation) => ({
+            name: translation?.name ?? night?.name ?? "",
+            desc: translation?.desc ?? translation?.description ?? night?.desc ?? "",
           });
 
-          setValue("location.link", gov.location);
+          // set translations
+          setTranslations({
+            EN: formatTranslation(night.translations?.EN),
+            AR: formatTranslation(night.translations?.AR),
+          });
+
+          const locationLink =
+            typeof night.location === "string"
+              ? night.location
+              : night.location?.link || "";
+
+          setValue("location.link", locationLink);
           setValue(
             "location.iFrame",
-            gov.location?.iFrame || gov.locationIframe || "",
+            night.location?.iFrame || night.locationIframe || "",
           );
 
           const categoryOption = filteredCategoryOptions.find(
             (item) =>
-              String(item.id) === String(gov.category) ||
-              String(item.name) === String(gov.category) ||
-              String(item.name) === String(gov.category?.name),
+              String(item.id) === String(night.category) ||
+              String(item.id) === String(night.category?._id) ||
+              String(item.name) === String(night.category) ||
+              String(item.name) === String(night.category?.name),
           );
           if (categoryOption) {
             setSelectedCategory(categoryOption);
 
             const subCategoryOption = categoryOption.subcategories?.find(
               (sub) =>
-                String(sub.id) === String(gov.subCategory) ||
-                String(sub.name) === String(gov.subCategory) ||
-                String(sub.name) === String(gov.subCategory?.name),
+                String(sub.id) === String(night.subCategory) ||
+                String(sub.id) === String(night.subCategory?._id) ||
+                String(sub.name) === String(night.subCategory) ||
+                String(sub.name) === String(night.subCategory?.name),
             );
             if (subCategoryOption) {
               setSelectedSubCategory(subCategoryOption);
@@ -189,19 +211,24 @@ export default function CreateNights() {
 
           const govOption = filteredGovernorateOptions.find(
             (item) =>
-              String(item.id) === String(gov.governorate) ||
-              item.name === gov.governorate ||
-              item.name === gov.governorate?.name ||
-              item.name === gov.governorate?.translations?.[locale]?.name,
+              String(item.id) === String(night.governorate) ||
+              String(item.id) === String(night.governorate?._id) ||
+              item.name === night.governorate ||
+              item.name === night.governorate?.name ||
+              item.name === night.governorate?.translations?.[String(locale || "EN").toUpperCase()]?.name,
           );
           if (govOption) {
             setSelectedGov(govOption);
           }
 
-          const existingImages = gov.imgs || (gov.img ? [gov.img] : undefined);
-          if (existingImages?.length) {
+          const existingImages = Array.isArray(night.imgs)
+            ? night.imgs
+            : night.img
+              ? [night.img]
+              : [];
+          if (existingImages.length) {
             setImages(existingImages);
-            setOldImage(existingImages[0]);
+            setOldImages(existingImages);
           }
         } catch (err) {
           console.error(err);
@@ -269,8 +296,9 @@ export default function CreateNights() {
       if (data.location?.link) {
         formData.append("location", data.location.link);
       }
-      if (data.location?.iFrame) {
-        formData.append("locationIframe", data.location.iFrame);
+      const normalizedIframe = normalizeMapEmbedValue(data.location?.iFrame);
+      if (normalizedIframe) {
+        formData.append("locationIframe", normalizedIframe);
       }
 
       images.forEach((image) => {
@@ -281,6 +309,22 @@ export default function CreateNights() {
 
       if (editId) {
         await update(editId, formData);
+        const currentImagePublicIds = new Set(
+          images
+            .filter((image) => image && !(image instanceof File) && image.publicId)
+            .map((image) => image.publicId),
+        );
+        const removedImages = oldImages.filter(
+          (image) => image?.publicId && !currentImagePublicIds.has(image.publicId),
+        );
+
+        if (removedImages.length) {
+          await Promise.all(
+            removedImages.map((image) =>
+              removeImage(image.publicId, "night", editId),
+            ),
+          );
+        }
         addNotification({
           type: "success",
           message: "Night updated successfully",
@@ -356,17 +400,23 @@ export default function CreateNights() {
               setSelectedSubCategory(null);
             }}
           />
-          {subCategories.length > 0 && (
-            <SelectOptions
-              label={t.dashboard.forms.subCategory}
-              placeholder={t.dashboard.forms.selectSubCategory}
-              options={subCategories}
-              value={selectedSubCategory}
-              loading={referenceDataLoading}
-              disabled={!selectedCategory}
-              onChange={(sub) => setSelectedSubCategory(sub)}
-            />
-          )}
+          <SelectOptions
+            label={t.dashboard.forms.subCategory}
+            placeholder={
+              !selectedCategory
+                ? t.dashboard.forms.selectSubCategory
+                : subCategories.length > 0
+                  ? t.dashboard.forms.selectSubCategory
+                  : locale === "AR"
+                    ? "لا توجد أقسام فرعية بعد"
+                    : "No nested categories yet"
+            }
+            options={subCategories}
+            value={selectedSubCategory}
+            loading={referenceDataLoading}
+            disabled={!selectedCategory || subCategories.length === 0}
+            onChange={(sub) => setSelectedSubCategory(sub)}
+          />
         </div>
 
         <div className="box forInput">
@@ -458,7 +508,13 @@ export default function CreateNights() {
           setCurentCreateLocale={setCurentCreateLocale}
           loadingSubmit={loadingSubmit}
           editId={editId}
-          submitLabel={t.dashboard.forms.createNightPlace}
+          submitLabel={
+            editId
+              ? locale === "AR"
+                ? "تعديل المزار الليلي"
+                : "Edit Night Place"
+              : t.dashboard.forms.createNightPlace
+          }
         />
       </form>
     </div>

@@ -41,6 +41,18 @@ function firstTicketDoc(ticketField) {
   return ticketField;
 }
 
+function normalizeMapEmbedValue(value) {
+  const rawValue = String(value || "").trim();
+  if (!rawValue) return "";
+
+  const srcMatch = rawValue.match(/src=["']([^"']+)["']/i);
+  if (srcMatch?.[1]) {
+    return srcMatch[1].trim();
+  }
+
+  return rawValue;
+}
+
 /** API uses `pricing`; dashboard Tickets context uses `prices`. */
 function mapApiTicketToForm(ticketDoc) {
   if (!ticketDoc || typeof ticketDoc !== "object") return { type: "free" };
@@ -459,7 +471,7 @@ export default function CreatePlace() {
         },
       },
       location: data.mapLocation?.link || "",
-      locationIframe: data.mapLocation?.iFrame || "",
+      locationIframe: normalizeMapEmbedValue(data.mapLocation?.iFrame),
     };
 
     const buildFormData = (payload) => {
@@ -729,7 +741,14 @@ export default function CreatePlace() {
           curentCreateLocale={curentCreateLocale}
           setCurentCreateLocale={setCurentCreateLocale}
           loadingSubmit={loadingSubmit}
-          submitLabel={t.dashboard.forms.createPlace}
+          editId={editId}
+          submitLabel={
+            editId
+              ? locale === "AR"
+                ? "تعديل المكان"
+                : "Edit place"
+              : t.dashboard.forms.createPlace
+          }
         />
       </form>
     </div>
