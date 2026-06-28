@@ -43,8 +43,7 @@
   align-items: center;
     padding: 13px 14px;
   border-bottom: 1px solid var(--border-color);
-  background:
-    linear-gradient(180deg, rgba(245, 238, 220, 0.86), rgba(255, 255, 255, 0.96));
+    background: linear-gradient(#ffeec1db, #fffffff5);
 }
 
 .title-wrap {
@@ -85,8 +84,7 @@
   border: 1px solid rgba(201, 140, 45, 0.16);
   border-radius: 18px;
   padding: 16px;
-  background:
-    linear-gradient(180deg, rgba(255, 252, 243, 0.92), #ffffff 40%);
+
   box-shadow: 0 10px 24px rgba(20, 16, 8, 0.05);
 }
 

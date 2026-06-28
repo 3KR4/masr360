@@ -18,6 +18,7 @@ import {
   create,
   removeImage,
 } from "@/services/places/places.service";
+import { update as updateTicket } from "@/services/tickets/tickets.service";
 
 /** Axios body may be { place, ticket } or a legacy flat place object. */
 function unwrapPlaceGetOneResponse(data) {
@@ -111,7 +112,116 @@ function mapApiTicketToForm(ticketDoc) {
   }
   return { type: "free" };
 }
+function toTicketNumber(value) {
+  const numberValue = Number(value);
+  return Number.isFinite(numberValue) ? numberValue : 0;
+}
 
+function hasTicketValue(value) {
+  return String(value ?? "").trim() !== "";
+}
+
+function hasPositiveTicketValue(value) {
+  return hasTicketValue(value) && toTicketNumber(value) > 0;
+}
+
+function buildApiTicketPayload(tickets) {
+  const type = tickets?.type || "free";
+
+  if (type === "free") {
+    return { ticket: { type: "free", pricing: { staticPrice: 0 } } };
+  }
+
+  if (type === "static") {
+    return {
+      ticket: {
+        type: "static",
+        pricing: { staticPrice: toTicketNumber(tickets?.prices?.staticPrice) },
+      },
+    };
+  }
+
+  if (type === "pricePerRegion") {
+    const prices = tickets?.prices?.pricePerRegion || {};
+    if (
+      !hasPositiveTicketValue(prices.egyptian) ||
+      !hasPositiveTicketValue(prices.foreign)
+    ) {
+      return { error: "Egyptian and foreign ticket prices must be greater than 0" };
+    }
+
+    return {
+      ticket: {
+        type: "pricePerRegion",
+        pricing: {
+          egyptian: toTicketNumber(prices.egyptian),
+          foreign: toTicketNumber(prices.foreign),
+        },
+      },
+    };
+  }
+
+  if (type === "pricePerAge") {
+    const prices = tickets?.prices?.pricePerAge || {};
+    const requiredGroups = ["children", "adults", "seniors"];
+    const missingGroup = requiredGroups.find(
+      (group) => !hasPositiveTicketValue(prices[group]),
+    );
+
+    if (missingGroup) {
+      return { error: "Children, adults, and seniors ticket prices must be greater than 0" };
+    }
+
+    return {
+      ticket: {
+        type: "pricePerAge",
+        pricing: {
+          children: toTicketNumber(prices.children),
+          adults: toTicketNumber(prices.adults),
+          seniors: toTicketNumber(prices.seniors),
+        },
+      },
+    };
+  }
+
+  if (type === "ageAndRegion") {
+    const prices = tickets?.prices?.ageAndRegion || {};
+    const requiredGroups = ["students", "adults", "seniors"];
+    const missingGroup = requiredGroups.find(
+      (group) =>
+        !hasTicketValue(prices[group]?.egyptian) ||
+        !hasTicketValue(prices[group]?.foreign),
+    );
+
+    if (missingGroup) {
+      return { error: "All age and region ticket prices are required" };
+    }
+
+    return {
+      ticket: {
+        type: "ageAndRegion",
+        pricing: {
+          ageAndRegion: {
+            students: {
+              egyptian: toTicketNumber(prices.students?.egyptian),
+              foreign: toTicketNumber(prices.students?.foreign),
+            },
+            adults: {
+              egyptian: toTicketNumber(prices.adults?.egyptian),
+              foreign: toTicketNumber(prices.adults?.foreign),
+            },
+            seniors: {
+              egyptian: toTicketNumber(prices.seniors?.egyptian),
+              foreign: toTicketNumber(prices.seniors?.foreign),
+            },
+          },
+        },
+      },
+    };
+  }
+
+  return { ticket: { type: "free", pricing: { staticPrice: 0 } } };
+}
 export default function CreatePlace() {
   const { locale, governorates, placeCategories, referenceDataLoading } =
     useContext(mainContext);
@@ -161,9 +271,7 @@ export default function CreatePlace() {
   const [categoryOptions, setCategoryOptions] = useState([]);
   /** Raw place from GET one; category/gov selects sync when option lists load. */
   const [editPlaceSnapshot, setEditPlaceSnapshot] = useState(null);
-
-  const TEST_CATEGORY_ID = "6984f12c888f9d5d903f3a9a";
-  const TEST_GOVERNORATE_ID = "699f4cb48c0b04cebf3b52cb";
+  const [editTicketSnapshot, setEditTicketSnapshot] = useState(null);
 
   const handleTranslationChange = (field, value) => {
     setTranslations((prev) => ({
@@ -239,6 +347,7 @@ export default function CreatePlace() {
       setValue("mapLocation.iFrame", "");
       setOldImages([]);
       setEditPlaceSnapshot(null);
+      setEditTicketSnapshot(null);
     }
   }, [editId, setImages, setTickets, setSpecifications, setValue]);
 
@@ -273,6 +382,7 @@ export default function CreatePlace() {
         });
 
         const ticketDoc = firstTicketDoc(ticketField);
+        setEditTicketSnapshot(ticketDoc);
         setTickets(mapApiTicketToForm(ticketDoc));
 
         const locLink =
@@ -314,21 +424,34 @@ export default function CreatePlace() {
 
     const place = editPlaceSnapshot;
 
-    const categoryOption = filteredCategoryOptions.find(
-      (cat) =>
-        cat.id === place.category ||
-        cat.id === place.category?._id ||
-        cat.name === place.category ||
-        cat.name === place.category?.name,
-    );
+    const placeCategoryId = place.category?._id || place.category?.id || place.category;
+    const placeCategoryName = place.category?.name || place.category;
+    const placeSubCategoryId =
+      place.subCategory?._id || place.subCategory?.id || place.subCategory;
+    const placeSubCategoryName = place.subCategory?.name || place.subCategory;
+
+    const categoryOption = filteredCategoryOptions.find((cat) => {
+      const isDirectCategory =
+        String(cat.id) === String(placeCategoryId) || cat.name === placeCategoryName;
+      const hasSelectedSubCategory = cat.subcategories?.some(
+        (sub) =>
+          String(sub.id) === String(placeCategoryId) ||
+          String(sub.id) === String(placeSubCategoryId) ||
+          sub.name === placeCategoryName ||
+          sub.name === placeSubCategoryName,
+      );
+
+      return isDirectCategory || hasSelectedSubCategory;
+    });
+
     if (categoryOption) {
       setSelectedCategory(categoryOption);
       const selectedSub = categoryOption.subcategories?.find(
         (sub) =>
-          sub.id === place.subCategory ||
-          sub.id === place.subCategory?._id ||
-          sub.name === place.subCategory ||
-          sub.name === place.subCategory?.name,
+          String(sub.id) === String(placeCategoryId) ||
+          String(sub.id) === String(placeSubCategoryId) ||
+          sub.name === placeCategoryName ||
+          sub.name === placeSubCategoryName,
       );
       setSelectedSubCategory(selectedSub || null);
     } else if (typeof place.category === "string" && place.category) {
@@ -373,6 +496,10 @@ export default function CreatePlace() {
     setisSubmited(true);
     setLoadingSubmit(true);
 
+    const selectedCategoryId = selectedSubCategory?.id || selectedCategory?.id;
+    const selectedGovernorateId = selectedGov?.id;
+    const hasNewImage = images.some((image) => image instanceof File);
+
     const validationErrors = {};
     if (!translations.EN.title.trim()) {
       validationErrors.enTitle = t.dashboard.forms.errors.titleRequired;
@@ -388,77 +515,41 @@ export default function CreatePlace() {
       validationErrors.arDescription =
         t.dashboard.forms.errors.descriptionRequired;
     }
+    if (!selectedGovernorateId) {
+      validationErrors.governorate =
+        t.dashboard.forms.errors?.governorateRequired || "Governorate is required";
+    }
+    if (!selectedCategoryId) {
+      validationErrors.category =
+        t.dashboard.forms.errors?.categoryRequired || "Category is required";
+    }
+    if (!editId && !hasNewImage) {
+      validationErrors.images = "At least one image is required";
+    }
 
     if (Object.keys(validationErrors).length) {
       setTranslationErrors(validationErrors);
+      if (validationErrors.images) {
+        addNotification({ type: "warning", message: validationErrors.images });
+      }
       setLoadingSubmit(false);
       return;
     }
 
-    const formattedTicket = {
-      type: tickets.type,
-      pricing: {},
-    };
+    const { ticket: formattedTicket, error: ticketError } =
+      buildApiTicketPayload(tickets);
 
-    if (tickets.type === "static") {
-      formattedTicket.pricing = {
-        staticPrice: Number(tickets?.prices?.staticPrice || 0),
-      };
-    }
-
-    if (tickets.type === "pricePerRegion") {
-      formattedTicket.pricing = {
-        egyptian: Number(tickets?.prices?.pricePerRegion?.egyptian || 0),
-        foreign: Number(tickets?.prices?.pricePerRegion?.foreign || 0),
-      };
-    }
-
-    if (tickets.type === "pricePerAge") {
-      formattedTicket.pricing = {
-        children: Number(tickets?.prices?.pricePerAge?.children || 0),
-        adults: Number(tickets?.prices?.pricePerAge?.adults || 0),
-        seniors: Number(tickets?.prices?.pricePerAge?.seniors || 0),
-      };
-    }
-
-    if (tickets.type === "ageAndRegion") {
-      formattedTicket.pricing = {
-        ageAndRegion: {
-          students: {
-            egyptian: Number(
-              tickets?.prices?.ageAndRegion?.students?.egyptian || 0,
-            ),
-            foreign: Number(
-              tickets?.prices?.ageAndRegion?.students?.foreign || 0,
-            ),
-          },
-          adults: {
-            egyptian: Number(
-              tickets?.prices?.ageAndRegion?.adults?.egyptian || 0,
-            ),
-            foreign: Number(
-              tickets?.prices?.ageAndRegion?.adults?.foreign || 0,
-            ),
-          },
-          seniors: {
-            egyptian: Number(
-              tickets?.prices?.ageAndRegion?.seniors?.egyptian || 0,
-            ),
-            foreign: Number(
-              tickets?.prices?.ageAndRegion?.seniors?.foreign || 0,
-            ),
-          },
-        },
-      };
+    if (ticketError) {
+      addNotification({ type: "warning", message: ticketError });
+      setLoadingSubmit(false);
+      return;
     }
 
     const finalData = {
       name: translations.EN.title,
       desc: translations.EN.description,
-      category:
-        selectedCategory?.id || categoryOptions?.[0]?.id || TEST_CATEGORY_ID,
-      governorate:
-        selectedGov?.id || governorateOptions?.[0]?.id || TEST_GOVERNORATE_ID,
+      category: selectedCategoryId,
+      governorate: selectedGovernorateId,
       ticket: formattedTicket,
       translations: {
         EN: {
@@ -474,7 +565,7 @@ export default function CreatePlace() {
       locationIframe: normalizeMapEmbedValue(data.mapLocation?.iFrame),
     };
 
-    const buildFormData = (payload) => {
+    const buildFormData = (payload, includeTicket = true) => {
       const formData = new FormData();
 
       if (payload.name !== undefined) formData.append("name", payload.name);
@@ -482,7 +573,7 @@ export default function CreatePlace() {
       if (payload.category) formData.append("category", payload.category);
       if (payload.governorate)
         formData.append("governorate", payload.governorate);
-      if (payload.ticket)
+      if (includeTicket && payload.ticket)
         formData.append("ticket", JSON.stringify(payload.ticket));
       if (payload.translations) {
         formData.append("translations", JSON.stringify(payload.translations));
@@ -503,10 +594,13 @@ export default function CreatePlace() {
 
     const saveToAPI = async () => {
       try {
-        const payload = buildFormData(finalData);
+        const payload = buildFormData(finalData, !editId);
 
         if (editId) {
           await update(editId, payload);
+          if (editTicketSnapshot?._id) {
+            await updateTicket(editTicketSnapshot._id, formattedTicket);
+          }
           const currentImagePublicIds = new Set(
             images
               .filter(

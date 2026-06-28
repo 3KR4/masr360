@@ -57,8 +57,11 @@ export default function Places() {
       );
 
       const response = res.data;
-      setPlaces(response?.places ?? []);
-      setPageCount(Math.max(1, Math.ceil((response?.count ?? 0) / limit)));
+      const placesData = response?.data || response?.places || [];
+      const totalCount = response?.total ?? response?.count ?? response?.totalCount ?? 0;
+
+      setPlaces(placesData);
+      setPageCount(Math.max(1, Math.ceil(totalCount / limit)));
     } catch (error) {
       console.error("Error fetching places:", error);
       setPageCount(1);
@@ -93,6 +96,10 @@ export default function Places() {
       setGovernoratesLoading(false);
     }
   }, [locale]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [locale, searchText, selectedCats.cat, selectedCats.gov, selectedCats.subCat]);
 
   useEffect(() => {
     fetchPlaces();

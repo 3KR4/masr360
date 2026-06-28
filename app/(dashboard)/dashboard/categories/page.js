@@ -143,7 +143,6 @@ export default function CategoriesManagerPage() {
     try {
       const payload = {
         name: formState.EN.name.trim(),
-        type: formState.type,
         translations: {
           EN: { name: formState.EN.name.trim() },
           AR: { name: formState.AR.name.trim() },
@@ -165,7 +164,10 @@ export default function CategoriesManagerPage() {
           message: "Category updated successfully",
         });
       } else {
-        await create(payload);
+        await create({
+          ...payload,
+          type: formState.type,
+        });
         addNotification({
           type: "success",
           message: "Category created successfully",

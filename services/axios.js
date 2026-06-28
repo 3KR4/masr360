@@ -3,7 +3,7 @@ import axios from "axios";
 // -------------------- BASE CONFIG --------------------
 // const BASE_URL = "https://api.m360travel.com/api/v1";
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:2005/api/v1";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.m360travel.com/api/v1";
 
 // Instance بدون interceptors (للـ refresh فقط)
 export const plainApi = axios.create({
