@@ -186,6 +186,11 @@ function Header() {
                 <div className="userMenu menu">
                   <div className="top">{user?.username}</div>
                   <ul>
+                    {user?.role === "admin" && (
+                      <li>
+                        <Link href={`/dashboard`}>{t.header.open_dashboard}</Link>
+                      </li>
+                    )}
                     <li>
                       <Link href={`/booking`}>{t.header.my_bookings}</Link>
                     </li>

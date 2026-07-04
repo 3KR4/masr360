@@ -26,6 +26,7 @@ export default function Governorates() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const limit = 6;
   const { addNotification } = useNotification();
   const fetchGovernorates = useCallback(async () => {
@@ -39,6 +40,7 @@ export default function Governorates() {
         locale,
       );
       setgovernorates(govData || []);
+      setTotalCount(totalCount || 0);
       setPageCount(Math.max(1, Math.ceil((totalCount || 0) / limit)));
     } catch (error) {
       console.error("Error fetching governorates:", error);
@@ -155,16 +157,30 @@ export default function Governorates() {
                 </div>
               );
             })}
+
+            {!loading && governorates.length === 0 ? (
+              <div className="table-item">
+                <div className="holder">
+                  <div className="item-details">
+                    <p className="description">
+                      {t.dashboard?.forms?.noResults || "No governorates found"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
-        <Pagination
-          pageCount={pageCount}
-          screenSize={screenSize}
-          isDashBoard={true}
-          onPageChange={(selectedPage) => {
-            setPage(selectedPage.selected + 1);
-          }}
-        />
+        {totalCount > limit && (
+          <Pagination
+            pageCount={pageCount}
+            screenSize={screenSize}
+            isDashBoard={true}
+            onPageChange={(selectedPage) => {
+              setPage(selectedPage.selected + 1);
+            }}
+          />
+        )}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ const FormLangSwitch = ({
   loadingSubmit,
   editId,
   submitLabel,
+  onSubmitClick,
 }) => {
   const t = useTranslate();
   const buttonLabel = submitLabel
@@ -30,7 +31,8 @@ const FormLangSwitch = ({
         ))}
       </div>
       <button
-        type="submit"
+        type={onSubmitClick ? "button" : "submit"}
+        onClick={onSubmitClick}
         className={`main-button submit-button ${loadingSubmit ? "is-loading" : ""}`}
         disabled={loadingSubmit}
       >

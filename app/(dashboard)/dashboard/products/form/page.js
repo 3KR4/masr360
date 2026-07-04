@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
 import "@/styles/dashboard/forms.css";
@@ -57,20 +57,31 @@ export default function Product() {
     AR: { title: "", description: "" },
   });
   const [translationErrors, setTranslationErrors] = useState({});
+  const resetModeRef = useRef(null);
 
   const {
     register,
     handleSubmit,
     setValue,
+    trigger,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
 
   const { locale, productCategories, referenceDataLoading } =
     useContext(mainContext);
   const subCategories = selectedCategory?.subcategories || [];
 
   useEffect(() => {
-    if (isEditMode) return;
+    if (isEditMode) {
+      resetModeRef.current = "edit";
+      return;
+    }
+
+    if (resetModeRef.current === "create") return;
+    resetModeRef.current = "create";
 
     setTranslations({
       EN: { title: "", description: "" },
@@ -90,10 +101,19 @@ export default function Product() {
     updateCompsInput?.("tags", "");
     updateCompsError?.("tags", "");
     updateCompsError?.("specs", "");
-    setValue("stock", 0);
-    setValue("price", 0);
+    setValue("stock", "");
+    setValue("price", "");
     setValue("sale", "");
-  }, [isEditMode]);
+  }, [
+    isEditMode,
+    setImages,
+    setSpecifications,
+    setTags,
+    setValue,
+    setisSubmited,
+    updateCompsError,
+    updateCompsInput,
+  ]);
 
   useEffect(() => {
     const localeKey = String(locale || "EN").toUpperCase();
@@ -139,10 +159,11 @@ export default function Product() {
         [field]: value,
       },
     }));
-    setTranslationErrors((prev) => ({
-      ...prev,
-      [`${curentCreateLocale}.${field}`]: null,
-    }));
+    if (field === "title") {
+      setTranslationErrors((prev) => ({ ...prev, enTitle: null, arTitle: null }));
+    } else if (field === "description") {
+      setTranslationErrors((prev) => ({ ...prev, enDescription: null, arDescription: null }));
+    }
   };
 
   useEffect(() => {
@@ -188,8 +209,8 @@ export default function Product() {
           },
         });
 
-        setValue("stock", product.quantity || product.stock || 0);
-        setValue("price", product.price || 0);
+        setValue("stock", product.quantity || product.stock || "");
+        setValue("price", product.price || "");
         setValue("sale", product.discount || product.sale || "");
 
         if (product.category) {
@@ -269,46 +290,39 @@ export default function Product() {
     fetchProduct();
   }, [editId, addNotification, categories, setImages, setSpecifications, setTags, setValue]);
 
-  const onSubmit = async (data) => {
+  // ----------------- Validation (runs on button click) -----------------
+  const handleClickSubmit = async () => {
     setisSubmited(true);
 
-    const validationErrors = {};
+    const hasImage = images.some(Boolean);
+    const rhfValid = await trigger(["stock", "price", "sale"]);
+
+    const customErrors = {};
     if (!translations.EN.title?.trim()) {
-      validationErrors["EN.title"] = "English title is required";
-    }
-    if (!translations.AR.title?.trim()) {
-      validationErrors["AR.title"] = "Arabic title is required";
+      customErrors.enTitle =
+        t.dashboard.forms.errors?.titleRequired || "English title is required";
     }
     if (!translations.EN.description?.trim()) {
-      validationErrors["EN.description"] =
-        t.dashboard.forms.errors.descriptionRequired || "Description is required";
+      customErrors.enDescription =
+        t.dashboard.forms.errors?.descriptionRequired || "English description is required";
     }
-    if (!translations.AR.description?.trim()) {
-      validationErrors["AR.description"] =
-        t.dashboard.forms.errors.descriptionRequired || "Description is required";
+    if (!selectedCategory?.id) {
+      customErrors.category =
+        t.dashboard.forms.errors?.categoryRequired || "Category is required";
     }
-
-    if (Object.keys(validationErrors).length) {
-      setTranslationErrors(validationErrors);
-      return;
+    if (!hasImage) {
+      customErrors.images = "At least one image is required";
     }
 
-    if (!selectedCategory) {
-      addNotification({
-        type: "warning",
-        message: "Please choose a category",
-      });
-      return;
-    }
+    setTranslationErrors(customErrors);
 
-    if (!images || images.length === 0) {
-      addNotification({
-        type: "warning",
-        message: "At least one image is required",
-      });
-      return;
-    }
+    if (!rhfValid || Object.keys(customErrors).length) return;
 
+    handleSubmit(onSubmit)();
+  };
+
+  // ----------------- Submit (only runs when all validation passes) -----------------
+  const onSubmit = async (data) => {
     setLoading(true);
 
     try {
@@ -335,9 +349,15 @@ export default function Product() {
       formData.append("price", data.price);
       if (data.sale) formData.append("discount", data.sale);
       formData.append("quantity", data.stock);
-      formData.append("category", selectedCategory.id || selectedCategory.value);
-      if (selectedSubCategory?.id) {
+      if (editId) {
+        formData.append(
+          "category",
+          selectedSubCategory?.id || selectedCategory.id || selectedCategory.value,
+        );
+      } else if (selectedSubCategory?.id) {
         formData.append("subCategory", selectedSubCategory.id);
+      } else {
+        formData.append("category", selectedCategory.id || selectedCategory.value);
       }
       formData.append("translations", JSON.stringify(translationsPayload));
 
@@ -413,8 +433,13 @@ export default function Product() {
 
   return (
     <div className="body">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row-holder">
+      <form
+        noValidate
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleClickSubmit();
+        }}
+      >
           <div className="box forInput">
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <label htmlFor="title">{t.dashboard.forms.title}</label>
@@ -430,15 +455,20 @@ export default function Product() {
                   onChange={(e) => handleTranslationChange("title", e.target.value)}
                 />
               </div>
-              {translationErrors[`${curentCreateLocale}.title`] && (
+              {curentCreateLocale === "EN" && translationErrors.enTitle && (
                 <span className="error">
                   <CircleAlert />
-                  {translationErrors[`${curentCreateLocale}.title`]}
+                  {translationErrors.enTitle}
+                </span>
+              )}
+              {curentCreateLocale === "AR" && translationErrors.arTitle && (
+                <span className="error">
+                  <CircleAlert />
+                  {translationErrors.arTitle}
                 </span>
               )}
             </div>
           </div>
-        </div>
 
         <div className="row-holder two-column">
           <SelectOptions
@@ -451,10 +481,13 @@ export default function Product() {
             }))}
             value={selectedCategory}
             loading={referenceDataLoading}
+            error={translationErrors.category}
             onChange={(cat) => {
               setSelectedCategory({ ...cat, subcategories: cat._subcategories });
               setSelectedSubCategory(null);
+              setProductCategoryId(cat.id);
               setProductSubCategoryId(null);
+              setTranslationErrors((prev) => ({ ...prev, category: null }));
             }}
           />
 
@@ -473,7 +506,10 @@ export default function Product() {
             value={selectedSubCategory}
             loading={referenceDataLoading}
             disabled={!selectedCategory || subCategories.length === 0}
-            onChange={(sub) => setSelectedSubCategory(sub)}
+            onChange={(sub) => {
+              setSelectedSubCategory(sub);
+              setProductSubCategoryId(sub?.id || null);
+            }}
           />
         </div>
 
@@ -494,10 +530,16 @@ export default function Product() {
                 rows={4}
               />
             </div>
-            {translationErrors[`${curentCreateLocale}.description`] && (
+            {curentCreateLocale === "EN" && translationErrors.enDescription && (
               <span className="error">
                 <CircleAlert />
-                {translationErrors[`${curentCreateLocale}.description`]}
+                {translationErrors.enDescription}
+              </span>
+            )}
+            {curentCreateLocale === "AR" && translationErrors.arDescription && (
+              <span className="error">
+                <CircleAlert />
+                {translationErrors.arDescription}
               </span>
             )}
           </div>

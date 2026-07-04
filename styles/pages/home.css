@@ -1,11 +1,15 @@
 .landing {
-  width: 100%;
+  width: 88%;
+  aspect-ratio: 3;
+  margin: 0 auto;
+  border-radius: 0 0 46px 46px;
+  overflow: hidden;
 }
 
 .landing .swiper,
 .landing .swiper .swiper-slide {
   width: 100%;
-  height: 93vh;
+  height: 100%;
 }
 
 .swiper img {
@@ -194,7 +198,6 @@
 }
 .governorates.games .grid-holder {
   grid-template-columns: repeat(2, 1fr);
-
 }
 /*! PLACES */
 

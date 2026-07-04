@@ -239,9 +239,12 @@ export default function CreatePlace() {
   const {
     register,
     handleSubmit,
+    trigger,
     setValue,
     formState: { errors },
   } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
     defaultValues: {
       mapLocation: {
         link: "",
@@ -281,10 +284,20 @@ export default function CreatePlace() {
         [field]: value,
       },
     }));
-    setTranslationErrors((prev) => ({
-      ...prev,
-      [`${curentCreateLocale}.${field}`]: null,
-    }));
+    // clear matching error key
+    if (field === "title") {
+      setTranslationErrors((prev) => ({
+        ...prev,
+        enTitle: null,
+        arTitle: null,
+      }));
+    } else if (field === "description") {
+      setTranslationErrors((prev) => ({
+        ...prev,
+        enDescription: null,
+        arDescription: null,
+      }));
+    }
   };
 
 
@@ -409,7 +422,7 @@ export default function CreatePlace() {
         console.error(err);
         addNotification({
           type: "warning",
-          message: err.response?.data?.message || "Something went wrong ❌",
+          message: err.response?.data?.message || err.response?.data?.errors?.[0]?.msg || "Something went wrong",
         });
       } finally {
         setLoadingContent(false);
@@ -491,50 +504,52 @@ export default function CreatePlace() {
     locale,
   ]);
 
-  // ----------------- Submit -----------------
-  const onSubmit = (data) => {
+  // ----------------- Validation (runs on button click) -----------------
+  const handleClickSubmit = async () => {
     setisSubmited(true);
-    setLoadingSubmit(true);
 
-    const selectedCategoryId = selectedSubCategory?.id || selectedCategory?.id;
-    const selectedGovernorateId = selectedGov?.id;
-    const hasNewImage = images.some((image) => image instanceof File);
+    const hasImage = images.some(Boolean);
 
-    const validationErrors = {};
+    // Run react-hook-form validation + custom validation simultaneously
+    const rhfValid = await trigger(["mapLocation.link", "mapLocation.iFrame"]);
+
+    const customErrors = {};
     if (!translations.EN.title.trim()) {
-      validationErrors.enTitle = t.dashboard.forms.errors.titleRequired;
+      customErrors.enTitle =
+        t.dashboard.forms.errors?.titleRequired || "English title is required";
     }
     if (!translations.EN.description.trim()) {
-      validationErrors.enDescription =
-        t.dashboard.forms.errors.descriptionRequired;
+      customErrors.enDescription =
+        t.dashboard.forms.errors?.descriptionRequired ||
+        "English description is required";
     }
-    if (!translations.AR.title.trim()) {
-      validationErrors.arTitle = t.dashboard.forms.errors.titleRequired;
-    }
-    if (!translations.AR.description.trim()) {
-      validationErrors.arDescription =
-        t.dashboard.forms.errors.descriptionRequired;
-    }
-    if (!selectedGovernorateId) {
-      validationErrors.governorate =
+    if (!selectedGov?.id) {
+      customErrors.governorate =
         t.dashboard.forms.errors?.governorateRequired || "Governorate is required";
     }
-    if (!selectedCategoryId) {
-      validationErrors.category =
+    if (!selectedCategory?.id) {
+      customErrors.category =
         t.dashboard.forms.errors?.categoryRequired || "Category is required";
     }
-    if (!editId && !hasNewImage) {
-      validationErrors.images = "At least one image is required";
+    if (!hasImage) {
+      customErrors.images = "At least one image is required";
     }
 
-    if (Object.keys(validationErrors).length) {
-      setTranslationErrors(validationErrors);
-      if (validationErrors.images) {
-        addNotification({ type: "warning", message: validationErrors.images });
-      }
-      setLoadingSubmit(false);
-      return;
-    }
+    setTranslationErrors(customErrors);
+
+    if (!rhfValid || Object.keys(customErrors).length) return;
+
+    // All valid — trigger form submission
+    handleSubmit(onSubmit)();
+  };
+
+  // ----------------- Submit (only runs when all validation passes) -----------------
+  const onSubmit = (data) => {
+    setLoadingSubmit(true);
+
+    const selectedCategoryId = selectedCategory?.id;
+    const selectedSubCategoryId = selectedSubCategory?.id;
+    const selectedGovernorateId = selectedGov?.id;
 
     const { ticket: formattedTicket, error: ticketError } =
       buildApiTicketPayload(tickets);
@@ -549,6 +564,7 @@ export default function CreatePlace() {
       name: translations.EN.title,
       desc: translations.EN.description,
       category: selectedCategoryId,
+      subCategory: selectedSubCategoryId,
       governorate: selectedGovernorateId,
       ticket: formattedTicket,
       translations: {
@@ -570,7 +586,12 @@ export default function CreatePlace() {
 
       if (payload.name !== undefined) formData.append("name", payload.name);
       if (payload.desc !== undefined) formData.append("desc", payload.desc);
-      if (payload.category) formData.append("category", payload.category);
+      if (payload.subCategory) {
+        formData.append("subCategory", payload.subCategory);
+        if (editId && payload.category) formData.append("category", payload.category);
+      } else if (payload.category) {
+        formData.append("category", payload.category);
+      }
       if (payload.governorate)
         formData.append("governorate", payload.governorate);
       if (includeTicket && payload.ticket)
@@ -638,7 +659,7 @@ export default function CreatePlace() {
         console.error("Error:", error);
         addNotification({
           type: "error",
-          message: error.response?.data?.message || "حدث خطأ ❌",
+          message: error.response?.data?.message || error.response?.data?.errors?.[0]?.msg || "Something went wrong",
         });
       } finally {
         setLoadingSubmit(false);
@@ -650,7 +671,13 @@ export default function CreatePlace() {
 
   return (
     <div className="body">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        noValidate
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleClickSubmit();
+        }}
+      >
         {/* ----------------- Title ----------------- */}
         <div className="row-holder two-column">
           <div className="box forInput">
@@ -670,13 +697,10 @@ export default function CreatePlace() {
                   placeholder={`${t.dashboard.forms.titlePlaceholder} (${curentCreateLocale.toUpperCase()})`}
                 />
               </div>
-              {(translationErrors.enTitle && curentCreateLocale === "EN") ||
-              (translationErrors.arTitle && curentCreateLocale === "AR") ? (
+              {translationErrors.enTitle  ? (
                 <span className="error">
                   <CircleAlert />
-                  {curentCreateLocale === "EN"
-                    ? translationErrors.enTitle
-                    : translationErrors.arTitle}
+                  {translationErrors.enTitle}
                 </span>
               ) : null}
             </div>
@@ -689,18 +713,13 @@ export default function CreatePlace() {
             options={filteredGovernorateOptions}
             value={selectedGov}
             loading={referenceDataLoading}
-            onChange={(gov) => setSelectedGov(gov)}
+            error={translationErrors.governorate}
+            onChange={(gov) => {
+              setSelectedGov(gov);
+              setTranslationErrors((prev) => ({ ...prev, governorate: null }));
+            }}
           />
-          {translationErrors.governorate ? (
-            <span className="error">
-              <CircleAlert />
-              {translationErrors.governorate}
-            </span>
-          ) : null}
-        </div>
 
-        {/* ----------------- Category & Subcategory ----------------- */}
-        <div className="row-holder two-column">
           <SelectOptions
             label={t.dashboard.forms.category}
             placeholder={t.dashboard.forms.categoryPlaceholder}
@@ -717,14 +736,11 @@ export default function CreatePlace() {
                 subcategories: cat._subcategories,
               });
               setSelectedSubCategory(null);
+              setTranslationErrors((prev) => ({ ...prev, category: null }));
             }}
+            error={translationErrors.category}
+
           />
-          {translationErrors.category ? (
-            <span className="error">
-              <CircleAlert />
-              {translationErrors.category}
-            </span>
-          ) : null}
           <SelectOptions
             label={t.dashboard.forms.subCategory}
             placeholder={t.dashboard.forms.selectSubCategory}
@@ -753,13 +769,10 @@ export default function CreatePlace() {
                 placeholder={`${t.dashboard.forms.descriptionPlaceholder} (${curentCreateLocale.toUpperCase()})`}
               />
             </div>
-            {(translationErrors.enDescription && curentCreateLocale === "EN") ||
-            (translationErrors.arDescription && curentCreateLocale === "AR") ? (
+            {translationErrors.enDescription ? (
               <span className="error">
                 <CircleAlert />
-                {curentCreateLocale === "EN"
-                  ? translationErrors.enDescription
-                  : translationErrors.arDescription}
+                {translationErrors.enDescription}
               </span>
             ) : null}
           </div>
@@ -778,7 +791,9 @@ export default function CreatePlace() {
                   id="locationLink"
                   placeholder={t.dashboard.forms.googleMapsLinkPlaceholder}
                   {...register("mapLocation.link", {
-                    required: t.dashboard.forms.errors.googleMapsLinkRequired,
+                    required:
+                      t.dashboard.forms.errors.googleMapsLinkRequired ||
+                      "Google Maps link is required",
                     pattern: {
                       value: /^https?:\/\/(www\.)?maps\.app\.goo\.gl\/.+$/i,
                       message: t.dashboard.forms.errors.googleMapsLinkInvalid,
@@ -806,7 +821,9 @@ export default function CreatePlace() {
                   id="locationIframe"
                   placeholder={t.dashboard.forms.googleMapsIframePlaceholder}
                   {...register("mapLocation.iFrame", {
-                    required: t.dashboard.forms.errors.googleMapsIframeRequired,
+                    required:
+                      t.dashboard.forms.errors.googleMapsIframeRequired ||
+                      "Google Maps iframe is required",
                     pattern: {
                       value: /^https/i,
                       message: t.dashboard.forms.errors.googleMapsIframeInvalid,

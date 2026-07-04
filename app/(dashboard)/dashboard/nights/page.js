@@ -30,6 +30,7 @@ export default function Nights() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const [categories, setCategories] = useState([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [governorates, setGovernorates] = useState([]);
@@ -42,6 +43,8 @@ export default function Nights() {
       const governorateId =
         selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
       const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
+      const subCategoryId =
+        selectedCats.subCat?._id || selectedCats.subCat?.id || selectedCats.subCat || "";
       const { nights: nightsData, totalCount } = await getAll(
         searchText,
         page,
@@ -50,8 +53,10 @@ export default function Nights() {
         undefined,
         governorateId,
         categoryId,
+        subCategoryId,
       );
       setNights(nightsData || []);
+      setTotalCount(totalCount || 0);
       setPageCount(Math.max(1, Math.ceil((totalCount || 0) / limit)));
     } catch (error) {
       console.error("Error fetching nights:", error);
@@ -119,7 +124,12 @@ export default function Nights() {
 
   const getCategoryDisplayName = useCallback(
     (categoryData, subCategoryData) => {
-      if (categoriesLoading) return t.dashboard?.tables?.loading || "Loading...";
+      if (categoriesLoading) {
+        return {
+          categoryName: t.dashboard?.tables?.loading || "Loading...",
+          subCategoryName: "",
+        };
+      }
 
       const categoryId = categoryData?._id || categoryData?.id || categoryData;
       const subCategoryId =
@@ -139,9 +149,10 @@ export default function Nights() {
         subCategoryData?.name ||
         subCategoryFromList?.name;
 
-      if (subCatName && catName) return `${catName} / ${subCatName}`;
-      if (catName) return catName;
-      return t.dashboard?.tables?.unknownCategory || "Unknown Category";
+      return {
+        categoryName: catName || t.dashboard?.tables?.unknownCategory || "Unknown Category",
+        subCategoryName: subCatName || "",
+      };
     },
     [categoriesLoading, categoriesMap, locale, t],
   );
@@ -229,6 +240,11 @@ export default function Nights() {
                 "";
               const govId = item?.governorate?._id || item?.governorate?.id || item?.governorate;
 
+              const { categoryName, subCategoryName } = getCategoryDisplayName(
+                item?.category,
+                item?.subCategory,
+              );
+
               return (
                 <div key={itemId} className="table-item">
                   <div className="holder">
@@ -250,7 +266,13 @@ export default function Nights() {
                   </div>
 
                   <div className="categories">
-                    <h4>{getCategoryDisplayName(item?.category, item?.subCategory)}</h4>
+                    <h4>{categoryName}</h4>
+                    {subCategoryName ? (
+                      <>
+                        <span>/</span>
+                        <h4>{subCategoryName}</h4>
+                      </>
+                    ) : null}
                   </div>
 
                   <div className="item-rating">
@@ -313,14 +335,16 @@ export default function Nights() {
           </div>
         </div>
 
-        <Pagination
-          pageCount={pageCount}
-          screenSize={screenSize}
-          isDashBoard={true}
-          onPageChange={(selectedPage) => {
-            setPage(selectedPage.selected + 1);
-          }}
-        />
+        {totalCount > limit && (
+          <Pagination
+            pageCount={pageCount}
+            screenSize={screenSize}
+            isDashBoard={true}
+            onPageChange={(selectedPage) => {
+              setPage(selectedPage.selected + 1);
+            }}
+          />
+        )}
       </div>
     </div>
   );

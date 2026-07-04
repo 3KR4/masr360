@@ -20,7 +20,8 @@ export const getAll = (
   lang = "EN",
   sort = "createdAt,desc",
   governorateId = "",
-  categoryId = ""
+  categoryId = "",
+  subCategoryId = ""
 ) => {
   const language = String(lang || "EN").toLowerCase();
   return api.get(
@@ -31,7 +32,8 @@ export const getAll = (
       language,
       sort,
       governorateId,
-      categoryId
+      categoryId,
+      subCategoryId
     )
   );
 };

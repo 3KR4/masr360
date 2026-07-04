@@ -35,7 +35,8 @@ export const ENDPOINTS = {
   maxPrice,
   stock,
   sort,
-  category,
+  categoryId,
+  subCategoryId,
   lang
 ) => {
   const params = new URLSearchParams();
@@ -50,7 +51,8 @@ export const ENDPOINTS = {
   if (maxPrice) params.append("maxPrice", maxPrice);
   if (stock) params.append("stock", stock);
   if (sort) params.append("sort", sort);
-  if (category) params.append("category", category);
+  if (categoryId) params.append("categoryId", categoryId);
+  if (subCategoryId) params.append("subCategoryId", subCategoryId);
 
   return `/products?${params.toString()}`;
 },    GET_ONE: (id) => `/products/${id}`,
@@ -97,7 +99,8 @@ NIGHTS: {
     lang,
     sort,
     governorateId,
-    categoryId
+    categoryId,
+    subCategoryId
   ) => {
     const params = new URLSearchParams();
     if (search) params.append("search", search);
@@ -107,6 +110,7 @@ NIGHTS: {
     if (sort) params.append("sort", sort);
     if (governorateId) params.append("governorateId", governorateId);
     if (categoryId) params.append("categoryId", categoryId);
+    if (subCategoryId) params.append("subCategoryId", subCategoryId);
     return `/nights?${params.toString()}`;
   },
   GET_ONE: (id) => `/nights/${id}`,

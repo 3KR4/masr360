@@ -21,6 +21,7 @@ const ar = {
     cart: "عربة التسوق",
     user_menu: "قائمة المستخدم",
     welcome_user: "محمود الشاذلي",
+    open_dashboard: "فتح لوحة التحكم",
     my_bookings: "حجوزاتي",
     my_orders: "طلباتي",
     favorites: "المفضلة",

@@ -21,6 +21,7 @@ const en = {
     cart: "Cart",
     user_menu: "User menu",
     welcome_user: "Mahmoud Elshzly",
+    open_dashboard: "Open Dashboard",
     my_bookings: "My Bookings",
     my_orders: "My Orders",
     favorites: "Favorites",
@@ -333,7 +334,7 @@ const en = {
     },
     forms: {
       title: "Title",
-      titlePlaceholder: "Enter product title",
+      titlePlaceholder: "Enter place title",
 
       category: "Category",
       categoryPlaceholder: "Select category",

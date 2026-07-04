@@ -31,6 +31,7 @@ export default function Places() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const [categories, setCategories] = useState([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [governorates, setGovernorates] = useState([]);
@@ -45,6 +46,7 @@ export default function Places() {
       const governorateId =
         selectedCats.gov?._id || selectedCats.gov?.id || selectedCats.gov || "";
       const categoryId = selectedCats.cat?._id || selectedCats.cat?.id || "";
+      const subCategoryId = selectedCats.subCat?._id || selectedCats.subCat?.id || "";
 
       const res = await getAll(
         searchText,
@@ -54,6 +56,7 @@ export default function Places() {
         undefined,
         governorateId,
         categoryId,
+        subCategoryId,
       );
 
       const response = res.data;
@@ -61,6 +64,7 @@ export default function Places() {
       const totalCount = response?.total ?? response?.count ?? response?.totalCount ?? 0;
 
       setPlaces(placesData);
+      setTotalCount(totalCount);
       setPageCount(Math.max(1, Math.ceil(totalCount / limit)));
     } catch (error) {
       console.error("Error fetching places:", error);
@@ -119,16 +123,21 @@ export default function Places() {
       map.set(category._id, category);
       if (category.subCategories) {
         category.subCategories.forEach((sub) => {
-          map.set(sub._id, { ...sub, parentName: category.name });
+          map.set(sub._id || sub.id, { ...sub, parentName: category.name });
         });
       }
     });
     return map;
   }, [categories]);
 
-  const getCategoryDisplayName = useCallback(
+  const getCategoryDisplayNames = useCallback(
     (categoryData, subCategoryData) => {
-      if (categoriesLoading) return t.dashboard?.tables?.loading || "Loading...";
+      if (categoriesLoading) {
+        return {
+          categoryName: t.dashboard?.tables?.loading || "Loading...",
+          subCategoryName: "",
+        };
+      }
 
       const categoryId = categoryData?._id || categoryData;
       const subCategoryId = subCategoryData?._id || subCategoryData;
@@ -147,9 +156,11 @@ export default function Places() {
         subCategoryData?.name ||
         subCategoryFromList?.name;
 
-      if (subCatName && catName) return `${catName} / ${subCatName}`;
-      if (catName) return catName;
-      return t.dashboard?.tables?.unknownCategory || "Unknown Category";
+      return {
+        categoryName:
+          catName || t.dashboard?.tables?.unknownCategory || "Unknown Category",
+        subCategoryName: subCatName || "",
+      };
     },
     [categoriesLoading, categoriesMap, locale, t],
   );
@@ -185,7 +196,7 @@ export default function Places() {
       console.error(error);
       addNotification({
         type: "warning",
-        message: error.response?.data?.message || "Something went wrong ❌",
+        message: error.response?.data?.message || error.response?.data?.errors?.[0]?.msg || "Something went wrong",
       });
     }
   };
@@ -238,6 +249,11 @@ export default function Places() {
                 placeEntry?.description ||
                 "";
 
+              const { categoryName, subCategoryName } = getCategoryDisplayNames(
+                item?.category,
+                item?.subCategory,
+              );
+
               return (
                 <div key={item?._id} className="table-item">
                   <div className="holder">
@@ -259,7 +275,13 @@ export default function Places() {
                   </div>
 
                   <div className="categories">
-                    <h4>{getCategoryDisplayName(item?.category, item?.subCategory)}</h4>
+                    <h4>{categoryName}</h4>
+                    {subCategoryName ? (
+                      <>
+                        <span>/</span>
+                        <h4>{subCategoryName}</h4>
+                      </>
+                    ) : null}
                   </div>
 
                   <div className="item-overview">
@@ -291,17 +313,31 @@ export default function Places() {
                 </div>
               );
             })}
+
+            {!loading && places.length === 0 ? (
+              <div className="table-item">
+                <div className="holder">
+                  <div className="item-details">
+                    <p className="description">
+                      {t.dashboard?.forms?.noResults || "No places found"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
 
-        <Pagination
-          pageCount={pageCount}
-          screenSize={screenSize}
-          isDashBoard={true}
-          onPageChange={(selectedPage) => {
-            setPage(selectedPage.selected + 1);
-          }}
-        />
+        {totalCount > limit && (
+          <Pagination
+            pageCount={pageCount}
+            screenSize={screenSize}
+            isDashBoard={true}
+            onPageChange={(selectedPage) => {
+              setPage(selectedPage.selected + 1);
+            }}
+          />
+        )}
       </div>
     </div>
   );

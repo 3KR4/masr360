@@ -12,12 +12,41 @@ const normalizeCategoriesResponse = (res) => {
   return { ...res, data: [] };
 };
 
+const pickDefined = (payload, allowedFields) => {
+  return allowedFields.reduce((nextPayload, field) => {
+    if (payload?.[field] !== undefined && payload?.[field] !== null) {
+      nextPayload[field] = payload[field];
+    }
+    return nextPayload;
+  }, {});
+};
+
+const normalizeCreatePayload = (payload) => {
+  const nextPayload = pickDefined(payload, [
+    "name",
+    "type",
+    "parent",
+    "translations",
+    "icon",
+  ]);
+
+  if (payload?.parent && typeof payload.parent === "object") {
+    nextPayload.parent = payload.parent._id || payload.parent.id;
+    nextPayload.type = payload.parent.type || nextPayload.type;
+  }
+
+  return nextPayload;
+};
+
 export const create = (payload) => {
-  return api.post(ENDPOINTS.CATEGORIES.CREATE, payload);
+  return api.post(ENDPOINTS.CATEGORIES.CREATE, normalizeCreatePayload(payload));
 };
 
 export const update = (id, payload) => {
-  return api.put(ENDPOINTS.CATEGORIES.UPDATE(id), payload);
+  return api.put(
+    ENDPOINTS.CATEGORIES.UPDATE(id),
+    pickDefined(payload, ["name", "translations", "icon"]),
+  );
 };
 
 export const remove = (id) => {

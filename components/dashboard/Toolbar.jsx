@@ -75,6 +75,8 @@ function DashboardToolbar() {
     productCategories,
   } = useContext(mainContext);
   const t = useTranslate();
+  const localeKey = String(locale || "EN").toUpperCase();
+  const getLocaleName = (item) => item?.translations?.[localeKey]?.name || item?.name || "";
   const inputRef = useRef(null);
   const [activeMenu, setActiveMenu] = useState(null);
   const [catsSearch, setCatsSearch] = useState("");
@@ -103,19 +105,19 @@ function DashboardToolbar() {
       : undefined;
 
   const filteredGovs = citys?.filter((x) =>
-    (x.name || "").toLowerCase().includes(catsSearch.toLowerCase()),
+    getLocaleName(x).toLowerCase().includes(catsSearch.toLowerCase()),
   );
 
   const filteredCats = cats?.filter((x) =>
-    (x.name || "").toLowerCase().includes(catsSearch.toLowerCase()),
+    getLocaleName(x).toLowerCase().includes(catsSearch.toLowerCase()),
   );
 
   const filteredSubCats = subCats?.filter((x) =>
-    (x.name || "").toLowerCase().includes(catsSearch.toLowerCase()),
+    getLocaleName(x).toLowerCase().includes(catsSearch.toLowerCase()),
   );
 
   const filteredProdCats = prodCats?.filter((x) =>
-    (x.name || "").toLowerCase().includes(catsSearch.toLowerCase()),
+    getLocaleName(x).toLowerCase().includes(catsSearch.toLowerCase()),
   );
 
   const isGovernoratesPage = pageKey === "governorates_list";
@@ -175,7 +177,7 @@ function DashboardToolbar() {
           <FilterMenu
             label={t.head.filterGov}
             active={activeMenu === "gov"}
-            value={selectedCats.gov}
+            value={selectedCats.gov ? { ...selectedCats.gov, name: getLocaleName(selectedCats.gov) } : null}
             search={catsSearch}
             setSearch={setCatsSearch}
             onOpen={() => openMenu("gov")}
@@ -196,7 +198,7 @@ function DashboardToolbar() {
                       setActiveMenu(null);
                     }}
                   >
-                    {x.name}
+                    {getLocaleName(x)}
                   </button>
                 );
               })
@@ -210,7 +212,7 @@ function DashboardToolbar() {
           <FilterMenu
             label={t.head.filterCat}
             active={activeMenu === "cat"}
-            value={selectedCats.cat}
+            value={selectedCats.cat ? { ...selectedCats.cat, name: getLocaleName(selectedCats.cat) } : null}
             search={catsSearch}
             setSearch={setCatsSearch}
             onOpen={() => openMenu("cat")}
@@ -232,44 +234,7 @@ function DashboardToolbar() {
                     }}
                   >
                     {x.icon ? <span>{x.icon} </span> : null}
-                    {x.name}
-                  </button>
-                );
-              })
-            ) : (
-              <div className="no-results">{t.head.noResults}</div>
-            )}
-          </FilterMenu>
-        )}
-
-        {shouldShowSubCatFilter && (
-          <FilterMenu
-            label={t.head.filterSubCat}
-            triggerLabel={subCatTriggerLabel}
-            active={activeMenu === "subCat"}
-            value={selectedCats.subCat}
-            search={catsSearch}
-            setSearch={setCatsSearch}
-            disabled={!selectedParentCategory || (subCats?.length ?? 0) === 0}
-            onOpen={() => openMenu("subCat")}
-            onClose={() => setActiveMenu(null)}
-          >
-            {filteredSubCats?.length ? (
-              filteredSubCats.map((x) => {
-                const isActive =
-                  (selectedCats.subCat?._id || selectedCats.subCat?.id) ===
-                  (x._id || x.id);
-                return (
-                  <button
-                    key={x._id || x.id}
-                    className={isActive ? "active" : ""}
-                    onClick={() => {
-                      updateFilter("subCat", isActive ? null : x, "categories");
-                      setActiveMenu(null);
-                    }}
-                  >
-                    {x.icon ? <span>{x.icon} </span> : null}
-                    {x.name}
+                    {getLocaleName(x)}
                   </button>
                 );
               })
@@ -283,7 +248,7 @@ function DashboardToolbar() {
           <FilterMenu
             label={t.head.filterCat}
             active={activeMenu === "prodCat"}
-            value={selectedCats.category}
+            value={selectedCats.category ? { ...selectedCats.category, name: getLocaleName(selectedCats.category) } : null}
             search={catsSearch}
             setSearch={setCatsSearch}
             onOpen={() => openMenu("prodCat")}
@@ -305,9 +270,46 @@ function DashboardToolbar() {
                   }}
                 >
                   {x.icon ? <span>{x.icon} </span> : null}
-                  {x.name}
+                  {getLocaleName(x)}
                 </button>
               ))
+            ) : (
+              <div className="no-results">{t.head.noResults}</div>
+            )}
+          </FilterMenu>
+        )}
+
+        {shouldShowSubCatFilter && (
+          <FilterMenu
+            label={t.head.filterSubCat}
+            triggerLabel={subCatTriggerLabel}
+            active={activeMenu === "subCat"}
+            value={selectedCats.subCat ? { ...selectedCats.subCat, name: getLocaleName(selectedCats.subCat) } : null}
+            search={catsSearch}
+            setSearch={setCatsSearch}
+            disabled={!selectedParentCategory || (subCats?.length ?? 0) === 0}
+            onOpen={() => openMenu("subCat")}
+            onClose={() => setActiveMenu(null)}
+          >
+            {filteredSubCats?.length ? (
+              filteredSubCats.map((x) => {
+                const isActive =
+                  (selectedCats.subCat?._id || selectedCats.subCat?.id) ===
+                  (x._id || x.id);
+                return (
+                  <button
+                    key={x._id || x.id}
+                    className={isActive ? "active" : ""}
+                    onClick={() => {
+                      updateFilter("subCat", isActive ? null : x, "categories");
+                      setActiveMenu(null);
+                    }}
+                  >
+                    {x.icon ? <span>{x.icon} </span> : null}
+                    {getLocaleName(x)}
+                  </button>
+                );
+              })
             ) : (
               <div className="no-results">{t.head.noResults}</div>
             )}

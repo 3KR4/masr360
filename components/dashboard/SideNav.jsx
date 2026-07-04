@@ -87,17 +87,17 @@ function SideNav() {
         />
 
         <NavLink
-          href="/dashboard/governorates"
-          active={isActive("/dashboard/governorates")}
-          icon={<RiGovernmentFill />}
-          text={t.sideNav.governorates}
-        />
-
-        <NavLink
           href="/dashboard/categories"
           active={isActive("/dashboard/categories")}
           icon={<TbCategoryPlus />}
           text={t.sideNav.categories || t.dashboard.tables.categories}
+        />
+
+        <NavLink
+          href="/dashboard/governorates"
+          active={isActive("/dashboard/governorates")}
+          icon={<RiGovernmentFill />}
+          text={t.sideNav.governorates}
         />
 
         <NavLink

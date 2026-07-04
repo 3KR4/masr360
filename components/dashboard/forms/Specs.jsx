@@ -38,17 +38,6 @@ const t = useTranslate();
 
   const updateSpec = (index, field, value) => {
     const updated = [...specifications];
-
-    // check length
-    if (value.trim().length > 0 && value.trim().length < 3) {
-      updateCompsError(
-        "specs",
-        "specification key/value must be at least 3 characters"
-      );
-    } else {
-      updateCompsError("specs", "");
-    }
-
     updated[index][field] = value;
     setSpecifications(updated);
   };

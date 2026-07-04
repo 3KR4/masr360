@@ -55,6 +55,10 @@ export default function Governorate() {
       newErrors.enName = "English name must be at least 3 characters";
     }
 
+    if (!translations.EN.desc.trim()) {
+      newErrors.enDesc = "English description is required";
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -227,10 +231,20 @@ export default function Governorate() {
                 <div className="holder">
                   <textarea
                     value={translations[curentCreateLocale]?.desc}
-                    onChange={(e) => handleChange("desc", e.target.value)}
+                    onChange={(e) => {
+                      handleChange("desc", e.target.value);
+                      setErrors((prev) => ({ ...prev, enDesc: null }));
+                    }}
                     placeholder="Enter description"
                   />
                 </div>
+
+                {errors.enDesc && curentCreateLocale === "EN" && (
+                  <span className="error">
+                    <CircleAlert size={16} />
+                    {errors.enDesc}
+                  </span>
+                )}
               </div>
             </div>
           </div>

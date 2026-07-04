@@ -134,7 +134,7 @@ function Tickets() {
               <label>{t.dashboard.forms.price}</label>
               <input
                 type="number"
-                placeholder={t.dashboard.forms.price}
+                placeholder={t.dashboard.forms.enterPrice || "Enter the price"}
                 value={tickets.prices?.staticPrice || ""}
                 onChange={(e) =>
                   handleTicketChange("staticPrice", null, e.target.value)
@@ -174,7 +174,7 @@ function Tickets() {
           <div className="tickets-prices">
             {(tickets.type === "pricePerAge" ? ["children", "adults", "seniors"] : ["students", "adults", "seniors"]).map((group) => (
               <div className="ticket-group" key={group}>
-                <label>{t.dashboard.forms[group]}</label>
+                <label>{group === "children" ? t.dashboard.forms.students : t.dashboard.forms[group]}</label>
                 <div className="spec-item">
                   {(tickets.type === "pricePerAge"
                     ? ["egyptian"]
@@ -185,10 +185,10 @@ function Tickets() {
                       type="number"
                       placeholder={
                         tickets.type === "pricePerAge"
-                          ? t.dashboard.forms.egyptian
-                          : `${t.dashboard.forms[key]} (${
-                              key === "egyptian" ? "Local" : "Foreign"
-                            })`
+                          ? `${t.dashboard.forms.egyptian} and ${t.dashboard.forms.foreigner}`
+                          : key === "egyptian"
+                            ? t.dashboard.forms.egyptian
+                            : t.dashboard.forms.foreigner
                       }
                       value={tickets.type === "pricePerAge" ? (tickets.prices?.pricePerAge?.[group] || "") : (tickets.prices?.ageAndRegion?.[group]?.[key] || "")}
                       onChange={(e) =>

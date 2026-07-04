@@ -7,14 +7,14 @@ const normalizeProductsResponse = (res) => {
   if (Array.isArray(data?.products)) {
     return {
       products: data.products,
-      totalCount: data.count || 0,
+      totalCount: data.total || data.count || 0,
     };
   }
 
   if (Array.isArray(data?.data)) {
     return {
       products: data.data,
-      totalCount: data.count || 0,
+      totalCount: data.total || data.count || 0,
     };
   }
 
@@ -45,6 +45,7 @@ export const getAll = async ({
   sort,
   search,
   category,
+  subCategory,
   lang = "en",
 }) => {
   const language = String(lang || "en").toLowerCase();
@@ -58,6 +59,7 @@ export const getAll = async ({
       stock,
       sort,
       category,
+      subCategory,
       language,
     ),
   );

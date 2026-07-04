@@ -27,6 +27,10 @@
   gap: 10px;
   display: grid;
 }
+.dashboard form .row-holder.one-column {
+  grid-template-columns: repeat(1, 1fr);
+
+}
 .dashboard form .row-holder.two-column {
   grid-template-columns: repeat(2, 1fr);
 }

@@ -7,7 +7,7 @@ const normalizeNightsResponse = (res) => {
   if (Array.isArray(data?.data)) {
     return {
       nights: data.data,
-      totalCount: data.count || 0,
+      totalCount: data.total || data.count || 0,
     };
   }
 
@@ -34,7 +34,8 @@ export const getAll = async (
   lang = "EN",
   sort = "createdAt,desc",
   governorateId = "",
-  categoryId = ""
+  categoryId = "",
+  subCategoryId = ""
 ) => {
   const language = String(lang || "EN").toLowerCase();
   const res = await api.get(
@@ -45,7 +46,8 @@ export const getAll = async (
       language,
       sort,
       governorateId,
-      categoryId
+      categoryId,
+      subCategoryId
     )
   );
   return normalizeNightsResponse(res);

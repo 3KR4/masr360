@@ -18,17 +18,30 @@ function Tags() {
   } = useContext(forms);
 
   const addTag = () => {
-    const trimmed = compsInput.tags.trim();
-    if (!trimmed || trimmed.length < 3) {
+    const raw = compsInput.tags;
+    if (!raw.trim()) {
       updateCompsError("tags", "the tag must be at least 3 characters");
       return;
     }
-    if (tags.includes(trimmed.toLowerCase())) {
+
+    const newTags = raw
+      .split(",")
+      .map((t) => t.trim().toLowerCase())
+      .filter(Boolean);
+
+    const invalid = newTags.filter((t) => t.length < 3);
+    if (invalid.length) {
+      updateCompsError("tags", "each tag must be at least 3 characters");
+      return;
+    }
+
+    const duplicates = newTags.filter((t) => tags.includes(t));
+    if (duplicates.length) {
       updateCompsError("tags", "this tag has already been added before");
       return;
     }
 
-    setTags([...tags, trimmed.toLowerCase()]);
+    setTags([...tags, ...newTags]);
     updateCompsInput("tags", "");
     updateCompsError("tags", "");
   };

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Rating from "@mui/material/Rating";
 import Pagination from "@/components/settings/Pagination";
 import useTranslate from "@/Contexts/useTranslation";
@@ -17,7 +23,8 @@ import { getAll, remove } from "@/services/porducts/products.service";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 
-const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
+const DASHBOARD_LIST_IMAGE_PLACEHOLDER =
+  "/images/dashboard-product-placeholder.svg";
 
 export default function Products() {
   const { screenSize, locale, productCategories } = useContext(mainContext);
@@ -29,6 +36,7 @@ export default function Products() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const limit = 20;
 
   const categoriesMap = useMemo(() => {
@@ -42,26 +50,24 @@ export default function Products() {
   const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
+      const categoryId =
+        selectedCats.category?._id || selectedCats.category?.id || "";
+      const subCategoryId =
+        selectedCats.subCat?._id ||
+        selectedCats.subCat?.id ||
+        selectedCats.subCat ||
+        "";
       const { products: productsData, totalCount } = await getAll({
         page,
         limit,
         search: searchText?.trim() || "",
-        category: selectedCats.category?._id || "",
+        category: categoryId,
+        subCategory: subCategoryId,
         lang: locale?.toLowerCase() || "en",
       });
-      const filteredProducts = selectedCats.subCat?._id
-        ? (productsData || []).filter((product) => {
-            const subCategoryId =
-              product?.subCategory?._id || product?.subCategory?.id || product?.subCategory;
-            return String(subCategoryId) === String(selectedCats.subCat._id);
-          })
-        : (productsData || []);
-      setProducts(filteredProducts);
-      setPageCount(
-        selectedCats.subCat?._id
-          ? 1
-          : Math.max(1, Math.ceil((totalCount || 0) / limit)),
-      );
+      setProducts(productsData || []);
+      setTotalCount(totalCount || 0);
+      setPageCount(Math.max(1, Math.ceil((totalCount || 0) / limit)));
     } catch (err) {
       console.error("Failed to fetch products:", err);
       setProducts([]);
@@ -69,7 +75,14 @@ export default function Products() {
     } finally {
       setLoading(false);
     }
-  }, [limit, locale, page, searchText, selectedCats.category, selectedCats.subCat]);
+  }, [
+    limit,
+    locale,
+    page,
+    searchText,
+    selectedCats.category,
+    selectedCats.subCat,
+  ]);
 
   const getCategoryDisplayName = useCallback(
     (categoryData) => {
@@ -148,13 +161,7 @@ export default function Products() {
                 item?.translations?.EN?.name ||
                 item?.translations?.AR?.name ||
                 "";
-              const productDescription =
-                item?.translations?.[localeKey]?.desc ||
-                item?.desc ||
-                item?.description ||
-                item?.translations?.EN?.desc ||
-                item?.translations?.AR?.desc ||
-                "";
+
               const viewsCount =
                 item?.viewsCount || item?.views || item?.viewCount || 0;
               const salesCount =
@@ -163,7 +170,10 @@ export default function Products() {
               return (
                 <div key={productId} className="table-item">
                   <div className="holder">
-                    <Link href={`/marketplace/${productId}`} className="item-image">
+                    <Link
+                      href={`/marketplace/${productId}`}
+                      className="item-image"
+                    >
                       <Image
                         src={imageUrl || DASHBOARD_LIST_IMAGE_PLACEHOLDER}
                         alt={productName || "Product image"}
@@ -173,10 +183,12 @@ export default function Products() {
                     </Link>
 
                     <div className="item-details">
-                      <Link href={`/marketplace/${productId}`} className="item-name">
+                      <Link
+                        href={`/marketplace/${productId}`}
+                        className="item-name"
+                      >
                         {productName}
                       </Link>
-                      <p className="description">{productDescription}</p>
                       {screenSize !== "small" ? (
                         <Link
                           href={`/marketplace?cat=${item?.category?._id || item?.category}`}
@@ -243,7 +255,10 @@ export default function Products() {
                     </Link>
                     <hr />
                     <Link href={`/dashboard/products/form?edit=${productId}`}>
-                      <MdEdit className="edit" title={t.dashboard.tables.edit} />
+                      <MdEdit
+                        className="edit"
+                        title={t.dashboard.tables.edit}
+                      />
                     </Link>
                     <hr />
                     <FaTrashAlt
@@ -270,14 +285,16 @@ export default function Products() {
           </div>
         </div>
 
-        <Pagination
-          pageCount={pageCount}
-          screenSize={screenSize}
-          isDashBoard={true}
-          onPageChange={(selectedPage) => {
-            setPage(selectedPage.selected + 1);
-          }}
-        />
+        {totalCount > limit && (
+          <Pagination
+            pageCount={pageCount}
+            screenSize={screenSize}
+            isDashBoard={true}
+            onPageChange={(selectedPage) => {
+              setPage(selectedPage.selected + 1);
+            }}
+          />
+        )}
       </div>
     </div>
   );

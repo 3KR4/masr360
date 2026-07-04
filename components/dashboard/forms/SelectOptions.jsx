@@ -2,6 +2,7 @@
 import React, { useState, useContext, useMemo } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
+import { CircleAlert } from "lucide-react";
 import { mainContext } from "@/Contexts/mainContext";
 import useTranslate from "@/Contexts/useTranslation";
 
@@ -14,6 +15,7 @@ function SelectOptions({
   searchKey = "name",
   disabled = false,
   loading = false,
+  error = null,
 }) {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
@@ -139,6 +141,13 @@ function SelectOptions({
           {renderOptions()}
         </div>
       </div>
+
+      {error && (
+        <span className="error">
+          <CircleAlert size={16} />
+          {error}
+        </span>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
-import { createContext, useContext, useState, useRef } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { createContext, useContext, useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export const forms = createContext();
 
@@ -39,6 +39,12 @@ export const FormsCompsProvider = ({ children }) => {
   const [specifications, setSpecifications] = useState([]);
 
   const [images, setImages] = useState([]);
+
+  // Reset images when navigating to a different route
+  const pathname = usePathname();
+  useEffect(() => {
+    setImages([]);
+  }, [pathname]);
 
   const [tickets, setTickets] = useState({ type: "free" });
 

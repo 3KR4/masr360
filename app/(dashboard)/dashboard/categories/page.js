@@ -51,8 +51,8 @@ function buildFormState(item, type, parent = null) {
   if (!item) {
     return {
       ...EMPTY_FORM,
-      type,
-      parent,
+      type: parent?.type || type,
+      parent: parent?._id || parent?.id || parent || null,
     };
   }
 
@@ -109,7 +109,7 @@ export default function CategoriesManagerPage() {
   };
 
   const openCreate = (type, parent = null) => {
-    setFormState(buildFormState(null, type, parent?._id || null));
+    setFormState(buildFormState(null, type, parent));
     setErrors({});
     setEditorOpen(true);
   };
@@ -143,19 +143,12 @@ export default function CategoriesManagerPage() {
     try {
       const payload = {
         name: formState.EN.name.trim(),
+        icon: formState.icon.trim(),
         translations: {
           EN: { name: formState.EN.name.trim() },
           AR: { name: formState.AR.name.trim() },
         },
       };
-
-      if (formState.icon.trim()) {
-        payload.icon = formState.icon.trim();
-      }
-
-      if (formState.parent) {
-        payload.parent = formState.parent;
-      }
 
       if (formState.mode === "edit" && formState._id) {
         await update(formState._id, payload);
@@ -164,10 +157,16 @@ export default function CategoriesManagerPage() {
           message: "Category updated successfully",
         });
       } else {
-        await create({
+        const createPayload = {
           ...payload,
           type: formState.type,
-        });
+        };
+
+        if (formState.parent) {
+          createPayload.parent = formState.parent;
+        }
+
+        await create(createPayload);
         addNotification({
           type: "success",
           message: "Category created successfully",

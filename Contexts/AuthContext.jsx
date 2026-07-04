@@ -33,15 +33,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    try {
-      await api.post("/auth/logout");
-    } catch (err) {
-      console.error(err);
-    }
-
     setUser(null);
     clearAuth();
     localStorage.removeItem("user");
+    localStorage.setItem("_logout", "true");
     window.location.href = "/";
   };
 
@@ -75,6 +70,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const initAuth = async () => {
+      const wasLoggedOut = localStorage.getItem("_logout");
+      if (wasLoggedOut) {
+        localStorage.removeItem("_logout");
+        setLoading(false);
+        return;
+      }
       await refreshCurrentUser();
       setLoading(false);
     };

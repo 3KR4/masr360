@@ -8,6 +8,8 @@ import Head from "@/components/dashboard/Head";
 import Toolbar from "@/components/dashboard/Toolbar";
 import { FormsCompsProvider } from "@/Contexts/forms";
 import { NotificationProvider } from "@/Contexts/NotificationContext";
+import { AuthProvider } from "@/Contexts/AuthContext";
+import AdminGuard from "@/components/dashboard/AdminGuard";
   import NotificationHolder from "@/components/settings/NotificationHolder";
 
 const cinzel = Cinzel({
@@ -57,8 +59,10 @@ export default function RootLayout({ children }) {
       <body>
         <MainProvider>
           <NotificationProvider>
+            <AuthProvider>
             <DashBoardProvider>
               <FormsCompsProvider>
+                <AdminGuard>
                 <div className="dashboard">
                   <SideNav />
 
@@ -68,9 +72,11 @@ export default function RootLayout({ children }) {
                     {children}
                   </div>
                 </div>
+                </AdminGuard>
                 <NotificationHolder />
               </FormsCompsProvider>
             </DashBoardProvider>
+            </AuthProvider>
           </NotificationProvider>
         </MainProvider>
       </body>
