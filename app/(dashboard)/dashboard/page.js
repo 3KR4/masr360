@@ -1,11 +1,5 @@
-import Image from "next/image";
-import "@/styles/pages/home.css";
+import OverviewDashboard from "@/components/dashboard/analytics/OverviewDashboard";
 
 export default function DashBoard() {
-  return (
-    <>
-      <div className="dash-holder">
-      </div>
-    </>
-  );
+  return <OverviewDashboard />;
 }
