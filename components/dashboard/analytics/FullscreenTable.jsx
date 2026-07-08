@@ -352,7 +352,7 @@ function FullscreenTable({ type, onClose }) {
         <table className="analytics-table fullscreen">
           <thead>
             <tr>
-              {cfg.cols.map((col) => <th key={col.key} className={col.key === "progress" ? "analytics-cell-center" : ""}>{col.label}</th>)}
+              {cfg.cols.map((col) => <th key={col.key} className={["totalCredits","progress","formCredits","gameCredits","gameComplete","ageRange","createdAt","submittedAt","lastSeen","firstSeen","visits","city"].includes(col.key) ? "analytics-cell-center" : ""}>{col.label}</th>)}
             </tr>
           </thead>
           <tbody>
@@ -364,7 +364,7 @@ function FullscreenTable({ type, onClose }) {
               entries.map((row, i) => (
                 <tr key={row.email || row.ip || i}>
                   {cfg.cols.map((col) => (
-                    <td key={col.key} className={["ip", "email"].includes(col.key) ? "analytics-cell-mono" : ""}>
+                    <td key={col.key} className={["totalCredits","progress","formCredits","gameCredits","gameComplete","ageRange","createdAt","submittedAt","lastSeen","firstSeen","visits","city"].includes(col.key) ? "analytics-cell-center" : ""}>
                       {formatCell(row, col)}
                     </td>
                   ))}

@@ -20,6 +20,10 @@ const nextConfig = {
         destination: "http://localhost:2005/api/v1/:path*",
       },
       {
+        source: "/api/analytics/:path*",
+        destination: "https://about.api.m360travel.com/api/analytics/:path*",
+      },
+      {
         source: "/api-proxy/:path*",
         destination: "http://101.46.70.242/:path*",
       },

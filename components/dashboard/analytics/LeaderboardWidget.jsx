@@ -41,7 +41,7 @@ function LeaderboardWidget({ entries, loading, onFullscreen }) {
               <th>#</th>
               <th>{t.analytics?.name || "Name"}</th>
               <th>{t.analytics?.email || "Email"}</th>
-              <th>{t.analytics?.credits || "Total Credits"}</th>
+              <th className="analytics-cell-center">{t.analytics?.credits || "Total Credits"}</th>
             </tr>
           </thead>
           <tbody>

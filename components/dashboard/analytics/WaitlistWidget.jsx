@@ -41,8 +41,8 @@ function WaitlistWidget({ entries, loading, title, onFullscreen }) {
             <tr>
               <th>{t.analytics?.name || "Name"}</th>
               <th>{t.analytics?.email || "Email"}</th>
-              <th>{t.analytics?.city || "City"}</th>
-              <th>{t.analytics?.date || "Date"}</th>
+              <th className="analytics-cell-center">{t.analytics?.city || "City"}</th>
+              <th className="analytics-cell-center">{t.analytics?.date || "Date"}</th>
             </tr>
           </thead>
           <tbody>
@@ -55,8 +55,8 @@ function WaitlistWidget({ entries, loading, title, onFullscreen }) {
                 <tr key={r.email || i}>
                   <td>{r.name || "-"}</td>
                   <td className="analytics-cell-mono">{r.email}</td>
-                  <td>{r.city || "-"}</td>
-                  <td className="analytics-cell-mono">
+                  <td className="analytics-cell-center">{r.city || "-"}</td>
+                  <td className="analytics-cell-center">
                     {r.createdAt ? new Date(r.createdAt).toLocaleDateString() : "-"}
                   </td>
                 </tr>

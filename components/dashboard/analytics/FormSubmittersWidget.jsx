@@ -40,8 +40,8 @@ function FormSubmittersWidget({ entries, loading, onFullscreen }) {
             <tr>
               <th>{t.analytics?.name || "Name"}</th>
               <th>{t.analytics?.email || "Email"}</th>
-              <th>{t.analytics?.credits || "Credits"}</th>
-              <th>{t.analytics?.date || "Date"}</th>
+              <th className="analytics-cell-center">{t.analytics?.credits || "Credits"}</th>
+              <th className="analytics-cell-center">{t.analytics?.date || "Date"}</th>
             </tr>
           </thead>
           <tbody>
@@ -55,7 +55,7 @@ function FormSubmittersWidget({ entries, loading, onFullscreen }) {
                   <td>{r.name || "-"}</td>
                   <td className="analytics-cell-mono">{r.email}</td>
                   <td className="analytics-cell-center">{r.totalCredits || 0}</td>
-                  <td className="analytics-cell-mono">
+                  <td className="analytics-cell-center">
                     {r.submittedAt ? new Date(r.submittedAt).toLocaleDateString() : "-"}
                   </td>
                 </tr>

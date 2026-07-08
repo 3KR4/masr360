@@ -41,8 +41,8 @@ function RecentVisits({ visits, loading, onFullscreen }) {
             <tr>
               <th><FaGlobeAmericas /> {t.analytics?.ip || "IP"}</th>
               <th><MdDevices /> {t.analytics?.userAgent || "User Agent"}</th>
-              <th>{t.analytics?.visits || "Visits"}</th>
-              <th>{t.analytics?.lastSeen || "Last Seen"}</th>
+              <th className="analytics-cell-center">{t.analytics?.visits || "Visits"}</th>
+              <th className="analytics-cell-center">{t.analytics?.lastSeen || "Last Seen"}</th>
             </tr>
           </thead>
           <tbody>
@@ -58,7 +58,7 @@ function RecentVisits({ visits, loading, onFullscreen }) {
                     {v.userAgent?.length > 40 ? v.userAgent.slice(0, 40) + "..." : v.userAgent || "-"}
                   </td>
                   <td className="analytics-cell-center">{v.visits}</td>
-                  <td className="analytics-cell-mono">
+                  <td className="analytics-cell-center">
                     {v.lastSeen ? new Date(v.lastSeen).toLocaleDateString() : "-"}
                   </td>
                 </tr>
