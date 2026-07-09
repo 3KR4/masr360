@@ -47,11 +47,17 @@
   gap: 15px;
 }
 .swiper .slide-content span {
+  display: none;
   font-size: 24px;
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.8px;
   color: white;
+}
+@media (min-width: 1200px) {
+  .swiper .slide-content span {
+    display: block;
+  }
 }
 .swiper .slide-content h1 {
   font-size: 60px;
@@ -72,14 +78,11 @@
 [lang="AR"] .swiper .slide-content h2 {
   font-weight: 400;
 }
-.swiper .slide-content button {
-  background: var(--main-color);
-  cursor: pointer;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-.swiper .slide-content button:hover {
-  background: var(--hover-color);
+.swiper .slide-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 .swiper-pagination {
   background: #fff;
@@ -254,10 +257,10 @@
   }
 }
 @media (max-width: 1300px) {
-  .landing .swiper,
-  .landing .swiper .swiper-slide {
-    height: 70vh;
+  .landing {
+    aspect-ratio: unset;
   }
+
 
   .swiper .slide-content {
     gap: 8px;
@@ -270,11 +273,6 @@
   }
   .swiper .slide-content h2 {
     max-width: 80%;
-  }
-  .swiper .slide-content button {
-    height: 42px;
-    padding: 17px 26px;
-    font-size: 13px;
   }
   .swiper-pagination {
     padding: 7px 14px;
@@ -337,8 +335,15 @@
   }
 }
 @media (max-width: 786px) {
+  .landing {
+    aspect-ratio: unset;
+  }
+  .landing .swiper,
+  .landing .swiper .swiper-slide {
+        height: 31vh;
+  }
   .swiper .slide-content h1 {
-    font-size: 50px;
+    font-size: 42px;
   }
   .swiper .slide-content h2 {
     font-size: 15px;
@@ -349,11 +354,6 @@
   .swiper .slide-content h2 {
     max-width: 98%;
   }
-  .swiper .slide-content button {
-    height: 40px;
-    padding: 17px 26px;
-    font-size: 12px;
-  }
   .categories .swiper {
     border-radius: 16px;
   }
@@ -362,9 +362,15 @@
   }
 }
 @media (max-width: 600px) {
+  .landing {
+    width: 100%;
+    height: 30vh;
+    border-radius: 0;
+    aspect-ratio: unset;
+  }
   .landing .swiper,
   .landing .swiper .swiper-slide {
-    height: 45vh;
+    height: 100%;
   }
   .swiper .slide-content h1 {
     font-size: 38px;
@@ -377,11 +383,6 @@
   }
   [lang="AR"] .swiper .slide-content h2 {
     font-size: 19px;
-  }
-  .swiper .slide-content button {
-    height: 39px;
-    padding: 17px 18px;
-    font-size: 11px;
   }
   .grid-holder {
     grid-template-columns: repeat(1, 1fr) !important;
@@ -399,12 +400,6 @@
   }
   .swiper .slide-content h2 {
     font-size: 14px !important;
-  }
-  .swiper .slide-content button {
-    height: 32px;
-    padding: 17px 18px;
-    font-size: 13px;
-    margin: 0;
   }
   .swiper-pagination {
     padding: 5px 12px;

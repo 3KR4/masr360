@@ -24,46 +24,37 @@ function LandingSwiper() {
         slidesPerView={1}
         loop={true}
         speed={2000}
-        // autoplay={{ delay: 5000, disableOnInteraction: false }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
       >
         {slides?.map((slide, index) => (
           <SwiperSlide key={index}>
-            <Image src={slide?.image} fill alt={``}></Image>
-            <div className="slide-content">
-              <motion.span
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0 }}
-              >
-                {slide.small[locale]}
-              </motion.span>
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0 }}
-              >
-                {slide.title[locale]}
-              </motion.h1>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0 }}
-              >
-                {slide.paragraph[locale]}
-              </motion.h2>
-
-              <Link href={slide.link}>
-                <motion.button
-                  className="main-button"
-                  initial={{ opacity: 0, y: 30 }}
+            <Link href={slide.link} className="slide-link">
+              <Image src={slide?.image} fill alt={``}></Image>
+              <div className="slide-content">
+                <motion.span
+                  initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.3 }}
+                  transition={{ duration: 1, delay: 0 }}
                 >
-                  {slide.btnText[locale]}
-                </motion.button>
-              </Link>
-            </div>
+                  {slide.small[locale]}
+                </motion.span>
+                <motion.h1
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0 }}
+                >
+                  {slide.title[locale]}
+                </motion.h1>
+                <motion.h2
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0 }}
+                >
+                  {slide.paragraph[locale]}
+                </motion.h2>
+              </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
