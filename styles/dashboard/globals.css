@@ -814,7 +814,148 @@ header .actions-btns .userMenu .top {
   background: var(--section-color);
 }
 
-.analytics-cell-mono {
+.analytics-clickable-row {
+  cursor: pointer;
+}
+
+.analytics-question-detail-title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  padding: 20px 30px;
+  color: var(--paragraph);
+}
+
+.analytics-summary-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 20px 20px;
+  justify-content: center;
+}
+
+.analytics-summary-card {
+  border-radius: 25px;
+  flex-direction: column;
+  flex: 0 auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  padding: 16px 24px;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 7px;
+}
+
+.analytics-summary-card.top {
+  box-shadow: 0 0 7px var(--hover-color);
+}
+
+.analytics-summary-card-label {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--paragraph);
+  text-align: center;
+  word-break: break-word;
+}
+
+.analytics-summary-card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--title);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.analytics-answers-grid {
+  display: grid;
+  gap: 12px;
+  padding: 0 20px 20px;
+}
+
+.analytics-answer-card {
+  border-radius: 23px;
+  flex-direction: column;
+  padding: 19px;
+  gap: 5px;
+  display: flex;
+  box-shadow: 0 0 7px 0px #00000033;
+}
+
+.analytics-answer-suggestion {
+  line-height: 1.4;
+  background: var(--second-color);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-family:
+    SF Mono,
+    Fira Code,
+    monospace;
+  font-size: 13px;
+  width: fit-content;
+}
+
+.analytics-answer-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.analytics-answer-body.column {
+  flex-direction: column;
+}
+
+.analytics-answer-body.column .analytics-answer-rate {
+  width: fit-content;
+  text-align: left;
+}
+
+.analytics-answer-user {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.analytics-answer-user .name {
+  font-weight: 600;
+}
+
+.analytics-answer-email {
+  font-size: 14px;
+  color: var(--paragraph);
+}
+
+.analytics-answer-rate {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.analytics-answer-card .answer {
+  font-family: "SF Mono", "Fira Code", monospace;
+  background: var(--second-color);
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.analytics-back-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--main-color);
+  cursor: pointer;
+  padding: 16px 20px 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.analytics-back-link:hover {
+  opacity: 0.8;
+}
+
+.analytics-cell-center {
   font-family: "SF Mono", "Fira Code", monospace;
   font-size: 12px;
 }
@@ -940,7 +1081,7 @@ header .actions-btns .userMenu .top {
 .analytics-fullscreen {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   height: 100%;
   min-height: 60vh;
   padding: 20px;
@@ -1193,4 +1334,54 @@ header .actions-btns .userMenu .top {
   text-align: center;
   font-size: 13px;
   font-weight: 700;
+}
+
+.analytics-reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 16px;
+}
+
+.analytics-report-card {
+  background: var(--section-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: 0.15s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.analytics-report-card:hover {
+  border-color: var(--hover-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.analytics-report-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.analytics-report-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.analytics-report-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--paragraph);
+}
+
+.analytics-report-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--title);
 }

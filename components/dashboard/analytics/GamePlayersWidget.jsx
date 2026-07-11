@@ -51,7 +51,7 @@ function GamePlayersWidget({ entries, loading, onFullscreen }) {
                 <td colSpan={5} className="analytics-empty">{t.analytics?.noData || "No data available"}</td>
               </tr>
             ) : (
-              rows.slice(0, 5).map((r, i) => (
+              rows.slice(0, 7).map((r, i) => (
                 <tr key={r.email || i}>
                   <td>{r.name || "-"}</td>
                   <td className="analytics-cell-mono">{r.email}</td>

@@ -50,7 +50,7 @@ function LeaderboardWidget({ entries, loading, onFullscreen }) {
                 <td colSpan={4} className="analytics-empty">{t.analytics?.noData || "No data available"}</td>
               </tr>
             ) : (
-              rows.slice(0, 5).map((r, i) => (
+              rows.slice(0, 7).map((r, i) => (
                 <tr key={r.email || i}>
                   <td className="analytics-cell-center">{i + 1}</td>
                   <td>{r.name || "-"}</td>

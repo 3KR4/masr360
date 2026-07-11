@@ -1,15 +1,14 @@
 "use client";
 import React from "react";
-import { FaGlobe, FaUsers, FaGamepad, FaClipboardList, FaTrophy, FaEye } from "react-icons/fa";
+import { FaUsers, FaGamepad, FaClipboardList, FaTrophy, FaEye } from "react-icons/fa";
 import useTranslate from "@/Contexts/useTranslation";
 
 const icons = {
   totalVisits: FaEye,
-  uniqueVisitors: FaGlobe,
   totalWaitlist: FaUsers,
   totalGamePlayers: FaGamepad,
   totalFormSubmitters: FaClipboardList,
-  totalLeaderboardEntries: FaTrophy,
+  totalLeaderboard: FaTrophy,
 };
 
 function StatsCards({ stats, loading }) {
@@ -17,7 +16,7 @@ function StatsCards({ stats, loading }) {
   if (loading) {
     return (
       <div className="analytics-stats-grid">
-        {[...Array(6)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <div key={i} className="analytics-stat-card skeleton">
             <div className="skeleton-icon" />
             <div className="skeleton-text" />
@@ -29,11 +28,10 @@ function StatsCards({ stats, loading }) {
 
   const labels = [
     { key: "totalVisits", label: t.analytics?.totalVisits || "Total Page Visits" },
-    { key: "uniqueVisitors", label: t.analytics?.uniqueVisitors || "Unique Visitors" },
     { key: "totalWaitlist", label: t.analytics?.totalWaitlist || "Waitlist Signups" },
     { key: "totalGamePlayers", label: t.analytics?.totalGamePlayers || "Game Players" },
     { key: "totalFormSubmitters", label: t.analytics?.totalFormSubmitters || "Form Submitters" },
-    { key: "totalLeaderboardEntries", label: t.analytics?.totalLeaderboardEntries || "Leaderboard" },
+    { key: "totalLeaderboard", label: t.analytics?.totalLeaderboard || "Leaderboard" },
   ];
 
   return (

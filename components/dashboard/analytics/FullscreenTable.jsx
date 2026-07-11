@@ -9,7 +9,9 @@ import * as XLSX from "xlsx";
 import Pagination from "@/components/settings/Pagination";
 import {
   getVisits, getWaitlistOnly, getGamePlayers,
-  getFormSubmitters, getLeaderboard,
+  getFormSubmitters, getLeaderboard, getQuestionsSubmits,
+  getPlacesReport, getNightsReport, getProductsReport,
+  getCategoriesReport, getGovernoratesReport,
 } from "@/services/analytics/analytics.service";
 
 const AGE_RANGES = ["Under 18", "18–24", "25–34", "35–44", "45+"];
@@ -33,7 +35,7 @@ const COUNTRIES = [
 const CONFIGS = {
   visits: {
     title: "Visits",
-    fetch: (p, filters) => getVisits({ page: p, limit: 12, ...filters }),
+    fetch: (p, filters) => getVisits({ page: p, limit: 17, ...filters }),
     exportFetch: (p, l) => getVisits({ page: p, limit: l }),
     cols: [
       { key: "ip", label: "IP" },
@@ -46,7 +48,7 @@ const CONFIGS = {
   },
   waitlist: {
     title: "Waitlist",
-    fetch: (p, filters) => getWaitlistOnly({ page: p, limit: 12, ...filters }),
+    fetch: (p, filters) => getWaitlistOnly({ page: p, limit: 17, ...filters }),
     exportFetch: (p, l) => getWaitlistOnly({ page: p, limit: l }),
     cols: [
       { key: "name", label: "Name" },
@@ -59,7 +61,7 @@ const CONFIGS = {
   },
   "game-players": {
     title: "Game Players",
-    fetch: (p, filters) => getGamePlayers({ page: p, limit: 12, ...filters }),
+    fetch: (p, filters) => getGamePlayers({ page: p, limit: 17, ...filters }),
     exportFetch: (p, l) => getGamePlayers({ page: p, limit: l }),
     cols: [
       { key: "name", label: "Name" },
@@ -74,7 +76,7 @@ const CONFIGS = {
   },
   "form-submitters": {
     title: "Form Submitters",
-    fetch: (p, filters) => getFormSubmitters({ page: p, limit: 12, ...filters }),
+    fetch: (p, filters) => getFormSubmitters({ page: p, limit: 17, ...filters }),
     exportFetch: (p, l) => getFormSubmitters({ page: p, limit: l }),
     cols: [
       { key: "name", label: "Name" },
@@ -88,7 +90,7 @@ const CONFIGS = {
   },
   leaderboard: {
     title: "Leaderboard",
-    fetch: (p, filters) => getLeaderboard({ page: p, limit: 12, ...filters }),
+    fetch: (p, filters) => getLeaderboard({ page: p, limit: 9, ...filters }),
     exportFetch: (p, l) => getLeaderboard({ page: p, limit: l }),
     cols: [
       { key: "name", label: "Name" },
@@ -97,6 +99,84 @@ const CONFIGS = {
       { key: "progress", label: "Credits  /  Interaction" },
     ],
     filters: ["search", "city", "minCredits"],
+  },
+  "questions-submits": {
+    title: "Questions Submits",
+    fetch: (p, filters) => getQuestionsSubmits({ page: p, limit: 17, ...filters }),
+    exportFetch: (p, l) => getQuestionsSubmits({ page: p, limit: l }),
+    cols: [
+      { key: "name", label: "Name" },
+      { key: "email", label: "Email" },
+      { key: "city", label: "City" },
+      { key: "formCredits", label: "Form Credits" },
+      { key: "totalCredits", label: "Total Credits" },
+      { key: "submittedAt", label: "Date" },
+    ],
+    filters: ["search", "city"],
+  },
+  places: {
+    title: "Places",
+    fetch: (p, filters) => getPlacesReport({ page: p, limit: 17, ...filters }),
+    exportFetch: (p, l) => getPlacesReport({ page: p, limit: l }),
+    cols: [
+      { key: "name", label: "Name" },
+      { key: "governorate", label: "Governorate" },
+      { key: "category", label: "Category" },
+      { key: "createdAt", label: "Created" },
+    ],
+    filters: ["search", "sort", "governorateId", "categoryId"],
+  },
+  nights: {
+    title: "Nights",
+    fetch: (p, filters) => getNightsReport({ page: p, limit: 17, ...filters }),
+    exportFetch: (p, l) => getNightsReport({ page: p, limit: l }),
+    cols: [
+      { key: "name", label: "Name" },
+      { key: "governorate", label: "Governorate" },
+      { key: "category", label: "Category" },
+      { key: "avgRating", label: "Rating" },
+      { key: "reviewsCount", label: "Reviews" },
+      { key: "createdAt", label: "Created" },
+    ],
+    filters: ["search", "sort", "governorateId", "categoryId", "lang"],
+  },
+  products: {
+    title: "Products",
+    fetch: (p, filters) => getProductsReport({ page: p, limit: 17, ...filters }),
+    exportFetch: (p, l) => getProductsReport({ page: p, limit: l }),
+    cols: [
+      { key: "name", label: "Name" },
+      { key: "price", label: "Price" },
+      { key: "discount", label: "Discount" },
+      { key: "priceAfterDiscount", label: "After Discount" },
+      { key: "category", label: "Category" },
+      { key: "avgRating", label: "Rating" },
+      { key: "reviewsCount", label: "Reviews" },
+      { key: "createdAt", label: "Created" },
+    ],
+    filters: ["search", "sort", "minPrice", "maxPrice", "stock", "categoryId", "lang"],
+  },
+  categories: {
+    title: "Categories",
+    fetch: (p, filters) => getCategoriesReport({ page: p, limit: 17, ...filters }),
+    exportFetch: (p, l) => getCategoriesReport({ page: p, limit: l, ...filters }),
+    cols: [
+      { key: "name", label: "Name" },
+      { key: "type", label: "Type" },
+      { key: "icon", label: "Icon" },
+      { key: "subCategories", label: "Sub Categories" },
+    ],
+    filters: ["typeFilter", "lang"],
+  },
+  governorates: {
+    title: "Governorates",
+    fetch: (p, filters) => getGovernoratesReport({ page: p, limit: 17, ...filters }),
+    exportFetch: (p, l) => getGovernoratesReport({ page: p, limit: l }),
+    cols: [
+      { key: "name", label: "Name" },
+      { key: "createdAt", label: "Created" },
+    ],
+    filters: ["search", "lang"],
   },
 };
 
@@ -144,6 +224,16 @@ function formatCell(row, col) {
       </div>
     );
   }
+  if (col.key === "governorate") return val?.name ?? "-";
+  if (col.key === "category") return val?.name ?? "-";
+  if (col.key === "subCategories") return Array.isArray(val) ? val.length : 0;
+  if (col.key === "icon") return val || "-";
+  if (["price", "discount", "priceAfterDiscount"].includes(col.key)) {
+    if (col.key === "discount") return val ? `${val}%` : "0%";
+    return val != null ? `${Number(val).toLocaleString()} EGP` : "-";
+  }
+  if (col.key === "avgRating") return val != null ? Number(val).toFixed(1) : "0.0";
+  if (col.key === "reviewsCount") return val ?? 0;
   return val ?? "-";
 }
 
@@ -155,6 +245,16 @@ function formatExportVal(row, col) {
   if (col.key === "gameComplete") return val ? "Complete" : "Partial";
   if (col.key === "formComplete") return val ? "Yes" : "No";
   if (col.key === "progress") return `game:${row.gameCredits ?? 0}/${row.gameComplete ? "done" : "no"} form:${row.formCredits ?? 0}/${row.formComplete ? "done" : "no"} total:${row.totalCredits ?? 0}`;
+  if (col.key === "governorate") return val?.name ?? "";
+  if (col.key === "category") return val?.name ?? "";
+  if (col.key === "subCategories") return Array.isArray(val) ? val.length : 0;
+  if (col.key === "icon") return val || "";
+  if (["price", "discount", "priceAfterDiscount"].includes(col.key)) {
+    if (col.key === "discount") return val ? `${val}%` : "0%";
+    return val != null ? String(val) : "";
+  }
+  if (col.key === "avgRating") return val != null ? Number(val).toFixed(1) : "0";
+  if (col.key === "reviewsCount") return val ?? 0;
   return val ?? "";
 }
 
@@ -190,7 +290,14 @@ function FullscreenTable({ type, onClose }) {
   const [ageRangeFilter, setAgeRangeFilter] = useState("");
   const [citySearch, setCitySearch] = useState("");
   const [includeFormData, setIncludeFormData] = useState(false);
-  const limit = 12;
+  const [governorateFilter, setGovernorateFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [minPriceFilter, setMinPriceFilter] = useState("");
+  const [maxPriceFilter, setMaxPriceFilter] = useState("");
+  const [stockFilter, setStockFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
+  const [langFilter, setLangFilter] = useState("");
+  const limit = 17;
 
   const buildFilters = useCallback(() => {
     const f = {};
@@ -204,8 +311,15 @@ function FullscreenTable({ type, onClose }) {
     if (cfg.filters?.includes("city") && cityFilter) f.city = cityFilter;
     if (cfg.filters?.includes("ageRange") && ageRangeFilter) f.ageRange = ageRangeFilter;
     if (cfg.filters?.includes("includeFormData") && includeFormData) f.includeFormData = "true";
+    if (cfg.filters?.includes("governorateId") && governorateFilter) f.governorateId = governorateFilter;
+    if (cfg.filters?.includes("categoryId") && categoryFilter) f.categoryId = categoryFilter;
+    if (cfg.filters?.includes("minPrice") && minPriceFilter) f.minPrice = minPriceFilter;
+    if (cfg.filters?.includes("maxPrice") && maxPriceFilter) f.maxPrice = maxPriceFilter;
+    if (cfg.filters?.includes("stock") && stockFilter) f.stock = stockFilter;
+    if (cfg.filters?.includes("typeFilter") && typeFilter) f.type = typeFilter;
+    if (cfg.filters?.includes("lang") && langFilter) f.lang = langFilter;
     return f;
-  }, [cfg.filters, searchText, ipFilter, sortBy, statusFilter, minCredits, cityFilter, ageRangeFilter, includeFormData]);
+  }, [cfg.filters, searchText, ipFilter, sortBy, statusFilter, minCredits, cityFilter, ageRangeFilter, includeFormData, governorateFilter, categoryFilter, minPriceFilter, maxPriceFilter, stockFilter, typeFilter, langFilter]);
 
   const fetchData = useCallback(async (p) => {
     setLoading(true);
@@ -226,7 +340,7 @@ function FullscreenTable({ type, onClose }) {
 
   useEffect(() => {
     setPage(0);
-  }, [searchText, sortBy, statusFilter, minCredits, ipFilter, cityFilter, ageRangeFilter, includeFormData]);
+  }, [searchText, sortBy, statusFilter, minCredits, ipFilter, cityFilter, ageRangeFilter, includeFormData, governorateFilter, categoryFilter, minPriceFilter, maxPriceFilter, stockFilter, typeFilter, langFilter]);
 
   const entries = data?.entries || [];
   const totalPages = data?.totalPages || 0;
@@ -304,15 +418,31 @@ function FullscreenTable({ type, onClose }) {
           <input type="number" value={minCredits} onChange={(e) => setMinCredits(e.target.value)} placeholder="Min credits" className="search-input" />
         </div>
       ),
-      sort: () => (
-        <FilterMenu key="sort" label="Sort" value={sortBy ? (sortBy === "recent" ? "Most Recent" : sortBy === "visits" ? "Most Visits" : "Oldest") : "Sort"} active={activeMenu === "sort"} onOpen={() => setActiveMenu("sort")} onClose={() => setActiveMenu(null)}>
-          <div className="toolbar-filter-options">
-            {["recent", "visits", "oldest"].map((opt) => (
-              <button key={opt} className={sortBy === opt ? "active" : ""} onClick={() => { setSortBy(sortBy === opt ? "" : opt); setActiveMenu(null); }}>{opt === "recent" ? "Most Recent" : opt === "visits" ? "Most Visits" : "Oldest"}</button>
-            ))}
-          </div>
-        </FilterMenu>
-      ),
+      sort: () => {
+        const isCrud = ["places", "nights", "products"].includes(type);
+        const crudOptions = [
+          { value: "createdAt,desc", label: "Newest" },
+          { value: "createdAt,asc", label: "Oldest" },
+          { value: "name,asc", label: "Name A-Z" },
+          { value: "name,desc", label: "Name Z-A" },
+        ];
+        const visitsOptions = [
+          { value: "recent", label: "Most Recent" },
+          { value: "visits", label: "Most Visits" },
+          { value: "oldest", label: "Oldest" },
+        ];
+        const options = isCrud ? crudOptions : visitsOptions;
+        const currentLabel = options.find((o) => o.value === sortBy)?.label;
+        return (
+          <FilterMenu key="sort" label="Sort" value={currentLabel || "Sort"} active={activeMenu === "sort"} onOpen={() => setActiveMenu("sort")} onClose={() => setActiveMenu(null)}>
+            <div className="toolbar-filter-options">
+              {options.map((opt) => (
+                <button key={opt.value} className={sortBy === opt.value ? "active" : ""} onClick={() => { setSortBy(sortBy === opt.value ? "" : opt.value); setActiveMenu(null); }}>{opt.label}</button>
+              ))}
+            </div>
+          </FilterMenu>
+        );
+      },
       ip: () => (
         <div key="ip" className="analytics-filter-search">
           <FaSearch />
@@ -325,6 +455,52 @@ function FullscreenTable({ type, onClose }) {
             <input type="checkbox" checked={includeFormData} onChange={(e) => setIncludeFormData(e.target.checked)} />
             Include form data
           </label>
+        </div>
+      ),
+      governorateId: () => (
+        <div key="gov" className="analytics-filter-input">
+          <input value={governorateFilter} onChange={(e) => setGovernorateFilter(e.target.value)} placeholder="Governorate ID..." className="search-input" />
+        </div>
+      ),
+      categoryId: () => (
+        <div key="cat" className="analytics-filter-input">
+          <input value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} placeholder="Category ID..." className="search-input" />
+        </div>
+      ),
+      minPrice: () => (
+        <div key="minPrice" className="analytics-filter-input">
+          <input type="number" value={minPriceFilter} onChange={(e) => setMinPriceFilter(e.target.value)} placeholder="Min price" className="search-input" />
+        </div>
+      ),
+      maxPrice: () => (
+        <div key="maxPrice" className="analytics-filter-input">
+          <input type="number" value={maxPriceFilter} onChange={(e) => setMaxPriceFilter(e.target.value)} placeholder="Max price" className="search-input" />
+        </div>
+      ),
+      stock: () => (
+        <FilterMenu key="stock" label="Stock" value={stockFilter ? (stockFilter === "in" ? "In Stock" : "Out of Stock") : "Stock"} active={activeMenu === "stock"} onOpen={() => setActiveMenu("stock")} onClose={() => setActiveMenu(null)}>
+          <div className="toolbar-filter-options">
+            {[
+              { value: "in", label: "In Stock" },
+              { value: "out", label: "Out of Stock" },
+            ].map((opt) => (
+              <button key={opt.value} className={stockFilter === opt.value ? "active" : ""} onClick={() => { setStockFilter(stockFilter === opt.value ? "" : opt.value); setActiveMenu(null); }}>{opt.label}</button>
+            ))}
+          </div>
+        </FilterMenu>
+      ),
+      typeFilter: () => (
+        <FilterMenu key="typeFilter" label="Type" value={typeFilter ? typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1) : "Type"} active={activeMenu === "typeFilter"} onOpen={() => setActiveMenu("typeFilter")} onClose={() => setActiveMenu(null)}>
+          <div className="toolbar-filter-options">
+            {["place", "night", "product"].map((opt) => (
+              <button key={opt} className={typeFilter === opt ? "active" : ""} onClick={() => { setTypeFilter(typeFilter === opt ? "" : opt); setActiveMenu(null); }}>{opt.charAt(0).toUpperCase() + opt.slice(1)}</button>
+            ))}
+          </div>
+        </FilterMenu>
+      ),
+      lang: () => (
+        <div key="lang" className="analytics-filter-input">
+          <input value={langFilter} onChange={(e) => setLangFilter(e.target.value)} placeholder="Lang (en/ar/fr)..." className="search-input" />
         </div>
       ),
     };
@@ -352,7 +528,7 @@ function FullscreenTable({ type, onClose }) {
         <table className="analytics-table fullscreen">
           <thead>
             <tr>
-              {cfg.cols.map((col) => <th key={col.key} className={["totalCredits","progress","formCredits","gameCredits","gameComplete","ageRange","createdAt","submittedAt","lastSeen","firstSeen","visits","city"].includes(col.key) ? "analytics-cell-center" : ""}>{col.label}</th>)}
+              {cfg.cols.map((col) => <th key={col.key} className={["totalCredits","progress","formCredits","gameCredits","gameComplete","ageRange","createdAt","submittedAt","lastSeen","firstSeen","visits","city","avgRating","reviewsCount","price","discount","priceAfterDiscount","icon","type","subCategories"].includes(col.key) ? "analytics-cell-center" : ""}>{col.label}</th>)}
             </tr>
           </thead>
           <tbody>
@@ -362,9 +538,9 @@ function FullscreenTable({ type, onClose }) {
               <tr><td colSpan={cfg.cols.length} className="analytics-empty">No data available</td></tr>
             ) : (
               entries.map((row, i) => (
-                <tr key={row.email || row.ip || i}>
+                <tr key={row._id || row.email || row.ip || i}>
                   {cfg.cols.map((col) => (
-                    <td key={col.key} className={["totalCredits","progress","formCredits","gameCredits","gameComplete","ageRange","createdAt","submittedAt","lastSeen","firstSeen","visits","city"].includes(col.key) ? "analytics-cell-center" : ""}>
+                    <td key={col.key} className={["totalCredits","progress","formCredits","gameCredits","gameComplete","ageRange","createdAt","submittedAt","lastSeen","firstSeen","visits","city","avgRating","reviewsCount","price","discount","priceAfterDiscount","icon","type","subCategories"].includes(col.key) ? "analytics-cell-center" : ""}>
                       {formatCell(row, col)}
                     </td>
                   ))}

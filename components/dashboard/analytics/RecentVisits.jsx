@@ -51,7 +51,7 @@ function RecentVisits({ visits, loading, onFullscreen }) {
                 <td colSpan={4} className="analytics-empty">{t.analytics?.noData || "No data available"}</td>
               </tr>
             ) : (
-              entries.slice(0, 8).map((v, i) => (
+              entries.slice(0, 7).map((v, i) => (
                 <tr key={v.ip || i}>
                   <td className="analytics-cell-mono">{v.ip}</td>
                   <td className="analytics-cell-truncate" title={v.userAgent}>

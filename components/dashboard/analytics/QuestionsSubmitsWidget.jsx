@@ -1,15 +1,15 @@
 "use client";
 import React from "react";
 import useTranslate from "@/Contexts/useTranslation";
-import { FaFileAlt, FaExpand } from "react-icons/fa";
+import { FaQuestionCircle, FaExpand } from "react-icons/fa";
 
-function FormSubmittersWidget({ entries, loading, onFullscreen }) {
+function QuestionsSubmitsWidget({ entries, loading, onFullscreen }) {
   const t = useTranslate();
 
   if (loading) {
     return (
       <div className="analytics-card">
-        <h3 className="analytics-card-title">{t.analytics?.formSubmitters || "Form Submitters"}</h3>
+        <h3 className="analytics-card-title">{t.analytics?.questionsSubmits || "Questions Submits"}</h3>
         <div className="analytics-table-skeleton">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="skeleton-row" />
@@ -25,7 +25,7 @@ function FormSubmittersWidget({ entries, loading, onFullscreen }) {
     <div className="analytics-card">
       <div className="analytics-card-header">
         <div className="analytics-card-title-wrap" onClick={onFullscreen}>
-          <h3 className="analytics-card-title"><FaFileAlt /> {t.analytics?.formSubmitters || "Form Submitters"}</h3>
+          <h3 className="analytics-card-title"><FaQuestionCircle /> {t.analytics?.questionsSubmits || "Questions Submits"}</h3>
         </div>
         <div className="analytics-fullscreen-group" onClick={onFullscreen}>
           <span className="analytics-total-badge">{entries?.total ?? 0}</span>
@@ -68,4 +68,4 @@ function FormSubmittersWidget({ entries, loading, onFullscreen }) {
   );
 }
 
-export default FormSubmittersWidget;
+export default QuestionsSubmitsWidget;
