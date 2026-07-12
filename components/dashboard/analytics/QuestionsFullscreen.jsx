@@ -9,24 +9,8 @@ import { getFormQuestionsSummary } from "@/services/analytics/analytics.service"
 import useTranslate from "@/Contexts/useTranslation";
 import Pagination from "@/components/settings/Pagination";
 
-const PAGE_LIMIT = 17;
+const PAGE_LIMIT = 11;
 const TYPES = ["stars", "options", "text", "checkboxes"];
-const COUNTRIES = [
-  "Egypt", "United Arab Emirates", "Saudi Arabia", "United States", "United Kingdom",
-  "Germany", "France", "Canada", "Australia", "Italy", "Spain", "Netherlands",
-  "Switzerland", "Austria", "Belgium", "Sweden", "Norway", "Denmark", "Finland",
-  "Ireland", "Portugal", "Greece", "Poland", "Czech Republic", "Romania", "Hungary",
-  "Turkey", "Qatar", "Kuwait", "Bahrain", "Oman", "Jordan", "Lebanon", "Morocco",
-  "Tunisia", "Algeria", "Libya", "Sudan", "Iraq", "Iran", "Pakistan", "India",
-  "Bangladesh", "Malaysia", "Indonesia", "Singapore", "Thailand", "Vietnam",
-  "Philippines", "Japan", "South Korea", "China", "Taiwan", "Hong Kong", "Brazil",
-  "Mexico", "Argentina", "Colombia", "Chile", "Peru", "South Africa", "Nigeria",
-  "Kenya", "Ghana", "Tanzania", "Ethiopia", "Uganda", "New Zealand", "Russia",
-  "Ukraine", "Kazakhstan", "Georgia", "Azerbaijan", "Armenia", "Serbia", "Croatia",
-  "Slovenia", "Bulgaria", "Slovakia", "Lithuania", "Latvia", "Estonia", "Iceland",
-  "Luxembourg", "Malta", "Cyprus", "Nepal", "Sri Lanka", "Myanmar", "Cambodia",
-  "Laos", "Mongolia", "Fiji", "Other",
-];
 
 const typeIcons = {
   stars: <FaRegStar />,
@@ -78,8 +62,6 @@ function QuestionsFullscreen({ onClose, preSelected, onQuestionSelect }) {
   }, [preSelected]);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
-  const [cityFilter, setCityFilter] = useState("");
-  const [citySearch, setCitySearch] = useState("");
   const [activeMenu, setActiveMenu] = useState(null);
   const [page, setPage] = useState(0);
 
@@ -87,13 +69,12 @@ function QuestionsFullscreen({ onClose, preSelected, onQuestionSelect }) {
     const params = { page: page + 1, limit: PAGE_LIMIT };
     if (search) params.search = search;
     if (typeFilter) params.type = typeFilter;
-    if (cityFilter) params.city = cityFilter;
     return params;
-  }, [page, search, typeFilter, cityFilter]);
+  }, [page, search, typeFilter]);
 
   useEffect(() => {
     setPage(0);
-  }, [search, typeFilter, cityFilter]);
+  }, [search, typeFilter]);
 
   useEffect(() => {
     (async () => {
@@ -104,7 +85,12 @@ function QuestionsFullscreen({ onClose, preSelected, onQuestionSelect }) {
         if (Array.isArray(d)) {
           setData({ questions: d, total: d.length, page: page + 1, limit: PAGE_LIMIT });
         } else if (d?.questions || d?.data) {
-          setData({ questions: d.questions || d.data, total: d.total || 0, page: d.page || page + 1, limit: d.limit || PAGE_LIMIT });
+          setData({
+            questions: d.questions || d.data,
+            total: d?.pagination?.total || d.total || 0,
+            page: d?.pagination?.page || d.page || page + 1,
+            limit: d?.pagination?.limit || d.limit || PAGE_LIMIT,
+          });
         } else {
           setData({ questions: [], total: 0, page: 1, limit: PAGE_LIMIT });
         }
@@ -122,7 +108,7 @@ function QuestionsFullscreen({ onClose, preSelected, onQuestionSelect }) {
 
   const handleExportAll = async () => {
     try {
-      const params = { page: 1, limit: 500, search, type: typeFilter, city: cityFilter };
+      const params = { page: 1, limit: 500, search, type: typeFilter };
       Object.keys(params).forEach((k) => { if (!params[k]) delete params[k]; });
       const res = await getFormQuestionsSummary(params);
       const d = res.data;
@@ -260,22 +246,6 @@ function QuestionsFullscreen({ onClose, preSelected, onQuestionSelect }) {
             ))}
           </div>
         </FilterMenu>
-        {(() => {
-          const filteredCities = citySearch ? COUNTRIES.filter((c) => c.toLowerCase().includes(citySearch.toLowerCase())) : COUNTRIES;
-          return (
-            <FilterMenu label="City" value={cityFilter || "City"} active={activeMenu === "city"} onOpen={() => { setActiveMenu("city"); setCitySearch(""); }} onClose={() => setActiveMenu(null)}>
-              <div className="toolbar-filter-search">
-                <FaSearch />
-                <input autoFocus value={citySearch} onChange={(e) => setCitySearch(e.target.value)} placeholder="Search city..." className="search-input" />
-              </div>
-              <div className="toolbar-filter-options">
-                {filteredCities.length ? filteredCities.map((c) => (
-                  <button key={c} className={cityFilter === c ? "active" : ""} onClick={() => { setCityFilter(cityFilter === c ? "" : c); setActiveMenu(null); }}>{c}</button>
-                )) : <div className="no-results">No results</div>}
-              </div>
-            </FilterMenu>
-          );
-        })()}
       </div>
 
       <div className="analytics-table-wrap">

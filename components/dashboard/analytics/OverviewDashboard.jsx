@@ -12,6 +12,8 @@ import QuestionsFullscreen from "./QuestionsFullscreen";
 import FullscreenTable from "./FullscreenTable";
 import { getStats, getVisits, getWaitlistOnly, getGamePlayers, getFormSubmitters, getLeaderboard, getQuestionsSubmits, getFormQuestionsSummary } from "@/services/analytics/analytics.service";
 
+const QUESTIONS_PREVIEW_LIMIT = 10;
+
 function OverviewDashboard() {
   const [stats, setStats] = useState(null);
   const [visits, setVisits] = useState(null);
@@ -109,7 +111,7 @@ function OverviewDashboard() {
         getFormSubmitters({ page: 1, limit: 7 }),
         getLeaderboard({ page: 1, limit: 7 }),
         getQuestionsSubmits({ page: 1, limit: 7 }),
-        getFormQuestionsSummary(),
+        getFormQuestionsSummary({ page: 1, limit: QUESTIONS_PREVIEW_LIMIT }),
       ]);
 
       if (statsRes.status === "fulfilled") setStats(statsRes.value.data);
@@ -120,8 +122,10 @@ function OverviewDashboard() {
       if (leaderRes.status === "fulfilled") setLeaderboard(leaderRes.value.data);
       if (questionsRes.status === "fulfilled") setQuestionsSubmits(questionsRes.value.data);
       if (questStatsRes.status === "fulfilled") {
-        const arr = questStatsRes.value.data;
-        setQuestionsData({ total: Array.isArray(arr) ? arr.length : 0, questions: Array.isArray(arr) ? arr : [] });
+        const d = questStatsRes.value.data;
+        const arr = Array.isArray(d) ? d : (d?.data || d?.questions || []);
+        const total = d?.pagination?.total || d?.total || arr.length;
+        setQuestionsData({ total, questions: arr });
       }
 
       if (

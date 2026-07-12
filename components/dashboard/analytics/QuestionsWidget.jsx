@@ -73,7 +73,6 @@ function QuestionsWidget({ data, loading, onFullscreen, onQuestionClick }) {
         <table className="analytics-table">
           <thead>
             <tr>
-              <th className="analytics-cell-center">#</th>
               <th>{t.analytics?.question || "Question"}</th>
               <th className="analytics-cell-center">{t.analytics?.type || "Type"}</th>
               <th className="analytics-cell-center">{t.analytics?.responses || "Responses"}</th>
@@ -83,12 +82,11 @@ function QuestionsWidget({ data, loading, onFullscreen, onQuestionClick }) {
           <tbody>
             {questions.length === 0 ? (
               <tr>
-                <td colSpan={5} className="analytics-empty">{t.analytics?.noData || "No data available"}</td>
+                <td colSpan={4} className="analytics-empty">{t.analytics?.noData || "No data available"}</td>
               </tr>
             ) : (
-              questions.slice(0, 7).map((q, i) => (
+              questions.map((q, i) => (
                 <tr key={i} className="analytics-clickable-row" onClick={() => onQuestionClick(q)}>
-                  <td className="analytics-cell-center">{i + 1}</td>
                   <td className="analytics-cell-truncate" title={q.question}>{q.question}</td>
                   <td className="analytics-cell-center">
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
