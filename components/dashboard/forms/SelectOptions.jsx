@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useMemo } from "react";
+import React, { useState, useContext, useMemo, useEffect, useRef } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { CircleAlert } from "lucide-react";
@@ -16,12 +16,33 @@ function SelectOptions({
   disabled = false,
   loading = false,
   error = null,
+  className = "",
+  valuePrefix = "",
 }) {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
 
   const [active, setActive] = useState(false);
   const [search, setSearch] = useState("");
+  const selectRef = useRef(null);
+
+  useEffect(() => {
+    if (!active) return undefined;
+
+    const handlePointerDown = (event) => {
+      if (selectRef.current?.contains(event.target)) return;
+      setActive(false);
+      setSearch("");
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+    };
+  }, [active]);
 
   const filteredOptions = useMemo(() => {
     if (!search.trim()) return options;
@@ -96,7 +117,7 @@ function SelectOptions({
   };
 
   return (
-    <div className={`box forInput ${disabled ? "disabled" : ""}`}>
+    <div ref={selectRef} className={`box forInput ${disabled ? "disabled" : ""} ${className}`}>
       <label>{label}</label>
 
       <div className="filters for-cats">
@@ -107,7 +128,7 @@ function SelectOptions({
                 autoFocus
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder={t.header.search_placeholder}
+                placeholder={placeholder}
                 className="search-input"
               />
             ) : loading ? (
@@ -115,7 +136,10 @@ function SelectOptions({
                 <span className="loader" />
               </span>
             ) : value ? (
-              value?.name
+              <>
+                {valuePrefix && <span className="select-value-prefix">{valuePrefix}</span>}
+                {value?.name}
+              </>
             ) : (
               placeholder
             )}

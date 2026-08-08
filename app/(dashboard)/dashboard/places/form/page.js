@@ -588,7 +588,6 @@ export default function CreatePlace() {
       if (payload.desc !== undefined) formData.append("desc", payload.desc);
       if (payload.subCategory) {
         formData.append("subCategory", payload.subCategory);
-        if (editId && payload.category) formData.append("category", payload.category);
       } else if (payload.category) {
         formData.append("category", payload.category);
       }
@@ -844,7 +843,7 @@ export default function CreatePlace() {
         {/* ----------------- Tickets & Images ----------------- */}
         <div className="row-holder two-column">
           <Tickets />
-          <Images />
+          <Images limit={20} />
         </div>
 
         {/* ----------------- Submit ----------------- */}

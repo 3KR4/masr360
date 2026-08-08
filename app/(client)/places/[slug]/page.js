@@ -11,9 +11,9 @@ import SwiperCore from "swiper";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import { governoratesEn, governoratesAr, placesEn, placesAr } from "@/data";
 import PlaceTickets from "@/components/PlaceTickets";
 import useTranslate from "@/Contexts/useTranslation";
+import { getOne } from "@/services/places/places.service";
 
 export default function ProductDetails() {
   const t = useTranslate();
@@ -23,30 +23,62 @@ export default function ProductDetails() {
   SwiperCore.use([Autoplay, EffectFade, Navigation]);
 
   const [place, setPlace] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (slug) {
-      const places = locale === "EN" ? placesEn : placesAr;
-      setPlace(places.find((x) => x.id == slug));
-    }
-  }, [slug, locale]);
+    if (!slug) return;
+    const fetchPlace = async () => {
+      setLoading(true);
+      try {
+        const res = await getOne(slug);
+        setPlace(res?.data?.place || null);
+      } catch (error) {
+        console.error(error);
+        setPlace(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPlace();
+  }, [slug]);
 
+  const placeName =
+    place?.translations?.[locale]?.name || place?.name || "";
+  const placeDesc =
+    place?.translations?.[locale]?.desc ||
+    place?.description ||
+    place?.desc ||
+    "";
   const placeGov =
-    locale === "EN"
-      ? governoratesEn.find((x) => x.id === place?.governorate?.id)
-      : governoratesAr.find((x) => x.id === place?.governorate?.id);
+    place?.governorate?.translations?.[locale]?.name ||
+    place?.governorate?.name ||
+    place?.governorateName ||
+    "";
 
   return (
     <div className="single-page forPlace container">
       <div className="holder big-holder">
         {/* HERO */}
         <div className="hero-image-holder">
-          {place?.images?.[0] && (
-            <Image src={place.images[0]} alt={place.name} fill />
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "300px",
+              }}
+            >
+              <p>{t.dashboard.forms.loading || "Loading..."}</p>
+            </div>
+          ) : (
+            place?.images?.[0] && (
+              <Image src={place.images[0]} alt={placeName} fill />
+            )
           )}
-          {screenSize !== "small" && (
+          {!loading && screenSize !== "small" && (
             <div className="details">
-              <h3 className="ellipsis">{place?.name}</h3>
+              <h3 className="ellipsis">{placeName}</h3>
               {place?.tickets?.type === "free" && (
                 <div className="free">{t.singelPages.freeToVisit}</div>
               )}
@@ -66,15 +98,15 @@ export default function ProductDetails() {
         {/* DETAILS */}
         <div className="holds">
           <div className="details-holder">
-            {screenSize === "small" && (
+            {screenSize === "small" && !loading && (
               <div className="details">
-                <h3>{place?.name}</h3>
+                <h3>{placeName}</h3>
                 {place?.tickets?.type === "free" && (
                   <div className="free">{t.singelPages.freeToVisit}</div>
                 )}
               </div>
             )}
-            <p className="description">{place?.description}</p>
+            <p className="description">{placeDesc}</p>
           </div>
 
           {/* TICKETS */}
@@ -82,55 +114,57 @@ export default function ProductDetails() {
         </div>
 
         {/* IMAGES */}
-        <div className="images-swiper">
-          <div className="top">
-            <h4>{t.singelPages.place_images}</h4>
-            {place?.images?.length > 2 && (
-              <div className="navigation">
-                <button className="custom-prev">
-                  <IoIosArrowBack />
-                </button>
-                <button className="custom-next">
-                  <IoIosArrowForward />
-                </button>
-              </div>
-            )}
-          </div>
+        {place?.images?.length > 0 && (
+          <div className="images-swiper">
+            <div className="top">
+              <h4>{t.singelPages.place_images}</h4>
+              {place?.images?.length > 2 && (
+                <div className="navigation">
+                  <button className="custom-prev">
+                    <IoIosArrowBack />
+                  </button>
+                  <button className="custom-next">
+                    <IoIosArrowForward />
+                  </button>
+                </div>
+              )}
+            </div>
 
-          <Swiper
-            key={locale}
-            dir={locale === "AR" ? "rtl" : "ltr"}
-            modules={[Autoplay, EffectFade]}
-            slidesPerView={2}
-            spaceBetween={8}
-            loop={true}
-            speed={1000}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            navigation={{
-              nextEl: ".custom-next",
-              prevEl: ".custom-prev",
-            }}
-            className="categories-swiper"
-            breakpoints={{
-              0: { slidesPerView: 1 },
-              630: { slidesPerView: 1.3 },
-              768: { slidesPerView: 1.5 },
-              992: { slidesPerView: 2 },
-            }}
-          >
-            {place?.images?.map((img, index) => (
-              <SwiperSlide key={index}>
-                <Image src={img} alt={`place img - ${index}`} fill />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+            <Swiper
+              key={locale}
+              dir={locale === "AR" ? "rtl" : "ltr"}
+              modules={[Autoplay, EffectFade]}
+              slidesPerView={2}
+              spaceBetween={8}
+              loop={true}
+              speed={1000}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              navigation={{
+                nextEl: ".custom-next",
+                prevEl: ".custom-prev",
+              }}
+              className="categories-swiper"
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                630: { slidesPerView: 1.3 },
+                768: { slidesPerView: 1.5 },
+                992: { slidesPerView: 2 },
+              }}
+            >
+              {place?.images?.map((img, index) => (
+                <SwiperSlide key={index}>
+                  <Image src={img} alt={`place img - ${index}`} fill />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
 
         {/* LOCATION */}
         <div className="location">
           <div className="top">
             <h4>
-              {t.singelPages.locationIn} {placeGov?.name}
+              {t.singelPages.locationIn} {placeGov}
             </h4>
             <div className="actions">
               <div className="hold">

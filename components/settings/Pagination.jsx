@@ -8,6 +8,7 @@ const Pagination = ({
   screenSize,
   onPageChange,
   isDashBoard = false,
+  forcePage = 0,
 }) => {
   const t = useTranslate();
 
@@ -24,7 +25,7 @@ const Pagination = ({
       nextLinkClassName="page-num btns"
       containerClassName="pagination"
       activeClassName="active"
-      forcePage={0}
+      forcePage={forcePage}
       onPageChange={onPageChange}
       renderOnZeroPageCount={null}
     />

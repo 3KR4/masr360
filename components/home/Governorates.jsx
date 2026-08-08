@@ -2,28 +2,28 @@
 import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import CardItem from "@/components/CardItem";
-import { FaArrowRight } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
-import { governoratesAr, governoratesEn } from "@/data";
+import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
 import { mainContext } from "@/Contexts/mainContext";
 
 function Governorates() {
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
   const [governorates, setgovernorates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchgovernorates = async () => {
-      // try {
-      //   const { data } = await getService.getGovernorates(6);
-      //   setgovernorates(
-      //     data || locale == "EN" ? governoratesEn : governoratesAr
-      //   );
-      // } catch (err) {
-      //   console.error("Failed to fetch governorates:", err);
-      //   setgovernorates(locale == "EN" ? governoratesEn : governoratesAr);
-      // }
-      setgovernorates(locale == "EN" ? governoratesEn : governoratesAr);
+      setLoading(true);
+      try {
+        const { governorates } = await getGovernorates("", 1, 6, locale);
+        setgovernorates(governorates || []);
+      } catch (err) {
+        console.error("Failed to fetch governorates:", err);
+        setgovernorates([]);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchgovernorates();
   }, [locale]);
@@ -43,9 +43,15 @@ function Governorates() {
       </div>
 
       <div className="grid-holder container">
-        {governorates.slice(0, 6).map((gov) => (
-          <CardItem key={gov.id} item={gov} type="gov" />
-        ))}
+        {loading ? (
+          <div style={{ textAlign: "center", padding: "40px", gridColumn: "1 / -1" }}>
+            <p>{t.dashboard.forms.loading || "Loading..."}</p>
+          </div>
+        ) : (
+          governorates.map((gov) => (
+            <CardItem key={gov.id} item={gov} type="gov" />
+          ))
+        )}
       </div>
     </div>
   );

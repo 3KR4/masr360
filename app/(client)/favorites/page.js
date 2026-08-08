@@ -10,28 +10,26 @@ import useFavoriet from "@/hooks/client/useFavoriet";
 import Link from "next/link";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
-import {
-  governoratesAr,
-  governoratesEn,
-  productCategoriesEn,
-  productCategoriesAr,
-} from "@/data";
-function Favorites() {
-  const { favoritesProducts, favoritesPlaces, removeItem } = useFavoriet();
-  const { screenSize, locale } = useContext(mainContext);
 
+function Favorites() {
+  const { favoritesProducts, favoritesPlaces, removeItem, loading } = useFavoriet();
+  const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
-  const text = t.favorites; // سيستخدم favoritesTextAR أو favoritesTextEN حسب اللغة
+  const text = t.favorites;
+
+  if (loading) {
+    return (
+      <div className="error-page container">
+        <div className="loader" />
+      </div>
+    );
+  }
 
   return (
     <div className="favorites">
       {favoritesProducts.length > 0 || favoritesPlaces.length > 0 ? (
         <>
-          {/* عنوان الصفحة */}
-          <div
-            className="title-holder pages container"
-            style={{ marginBottom: "20px" }}
-          >
+          <div className="title-holder pages container" style={{ marginBottom: "20px" }}>
             <h1 className="main-title">
               <hr />
               {text.title}
@@ -41,7 +39,6 @@ function Favorites() {
           </div>
 
           <div className="container">
-            {/* المنتجات */}
             {favoritesProducts.length > 0 && (
               <>
                 <h4 className="tableTitle">{text.productsList}</h4>
@@ -65,83 +62,64 @@ function Favorites() {
                   </div>
 
                   <div className="table-items">
-                    {favoritesProducts.map((item) => {
-                      const productCat =
-                        locale == "EN"
-                          ? productCategoriesEn?.find(
-                              (x) => x.id == item?.category,
-                            )
-                          : productCategoriesAr?.find(
-                              (x) => x.id == item?.category,
-                            );
-                      return (
-                        <div key={item?.id} className="table-item">
-                          <div className="holder">
-                            <Link
-                              href={`/market/${item?.id}`}
-                              className="item-image"
-                            >
-                              <Image
-                                src={item?.images[0]}
-                                alt={item?.name}
-                                width={128}
-                                height={100}
-                                className="product-image"
-                              />
-                            </Link>
-                            <Link
-                              href={`/market/${item?.id}`}
-                              className="item-name"
-                            >
-                              {item?.name}
-                            </Link>
-                          </div>
-                          <div className="item-price">
-                            <DisplayPrice
-                              price={item?.price}
-                              sale={item?.sale}
-                              stock={item?.stock}
-                              inStockText={text.tableHeaders.product.inStock}
-                              outOfStockText={
-                                text.tableHeaders.product.outOfStock
-                              }
+                    {favoritesProducts.map((item) => (
+                      <div key={item?.id} className="table-item">
+                        <div className="holder">
+                          <Link href={`/marketplace/${item?.id}`} className="item-image">
+                            <Image
+                              src={item?.images?.[0]}
+                              alt={item?.name}
+                              width={128}
+                              height={100}
+                              className="product-image"
                             />
-                          </div>
-                          <Link
-                            href={`/places?cat=${productCat?.id}`}
-                            className="link"
-                          >
-                            {productCat.name}
                           </Link>
-                          <div className="item-rating center">
-                            <Rating
-                              name="read-only"
-                              value={item?.rate}
-                              precision={0.1}
-                              readOnly
-                              sx={{ color: "#ea8c43", fontSize: "18px" }}
-                            />
-                            <span className="reviews-count">
-                              ({item?.reviewsCount}) {t.mainCard.reviews}
-                            </span>
-                          </div>
-                          <div className="item-remove">
-                            <button
-                              onClick={() => removeItem("product", item?.id)}
-                              className="remove-btn"
-                            >
-                              <FaTrashAlt />
-                            </button>
-                          </div>
+                          <Link href={`/marketplace/${item?.id}`} className="item-name">
+                            {item?.name}
+                          </Link>
                         </div>
-                      );
-                    })}
+                        <div className="item-price">
+                          <DisplayPrice
+                            price={item?.price}
+                            sale={item?.sale}
+                            stock={item?.stock}
+                            inStockText={text.tableHeaders.product.inStock}
+                            outOfStockText={text.tableHeaders.product.outOfStock}
+                          />
+                        </div>
+                        <Link
+                          href={`/marketplace?cat=${item?.category}`}
+                          className="link"
+                        >
+                          {item?.categoryName}
+                        </Link>
+                        <div className="item-rating center">
+                          <Rating
+                            name="read-only"
+                            value={item?.rate || 0}
+                            precision={0.1}
+                            readOnly
+                            sx={{ color: "#ea8c43", fontSize: "18px" }}
+                          />
+                          <span className="reviews-count">
+                            ({item?.reviewsCount || 0}) {t.mainCard.reviews}
+                          </span>
+                        </div>
+                        <div className="item-remove">
+                          <button
+                            onClick={() => removeItem("product", item?.id)}
+                            className="remove-btn"
+                          >
+                            <FaTrashAlt />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </>
             )}
 
-            {/* الأماكن */}
             {favoritesPlaces.length > 0 && (
               <>
                 <h4 className="tableTitle">{text.placesList}</h4>
@@ -159,57 +137,41 @@ function Favorites() {
                   </div>
 
                   <div className="table-items forPlace">
-                    {favoritesPlaces.map((item) => {
-                      const placeGov =
-                        locale == "EN"
-                          ? governoratesEn?.find(
-                              (x) => x.id == item?.governorate?.id,
-                            )
-                          : governoratesAr?.find(
-                              (x) => x.id == item?.governorate?.id,
-                            );
-                      return (
-                        <div key={item?.id} className="table-item">
-                          <div className="holder">
-                            <Link
-                              href={`/places/${item?.id}`}
-                              className="item-image"
-                            >
-                              <Image
-                                src={item?.images[0]}
-                                alt={item?.name}
-                                width={128}
-                                height={100}
-                                className="product-image"
-                              />
-                            </Link>
-                            <div className="item-details">
-                              <Link
-                                href={`/places/${item?.id}`}
-                                className="item-name"
-                              >
-                                {item?.name}
-                              </Link>
-                              <p className="description">{item?.description}</p>
-                            </div>
-                          </div>
+                    {favoritesPlaces.map((item) => (
+                      <div key={item?._id || item?.id} className="table-item">
+                        <div className="holder">
                           <Link
-                            href={`/discover/${placeGov?.id}`}
-                            className="link"
+                            href={`/places/${item?._id || item?.id}`}
+                            className="item-image"
                           >
-                            {placeGov?.name}
+                            <Image
+                              src={item?.imgs?.[0]?.url || item?.images?.[0]}
+                              alt={item?.name}
+                              width={128}
+                              height={100}
+                              className="product-image"
+                            />
                           </Link>
-                          <div className="item-remove">
-                            <button
-                              onClick={() => removeItem("place", item?.id)}
-                              className="remove-btn"
+                          <div className="item-details">
+                            <Link
+                              href={`/places/${item?._id || item?.id}`}
+                              className="item-name"
                             >
-                              <FaTrashAlt />
-                            </button>
+                              {item?.name}
+                            </Link>
+                            <p className="description">{item?.desc || item?.description}</p>
                           </div>
                         </div>
-                      );
-                    })}
+                        <div className="item-remove">
+                          <button
+                            onClick={() => removeItem("place", item?._id || item?.id)}
+                            className="remove-btn"
+                          >
+                            <FaTrashAlt />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </>
@@ -222,10 +184,10 @@ function Favorites() {
           <h4>{text.empty.title}</h4>
           <p>{text.empty.description}</p>
           <div className="btns">
-            <Link href={`/market`} className="main-button">
+            <Link href={`/marketplace`} className="main-button">
               {text.empty.buttons.marketplace}
             </Link>
-            <Link href={`/market`} className="main-button">
+            <Link href={`/discover`} className="main-button">
               {text.empty.buttons.egypt}
             </Link>
           </div>

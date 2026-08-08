@@ -8,9 +8,6 @@ export const ENDPOINTS = {
     LOGOUT: "/auth/logout",
     GET_CURENT_USER: "/users/me",
   },
-  CATEGORIES: {
-    GET_ALL: (type, lang) => `categories?type=${type}&lang=${lang}`,
-  },
   GOVS: {
     CREATE: "/governorates",
     UPDATE: (id) => `/governorates/${id}`,
@@ -71,7 +68,8 @@ export const ENDPOINTS = {
     lang,
     sort,
     governorateId,
-    categoryId
+    categoryId,
+    subCategoryId
   ) => {
     const params = new URLSearchParams();
     if (search) params.append("search", search);
@@ -81,6 +79,7 @@ export const ENDPOINTS = {
     if (sort) params.append("sort", sort);
     if (governorateId) params.append("governorateId", governorateId);
     if (categoryId) params.append("categoryId", categoryId);
+    if (subCategoryId) params.append("subCategoryId", subCategoryId);
     return `/places?${params.toString()}`;
   },
 
@@ -121,6 +120,31 @@ CATEGORIES: {
   DELETE: (id) => `/categories/${id}`,
   GET_ALL: (type, lang) => `categories?type=${type}&lang=${lang}`,
   GET_ONE: (id) => `/categories/${id}`,
-}
+},
+CART: {
+  GET: "/cart",
+  ADD: "/cart",
+  UPDATE: (id) => `/cart/items/${id}`,
+  REMOVE: (id) => `/cart/${id}`,
+  CLEAR: "/cart/clear",
+},
+FAVOURITES: {
+  TOGGLE: "/favourites",
+  GET_ALL: (type) => `/favourites?type=${type}`,
+},
+REVIEWS: {
+  GET_ALL: ({ type, targetId, sort, page, limit }) => {
+    const params = new URLSearchParams();
+    if (type) params.append("type", type);
+    if (targetId) params.append("targetId", targetId);
+    if (sort) params.append("sort", sort);
+    if (page) params.append("page", page);
+    if (limit) params.append("limit", limit);
+    return `/reviews?${params.toString()}`;
+  },
+  CREATE: "/reviews",
+  UPDATE: (id) => `/reviews/${id}`,
+  DELETE: (id) => `/reviews/${id}`,
+},
 };
 

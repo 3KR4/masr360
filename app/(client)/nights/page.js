@@ -25,8 +25,6 @@ export default function DiscoverContent() {
           {
             name: t.sectionsTitles.masr_nights.title,
             href: "/nights",
-
-            href: "",
           },
         ]}
       />

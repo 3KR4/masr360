@@ -14,6 +14,32 @@
   color: #898989;
 }
 
+.item-availability {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.item-availability .hold {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--paragraph);
+  font-weight: 600;
+}
+.item-availability span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 700;
+}
+.item-availability .in {
+  color: #16a34a;
+}
+.item-availability .out {
+  color: #d94452;
+}
+
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -123,6 +149,7 @@
   height: 2px;
   background-color: #e9ecef;
   z-index: 1;
+  width: 95%;
 }
 
 .progress-step {

@@ -7,12 +7,12 @@ import { IoIosCloseCircle } from "react-icons/io";
 import useTranslate from "@/Contexts/useTranslation";
 
 function MiniCart() {
-  const { favorites, getItemPrice, grandTotal, removeItem } = useCart();
+  const { carts, getItemPrice, grandTotal, removeItem } = useCart();
   const t = useTranslate();
 
   return (
     <div className="cartMenu menu">
-      {favorites.length === 0 ? (
+      {carts.length === 0 ? (
         <>
           <h4 className="top forEmpety">{t.cart.emptyCart}</h4>
           <p>{t.cart.emptyMessage}</p>
@@ -20,10 +20,10 @@ function MiniCart() {
       ) : (
         <>
           <h4 className="top">
-            {t.cart.itemsInCart.replace("{count}", favorites.length)}
+            {t.cart.itemsInCart.replace("{count}", carts.length)}
           </h4>
           <div className="holder">
-            {favorites.map((item) => (
+            {carts.map((item) => (
               <div key={item?.id} className="item">
                 <Image
                   src={item?.images[0]}
@@ -32,7 +32,7 @@ function MiniCart() {
                   height={60}
                 />
                 <div className="info">
-                  <Link className="ellipsis" href={`/market/${item?.id}`}>
+                  <Link className="ellipsis" href={`/marketplace/${item?.id}`}>
                     {item?.name}
                   </Link>
 
@@ -47,10 +47,10 @@ function MiniCart() {
                         </span>
                       )}
                     </p>
+                    <span className="qty">
+                      {t.cart.quantityLabel} x{item?.quantity}
+                    </span>
                   </div>
-                  <span>
-                    {t.cart.quantityLabel} x{item?.quantity}{" "}
-                  </span>
                 </div>
                 <IoIosCloseCircle
                   className="remove"

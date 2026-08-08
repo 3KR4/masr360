@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useContext } from "react";
-import Rating from "@mui/material/Rating";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import { FaTrashAlt } from "react-icons/fa";
+import { FaCircleCheck } from "react-icons/fa6";
+import { IoCloseCircleSharp } from "react-icons/io5";
 import DisplayPrice from "@/components/DisplayPrice";
 import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -17,11 +18,12 @@ import { mainContext } from "@/Contexts/mainContext";
 import useTranslate from "@/Contexts/useTranslation";
 
 function Cart() {
-  const { screenSize } = useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
 
   const {
-    favorites,
+    carts,
+    loading,
     updateQuantity,
     removeItem,
     getItemPrice,
@@ -77,14 +79,15 @@ function Cart() {
 
       {/* Favorites items */}
       <div className="table-items">
-        {favorites.map((item) => {
+        {carts.map((item) => {
           const itemPrice = getItemPrice(item);
           const totalPrice = getTotalPrice(item);
+console.log(item);
 
           return (
             <div key={item.id} className="table-item">
               <div className="holder">
-                <Link href={``} className="item-image">
+                <Link href={`/marketplace/${item.id}`} className="item-image">
                   <Image
                     src={item.images[0]}
                     alt={item.name}
@@ -94,25 +97,27 @@ function Cart() {
                 </Link>
 
                 <div className="item-details">
-                  <Link href={``} className="item-name">
+                  <Link href={`/marketplace/${item.id}`} className="item-name">
                     {item.name}
                   </Link>
                   {screenSize !== "small" && (
                     <>
-                      <Link href={``} className="link">
-                        <span>{t.cart.category}:</span> {item.category}
+                      <Link href={`/marketplace/${item.id}`} className="link">
+                         {item.category?.translations?.[locale]?.name || item.categoryName}
                       </Link>
-                      <div className="item-rating">
-                        <Rating
-                          name="read-only"
-                          value={item.rate}
-                          precision={0.1}
-                          readOnly
-                          sx={{ color: "#ea8c43", fontSize: "18px" }}
-                        />
-                        <span className="reviews-count">
-                          ({item?.reviewsCount}) {t.mainCard.reviews}
-                        </span>
+                      <div className="item-availability">
+                        <div className="hold">
+                          {t.marketplace.availability}:{" "}
+                          {item.stock > 0 ? (
+                            <span className="in">
+                              <FaCircleCheck /> {t.marketplace.in_stock}
+                            </span>
+                          ) : (
+                            <span className="out">
+                              <IoCloseCircleSharp /> {t.marketplace.out_of_stock}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </>
                   )}
@@ -229,7 +234,7 @@ function Cart() {
         <h3 className="section-title">{t.cart.orderSummary}</h3>
 
         <div className="summary-items">
-          {favorites.map((item) => {
+          {carts.map((item) => {
             const totalPrice = getTotalPrice(item);
             return (
               <div key={item.id} className="summary-item">
@@ -292,13 +297,17 @@ function Cart() {
   );
 
   return (
-    <div>
-      {favorites.length === 0 ? (
+    <div className="cart">
+      {loading ? (
+        <div className="error-page container">
+          <div className="loader" />
+        </div>
+      ) : carts.length === 0 ? (
         <div className="error-page container">
           <MdRemoveShoppingCart />
           <h4>{t.cart.emptyCart}</h4>
           <p>{t.cart.emptyMessage}</p>
-          <Link href={`/market`} className={`main-button`}>
+          <Link href={`/marketplace`} className={`main-button`}>
             {t.cart.exploreMarketplace}
           </Link>
         </div>

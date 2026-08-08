@@ -11,6 +11,15 @@ const en = {
     star: "star",
     rating_sub_title:
       "Read real reviews from customers who purchased and tried this product",
+    no_reviews: "No reviews yet. Be the first to review!",
+    confirm_delete: "Are you sure you want to delete this review?",
+    write_a_review: "Write a Review",
+    review_title_placeholder: "Review title",
+    review_desc_placeholder: "Write your review...",
+    submit_review: "Submit Review",
+    login_to_review: "Please log in to write a review.",
+    review_submitted: "Thank you! Your review has been submitted.",
+    write_another: "Write another review",
   },
   header: {
     logo_alt: "Masr 360",
@@ -265,7 +274,6 @@ const en = {
     out_of_stock: "Out of Stock",
 
     filter_by_price: "Filter by Price",
-    enter_price_range: "Enter min and max price",
     min: "Min",
     max: "Max",
 
@@ -464,8 +472,13 @@ const en = {
     prev: "prev",
     buy_it_now: "buy it now",
     add_to_cart: "add to cart",
+    in_cart: "In Cart",
     add_to_favorites: "add to favorites",
+    in_favorites_list: "In Favorites List",
+    remove_from_favorites: "remove from favorites",
     copy_link: "copy link",
+    save: "Save",
+    cancel: "Cancel",
   },
   mainCard: {
     seeProduct: "See Product",

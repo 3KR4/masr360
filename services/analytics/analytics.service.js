@@ -90,8 +90,8 @@ export const getPlacesReport = async (params = {}) => {
   const { page = 1, limit = 12, search, sort, governorateId, categoryId } = params;
   try {
     const res = await getPlacesAll(search || "", page, limit, "EN", sort || "createdAt,desc", governorateId || "", categoryId || "");
-    const total = res.data?.total || 0;
-    return { data: { entries: res.data?.data || [], total, totalPages: Math.ceil(total / limit) } };
+    const total = res.totalCount || 0;
+    return { data: { entries: res.places || [], total, totalPages: Math.ceil(total / limit) } };
   } catch { return { data: { entries: [], total: 0, totalPages: 0 } }; }
 };
 

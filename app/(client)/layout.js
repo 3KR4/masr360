@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { MainProvider } from "@/Contexts/mainContext";
 import "@/styles/globals.css";
 import { AuthProvider } from "@/Contexts/AuthContext";
+import { CartProvider } from "@/Contexts/CartContext";
+import { FavouritesProvider } from "@/Contexts/FavouritesContext";
 import { NotificationProvider } from "@/Contexts/NotificationContext";
 import NotificationHolder from "@/components/settings/NotificationHolder";
 
@@ -33,7 +35,7 @@ export const metadata = {
     siteName: "Masr360",
     images: [
       {
-        url: "/full-logo.jpg",
+        url: "/favicon-512.png",
         width: 1000,
         height: 1000,
         alt: "Masr360-logo",
@@ -43,25 +45,28 @@ export const metadata = {
     type: "website",
   },
   icons: {
-    icon: "/full-logo.jpg",
-    shortcut: "/full-logo.jpg",
-    apple: "/full-logo.jpg",
+    icon: "/favicon-512.png",
+    shortcut: "/favicon-512.png",
+    apple: "/favicon-512.png",
   },
 };
 
 export default function RootLayout({ children }) {
-
   return (
     <html lang="EN" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
         <MainProvider>
           <NotificationProvider>
             <AuthProvider>
-              <Header />
+              <CartProvider>
+                <FavouritesProvider>
+                  <Header />
 
-              {children}
-              <Footer />
-              <NotificationHolder/>
+                  {children}
+                  <Footer />
+                  <NotificationHolder />
+                </FavouritesProvider>
+              </CartProvider>
             </AuthProvider>
           </NotificationProvider>
         </MainProvider>

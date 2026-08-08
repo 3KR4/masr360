@@ -1,14 +1,10 @@
 "use client";
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { FaLocationDot } from "react-icons/fa6";
-import Rating from "@mui/material/Rating";
-import { FaHeart } from "react-icons/fa";
-import { placesAr, placesEn } from "@/data";
 import CardItem from "@/components/CardItem";
 import useTranslate from "@/Contexts/useTranslation";
+import { getAll as getPlaces } from "@/services/places/places.service";
 
 import { mainContext } from "@/Contexts/mainContext";
 
@@ -17,18 +13,20 @@ function Places() {
   const t = useTranslate();
 
   const [places, setPlaces] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPlaces = async () => {
-      // try {
-      //   const { data } = await getService.getPlaces(8);
-      //   setPlaces(data || []);
-      // } catch (err) {
-      //   console.error("Failed to fetch governorates:", err);
-      //   setPlaces([]);
-      // }
-
-      setPlaces(locale == "EN" ? placesEn : placesAr);
+      setLoading(true);
+      try {
+        const { places } = await getPlaces("", 1, 12, locale);
+        setPlaces(places || []);
+      } catch (err) {
+        console.error("Failed to fetch places:", err);
+        setPlaces([]);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchPlaces();
   }, [locale]);
@@ -48,9 +46,15 @@ function Places() {
       </div>
 
       <div className="grid-holder container">
-        {places.slice(0, 12).map((place) => (
-          <CardItem key={place.id} item={place} type="place" />
-        ))}
+        {loading ? (
+          <div style={{ textAlign: "center", padding: "40px", gridColumn: "1 / -1" }}>
+            <p>{t.dashboard.forms.loading || "Loading..."}</p>
+          </div>
+        ) : (
+          places.slice(0, 12).map((place) => (
+            <CardItem key={place.id} item={place} type="place" />
+          ))
+        )}
       </div>
     </div>
   );

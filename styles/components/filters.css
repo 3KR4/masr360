@@ -78,7 +78,7 @@
 }
 .filters .holder ul li .main-cat:hover,
 .filters .holder ul li .main-cat.active {
-  background: #ea8c43e8;
+  background: var(--main-color);
   color: white;
 }
 .filters .holder .sub-cats {
@@ -132,7 +132,7 @@
   background: #8a8a8a;
 }
 .filters .price-slider {
-  color: #ea8c43e8;
+  color: var(--main-color);
   width: 90%;
   height: 3px;
   margin: auto;
@@ -151,7 +151,7 @@
   font-size: 16px;
 }
 .selected-filters p {
-  background: var(--section-color);
+  background: var(--second-color);
   cursor: pointer;
   border-radius: 5px;
   align-items: center;
@@ -243,7 +243,7 @@
 }
 
 @media (max-width: 992px) {
-  .filters {
+  .filters.side-filter-nav {
     position: fixed !important;
     background: white;
     z-index: 10;

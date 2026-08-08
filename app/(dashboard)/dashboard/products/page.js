@@ -217,12 +217,12 @@ export default function Products() {
                     <div className="row-holder">
                       <Rating
                         name="read-only"
-                        value={item?.avgRating || 0}
+                        value={(Math.ceil(item.avgRating * 10) / 10).toFixed(1) || 0}
                         precision={0.1}
                         readOnly
                         sx={{ color: "#ea8c43", fontSize: "19px" }}
                       />
-                      <h4>({item?.avgRating || 0})</h4>
+                      <h4>({(Math.ceil(item.avgRating * 10) / 10).toFixed(1) || 0})</h4>
                     </div>
                   </div>
 

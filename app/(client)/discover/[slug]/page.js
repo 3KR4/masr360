@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
-import { governoratesEn, governoratesAr } from "@/data";
 import "@/styles/pages/discover.css";
 import DisplayContent from "@/components/DisplayContent";
 import { useParams } from "next/navigation";
 import { useState, useEffect, useContext } from "react";
 import { mainContext } from "@/Contexts/mainContext";
+import { getOne } from "@/services/govenorates/govenorates.service";
 
 import useTranslate from "@/Contexts/useTranslation";
 
@@ -14,47 +14,75 @@ export default function GovernorateDetails() {
   const { locale } = useContext(mainContext);
 
   const { slug } = useParams();
-  const [governorate, setgovernorate] = useState({});
+  const [governorate, setgovernorate] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // const GetSinglegovernorate = async () => {
-    //   try {
-    //     const { data } = await getService.getSingleGovernorate(slug);
+    if (!slug) return;
+    const GetSinglegovernorate = async () => {
+      setLoading(true);
+      try {
+        const res = await getOne(slug);
+        const gov = res?.data?.governorate || null;
+        setgovernorate(gov);
+      } catch (error) {
+        console.log(error);
+        setgovernorate(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    GetSinglegovernorate();
+  }, [slug]);
 
-    //     const gov = data.g;
-
-    //     if (gov) {
-    //       setgovernorate(gov);
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-    if (slug) {
-      // GetSinglegovernorate();
-      const governorates = locale == "EN" ? governoratesEn : governoratesAr;
-      setgovernorate(governorates?.find((X) => X.id == slug));
-    }
-  }, [slug, locale]);
+  const govName =
+    governorate?.translations?.[locale]?.name ||
+    governorate?.name ||
+    "";
+  const govDesc =
+    governorate?.translations?.[locale]?.desc ||
+    governorate?.description ||
+    governorate?.desc ||
+    "";
 
   return (
     <div className="discover">
       <div className="hero-image-holder fluid-container">
-        <Image src={governorate?.image} fill alt={governorate?.name} />
-        <div className="details column">
-          <h3>{governorate?.name}</h3>
-          <p>{governorate?.description}</p>
-        </div>
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "300px",
+            }}
+          >
+            <p>{t.dashboard.forms.loading || "Loading..."}</p>
+          </div>
+        ) : (
+          governorate && (
+            <>
+              <Image
+                src={governorate?.image || "/images/dashboard-product-placeholder.svg"}
+                fill
+                alt={govName}
+              />
+              <div className="details column">
+                <h3>{govName}</h3>
+                <p>{govDesc}</p>
+              </div>
+            </>
+          )
+        )}
       </div>
       <div className="title-holder pages container">
         <h1 className="main-title">
           <hr />
-          {t.sectionsTitles.governorate_places(governorate?.name).mainTitle}
+          {t.sectionsTitles.governorate_places(govName).mainTitle}
           <hr />
         </h1>
         <p className="sub-title">
-          {t.sectionsTitles.governorate_places(governorate?.name).subTitle}
+          {t.sectionsTitles.governorate_places(govName).subTitle}
         </p>
       </div>
       <DisplayContent

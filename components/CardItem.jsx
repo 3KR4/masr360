@@ -8,7 +8,8 @@ import {
   FaArrowRight,
   FaArrowLeft,
 } from "react-icons/fa6";
-import React, { useContext } from "react";
+import { FaRegHeart } from "react-icons/fa";
+import React, { useContext, useEffect, useState } from "react";
 import { mainContext } from "@/Contexts/mainContext";
 import { governoratesAr, governoratesEn } from "@/data";
 
@@ -16,10 +17,23 @@ import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice";
 import CountDown from "@/components/CountDown";
 import useTranslate from "@/Contexts/useTranslation";
+import useCart from "@/hooks/client/useCart";
+import useFavoriet from "@/hooks/client/useFavoriet";
+import { useRouter } from "next/navigation";
 
 export default function CardItem({ item, type, previewGame = false }) {
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
+  const router = useRouter();
+  const { addItem, isInCart } = useCart();
+  const { toggleItem, isFavorited } = useFavoriet();
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [togglingFav, setTogglingFav] = useState(false);
+  const [itemCartItem, setItemCartItem] = useState(item?.cartItem || null);
+
+  useEffect(() => {
+    setItemCartItem(item?.cartItem || null);
+  }, [item?.cartItem]);
 
   const isProduct = type === "product";
   const isPlace = type === "place";
@@ -27,6 +41,46 @@ export default function CardItem({ item, type, previewGame = false }) {
   const isGame = type === "game";
   const isNight = type === "night";
   const isEvent = type === "event";
+  const inCart = isProduct && (!!itemCartItem || isInCart(item?.id));
+  const favorited = isProduct && isFavorited("Product", item?.id);
+  const isOutOfStock = isProduct && Number(item?.stock || 0) <= 0;
+
+  const handleAddToCart = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!isProduct || isOutOfStock || addingToCart) return;
+    if (inCart) {
+      router.push("/cart");
+      return;
+    }
+    setAddingToCart(true);
+    try {
+      const added = await addItem(item?.id, 1);
+      if (added) setItemCartItem({ cartQuantity: 1 });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  const handleToggleFavorite = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!isProduct || togglingFav) return;
+    if (favorited) {
+      router.push("/favorites");
+      return;
+    }
+    setTogglingFav(true);
+    try {
+      await toggleItem("Product", item?.id);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setTogglingFav(false);
+    }
+  };
 
   const getButtonText = () => {
     if (isProduct) return t.mainCard.seeProduct;
@@ -36,8 +90,31 @@ export default function CardItem({ item, type, previewGame = false }) {
 
   const currentGovernorate =
     locale === "EN"
-      ? governoratesEn?.find((x) => x.id === item?.governorate?.id)
-      : governoratesAr?.find((x) => x.id === item?.governorate?.id);
+      ? governoratesEn?.find(
+          (x) =>
+            x.id === item?.governorate?.id ||
+            x.id === item?.governorate?._id ||
+            x.id === item?.governorate,
+        )
+      : governoratesAr?.find(
+          (x) =>
+            x.id === item?.governorate?.id ||
+            x.id === item?.governorate?._id ||
+            x.id === item?.governorate,
+        );
+
+  const govName =
+    item?.governorate?.translations?.[locale]?.name ||
+    item?.governorate?.name ||
+    item?.governorateName ||
+    currentGovernorate?.name ||
+    "";
+
+  const govId =
+    currentGovernorate?.id ||
+    item?.governorate?._id ||
+    item?.governorate?.id ||
+    (typeof item?.governorate === "string" ? item?.governorate : "");
 
   const currentGamePlace =
     locale === "EN"
@@ -48,8 +125,30 @@ export default function CardItem({ item, type, previewGame = false }) {
     <div key={item?.id} className={`card ${type}`}>
       {(isProduct || isPlace) && (
         <div className="actions-icon">
-          <FaHeart className="wish-icon" />
-          {isProduct && <FaCartShopping className="cart-icon" />}
+          {isProduct ? (
+            <>
+              <button
+                type="button"
+                className={`wish-icon ${favorited ? "active" : ""}`}
+                onClick={handleToggleFavorite}
+                disabled={togglingFav}
+                aria-label={favorited ? "Open favorites" : "Add to favorites"}
+              >
+                {favorited ? <FaHeart /> : <FaRegHeart />}
+              </button>
+              <button
+                type="button"
+                className={`cart-icon ${inCart ? "active" : ""}`}
+                onClick={handleAddToCart}
+                disabled={isOutOfStock || addingToCart}
+                aria-label={inCart ? "Open cart" : "Add to cart"}
+              >
+                <FaCartShopping />
+              </button>
+            </>
+          ) : (
+            <FaHeart className="wish-icon" />
+          )}
         </div>
       )}
 
@@ -100,18 +199,20 @@ export default function CardItem({ item, type, previewGame = false }) {
             }
             className="name-link ellipsis"
           >
-            {item?.name}
+            {isGov
+              ? item?.translations?.[locale]?.name || item?.name
+              : item?.name}
           </Link>
 
           {(isPlace || isNight || isEvent) && (
             <Link
-              href={`/${isPlace ? "places" : "nights"}/${
-                currentGovernorate?.id
-              }${isEvent ? "?isEvent=true" : ""}`}
+              href={`/${isPlace ? "places" : "nights"}/${govId}${
+                isEvent ? "?isEvent=true" : ""
+              }`}
               className="location"
             >
               <FaLocationDot />
-              {currentGovernorate?.name}
+              {govName}
             </Link>
           )}
 
@@ -184,7 +285,9 @@ export default function CardItem({ item, type, previewGame = false }) {
           <p
             className={`ellipsis description ${previewGame ? "no-clamp" : ""}`}
           >
-            {item?.description}
+            {isGov
+              ? item?.translations?.[locale]?.desc || item?.description
+              : item?.description}
           </p>
         )}
         {previewGame && (

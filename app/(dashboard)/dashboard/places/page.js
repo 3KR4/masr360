@@ -59,9 +59,8 @@ export default function Places() {
         subCategoryId,
       );
 
-      const response = res.data;
-      const placesData = response?.data || response?.places || [];
-      const totalCount = response?.total ?? response?.count ?? response?.totalCount ?? 0;
+      const placesData = res.places || [];
+      const totalCount = res.totalCount || 0;
 
       setPlaces(placesData);
       setTotalCount(totalCount);

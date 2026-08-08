@@ -11,6 +11,15 @@ const ar = {
     star: "نجمة",
     rating_sub_title:
       "اقرأ التقييمات الحقيقية من العملاء الذين اشتروا هذا المنتج وجربوه",
+    no_reviews: "لا توجد تقييمات بعد. كن أول من يقيّم!",
+    confirm_delete: "هل أنت متأكد أنك تريد حذف هذا التقييم؟",
+    write_a_review: "اكتب تقييم",
+    review_title_placeholder: "عنوان التقييم",
+    review_desc_placeholder: "اكتب تقييمك...",
+    submit_review: "إرسال التقييم",
+    login_to_review: "يرجى تسجيل الدخول لكتابة تقييم.",
+    review_submitted: "شكراً! تم إرسال تقييمك بنجاح.",
+    write_another: "اكتب تقييم آخر",
   },
   header: {
     logo_alt: "مصر 360",
@@ -260,7 +269,6 @@ const ar = {
     out_of_stock: "غير متوفر",
 
     filter_by_price: "التصفية حسب السعر",
-    enter_price_range: "أدخل الحد الأدنى والأقصى للسعر",
     min: "الأقل",
     max: "الأقصى",
 
@@ -461,7 +469,12 @@ const ar = {
     copy_link: "نسخ الرابط",
     buy_it_now: "الشراء الان",
     add_to_cart: "الاضافة الي السلة",
+    in_cart: "في السلة",
     add_to_favorites: "الاضافة الي المفضلات",
+    in_favorites_list: "في قائمة المفضلات",
+    remove_from_favorites: "ازالة من المفضلات",
+    save: "حفظ",
+    cancel: "الغاء",
   },
   mainCard: {
     seeProduct: "عرض المنتج",

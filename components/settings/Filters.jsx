@@ -26,7 +26,7 @@ const Filters = ({
   const [cats, setCats] = useState([]);
   const [loadingCats, setLoadingCats] = useState(false);
 
-  const categoryType = catsType === "place" ? "tourism" : catsType;
+  const categoryType = catsType === "place" ? "place" : catsType === "gov" ? "place" : catsType;
 
   useEffect(() => {
     let isMounted = true;
@@ -101,7 +101,7 @@ const Filters = ({
   };
 
   return (
-    <div className={`filters ${active ? "active" : ""}`}>
+    <div className={`filters side-filter-nav ${active ? "active" : ""}`}>
       {screenSize !== "large" && (
         <IoIosClose className="close" onClick={() => setActive(false)} />
       )}
@@ -138,7 +138,6 @@ const Filters = ({
 
           <div className="holder">
             <h4>{t.marketplace.filter_by_price}</h4>
-            <p>{t.marketplace.enter_price_range}</p>
 
             <div className="price-input">
               <div className="field">

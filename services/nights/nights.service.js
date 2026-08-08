@@ -1,25 +1,26 @@
 import api from "../axios";
 import { ENDPOINTS } from "../endpoints";
+import { normalizeNight } from "../normalizers/productNormalizer";
 
 const normalizeNightsResponse = (res) => {
   const data = res?.data;
 
   if (Array.isArray(data?.data)) {
     return {
-      nights: data.data,
+      nights: data.data.map(normalizeNight),
       totalCount: data.total || data.count || 0,
     };
   }
 
   if (Array.isArray(data) && data[0]?.data) {
     return {
-      nights: data[0].data,
+      nights: (data[0].data || []).map(normalizeNight),
       totalCount: data[0].totalCount?.[0]?.count || 0,
     };
   }
 
   return {
-    nights: Array.isArray(data) ? data : [],
+    nights: Array.isArray(data) ? data.map(normalizeNight) : [],
     totalCount: 0,
   };
 };

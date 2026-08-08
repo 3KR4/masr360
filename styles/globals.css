@@ -14,7 +14,7 @@ html {
 }
 :root {
   --body-color: #ffffff;
-  --section-color: #f8f8f873;
+  --section-color: #e1e1e173;
   --main-color: #f3ae1c;
   --second-color: #ffe2b6;
   --hover-color: #e7ae34;
@@ -259,6 +259,9 @@ a {
   font-size: 17px;
   letter-spacing: 0.3px;
 }
+div.review-section .sub-title {
+  margin: 0 auto 32px;
+}
 .title-holder .main-button {
   height: 40px;
   font-size: 14px;
@@ -266,7 +269,10 @@ a {
   width: 214px;
   border-radius: 50px !important;
 }
-
+.favorites,
+.cart {
+  flex: 1;
+}
 .card {
   box-shadow: 0 0 5px 0px #dcdcdc;
   border-radius: 20px;
@@ -383,9 +389,9 @@ a {
 }
 
 .loader {
-  width: 20px;
-  height: 20px;
-  border: 3px solid var(--main-color);
+  width: 30px;
+  height: 30px;
+  border: 4px solid var(--main-color);
   border-bottom-color: transparent !important;
   border-radius: 50%;
   display: inline-block;
@@ -428,8 +434,8 @@ button:hover .loader {
   height: 31px;
   padding: 8px;
 }
-
-.card .actions-icon svg:hover {
+.card .actions-icon button.active,
+.card .actions-icon button:hover {
   background: var(--main-color);
 }
 .card .image-holder .main-button {
@@ -713,6 +719,9 @@ button:hover .loader {
   gap: 10px;
   align-items: center;
 }
+.error-page .loader {
+  position: static;
+}
 
 .hero-image-holder {
   background: #000;
@@ -938,7 +947,7 @@ svg.main-ico {
 }
 
 @media (min-width: 992px) {
-  .card .actions-icon {
+  .card .actions-icon:not(:has(.active)) {
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);

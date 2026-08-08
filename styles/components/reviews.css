@@ -95,6 +95,7 @@
   flex-direction: column;
   gap: 8px;
   padding-top: 2px;
+flex: 1;
 }
 .review-section .review .hold .top {
   display: flex;
@@ -105,7 +106,7 @@
   flex-direction: row;
 }
 .review-section .review .image.left {
-  background: var(--section-color);
+    background: var(--second-color);
   min-width: 40px;
   height: 40px;
   color: var(--paragraph);
@@ -140,6 +141,70 @@
   font-size: 13px;
   font-weight: 400;
   margin: 0;
+}
+
+.review-section .review .actions {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+.review-section .review .actions svg {
+  width: 33px;
+  height: 33px;
+  border-radius: 7px;
+  padding: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.review-section .review .actions svg.edit {
+  color: #2a84ff;
+}
+.review-section .review .actions svg.delete {
+  color: #ff4f4ff5;
+  padding: 8px;
+}
+.review-section .review .actions svg.edit:hover {
+  background: #2a84ff;
+  color: white;
+}
+.review-section .review .actions svg.delete:hover {
+  background: #ff4f4ff5;
+  color: white;
+}
+
+.review-section .review-actions {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+}
+.review-section .review-actions svg {
+  width: 33px;
+  height: 33px;
+  border-radius: 7px;
+  padding: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.review-section .review-actions svg.edit {
+  color: #2a84ff;
+}
+.review-section .review-actions svg.delete {
+  color: #ff4f4ff5;
+  padding: 8px;
+}
+.review-section .review-actions svg.edit:hover {
+  background: #2a84ff;
+  color: white;
+}
+.review-section .review-actions svg.delete:hover {
+  background: #ff4f4ff5;
+  color: white;
+}
+.review-section .review-actions hr {
+  background: #d5d5d5;
+  margin: 0 6px;
+  height: 16px;
+  width: 2px;
 }
 
 @media (max-width: 1200px) {

@@ -2,30 +2,36 @@
 import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import CardItem from "@/components/CardItem";
-import { FaArrowRight } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
-import { productsAr, productsEn } from "@/data";
 import { mainContext } from "@/Contexts/mainContext";
+import { getAll as getProducts } from "@/services/porducts/products.service";
+import { normalizeProduct } from "@/services/normalizers/productNormalizer";
 
 function Products() {
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchproducts = async () => {
-      // try {
-      //   const { data } = await getService.getProducts(6);
-      //   setProducts(
-      //     data || locale == "EN" ? productsEn : productsAr
-      //   );
-      // } catch (err) {
-      //   console.error("Failed to fetch governorates:", err);
-      //   setProducts(locale == "EN" ? productsEn : productsAr);
-      // }
-      setProducts(locale == "EN" ? productsEn : productsAr);
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const result = await getProducts({
+          page: 1,
+          limit: 10,
+          sort: "createdAt,desc",
+          lang: locale,
+        });
+        setProducts((result.products || []).map(normalizeProduct));
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
     };
-    fetchproducts();
+    fetchProducts();
   }, [locale]);
 
   return (
@@ -44,11 +50,17 @@ function Products() {
         </Link>
       </div>
 
-      <div className="grid-holder container">
-        {products.slice(0, 10).map((product) => (
-          <CardItem key={product.id} item={product} type="product" />
-        ))}
-      </div>
+      {loading ? (
+        <div className="container" style={{ textAlign: "center", padding: "40px" }}>
+          <p>{t.dashboard.forms.loading || "Loading..."}</p>
+        </div>
+      ) : (
+        <div className="grid-holder container">
+          {products.map((product) => (
+            <CardItem key={product.id} item={product} type="product" />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
