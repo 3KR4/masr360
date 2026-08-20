@@ -28,6 +28,8 @@ function Governorates() {
     fetchgovernorates();
   }, [locale]);
 
+  if (!loading && governorates.length < 3) return null;
+
   return (
     <div className="governorates">
       <div className="title-holder container">

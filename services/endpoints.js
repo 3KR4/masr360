@@ -114,6 +114,37 @@ NIGHTS: {
   },
   GET_ONE: (id) => `/nights/${id}`,
 },
+EVENTS: {
+  CREATE: "/events",
+  UPDATE: (id) => `/events/${id}`,
+  DELETE: (id) => `/events/${id}`,
+  DELETE_IMAGE: (imgId, type, typeId) =>
+    `/images/${imgId}?entityType=${type}&entityId=${typeId}`,
+  GET_ALL: (
+    search,
+    page,
+    limit,
+    lang,
+    sort,
+    governorateId,
+    from,
+    to,
+    status
+  ) => {
+    const params = new URLSearchParams();
+    if (search) params.append("search", search);
+    if (lang) params.append("lang", lang);
+    params.append("page", page);
+    params.append("limit", limit);
+    if (sort) params.append("sort", sort);
+    if (governorateId) params.append("governorate", governorateId);
+    if (from) params.append("from", from);
+    if (to) params.append("to", to);
+    if (status) params.append("status", status);
+    return `/events?${params.toString()}`;
+  },
+  GET_ONE: (id) => `/events/${id}`,
+},
 CATEGORIES: {
   CREATE: "/categories",
   UPDATE: (id) => `/categories/${id}`,

@@ -12,6 +12,7 @@ import { getAll as getProducts } from "@/services/porducts/products.service";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
 import { getAll as getPlaces } from "@/services/places/places.service";
 import { getAll as getNights } from "@/services/nights/nights.service";
+import { getAll as getEvents } from "@/services/events/events.service";
 import { normalizeProduct } from "@/services/normalizers/productNormalizer";
 import useTranslate from "@/Contexts/useTranslation";
 import { FaList } from "react-icons/fa";
@@ -39,6 +40,13 @@ const NIGHT_SORT_OPTIONS = [
   { value: "name,desc", labelEn: "Name: Z to A", labelAr: "الاسم: ي - أ" },
 ];
 
+const EVENT_SORT_OPTIONS = [
+  { value: "createdAt,desc", labelEn: "Newest", labelAr: "الأحدث" },
+  { value: "startDate,asc", labelEn: "Start Date: Soonest", labelAr: "تاريخ البدء: الأقرب" },
+  { value: "name,asc", labelEn: "Name: A to Z", labelAr: "الاسم: أ - ي" },
+  { value: "name,desc", labelEn: "Name: Z to A", labelAr: "الاسم: ي - أ" },
+];
+
 const LIMIT_OPTIONS = [12, 24, 48, 96];
 
 const getSortOptions = (locale, type) => {
@@ -47,7 +55,9 @@ const getSortOptions = (locale, type) => {
       ? PLACE_SORT_OPTIONS
       : type === "night"
         ? NIGHT_SORT_OPTIONS
-        : PRODUCT_SORT_OPTIONS;
+        : type === "event"
+          ? EVENT_SORT_OPTIONS
+          : PRODUCT_SORT_OPTIONS;
   return list.map((opt) => ({
     id: opt.value,
     name: locale === "AR" ? opt.labelAr : opt.labelEn,
@@ -98,9 +108,10 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
   const isGov = type === "gov";
   const isPlace = type === "place";
   const isNight = type === "night";
+  const isEvent = type === "event";
 
   const activeGovernorate =
-    isPlace || isNight ? shared || searchParams.get("governorateId") || "" : "";
+    isPlace || isNight || isEvent ? shared || searchParams.get("governorateId") || "" : "";
 
   const buildUrlParams = useCallback(() => {
     const params = new URLSearchParams();
@@ -169,6 +180,19 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
         setTotalCount(result.totalCount || 0);
         return;
       }
+      if (isEvent) {
+        const result = await getEvents(
+          "",
+          page,
+          limit,
+          locale,
+          sortBy,
+          activeGovernorate,
+        );
+        setData(result.events || []);
+        setTotalCount(result.totalCount || 0);
+        return;
+      }
       if (!isProduct) {
         setData([]);
         setTotalCount(0);
@@ -197,7 +221,7 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
     } finally {
       setLoading(false);
     }
-  }, [page, limit, sortBy, availability, priceRange, selectedCategory, locale, isProduct, isGov, isPlace, isNight, activeGovernorate]);
+  }, [page, limit, sortBy, availability, priceRange, selectedCategory, locale, isProduct, isGov, isPlace, isNight, isEvent, activeGovernorate]);
 
   useEffect(() => {
     fetchData();
@@ -250,7 +274,7 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
       )}
 
       <div className="holder">
-        {(isProduct || isPlace || isNight) && (
+        {(isProduct || isPlace || isNight || isEvent) && (
           <div className="sort-bar">
             <div className="sort-bar-left">
               <div className="view-toggle">
@@ -335,7 +359,7 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>{t.dashboard.forms.loading || "Loading..."}</p>
           </div>
-        ) : viewMode === "list" && (isProduct || isPlace || isNight) ? (
+        ) : viewMode === "list" && (isProduct || isPlace || isNight || isEvent) ? (
           <div className="list-holder">
             {data.map((item) => (
               <ListItem key={item.id} item={item} type={type} />
@@ -359,7 +383,7 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
           </div>
         )}
 
-        {(isProduct || isGov || isPlace || isNight) && totalCount > limit && (
+        {(isProduct || isGov || isPlace || isNight || isEvent) && totalCount > limit && (
           <Pagination
             pageCount={Math.ceil(totalCount / limit)}
             screenSize={screenSize}

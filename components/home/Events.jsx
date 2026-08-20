@@ -1,12 +1,11 @@
 "use client";
-import React, { useState, useContext, useRef, useEffect } from "react";
-import Image from "next/image";
+import React, { useState, useContext, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import SwiperCore from "swiper";
 import { mainContext } from "@/Contexts/mainContext";
-import { eventsEn, eventsAr } from "@/data";
+import { getAll as getEvents } from "@/services/events/events.service";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
@@ -19,21 +18,19 @@ function Events() {
   const t = useTranslate();
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    const fetchevents = async () => {
-      // try {
-      //   const { data } = await getService.getEvents(6);
-      //   setEvents(
-      //     data || locale == "EN" ? eventsEn : eventsAr
-      //   );
-      // } catch (err) {
-      //   console.error("Failed to fetch nights:", err);
-      //   setEvents(locale == "EN" ? eventsEn : eventsAr);
-      // }
-      setEvents(locale == "EN" ? eventsEn : eventsAr);
-    };
-    fetchevents();
+  const fetchEvents = useCallback(async () => {
+    try {
+      const result = await getEvents("", 1, 20, locale);
+      setEvents(result.events || []);
+    } catch (err) {
+      console.error("Failed to fetch events:", err);
+      setEvents([]);
+    }
   }, [locale]);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
   SwiperCore.use([Autoplay, EffectFade, Pagination]);
 
@@ -48,6 +45,8 @@ function Events() {
     }
   }, [screenSize]);
 
+  if (events.length < 3) return null;
+
   return (
     <div className="events">
       <div className="title-holder container">
@@ -57,7 +56,7 @@ function Events() {
           <hr />
         </h1>
         <p className="sub-title">{t.sectionsTitles.upcoming_events.subtitle}</p>
-        <Link href={`/nights`} className="main-button">
+        <Link href={`/events`} className="main-button">
           {t.sectionsTitles.upcoming_events.btn}
         </Link>
       </div>

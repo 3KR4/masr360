@@ -34,6 +34,8 @@ function Products() {
     fetchProducts();
   }, [locale]);
 
+  if (!loading && products.length < 3) return null;
+
   return (
     <div className="products">
       <div className="title-holder container">

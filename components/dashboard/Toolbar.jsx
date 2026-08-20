@@ -65,6 +65,7 @@ function DashboardToolbar() {
     searchText,
     setSearchText,
     selectedCats,
+    filtersState,
     updateFilter,
   } = useContext(dashboard);
   const {
@@ -123,6 +124,7 @@ function DashboardToolbar() {
   const isGovernoratesPage = pageKey === "governorates_list";
   const isCategoriesPage = pageKey === "categories_list";
   const isPlacesPage = pageKey === "places_list";
+  const isEventsPage = pageKey === "events_list";
   const shouldShowSubCatFilter =
     pageKey === "places_list" || pageKey === "nights_list" || pageKey === "products_list";
   const selectedParentCategory =
@@ -147,7 +149,7 @@ function DashboardToolbar() {
   return (
     <div className="dashboard-toolbar-shell">
       <div
-        className={`dashboard-toolbar-row ${isGovernoratesPage || isCategoriesPage ? "governorates-toolbar-row" : ""} ${pageKey === "products_list" ? "products-toolbar-row" : ""}`}
+        className={`dashboard-toolbar-row ${isGovernoratesPage || isCategoriesPage ? "governorates-toolbar-row" : ""} ${isEventsPage ? "events-toolbar-row" : ""} ${pageKey === "products_list" ? "products-toolbar-row" : ""}`}
       >
         {!isCategoriesPage ? (
           <div className="dashboard-toolbar-search compact">
@@ -205,6 +207,38 @@ function DashboardToolbar() {
             ) : (
               <div className="no-results">{t.head.noResults}</div>
             )}
+          </FilterMenu>
+        )}
+
+        {isEventsPage && (
+          <FilterMenu
+            label={t.dashboard?.tables?.status || "Status"}
+            active={activeMenu === "status"}
+            value={filtersState.status || null}
+            search={catsSearch}
+            setSearch={setCatsSearch}
+            onOpen={() => openMenu("status")}
+            onClose={() => setActiveMenu(null)}
+          >
+            {[
+              { key: "ongoing", label: locale === "AR" ? "جاري" : "Ongoing" },
+              { key: "ended", label: locale === "AR" ? "منتهي" : "Ended" },
+              { key: "upcoming", label: locale === "AR" ? "قادم" : "Upcoming" },
+            ].map((s) => {
+              const isActive = filtersState.status === s.key;
+              return (
+                <button
+                  key={s.key}
+                  className={isActive ? "active" : ""}
+                  onClick={() => {
+                    updateFilter("status", isActive ? "" : s.key, "filters");
+                    setActiveMenu(null);
+                  }}
+                >
+                  {s.label}
+                </button>
+              );
+            })}
           </FilterMenu>
         )}
 

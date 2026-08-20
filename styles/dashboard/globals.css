@@ -48,6 +48,10 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+.dashboard-toolbar-row.events-toolbar-row {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 .dashboard-toolbar-search {
   min-width: 0;
 }
@@ -542,7 +546,7 @@ header .actions-btns .userMenu .top {
 }
 .dashboard .table-container.events .table-header,
 .dashboard .table-container.events .table-item {
-  grid-template-columns: 2fr 1.5fr 0.6fr 1fr 1fr 1fr 0.8fr;
+    grid-template-columns: 2fr 1.5fr .6fr 1fr 1fr 1fr;
 }
 .dashboard .table-container .item-startAt .main-color {
   color: var(--hover-color);

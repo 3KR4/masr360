@@ -30,6 +30,8 @@ function Games() {
     fetchgames();
   }, [locale]);
 
+  if (games.length < 3) return null;
+
   return (
     <div className="governorates games">
       <div className="title-holder container">

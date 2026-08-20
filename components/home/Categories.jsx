@@ -27,6 +27,8 @@ function Categories() {
     }
   }, [screenSize]);
 
+  if (categories.length < 3) return null;
+
   return (
     <div className="categories">
       <div className="title-holder">

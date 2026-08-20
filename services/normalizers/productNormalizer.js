@@ -177,6 +177,39 @@ export const normalizeNight = (n) => {
   };
 };
 
+export const normalizeEvent = (e) => {
+  const gov = e.governorate && typeof e.governorate === "object" ? e.governorate : null;
+  const governorateId =
+    gov?._id || gov?.id || (typeof e.governorate === "string" ? e.governorate : "") || "";
+  const governorateName =
+    gov?.translations?.EN?.name || gov?.name || e.governorateName || "";
+  const locationIframe =
+    e.locationIframe || e.location?.iFrame || "";
+
+  return {
+    id: e._id,
+    _id: e._id,
+    name: e.name,
+    images: extractImages(e.imgs),
+    description: e.desc,
+    startDate: e.startDate,
+    endDate: e.endDate,
+    status: e.status,
+    location: {
+      link: e.location,
+      iFrame: locationIframe,
+    },
+    governorate: gov || governorateId,
+    governorateId,
+    governorateName,
+    translations: e.translations,
+    createdAt: e.createdAt,
+    imgs: e.imgs,
+    desc: e.desc,
+    locationIframe,
+  };
+};
+
 export const computeReviewsOverview = (reviews) => {
   const totalReviews = reviews.length;
   if (totalReviews === 0) {

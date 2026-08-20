@@ -1,32 +1,31 @@
 "use client";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import Link from "next/link";
 import CardItem from "@/components/CardItem";
-import { FaArrowRight } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
-import { nightsEn, nightsAr } from "@/data";
 import { mainContext } from "@/Contexts/mainContext";
+import { getAll as getNights } from "@/services/nights/nights.service";
 
 function Nights() {
   const { locale } = useContext(mainContext);
   const t = useTranslate();
   const [nights, setNights] = useState([]);
 
-  useEffect(() => {
-    const fetchnights = async () => {
-      // try {
-      //   const { data } = await getService.getNights(6);
-      //   setNights(
-      //     data || locale == "EN" ? nightsEn : nightsAr
-      //   );
-      // } catch (err) {
-      //   console.error("Failed to fetch nights:", err);
-      //   setNights(locale == "EN" ? nightsEn : nightsAr);
-      // }
-      setNights(locale == "EN" ? nightsEn : nightsAr);
-    };
-    fetchnights();
+  const fetchNights = useCallback(async () => {
+    try {
+      const result = await getNights("", 1, 20, locale);
+      setNights(result.nights || []);
+    } catch (err) {
+      console.error("Failed to fetch nights:", err);
+      setNights([]);
+    }
   }, [locale]);
+
+  useEffect(() => {
+    fetchNights();
+  }, [fetchNights]);
+
+  if (nights.length < 3) return null;
 
   return (
     <div className="nights">
@@ -43,7 +42,7 @@ function Nights() {
       </div>
 
       <div className="grid-holder container">
-        {nights.slice(0, 20).map((night) => (
+        {nights.map((night) => (
           <CardItem key={night.id} item={night} type="night" />
         ))}
       </div>

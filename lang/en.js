@@ -159,6 +159,12 @@ const en = {
         "With Masr 360, explore top destinations, uncover local stories, and experience the true essence of every location after dark.",
     },
 
+    masr_events_page: {
+      mainTitle: "Upcoming Events",
+      subTitle:
+        "Discover the latest events happening around Egypt. From cultural festivals to live performances, find something exciting to attend.",
+    },
+
     explore_games: {
       mainTitle: "Explore Games",
       subTitle:

@@ -121,6 +121,23 @@ export default function CardItem({ item, type, previewGame = false }) {
       ? governoratesEn?.find((x) => x.id === item?.place?.id)
       : governoratesAr?.find((x) => x.id === item?.place?.id);
 
+  const getEventDuration = (startDate, endDate) => {
+    if (!startDate || !endDate) return "";
+    const diff = new Date(endDate).getTime() - new Date(startDate).getTime();
+    if (diff <= 0) return "";
+    const totalMinutes = Math.floor(diff / (1000 * 60));
+    const totalHours = Math.floor(diff / (1000 * 60 * 60));
+    const totalDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+    if (totalMinutes < 60) return `${totalMinutes} ${locale === "AR" ? "دقيقة" : "min"}`;
+    if (totalHours < 24) return `${totalHours} ${locale === "AR" ? "ساعة" : "hours"}`;
+    if (totalDays < 30) return `${totalDays} ${locale === "AR" ? "يوم" : "days"}`;
+    const months = Math.floor(totalDays / 30);
+    return `${months} ${locale === "AR" ? "شهر" : "months"}`;
+  };
+
+  const eventStartAt = item?.startDate || item?.eventStartAt;
+  const eventDuration = item?.eventLasts || getEventDuration(item?.startDate, item?.endDate);
+
   return (
     <div key={item?.id} className={`card ${type}`}>
       {(isProduct || isPlace) && (
@@ -163,7 +180,7 @@ export default function CardItem({ item, type, previewGame = false }) {
                 : isNight
                   ? `/nights/${item?.id}`
                   : isEvent
-                    ? `/nights/${item?.id}?event=true`
+                    ? `/events/${item?.id}`
                     : isGov
                       ? `/discover/${item?.id}`
                       : ""
@@ -194,7 +211,7 @@ export default function CardItem({ item, type, previewGame = false }) {
                     : isNight
                       ? `/nights/${item?.id}`
                       : isEvent
-                        ? `/nights/${item?.id}?isEvent=true`
+                        ? `/events/${item?.id}`
                         : `/discover/${item?.id}`
             }
             className="name-link ellipsis"
@@ -206,9 +223,7 @@ export default function CardItem({ item, type, previewGame = false }) {
 
           {(isPlace || isNight || isEvent) && (
             <Link
-              href={`/${isPlace ? "places" : "nights"}/${govId}${
-                isEvent ? "?isEvent=true" : ""
-              }`}
+              href={`/${isPlace ? "places" : isEvent ? "events" : "nights"}/${govId}`}
               className="location"
             >
               <FaLocationDot />
@@ -300,14 +315,14 @@ export default function CardItem({ item, type, previewGame = false }) {
         {isEvent && (
           <div className="time-holder">
             <CountDown
-              eventStartAt={item.eventStartAt}
+              eventStartAt={eventStartAt}
               startLabel={t.mainCard.startAt}
               lastsLabel={t.mainCard.lasts}
             />
             <hr />
             <div>
               <span>{t.mainCard.eventTime}:</span>{" "}
-              <span>{item.eventLasts}</span>
+              <span>{eventDuration}</span>
             </div>
           </div>
         )}

@@ -31,7 +31,9 @@ function Places() {
     fetchPlaces();
   }, [locale]);
 
-  return (
+  if (!loading && places.length < 3) return null;
+
+  return places.length < 3 ? null : (
     <div className="places">
       <div className="title-holder container">
         <h1 className="main-title">
