@@ -1,13 +1,14 @@
 .gold-dust {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 9000;
   overflow: hidden;
   pointer-events: none;
 }
 
 .gold-dust__particle {
   position: absolute;
+    pointer-events: none;
   left: var(--left);
   bottom: 0;
   width: var(--size);
@@ -30,6 +31,7 @@
 .gold-dust.is-ready .gold-dust__particle {
   animation: gold-dust-rise var(--duration) linear infinite;
   animation-delay: var(--delay);
+  
 }
 
 @keyframes gold-dust-rise {

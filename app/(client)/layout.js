@@ -51,11 +51,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-
   return (
     <html lang="EN" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
-        <GoldDust />
+          <GoldDust />
         <MainProvider>
           <NotificationProvider>
             <AuthProvider>
@@ -63,7 +62,7 @@ export default function RootLayout({ children }) {
 
               {children}
               <Footer />
-              <NotificationHolder/>
+              <NotificationHolder />
             </AuthProvider>
           </NotificationProvider>
         </MainProvider>

@@ -1,16 +1,20 @@
 /*! HEADER */
 header {
   z-index: 10;
-  background: #000000c9;
-  border: 2px solid #efcf9c36;
+  -webkit-backdrop-filter: blur(7px);
   border-radius: 63px;
-  width: 73%;
-  backdrop-filter: blur(7px);
+  width: 77%;
   margin: auto;
   position: fixed;
-  top: 10px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
+  padding: 0 33px;
+  box-shadow: 0 0 4px 0px var(--border-color);
+}
+[data-theme="dark"] header {
+  border: 2px solid #efcf9c36;
+  box-shadow: unset;
 }
 
 header .container {
@@ -18,6 +22,7 @@ header .container {
   gap: 12px;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 header .logo {
   display: flex;
@@ -117,13 +122,19 @@ header .routs-menu {
   position: absolute;
   top: 71px;
   left: 50%;
-  background: var(--body-color);
   width: 80%;
   transform: translateX(-50%);
   border-radius: 0 0 22px 22px;
   border-top: 0;
+  border: 2px solid #efcf9c36;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 4px 0px var(--border-color);
+  background: #ffffffc9;
+}
+[data-theme="dark"] header .routs-menu {
   background: #000000c9;
   border: 2px solid #efcf9c36;
+  box-shadow: unset;
   backdrop-filter: blur(7px);
 }
 header:has(li.has-menu:hover) .routs-menu,
@@ -301,13 +312,37 @@ header .actions-btns {
   gap: 5px;
   position: relative;
 }
+[data-theme="dark"] header .actions-btns {
+  gap: 7px;
+}
+[data-theme="dark"]
+  header
+  .actions-btns
+  .search-holder
+  .results
+  .main-button:hover,
+[data-theme="dark"] header .actions-btns .main-button:hover,
+
+[data-theme="dark"] header .actions-btns button .lang-span:hover,
+[data-theme="dark"] header .actions-btns .search-holder:hover svg {
+  scale: 1.05;
+}
+[data-theme="dark"] header .actions-btns .search-holder:hover svg {
+  scale: 1.1;
+}
+header .actions-btns > *,
+header .actions-btns button .lang-span {
+  border-radius: 20px !important;
+  transition: 0.3s;
+}
+
 header .actions-btns .main-button {
   height: 36px;
   font-weight: 700;
-  border-radius: 6px !important;
   padding: 16px;
   font-size: 14px;
   cursor: pointer;
+  color: var(--body-color);
 }
 header .actions-btns .search-holder {
   height: 36px;
@@ -343,10 +378,12 @@ header .actions-btns .search-holder input::placeholder {
 header .actions-btns .search-holder svg {
   height: 100%;
   background: var(--main-color);
-  color: white;
+  color: var(--body-color);
+
   width: 42px;
   padding: 7px;
   border-radius: 0;
+  border-radius: 20px;
 }
 
 header .actions-btns .search-holder svg.close {
@@ -355,19 +392,19 @@ header .actions-btns .search-holder svg.close {
 header .actions-btns .search-holder .results {
   position: absolute;
   width: 100%;
-  background: white;
-  padding: 15px;
   z-index: -1;
   visibility: hidden;
   opacity: 0;
   transition:
     visibility 0s,
     opacity 0.3s;
-  top: 50px;
+  top: 49px;
+  padding: 13px 12px 15px;
   left: 0;
   display: flex;
   flex-direction: column;
   box-shadow: 0 7px 5px #00000014;
+
   border-top: 3px solid var(--main-color);
   border-radius: 6px 6px 12px 12px !important;
 }
@@ -382,10 +419,12 @@ header .actions-btns .search-holder .results .main-button {
   width: 100%;
   margin-top: 6px;
   font-size: 14px;
+  color: var(--body-color);
   cursor: pointer;
   font-size: 14px;
   text-transform: capitalize;
   font-weight: 700;
+  border-radius: 20px !important;
 }
 
 header .actions-btns .btn,
@@ -400,11 +439,11 @@ header .actions-btns a {
   font-family: "Segoe UI";
 }
 header .actions-btns .search-holder .results a:not(.main-button) {
-  border-radius: 6px;
-  padding: 8px 10px;
   color: var(--title-color);
-  font-weight: 700;
   cursor: pointer;
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-weight: 700;
 }
 header .actions-btns .search-holder .results a:not(.main-button):hover {
   background: var(--main-color);
@@ -420,7 +459,7 @@ header .actions-btns button .lang-span {
   height: 35px;
   display: flex;
   padding: 8px;
-  color: white;
+  color: var(--body-color);
 }
 header .actions-btns button .lang-span {
   width: unset;

@@ -25,7 +25,8 @@ import useTranslate from "@/Contexts/useTranslation";
 import { useAuth } from "@/Contexts/AuthContext";
 
 function Header() {
-  const { screenSize, locale, toggleLocale, theme, toggleTheme } = useContext(mainContext);
+  const { screenSize, locale, toggleLocale, theme, toggleTheme } =
+    useContext(mainContext);
   const t = useTranslate();
   const { user, logout } = useAuth();
 
@@ -100,7 +101,7 @@ function Header() {
         ))}
 
         {/* Routes Menu */}
-        <div className="routs-menu">
+        <div className="routs-menu backdrop-blur">
           <div className="container">
             {navLinks[activeNav]?.departments?.map((dept, index) => {
               const Icon = dept.icon ? MdIcons[dept.icon] : null;
@@ -137,13 +138,14 @@ function Header() {
 
   return (
     <header
+      className="backdrop-blur"
       onMouseLeave={() => {
         setActiveNav(null);
       }}
     >
-      <div className="container">
+      <div className="container ">
         <Link href="/" className="logo">
-          <Image  src="/main-logo.png" fill alt={t.header.logo_alt} />
+          <Image src="/main-logo.png" fill alt={t.header.logo_alt} />
         </Link>
 
         {screenSize === "large" && nav()}
@@ -164,7 +166,7 @@ function Header() {
                 />
               )}
             </div>
-            <div className="results">
+            <div className="results backdrop-blur">
               <Link href={""}>{t.header.search_results.private_events}</Link>
               <Link href={""}>{t.header.search_results.night_tours}</Link>
               <Link href={""}>{t.header.search_results.dinner_cruises}</Link>
@@ -233,8 +235,8 @@ function Header() {
                       ? "Dark"
                       : "Light"
                     : theme === "light"
-                    ? "داكن"
-                    : "فاتح"}
+                      ? "داكن"
+                      : "فاتح"}
                 </span>
               </button>
               <Link

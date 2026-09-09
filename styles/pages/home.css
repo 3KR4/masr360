@@ -1,10 +1,39 @@
 .landing {
   width: 100%;
-  aspect-ratio: 2;
+  aspect-ratio: 1.98;
   margin: 0 auto;
   overflow: hidden;
 }
+.landing::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 300px;
+  z-index: 2;
+  pointer-events: none;
 
+  background:
+    radial-gradient(
+      ellipse 105% 100% at 0% 100%,
+      #000 0%,
+      rgba(0, 0, 0, 0.75) 35%,
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 105% 100% at 100% 100%,
+      #000 0%,
+      rgba(0, 0, 0, 0.75) 35%,
+      transparent 75%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.25) 45%,
+      #000 100%
+    );
+}
 .landing .swiper,
 .landing .swiper .swiper-slide {
   width: 100%;

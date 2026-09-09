@@ -46,7 +46,17 @@ body {
   min-height: 100vh;
   font-family: var(--font-cinzel), sans-serif;
   isolation: isolate;
+  
 }
+.backdrop-blur {
+  backdrop-filter: blur(4px);
+  background: #ffffffed;
+}
+[data-theme="dark"] .backdrop-blur {
+  background: #000000c9;
+  backdrop-filter: blur(7px);
+}
+
 [lang="AR"] body {
   font-family: "Segoe UI", sans-serif;
 }
@@ -191,6 +201,10 @@ a {
   }
 }
 
+.discover,
+body > .about {
+  padding-top: 100px;
+}
 .grid-holder {
   display: grid;
   gap: 16px;
@@ -218,7 +232,7 @@ a {
 
 .main-button {
   text-transform: uppercase;
-  color: #fff;
+  color: var(--body-color);
   background: var(--main-color);
   justify-content: center;
   align-items: center;
