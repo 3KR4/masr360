@@ -13,7 +13,7 @@
   position: absolute;
   right: 15px;
   top: 9px;
-  color: var(--paragraph);
+  color: var(--title-color);
   width: 30px;
   height: 29px;
   border-radius: 5px;
@@ -35,7 +35,7 @@
 }
 
 .filters .holder h4 {
-  color: var(--paragraph);
+  color: var(--title-color);
   margin-left: 8px;
 }
 .filters .holder p {
@@ -57,7 +57,7 @@
   display: flex;
   font-size: 15px;
   font-weight: 700;
-  color: var(--paragraph);
+  color: var(--title-color);
   flex-direction: column;
   overflow: hidden;
 }
@@ -118,7 +118,7 @@
 }
 .filters .holder .price-input .field h3 {
   font-size: 15px;
-  color: var(--paragraph);
+  color: var(--title-color);
   border: 1px solid #c8c8c8;
   padding: 6px 12px;
   border-radius: 7px;
@@ -147,7 +147,7 @@
 }
 .selected-filters strong {
   margin-right: 3px;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 16px;
 }
 .selected-filters p {

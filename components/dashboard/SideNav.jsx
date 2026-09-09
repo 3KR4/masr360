@@ -27,7 +27,7 @@ import useTranslate from "@/Contexts/useTranslation";
 
 function SideNav() {
   const pathname = usePathname();
-  const { toggleLocale } = useContext(mainContext);
+  const { toggleLocale, theme, toggleTheme } = useContext(mainContext);
   const t = useTranslate();
 
   // ---------- Active link ----------
@@ -152,10 +152,12 @@ function SideNav() {
           </div>
         </li>
 
-        <li className="a">
+        <li className="a" onClick={toggleTheme}>
           <div className="hold">
-            <h4>{t.sideNav.darkTheme}</h4>
-            <MdSunny />
+            <h4>
+              {theme === "light" ? t.sideNav.darkTheme : t.sideNav.lightTheme}
+            </h4>
+            {theme === "light" ? <MdSunny /> : <FaMoon />}
           </div>
         </li>
 

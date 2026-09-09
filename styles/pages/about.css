@@ -61,7 +61,7 @@
 }
 .about .about-section li::before {
   content: "•";
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 20px;
   position: absolute;
   top: 50%;
@@ -90,7 +90,7 @@
 }
 .about .vision-mission .mission h5 {
   text-align: center;
-  color: var(--paragraph);
+  color: var(--title-color);
   margin: -5px 0 16px;
 }
 .about .vision-mission .mission ul {
@@ -176,7 +176,7 @@
 }
 .about .our-values .card h4 {
   font-size: 18px;
-  color: var(--paragraph);
+  color: var(--title-color);
 }
 .about .our-values .card p {
   font-size: 15px;
@@ -194,7 +194,7 @@
 .about .closing div {
   display: flex;
   gap: 9px;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
   flex-wrap: wrap;
   justify-content: center;

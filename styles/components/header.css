@@ -1,12 +1,18 @@
 /*! HEADER */
 header {
   z-index: 10;
-  position: sticky;
-  top: 0;
-  background: var(--body-color);
-  border-bottom: 1.5px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+  background: #000000c9;
+  border: 2px solid #efcf9c36;
+  border-radius: 63px;
+  width: 73%;
+  backdrop-filter: blur(7px);
+  margin: auto;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
 header .container {
   display: flex;
   gap: 12px;
@@ -47,7 +53,7 @@ header nav ul::-moz-scrollbar {
   height: 3px;
 }
 header nav > ul > li {
-  color: var(--paragraph);
+  color: var(--title-color);
   cursor: pointer;
   align-items: center;
   gap: 3px;
@@ -77,7 +83,7 @@ header nav > ul > li::before {
   transform: translateX(-50%);
 }
 header nav > ul > li .page-route {
-  color: var(--paragraph);
+  color: var(--title-color);
   min-width: max-content;
 }
 header nav > ul > li:hover .page-route {
@@ -115,8 +121,10 @@ header .routs-menu {
   width: 80%;
   transform: translateX(-50%);
   border-radius: 0 0 22px 22px;
-  border: 1px solid var(--border-color);
   border-top: 0;
+  background: #000000c9;
+  border: 2px solid #efcf9c36;
+  backdrop-filter: blur(7px);
 }
 header:has(li.has-menu:hover) .routs-menu,
 .routs-menu:hover {
@@ -159,7 +167,7 @@ header .routs-menu .container > div h4 svg {
 }
 header .routs-menu .container > div h4 .arrow-right {
   font-size: 15px;
-  color: var(--paragraph);
+  color: var(--title-color);
   margin-left: -3px;
 }
 header .routs-menu .container > div ul {
@@ -176,7 +184,7 @@ header .routs-menu .container > div a {
   cursor: pointer;
   font-size: 14px;
   transition: all 0.3s;
-  color: var(--paragraph);
+  color: var(--title-color);
 }
 header .routs-menu .container > div:hover a,
 header .routs-menu .container > div:hover svg {
@@ -394,7 +402,7 @@ header .actions-btns a {
 header .actions-btns .search-holder .results a:not(.main-button) {
   border-radius: 6px;
   padding: 8px 10px;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
   cursor: pointer;
 }
@@ -502,7 +510,7 @@ header .actions-btns .userMenu li {
 
 header .actions-btns .userMenu a,
 .userMenu .not-link {
-  color: var(--paragraph);
+  color: var(--title-color);
   border-radius: 8px;
   padding: 9px 12px;
   font-size: 15px;
@@ -566,7 +574,7 @@ header .cartMenu .info a {
   cursor: pointer;
   font-size: 14px;
   font-weight: 700;
-  color: var(--paragraph);
+  color: var(--title-color);
   text-align: left;
 }
 [lang="AR"] header .cartMenu .info a {
@@ -613,7 +621,7 @@ header .cartMenu .item .info {
   flex: 1;
 }
 header .cartMenu .item .info > p {
-  color: var(--paragraph);
+  color: var(--title-color);
   text-align: left;
   font-weight: 700;
   font-size: 14px;
@@ -633,8 +641,20 @@ header .cartMenu .item .remove:hover {
 header .cartMenu .item .info > span {
   font-size: 12px;
   text-align: left;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
+}
+header .cartMenu .item .info .price-holder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .cartMenu .item .info .price-holder .qty {
+  font-size: 12px;
+  color: var(--title-color);
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translateX(27px);
 }
 header .cartMenu .total {
   justify-content: space-between;
@@ -642,7 +662,7 @@ header .cartMenu .total {
   display: flex;
   flex-direction: row;
   font-weight: 700;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 15px;
   padding-bottom: 0;
   border-top: 1px solid var(--border-color);
@@ -657,10 +677,13 @@ header .cartMenu .btns {
   display: flex;
 }
 header .cartMenu .btns a.forcart {
-  background: #313131;
+  background: var(--second-color);
+  color: var(--title-color);
+  border: 1px solid var(--main-color);
 }
 header .cartMenu .btns a.forcart:hover {
   background: var(--main-color);
+  color: white;
 }
 header .cartMenu .btns a {
   border-radius: 6px !important;

@@ -14,21 +14,38 @@ html {
 }
 :root {
   --body-color: #ffffff;
-  --section-color: #f8f8f8;
+  --section-color: #ffffff;
   --main-color: #f3ae1c;
+  --main-color-2: #f3ae1c;
   --second-color: #ffe2b6;
   --hover-color: #e7ae34;
   --third-color: #0b0b0b;
-  --title-color: #333;
+  --title-color: #575757;
   --paragraph: #575757;
   --border-color: #e0e0e0;
+  --box-shadow: #dcdcdc;
 }
+[data-theme="dark"] {
+  --body-color: #000000;
+  --section-color: #1f1f1f;
+  --main-color: #f3ae1c;
+  --main-color-2: #efcf9e;
+  --second-color: #3a2a10;
+  --hover-color: #e7ae34;
+  --third-color: #f0f0f0;
+  --title-color: #d1d1d1;
+  --paragraph: #7c7c7c;
+  --border-color: #3a3a3a;
+  --box-shadow: #141414;
+}
+
 body {
   background-color: var(--body-color);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   font-family: var(--font-cinzel), sans-serif;
+  isolation: isolate;
 }
 [lang="AR"] body {
   font-family: "Segoe UI", sans-serif;
@@ -259,6 +276,9 @@ a {
   font-size: 17px;
   letter-spacing: 0.3px;
 }
+div.review-section .sub-title {
+  margin: 0 auto 32px;
+}
 .title-holder .main-button {
   height: 40px;
   font-size: 14px;
@@ -266,9 +286,12 @@ a {
   width: 214px;
   border-radius: 50px !important;
 }
-
+.favorites,
+.cart {
+  flex: 1;
+}
 .card {
-  box-shadow: 0 0 5px 0px #dcdcdc;
+  box-shadow: 0 0 5px 0px var(--box-shadow);
   border-radius: 20px;
   overflow: hidden;
   position: relative;
@@ -302,6 +325,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  background: var(--section-color);
 }
 .card .top {
   display: flex;
@@ -317,7 +341,7 @@ a {
   gap: 5px;
 }
 .card .name-link {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -329,7 +353,7 @@ a {
 }
 .card .text-holder a.explore {
   font-size: 14px;
-  color: var(--main-color);
+  color: var(--main-color-2);
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -356,7 +380,7 @@ a {
   direction: ltr !important;
 }
 .reviews .count {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
   font-size: 13px;
 }
@@ -383,9 +407,9 @@ a {
 }
 
 .loader {
-  width: 20px;
-  height: 20px;
-  border: 3px solid var(--main-color);
+  width: 30px;
+  height: 30px;
+  border: 4px solid var(--main-color);
   border-bottom-color: transparent !important;
   border-radius: 50%;
   display: inline-block;
@@ -428,8 +452,8 @@ button:hover .loader {
   height: 31px;
   padding: 8px;
 }
-
-.card .actions-icon svg:hover {
+.card .actions-icon button.active,
+.card .actions-icon button:hover {
   background: var(--main-color);
 }
 .card .image-holder .main-button {
@@ -449,14 +473,14 @@ button:hover .loader {
   display: flex;
   align-items: center;
   gap: 2px;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 12px;
   font-weight: 700;
   min-width: max-content;
 }
 
 .card .location svg {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 12px;
 }
 
@@ -474,7 +498,7 @@ button:hover .loader {
 .card .time-holder div {
   display: flex;
   justify-content: space-between;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
   font-size: 14px;
   padding: 0 11px;
@@ -527,7 +551,7 @@ button:hover .loader {
   text-decoration: line-through;
 }
 .regular-price {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
   font-size: 15px !important;
 }
@@ -551,7 +575,7 @@ button:hover .loader {
   display: flex;
 }
 .navigations a {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
   font-size: 16px;
   transition: 0.3s;
@@ -561,7 +585,7 @@ button:hover .loader {
   text-decoration: underline;
 }
 .navigations .separator {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 19px;
   font-weight: 900;
 }
@@ -590,7 +614,7 @@ button:hover .loader {
   cursor: pointer;
   transition: 0.3s;
   border-radius: 6px;
-  color: var(--paragraph);
+  color: var(--title-color);
   background: var(--section-color);
   width: 40px;
   height: 40px;
@@ -627,7 +651,7 @@ button:hover .loader {
   width: 100%;
 }
 .box.forInput label {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 13px;
   font-weight: 700;
 }
@@ -646,7 +670,7 @@ button:hover .loader {
   width: 35px;
   height: 44px;
   padding: 7px;
-  color: var(--paragraph);
+  color: var(--title-color);
   margin-left: 2px;
 }
 .box.forInput .inputHolder .holder svg.eye {
@@ -698,7 +722,7 @@ button:hover .loader {
 }
 .error-page h4 {
   font-size: 34px;
-  color: var(--paragraph);
+  color: var(--title-color);
 }
 .error-page p {
   font-size: 20px;
@@ -712,6 +736,9 @@ button:hover .loader {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+.error-page .loader {
+  position: static;
 }
 
 .hero-image-holder {
@@ -803,7 +830,7 @@ button:hover .loader {
   justify-content: space-between;
 }
 .filters .btn h4 {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 13px;
   font-weight: 400;
   flex: 1;
@@ -907,7 +934,7 @@ button:hover .loader {
   transition: 0.3s;
   font-weight: 700;
   background: var(--section-color);
-  color: var(--paragraph);
+  color: var(--title-color);
 }
 .filters.for-cats button:hover,
 .filters.for-cats button.active {
@@ -919,10 +946,10 @@ button:hover .loader {
 .filters.for-cats input {
   flex: 1;
   height: 100%;
-  color: var(--paragraph);
+  color: var(--title-color);
 }
 .filters.for-cats .no-results {
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
   font-size: 13px;
 }
@@ -938,7 +965,7 @@ svg.main-ico {
 }
 
 @media (min-width: 992px) {
-  .card .actions-icon {
+  .card .actions-icon:not(:has(.active)) {
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);

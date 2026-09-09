@@ -1,0 +1,75 @@
+.gold-dust {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gold-dust__particle {
+  position: absolute;
+  left: var(--left);
+  bottom: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 233, 168, 0.9) 0%,
+    rgba(243, 174, 28, 0.55) 40%,
+    rgba(243, 174, 28, 0) 72%
+  );
+  box-shadow:
+    0 0 4px rgba(243, 174, 28, 0.6),
+    0 0 10px rgba(243, 174, 28, 0.28);
+  opacity: 0;
+  filter: blur(var(--blur));
+  will-change: transform, opacity;
+}
+
+.gold-dust.is-ready .gold-dust__particle {
+  animation: gold-dust-rise var(--duration) linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes gold-dust-rise {
+  0% {
+    transform: translate3d(
+        0,
+        calc(-1 * var(--rise-distance) * var(--rise-pct)),
+        0
+      )
+      scale(0.55);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--opacity);
+  }
+  50% {
+    transform: translate3d(
+        var(--drift-x),
+        calc(-1 * var(--rise-distance) * (var(--rise-pct) + 0.5)),
+        0
+      )
+      scale(var(--scale));
+  }
+  90% {
+    opacity: var(--opacity);
+  }
+  100% {
+    transform: translate3d(
+        0,
+        calc(-1 * var(--rise-distance) * (var(--rise-pct) + 1.05)),
+        0
+      )
+      scale(0.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gold-dust.is-ready .gold-dust__particle {
+    animation: none;
+    opacity: 0;
+  }
+}

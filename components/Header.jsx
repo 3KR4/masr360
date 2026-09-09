@@ -25,7 +25,7 @@ import useTranslate from "@/Contexts/useTranslation";
 import { useAuth } from "@/Contexts/AuthContext";
 
 function Header() {
-  const { screenSize, locale, toggleLocale } = useContext(mainContext);
+  const { screenSize, locale, toggleLocale, theme, toggleTheme } = useContext(mainContext);
   const t = useTranslate();
   const { user, logout } = useAuth();
 
@@ -203,6 +203,12 @@ function Header() {
                       <GrLanguage />
                       {t.header.change_language}
                     </li>
+                    <li className="lang not-link" onClick={toggleTheme}>
+                      {theme === "light" ? <FaRegMoon /> : <FiSun />}
+                      {theme === "light"
+                        ? t.header.darkTheme
+                        : t.header.lightTheme}
+                    </li>
                     <li className="not-link danger" onClick={logout}>
                       <MdLogout />
                       {t.header.logout}
@@ -217,6 +223,18 @@ function Header() {
                 <span className="lang-span">
                   <GrLanguage />
                   {locale === "EN" ? "EN" : "AR"}
+                </span>
+              </button>
+              <button className="lang" onClick={toggleTheme}>
+                <span className="lang-span">
+                  {theme === "light" ? <FaRegMoon /> : <FiSun />}
+                  {locale === "EN"
+                    ? theme === "light"
+                      ? "Dark"
+                      : "Light"
+                    : theme === "light"
+                    ? "داكن"
+                    : "فاتح"}
                 </span>
               </button>
               <Link

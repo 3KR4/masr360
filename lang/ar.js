@@ -26,6 +26,8 @@ const ar = {
     favorites: "المفضلة",
     support: "الدعم الفني",
     change_language: "تغيير اللغة",
+    darkTheme: "الوضع الداكن",
+    lightTheme: "الوضع الفاتح",
     logout: "تسجيل الخروج",
     sign_up: "انشاء حساب",
     home: "الصفحة الرئيسية",
@@ -166,6 +168,7 @@ const ar = {
     support: "الدعم",
 
     darkTheme: "الوضع الداكن",
+    lightTheme: "الوضع الفاتح",
     logout: "تسجيل الخروج",
     language: "اللغة",
   },

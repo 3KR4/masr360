@@ -27,6 +27,9 @@
   gap: 10px;
   display: grid;
 }
+.dashboard form .row-holder.one-column {
+  grid-template-columns: repeat(1, 1fr);
+}
 .dashboard form .row-holder.two-column {
   grid-template-columns: repeat(2, 1fr);
 }
@@ -39,7 +42,7 @@
 .dashboard form .main-button[type="submit"] {
   height: 44px;
   padding: 0 20px;
-  color: var(--paragraph);
+  color: var(--title-color);
   background: var(--second-color);
 }
 .dashboard form .main-button[type="submit"]:hover {
@@ -52,6 +55,34 @@
 .dashboard form .main-button[type="submit"] span {
   text-transform: uppercase;
   transition: 0.3s;
+}
+.dashboard form .main-button.submit-button {
+  position: relative;
+}
+.dashboard form .main-button.submit-button.is-loading {
+  opacity: 0.6;
+}
+.submit-button-label,
+.submit-button-loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+.submit-button-label {
+  opacity: 1;
+}
+.submit-button-loader {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.submit-button.is-loading .submit-button-label {
+  opacity: 0;
+}
+.submit-button.is-loading .submit-button-loader {
+  opacity: 1;
 }
 .box.forInput label {
   padding-left: 4px;
@@ -101,6 +132,36 @@
 .filters .btn svg:first-child {
   border: none;
 }
+
+.select-loading-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 26px;
+  min-height: 18px;
+}
+
+.select-loading-inline .loader,
+.select-options-loading .loader {
+  width: 18px;
+  height: 18px;
+  border-width: 3px;
+  opacity: 1;
+}
+
+.select-options-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 80px;
+  color: var(--title-color);
+}
+
+.select-options-loading p {
+  font-size: 13px;
+  font-weight: 500;
+}
 .box.forInput .inputHolder.tags {
   border: 1px solid var(--border-color);
   border-radius: 11px;
@@ -125,7 +186,7 @@
   gap: 5px;
 }
 .box.forInput .inputHolder.tags .tagsList span {
-  color: var(--paragraph);
+  color: var(--title-color);
   cursor: pointer;
   border-radius: 7px;
   align-items: center;
@@ -162,7 +223,7 @@
   padding: 0 27px;
   border-radius: 0 !important;
   background: transparent;
-  color: var(--paragraph);
+  color: var(--title-color);
   border-left: 1px solid var(--border-color);
   font-weight: 400;
 }
@@ -195,14 +256,14 @@
   background: white;
   border: 1px solid #a7a7a7;
   border-radius: 7px;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-size: 13px;
   padding: 8px 11px;
   flex: 1;
 }
 
 .box.forInput .spec-list svg {
-  color: var(--paragraph);
+  color: var(--title-color);
   border: 1px solid #a7a7a7;
   height: 100%;
   width: 33px;
@@ -421,7 +482,7 @@
 }
 .box.forInput.ticket .spec-list svg:hover {
   background: transparent !important;
-  color: var(--paragraph) !important;
+  color: var(--title-color) !important;
 }
 .box.forInput.ticket .tickets-prices label {
   text-transform: capitalize;
@@ -442,8 +503,8 @@
 }
 .lang-switch button {
   cursor: pointer;
-  border: 1px solid var(--paragraph);
-  color: var(--paragraph);
+  border: 1px solid var(--title-color);
+  color: var(--title-color);
   border-radius: 8px;
   padding: 8px;
   font-weight: 700;

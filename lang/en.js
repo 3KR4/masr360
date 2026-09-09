@@ -26,6 +26,8 @@ const en = {
     favorites: "Favorites",
     support: "support",
     change_language: "Change Language",
+    darkTheme: "Dark Theme",
+    lightTheme: "Light Theme",
     logout: "Logout",
 
     sign_up: "Sign Up",
@@ -171,6 +173,7 @@ const en = {
     support: "Support",
 
     darkTheme: "Dark Theme",
+    lightTheme: "Light Theme",
     logout: "Log Out",
     language: "Language",
   },

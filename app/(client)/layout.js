@@ -1,6 +1,7 @@
 import { Cinzel, Poppins } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import GoldDust from "@/components/GoldDust";
 import { MainProvider } from "@/Contexts/mainContext";
 import "@/styles/globals.css";
 import { AuthProvider } from "@/Contexts/AuthContext";
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="EN" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
+        <GoldDust />
         <MainProvider>
           <NotificationProvider>
             <AuthProvider>

@@ -1,5 +1,6 @@
 import { Cinzel, Poppins } from "next/font/google";
 import SideNav from "@/components/dashboard/SideNav";
+import GoldDust from "@/components/GoldDust";
 import { MainProvider } from "@/Contexts/mainContext";
 import { DashBoardProvider } from "@/Contexts/dashboard";
 import "@/styles/globals.css";
@@ -53,7 +54,8 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="EN" className={`${poppins.variable} ${cinzel.variable}`}>
-      <body>
+      <body>  
+        <GoldDust />
         <MainProvider>
           <NotificationProvider>
             <DashBoardProvider>

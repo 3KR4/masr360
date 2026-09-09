@@ -14,6 +14,32 @@
   color: #898989;
 }
 
+.item-availability {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.item-availability .hold {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--title-color);
+  font-weight: 600;
+}
+.item-availability span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 700;
+}
+.item-availability .in {
+  color: #16a34a;
+}
+.item-availability .out {
+  color: #d94452;
+}
+
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -23,7 +49,7 @@
 }
 
 .quantity-btn {
-  color: var(--paragraph);
+  color: var(--title-color);
   border: 1px solid #c8c8c8;
   border-radius: 6px;
   flex: 1;
@@ -49,7 +75,7 @@
   font-weight: 700;
   text-align: center;
 
-  color: var(--paragraph);
+  color: var(--title-color);
 }
 
 .stock-info {
@@ -93,7 +119,7 @@
 
 .total-label {
   margin: 0;
-  color: var(--paragraph);
+  color: var(--title-color);
 }
 
 .total-amount {
@@ -123,6 +149,7 @@
   height: 2px;
   background-color: #e9ecef;
   z-index: 1;
+  width: 95%;
 }
 
 .progress-step {
@@ -140,7 +167,7 @@
   height: 40px;
   border-radius: 50%;
   background-color: #e9ecef;
-  color: var(--paragraph);
+  color: var(--title-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,7 +178,7 @@
 
 .step-label {
   font-size: 0.9rem;
-  color: var(--paragraph);
+  color: var(--title-color);
 
   transition: all 0.3s ease;
 }
@@ -194,7 +221,7 @@
   padding: 10 0;
 }
 .section-title {
-  color: var(--paragraph);
+  color: var(--title-color);
   padding: 7px 16px 13px;
   font-size: 17px;
 }
@@ -307,7 +334,7 @@
 
 .summary-item-price {
   font-size: 14px;
-  color: var(--paragraph);
+  color: var(--title-color);
   font-weight: 700;
 }
 .coupon-section {
@@ -320,7 +347,7 @@
 }
 .coupon-section label {
   margin: 0 !important;
-  color: var(--paragraph) !important;
+  color: var(--title-color) !important;
   font-size: 14px !important;
   font-weight: 600 !important;
 }
@@ -336,7 +363,7 @@
   margin-bottom: 0.45rem;
   font-size: 14px;
   font-weight: 700;
-  color: var(--paragraph);
+  color: var(--title-color);
 }
 
 .payment-method {
