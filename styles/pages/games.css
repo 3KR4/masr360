@@ -1,11 +1,327 @@
 /*! games-card */
-.game {
+.games {
+  background: linear-gradient(#f3ae1c14 0%, #000 64%);
+  margin: 0;
+  padding: 0 0 100px;
+  position: relative;
+  overflow: visible !important;
+}
+
+.games-swiper-holder {
+  position: relative;
+  margin: 0 auto;
+  overflow: visible !important;
+}
+
+.games-swiper.vertical-stacked-swiper {
+  width: 100%;
+  height: 400px;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+.games-swiper.vertical-stacked-swiper .swiper-wrapper {
+  overflow: visible !important;
+  height: 400px;
+}
+
+.games-swiper.vertical-stacked-swiper .swiper-slide {
   display: flex;
-  border: 1px solid var(--border-color);
-  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  overflow: visible !important;
+  height: 400px;
+  min-height: auto;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease,
+    filter 0.5s ease,
+    visibility 0.5s ease;
+  filter: blur(4px);
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.games-swiper.vertical-stacked-swiper .swiper-slide-active {
+  z-index: 10 !important;
+  filter: blur(0px) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.games-swiper.vertical-stacked-swiper .swiper-slide-next {
+  z-index: 5 !important;
+  opacity: 0.85 !important;
+  visibility: visible !important;
+  filter: blur(4px) !important;
+  pointer-events: auto !important;
+}
+
+/* Vertical side pagination badge for Games Swiper on the LEFT side with gap */
+.games-swiper-holder .games-pagination {
+  position: absolute !important;
+  top: 40% !important;
+  bottom: auto !important;
+  left: -42px !important;
+  right: auto !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 16px 8px !important;
+  border-radius: 50px !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  z-index: 25 !important;
+}
+
+[lang="AR"] .games-swiper-holder .games-pagination {
+  left: -42px !important;
+  right: auto !important;
+}
+
+.games-swiper-holder .games-pagination .swiper-pagination-bullet {
+  width: 6px !important;
+  height: 18px !important;
+  border-radius: 12px !important;
+  opacity: 1 !important;
+  transition: all 0.35s ease !important;
+  margin: 0 !important;
+  background-color: rgba(243, 174, 28, 0.3) !important;
+}
+
+.games-swiper-holder .games-pagination .swiper-pagination-bullet-active {
+  width: 6px !important;
+  height: 28px !important;
+  background-color: var(--main-color) !important;
+  box-shadow: 0 0 12px rgba(234, 140, 67, 0.8) !important;
+}
+.games-swiper .card.game {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-radius: 40px;
+  overflow: hidden;
+  align-items: stretch;
+}
+.games-swiper .card.game .image-holder {
+  flex-shrink: 0;
+  width: 40%;
+  position: relative;
+  aspect-ratio: 1.8;
+}
+.games-swiper .card.game .image-holder img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  aspect-ratio: unset;
+}
+.games-swiper .card.game .text-holder {
+  flex: 1;
+  margin-top: 0;
+  border-radius: 0;
+  display: flex;
+  gap: 14px;
   flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+}
+
+.games-banner-holder {
+  margin-bottom: 35px;
+  position: unset;
+}
+
+.card.explore-more-card {
+  background: transparent;
+  border-radius: 40px;
+  width: 100%;
+  min-height: 475px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  position: unset;
+  box-shadow: unset;
+}
+
+[lang="AR"] .card.explore-more-card {
+  flex-direction: row;
+}
+
+/* Image Side (Absolute on Left in LTR, Right in RTL) */
+.card.explore-more-card .image-side {
+  clip-path: polygon(0 0, 100% 0, 74% 100%, 0 100%);
+  z-index: 2;
+  width: 55%;
+  position: absolute;
+  top: 0;
+  aspect-ratio: 2.4;
+  bottom: 0;
+  left: -28px;
   overflow: hidden;
 }
+
+[lang="AR"] .card.explore-more-card .image-side {
+  left: auto;
+  right: 0;
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.card.explore-more-card .image-side img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  position: absolute !important;
+  transition: transform 0.8s ease;
+}
+
+/* Content Side (Positioned to the right of absolute image) */
+.card.explore-more-card .content-side {
+  text-align: center;
+  z-index: 1;
+  background: transparent;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: self-end;
+  gap: 25px;
+  padding: 35px 30px 25px;
+  display: flex;
+  position: relative;
+}
+
+[lang="AR"] .card.explore-more-card .content-side {
+  margin-left: 0;
+  margin-right: 40%;
+}
+
+/* Main Info */
+.card.explore-more-card .main-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  max-width: 520px;
+  width: 100%;
+}
+
+.card.explore-more-card .banner-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.card.explore-more-card .banner-title span {
+  font-size: 35px;
+  font-weight: 600;
+  color: var(--title-color);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.card.explore-more-card .banner-title strong.highlight {
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--main-color);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(234, 140, 67, 0.3);
+}
+
+.card.explore-more-card .banner-desc {
+  font-size: 13.5px;
+  color: var(--title-color);
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.9;
+  font-weight: 200;
+}
+
+/* Explore Button */
+.card.explore-more-card .explore-btn {
+  background: var(--main-gradient);
+  margin-top: 5px;
+}
+
+.card.explore-more-card .explore-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px 2px rgba(234, 140, 67, 0.6);
+}
+
+/* Features Row */
+.card.explore-more-card .features-row {
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  display: flex;
+  max-width: 570px;
+}
+
+.card.explore-more-card .feature-item {
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  gap: 11px;
+  display: flex;
+}
+
+.card.explore-more-card .feature-icon {
+  color: var(--main-color);
+  font-size: 25px;
+}
+
+.card.explore-more-card .feature-item span {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--title-color);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.card.explore-more-card .divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border-color);
+  opacity: 0.6;
+}
+
+/* Media Queries */
+@media (max-width: 992px) {
+  .card.explore-more-card {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .card.explore-more-card .image-side {
+    width: 100%;
+    height: 180px;
+    clip-path: none !important;
+  }
+  .card.explore-more-card .content-side {
+    width: 100%;
+    padding: 25px 20px;
+  }
+  .card.explore-more-card .banner-title span {
+    font-size: 18px;
+  }
+  .card.explore-more-card .banner-title strong.highlight {
+    font-size: 24px;
+  }
+  .card.explore-more-card .features-row {
+    gap: 8px;
+  }
+  .card.explore-more-card .feature-item span {
+    font-size: 9.5px;
+  }
+}
+
 .game > img {
   width: 100% !important;
   height: unset !important;
@@ -14,14 +330,17 @@
 }
 .game .text-holder {
   flex-direction: column;
-  gap: 7px;
+  gap: 10px;
   padding: 15px 12px;
   display: flex;
 }
 .game .text-holder span.color {
-  color: var(--paragraph);
+  color: var(--main-color-2);
   font-size: 14px;
   font-weight: 700;
+}
+.games-swiper .game .text-holder .difficulty {
+  font-size: 18px;
 }
 .game .text-holder .top {
   display: flex;
@@ -45,20 +364,22 @@
 }
 .game .text-holder .difficulty {
   padding: 0 4px;
+  color: var(--main-color-3) !important;
 }
 .game .text-holder .holder {
-  display: flex;
-  flex-direction: column;
   text-align: center;
-  border: 2px solid var(--main-color);
   background: var(--second-color);
-  border-style: dotted;
-  border-radius: 5px;
+  border-radius: 18px;
+  flex-direction: column;
   justify-content: center;
-  padding: 10px;
+  padding: 12px 18px;
   font-size: 13px;
   font-weight: 700;
+  display: flex;
   gap: 6px !important;
+}
+.games-swiper .game .text-holder .holder {
+  gap: 10px !important;
 }
 .game .text-holder .holder .hold {
   display: flex;
@@ -66,8 +387,8 @@
   justify-content: space-between;
 }
 .game .text-holder .holder .color {
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 600;
 }
 [lang="AR"] .game .text-holder .holder .color {
   font-weight: 700;
@@ -84,16 +405,22 @@
   font-size: 14px;
   line-height: 1.3;
 }
+.games-swiper .game .text-holder .description {
+  font-size: 15px;
+  line-height: 1.7;
+}
 .game .text-holder .description.no-clamp {
   -webkit-line-clamp: unset;
 }
 .game .text-holder .main-button {
+  cursor: pointer;
   width: 100%;
   height: 44px;
   font-size: 13px;
-  transition: 0.3s;
-  cursor: pointer;
-  color: white !important;
+  margin-top: 4px;
+}
+.game .text-holder .main-button:hover {
+  color: var(--body-color);
 }
 /*! preview-game */
 .big-holder.for-games {
@@ -156,38 +483,38 @@
 }
 /* العنوان */
 .discover .steps-list .title {
+  max-width: 250px;
+  color: var(--body-color);
+  -webkit-line-clamp: 2;
+  background: var(--main-color-3);
+  border-radius: 20px;
+  -webkit-box-orient: vertical;
+  padding: 5px 12px;
+  font-size: 15px;
+  font-weight: 700;
+  display: -webkit-box;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  max-width: 250px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--paragraph);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   overflow: hidden;
-  background: var(--section-color);
-  padding: 5px 12px;
-  border-radius: 7px;
+  transform: translateY(-50%);
 }
 
 /* الكوينز */
 .discover .steps-list .coins {
   white-space: nowrap;
-  color: var(--main-color);
-  background: var(--section-color);
-  border-radius: 7px;
+  color: var(--body-color);
+  background: var(--main-color);
+  border-radius: 20px;
   align-items: center;
   gap: 3px;
+  height: 27px;
   padding: 5px 12px;
+  font-size: 15px;
   font-weight: 700;
   display: flex;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 15px;
-  height: 27px;
 }
 
 /* ===== الاتجاه ===== */
@@ -256,6 +583,7 @@
   cursor: pointer;
   transition: 0.3s;
 }
+
 .steps-accordion .step-item .step-header:hover {
   background: var(--second-color);
 }
@@ -340,7 +668,6 @@
 }
 
 .game-page .question-box {
-  background: #fff;
   padding: 22px 22px 19px;
   border-radius: 14px;
   box-shadow: 0 2px 10px #0000001a;

@@ -3,7 +3,7 @@
 .support form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 }
 .support form h4 {
   text-transform: capitalize;
@@ -19,53 +19,63 @@
 .support form .hold .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 7px;
+  gap: 15px;
 }
 .support form .hold .grid.second {
   grid-template-columns: repeat(2, 1fr);
+  margin-top: 15px;
 }
 .support form .hold .option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 15px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  height: 120px;
   cursor: pointer;
-  transition: 0.3s;
+  border-radius: 92px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  height: 110px;
+  padding: 15px;
+  transition: all 0.3s;
+  display: flex;
+  background: var(--section-color);
+  border: 1px solid var(--box-shadow-2);
 }
 .support form .hold .option.active,
 .support form .hold .option:hover {
-  background: var(--second-color) !important;
-  border-color: var(--main-color);
+  background: var(--main-color-3) !important;
 }
 .support form .hold .box.forInput {
   width: 100%;
 }
+.support form .hold .box.forInput:has(textarea) {
+  margin-top: 9px;
+}
 .support form .hold .option svg {
   font-size: 28px;
-  color: var(--paragraph);
+  color: var(--main-color-3);
 }
 .support form .hold .option h5 {
   font-size: 16px;
-  color: var(--paragraph);
+  color: var(--main-color-3);
+  font-weight: 400;
 }
 
 .support form .hold .option.active svg,
-.support form .hold .option:hover svg {
-  color: var(--title-color);
-}
 .support form .hold .option.active h5,
-.support form .hold .option:hover h5 {
-  color: var(--title-color);
+.support form .hold .option:hover h5,
+.support form .hold .option:hover svg {
+  color: var(--body-color);
+  font-weight: 600;
 }
+
 .support form .main-button {
   width: 100%;
   height: 50px;
-  font-size: 15px;
+  border-radius: 40px !important;
+  background: var(--main-color);
+  font-weight: 700;
+}
+.support form .main-button:hover {
+  background: var(--hover-color);
 }
 .support .box.forInput .inputHolder .holder input {
   padding-left: 10px;

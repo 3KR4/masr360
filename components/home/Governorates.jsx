@@ -5,18 +5,32 @@ import CardItem from "@/components/CardItem";
 import useTranslate from "@/Contexts/useTranslation";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
 import { mainContext } from "@/Contexts/mainContext";
+import useCardHeight from "@/hooks/client/useCardHeight";
 
-function Governorates() {
+function Governorates({ limitToShow = 9 }) {
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
   const [governorates, setgovernorates] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const effectiveLimit = screenSize === "small" ? 6 : limitToShow;
+  const { gridRef, cardHeight } = useCardHeight([
+    effectiveLimit,
+    loading,
+    governorates,
+  ]);
+
   useEffect(() => {
     const fetchgovernorates = async () => {
       setLoading(true);
       try {
-        const { governorates } = await getGovernorates("", 1, 6, locale);
+        const fetchLimit = effectiveLimit || 9;
+        const { governorates } = await getGovernorates(
+          "",
+          1,
+          fetchLimit,
+          locale,
+        );
         setgovernorates(governorates || []);
       } catch (err) {
         console.error("Failed to fetch governorates:", err);
@@ -26,9 +40,13 @@ function Governorates() {
       }
     };
     fetchgovernorates();
-  }, [locale]);
+  }, [locale, effectiveLimit]);
 
   if (!loading && governorates.length < 3) return null;
+
+  const displayGovernorates = effectiveLimit
+    ? governorates.slice(0, effectiveLimit)
+    : governorates;
 
   return (
     <div className="governorates">
@@ -39,20 +57,48 @@ function Governorates() {
           <hr />
         </h1>
         <p className="sub-title">{t.sectionsTitles.discover_egypt.subtitle}</p>
-        <Link href={`/discover`} className="main-button">
-          {t.sectionsTitles.discover_egypt.btn}
-        </Link>
+        {!effectiveLimit && (
+          <Link href={`/discover`} className="main-button">
+            {t.sectionsTitles.discover_egypt.btn}
+          </Link>
+        )}
       </div>
 
-      <div className="grid-holder container">
+      <div
+        ref={gridRef}
+        className={`grid-holder container ${effectiveLimit ? "limit-to-show" : ""}`}
+      >
         {loading ? (
-          <div style={{ textAlign: "center", padding: "40px", gridColumn: "1 / -1" }}>
+          <div
+            style={{
+              textAlign: "center",
+              padding: "40px",
+              gridColumn: "1 / -1",
+            }}
+          >
             <p>{t.dashboard.forms.loading || "Loading..."}</p>
           </div>
         ) : (
-          governorates.map((gov) => (
-            <CardItem key={gov.id} item={gov} type="gov" />
-          ))
+          <>
+            {displayGovernorates.map((gov) => (
+              <CardItem key={gov.id} item={gov} type="gov" />
+            ))}
+            {effectiveLimit && (
+              <span
+                className="overlay-layer"
+                style={{ height: cardHeight ? `${cardHeight}px` : undefined }}
+              />
+            )}
+            {effectiveLimit && (
+              <Link
+                href={`/discover`}
+                style={{ bottom: cardHeight / 2 }}
+                className="main-button back-light-animation"
+              >
+                {t.sectionsTitles.discover_egypt.btn}
+              </Link>
+            )}
+          </>
         )}
       </div>
     </div>

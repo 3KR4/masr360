@@ -49,21 +49,22 @@
 }
 
 .quantity-btn {
-  color: var(--paragraph);
-  border: 1px solid #c8c8c8;
-  border-radius: 6px;
+  color: var(--main-color);
+  border: 1px solid var(--second-color);
+  border-radius: 12px;
   flex: 1;
-  min-width: 37px;
-  max-width: 37px;
-  height: 37px;
-  font-size: 15px;
+  background: var(--second-color);
+  min-width: 42px;
+  max-width: 42px;
+  height: 42px;
+  font-size: 27px;
   font-weight: 700;
 }
 
 .quantity-btn:hover:not(:disabled) {
-  background-color: var(--main-color);
-  border-color: var(--main-color);
-  color: white;
+  background: var(--main-color);
+  border-color: transparent;
+  color: var(--body-color);
 }
 
 .quantity-btn:disabled {
@@ -72,10 +73,10 @@
 }
 
 .quantity-number {
-  font-weight: 700;
   text-align: center;
-
-  color: var(--paragraph);
+  color: var(--main-color);
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .stock-info {
@@ -147,7 +148,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: #e9ecef;
+  background-color: var(--main-color);
   z-index: 1;
   width: 95%;
 }
@@ -165,28 +166,28 @@
 .step-number {
   width: 40px;
   height: 40px;
+  color: var(--body-color);
+  background-color: var(--main-color-3);
   border-radius: 50%;
-  background-color: #e9ecef;
-  color: var(--paragraph);
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   font-weight: bold;
-  transition: all 0.3s ease;
-  border: 2px solid #e9ecef;
+  transition: all 0.3s;
+  display: flex;
 }
 
 .step-label {
   font-size: 0.9rem;
   color: var(--paragraph);
-
+  font-weight: 500;
+  margin-top: 3px;
   transition: all 0.3s ease;
 }
 
 .progress-step.active .step-number {
-  background-color: #ea8c43;
-  border-color: #ea8c43;
-  color: white;
+  color: var(--body-color);
+  background: var(--main-gradient);
+  border-color: transparent;
 }
 
 .progress-step.active .step-label {
@@ -209,19 +210,19 @@
 
 .form-section,
 .summary-section {
-  background: #fff;
-  border-radius: 12px;
-  padding: 17px;
-  box-shadow: 0 2px 10px #0000001a;
-  display: flex;
+  border-radius: 24px;
   flex-direction: column;
+  padding: 20px 17px;
+  display: flex;
+  box-shadow: 0 0 16px 0px var(--box-shadow-2);
+  background: var(--section-color);
 }
 
 .summary-section {
   padding: 10 0;
 }
 .section-title {
-  color: var(--paragraph);
+  color: var(--main-color);
   padding: 7px 16px 13px;
   font-size: 17px;
 }
@@ -240,7 +241,6 @@
   gap: 0 !important;
   display: flex;
   overflow: hidden;
-  height: 50px;
   border: none !important;
 }
 .form-section .box.forInput .inputHolder,
@@ -250,8 +250,7 @@
   height: 100%;
 }
 .form-section .box.forInput .inputHolder .holder:has(textarea) {
-  padding: 14px 10px;
-  border-color: #d4d4d4;
+  padding: 14px 14px;
 }
 
 .form-section .box.forInput .inputHolder .holder textarea {
@@ -260,42 +259,42 @@
   /* height: 242px; */
 }
 .coupon-section.box.forInput .inputHolder .holder input {
-  border: 1px solid #d4d4d4;
-  border-radius: 11px 0 0 11px;
+  border: 1px solid var(--second-color);
+  border-radius: 24px 0 0 24px;
   padding: 13px;
+  border-right: 0;
   border-right: 0;
 }
 [lang="AR"] .coupon-section.box.forInput .inputHolder .holder input {
-  border-right: 1px solid #d4d4d4;
+  border-right: 1px solid var(--second-color);
   border-radius: 0 11px 11px 0;
   border-left: 0;
 }
 .apply-coupon-btn {
-  color: #fff;
+  color: var(--body-color);
   cursor: pointer;
-  background: #ea8c43;
-  width: 86px;
-  height: 44px;
-  transition: background-color 0.3s;
-  font-size: 14px;
-  font-weight: 700;
   letter-spacing: 0.3px;
   border: 1px solid var(--main-color);
-  border-radius: 0 12px 12px 0;
+  background: var(--main-color-3);
+  border-radius: 0 24px 24px 0;
+  width: 86px;
+  height: 44px;
+  font-size: 14px;
+  transition: background-color 0.3s;
 }
 [lang="AR"] .apply-coupon-btn {
   border-radius: 12px 0 0 12px;
 }
 .apply-coupon-btn:hover {
-  background: #d87c33;
+  background: var(--main-color);
 }
 
 .summary-items {
   max-height: 252px;
   overflow-y: auto;
   padding: 0 14px 0 17px;
-  border-top: 2px solid #e9ecef;
-  border-bottom: 2px solid #e9ecef;
+  border-top: 1px solid var(--second-color);
+  border-bottom: 1px solid var(--second-color);
 }
 
 .summary-item {
@@ -303,7 +302,6 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 0;
-  border-bottom: 1px solid #e9ecef;
 }
 
 .summary-item:last-child {
@@ -321,9 +319,10 @@
 }
 
 .summary-item-name {
-  margin: 0 0 0.25rem 0;
+  font-weight: 500;
+  color: var(--main-color-3);
+  margin: 0 0 0.25rem;
   font-size: 0.9rem;
-  color: #333;
 }
 
 .summary-item-quantity {
@@ -352,18 +351,22 @@
   font-weight: 600 !important;
 }
 .summary-total {
-  border-bottom: 2px solid #e9ecef;
-  padding: 15px 16px 8px;
-  display: flex;
+  border-bottom: 1px solid var(--second-color);
   gap: 14px;
+  padding: 15px 16px 7px;
+  display: flex;
 }
 
 .total-line {
   letter-spacing: 0.2px;
+  color: var(--paragraph);
   margin-bottom: 0.45rem;
   font-size: 14px;
   font-weight: 700;
-  color: var(--paragraph);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--title-color);
 }
 
 .payment-method {
@@ -372,11 +375,14 @@
 }
 
 .payment-title {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--main-color-3);
+  font-size: 35px;
 }
 
 .payment-subtitle {
   font-size: 1.1rem;
+  font-weight: 300;
 }
 
 /* Checkout Navigation */
@@ -390,17 +396,9 @@
 }
 
 .nav-btn {
-  cursor: pointer;
-  color: #fff;
-  text-transform: uppercase;
-  background: #ea8c43;
-  border: none;
-  border-radius: 6px;
   width: 150px;
-  padding: 0.75rem 0;
-  font-weight: 700;
-  transition: all 0.3s;
-  letter-spacing: 0.2px;
+  background: var(--main-gradient);
+  font-weight: 800;
 }
 
 .nav-btn:hover {

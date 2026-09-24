@@ -23,6 +23,12 @@ export const MainProvider = ({ children }) => {
     }
     return "EN";
   });
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme") || "light";
+    }
+    return "light";
+  });
   const [referenceDataLoading, setReferenceDataLoading] = useState(true);
   const [governorates, setGovernorates] = useState([]);
   const [categoriesByType, setCategoriesByType] = useState(EMPTY_CATEGORIES);
@@ -51,6 +57,11 @@ export const MainProvider = ({ children }) => {
     document.documentElement.setAttribute("dir", locale === "AR" ? "rtl" : "ltr");
     localStorage.setItem("locale", locale);
   }, [locale]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const applyReferenceData = (payload) => {
     setGovernorates(payload.governorates || []);
@@ -135,6 +146,7 @@ export const MainProvider = ({ children }) => {
   };
 
   const toggleLocale = () => setLocale((prev) => (prev === "EN" ? "AR" : "EN"));
+  const toggleTheme = () => setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   if (!isReady) {
     return null;
@@ -148,6 +160,9 @@ export const MainProvider = ({ children }) => {
         locale,
         setLocale,
         toggleLocale,
+        theme,
+        setTheme,
+        toggleTheme,
         governorates,
         categoriesByType,
         placeCategories: categoriesByType.place,

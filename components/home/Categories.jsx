@@ -27,8 +27,6 @@ function Categories() {
     }
   }, [screenSize]);
 
-  if (categories.length < 3) return null;
-
   return (
     <div className="categories">
       <div className="title-holder">
@@ -45,36 +43,34 @@ function Categories() {
         dir={locale === "AR" ? "rtl" : "ltr"}
         ref={swiperRef}
         modules={[Autoplay, Pagination, EffectFade]}
-        slidesPerView={5}
-        spaceBetween={9}
+        slidesPerView={4.4}
+        spaceBetween={15}
         loop={true}
         speed={2000}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        // autoplay={{ delay: 3000, disableOnInteraction: false }}
         pagination={{
           el: ".custom-pagination", // نربطها بعنصر خارجي
           clickable: true,
         }}
         breakpoints={{
           0: {
-            slidesPerView: 1.5,
+            slidesPerView: 1.2,
           },
           650: {
+            slidesPerView: 1.5,
+          },
+
+          1024: {
             slidesPerView: 2,
           },
-          800: {
+          1350: {
             slidesPerView: 2.5,
           },
-          1024: {
+          1520: {
             slidesPerView: 3,
           },
-          1350: {
-            slidesPerView: 3.5,
-          },
-          1520: {
-            slidesPerView: 4,
-          },
           1650: {
-            slidesPerView: 4.5,
+            slidesPerView: 3.5,
           },
         }}
         className="categories-swiper"

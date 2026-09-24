@@ -31,7 +31,7 @@
 .category-editor-panel {
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  background: #fff;
+
   overflow: hidden;
   height: fit-content;
 }
@@ -41,9 +41,9 @@
   justify-content: space-between;
   gap: 14px;
   align-items: center;
-    padding: 13px 14px;
+  padding: 13px 14px;
   border-bottom: 1px solid var(--border-color);
-    background: linear-gradient(#ffeec1db, #fffffff5);
+  background: linear-gradient(#ffeec1db, #fffffff5);
 }
 
 .title-wrap {
@@ -123,7 +123,7 @@
 .ghost-action,
 .inline-add {
   border: 1px solid var(--border-color);
-  background: #fff;
+
   border-radius: 12px;
   transition: 0.2s ease;
 }
@@ -355,7 +355,6 @@
   padding: 0 14px;
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  background: #fff;
 }
 
 .editor-field input:disabled {

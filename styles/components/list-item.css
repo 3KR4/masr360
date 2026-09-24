@@ -1,10 +1,11 @@
 .sort-bar {
-  display: flex;
+  z-index: 2;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   gap: 12px;
-  z-index: 2;
+  display: flex;
+  margin-bottom: 18px;
 }
 .sort-bar-left {
   display: flex;
@@ -21,24 +22,28 @@
 }
 .sort-bar-right .box.forInput .filters.for-cats {
   position: relative;
+  border-radius: 20px;
+  background: unset;
 }
 .sort-bar-right .box.forInput .filters.for-cats .btn {
   min-height: 36px;
   padding: 0 10px;
-  border: 1px solid #ddd;
   border-radius: 6px;
-  background: #fff;
+  background: var(--main-color-3);
+  border: none;
   font-size: 13px;
 }
 .sort-bar-right .box.forInput .filters.for-cats .btn h4 {
   margin: 0;
   font-size: 13px;
   font-weight: 700;
-  color: var(--paragraph);
+  color: var(--body-color);
 }
 .sort-bar-right .box.forInput .filters.for-cats .btn .main-ico {
-  color: white;
+  color: black;
   padding: 6px;
+  background: transparent;
+  width: 43px;
 }
 .sort-bar-right .box.forInput label {
   display: none;
@@ -52,7 +57,7 @@
 .marketplace-sort-select .filters.for-cats .btn,
 .marketplace-sort-select .filters.for-cats:has(.menu.active) .btn {
   padding: 0;
-  border-radius: 9px;
+  border-radius: 22px;
 }
 .marketplace-sort-select .filters.for-cats input,
 .marketplace-sort-select .filters.for-cats:has(.menu.active) input {
@@ -60,17 +65,17 @@
 }
 .marketplace-sort-select .filters.for-cats h4,
 .marketplace-sort-select .filters.for-cats:has(.menu.active) h4 {
-  padding: 11px;
+  padding: 14px;
 }
 .marketplace-sort-select .filters.for-cats svg,
 .marketplace-sort-select .filters.for-cats:has(.menu.active) svg {
-  height: 35px;
+  height: 36px;
 }
 .marketplace-sort-select .filters.for-cats .btn {
   padding: 0;
 }
 .marketplace-sort-select .select-value-prefix {
-  color: var(--paragraph);
+  color: inherit;
   font-weight: 700;
   margin-inline-end: 4px;
 }
@@ -86,33 +91,28 @@
 }
 .view-toggle {
   display: flex;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 22px;
   overflow: hidden;
 }
 .view-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
+  width: 50px;
   height: 36px;
   border: none;
-  background: #fff;
+  background: var(--main-color-3);
   cursor: pointer;
-  color: #999;
+  color: black;
   font-size: 18px;
   transition: all 0.2s ease;
 }
-.view-btn:first-child {
-  border-right: 1px solid #ddd;
-}
-.view-btn:hover {
-  background: #f5f5f5;
-  color: var(--paragraph);
+
+.view-btn:not(.active):hover {
+  background: var(--main-color);
 }
 .view-btn.active {
-  background: var(--main-color);
-  color: #fff;
+  background: var(--main-gradient);
 }
 
 .list-holder {
@@ -129,6 +129,7 @@
   box-shadow: 0 1px 5px #0000001a;
   overflow: hidden;
   align-items: center;
+  background: var(--section-color);
 }
 .list-item:hover {
   box-shadow: 0 2px 12px #00000025;
@@ -137,11 +138,11 @@
 .list-item-image {
   border-radius: 0;
   flex-shrink: 0;
-  width: 320px;
+  width: 394px;
+
   min-width: 320px;
   height: 100%;
   min-height: 345px;
-  max-height: 345px;
   position: relative;
   overflow: hidden;
 }
@@ -168,8 +169,8 @@
 }
 .list-item-swiper .swiper-button-next,
 .list-item-swiper .swiper-button-prev {
-  color: #fff;
-  background: rgba(0, 0, 0, 0.3);
+  color: var(--main-color-3);
+  background: var(--section-color);
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -180,19 +181,36 @@
 .list-item-swiper .swiper-button-prev::after {
   font-size: 14px;
 }
+.list-item-swiper .swiper-pagination {
+  bottom: 12px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
 .list-item-swiper .swiper-pagination-bullet {
-  background: #fff;
-  opacity: 0.5;
+  width: 16px;
+  height: 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  opacity: 0.65;
+  margin: 0 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 .list-item-swiper .swiper-pagination-bullet-active {
+  width: 32px;
+  height: 6px;
+  border-radius: 10px;
+  background: var(--main-color, #efcf9c);
   opacity: 1;
-  background: var(--main-color);
+  box-shadow: 0 2px 8px rgba(234, 140, 67, 0.5);
 }
 
 .list-item-content {
   flex-direction: column;
   flex: 1;
-  gap: 8px;
+  gap: 10px;
   padding: 16px;
   display: flex;
   justify-content: center;
@@ -235,13 +253,14 @@
   gap: 6px;
 }
 .list-item-rating .count {
-  font-size: 13px;
-  color: #888;
+  color: var(--main-color-2);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .list-item-description {
   font-size: 13px;
-  color: #666;
+
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -263,9 +282,9 @@
 }
 .spec-tag,
 .spec-more {
-  background: var(--section-color);
-  color: var(--paragraph);
-  border-radius: 7px;
+  background: var(--second-color);
+  color: var(--main-color);
+  border-radius: 20px;
   padding: 5px 10px;
   font-size: 12px;
   font-weight: 700;
@@ -333,27 +352,29 @@
   padding-top: 8px;
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
+}
+.list-item-actions > * {
+  flex: 1;
+  min-width: fit-content;
 }
 .list-item-actions .main-button.forCart.list-view-btn {
-  border: 1px solid var(--main-color);
   background: var(--second-color);
   width: 100%;
   color: var(--main-color);
   font-size: 13px;
-  border-radius: 10px !important;
+  border-radius: 20px !important;
   height: 42px;
 }
 .list-item-actions .main-button.forCart.list-view-btn svg {
   font-size: 18px;
 }
-.list-item-actions .main-button.forCart.list-view-btn:hover {
-  background: var(--main-color);
-  color: #fff;
-}
+.list-item-actions .main-button.forCart.list-view-btn:hover,
 .list-item-actions .main-button.forCart.list-view-btn.active {
   background: var(--main-color);
-  color: #fff;
+  color: var(--body-color);
 }
+
 .list-item-actions .main-button.forCart.list-view-btn .loader {
   position: static;
   width: 18px;
@@ -365,12 +386,7 @@
   cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
-  .marketplace-limit-select.box.forInput,
-  .marketplace-sort-select.box.forInput:not(.marketplace-limit-select) {
-    max-width: none;
-    width: 100%;
-  }
+@media (max-width: 992px) {
   .list-item {
     flex-direction: column;
   }
@@ -406,6 +422,13 @@
   }
   .list-item-actions .main-button.forCart.list-view-btn {
     height: 38px;
+  }
+}
+@media (max-width: 768px) {
+  .marketplace-limit-select.box.forInput,
+  .marketplace-sort-select.box.forInput:not(.marketplace-limit-select) {
+    max-width: none;
+    width: 100%;
   }
 }
 

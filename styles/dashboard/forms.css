@@ -278,7 +278,7 @@
   background: #ff3535f5 !important;
 }
 .box.forInput .spec-list .error svg {
-  color: red;
+  color: var(--red-color);
   border: unset;
   border-radius: unset;
   width: 15px;

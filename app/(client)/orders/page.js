@@ -30,7 +30,7 @@ function Orders() {
             <p className="sub-title">{t.orders.subtitle}</p>
           </div>
 
-          <div className="container">
+          <div className="fluid-container">
             <div className="table-container order-table">
               <div className="table-header">
                 <div className="header-item">{t.orders.products}</div>

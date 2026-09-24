@@ -5,27 +5,44 @@ import CardItem from "@/components/CardItem";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
 import { getAll as getNights } from "@/services/nights/nights.service";
+import useCardHeight from "@/hooks/client/useCardHeight";
 
-function Nights() {
-  const { locale } = useContext(mainContext);
+function Nights({ limitToShow = 9 }) {
+  const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
   const [nights, setNights] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const effectiveLimit = screenSize === "small" ? 6 : limitToShow;
+  const { gridRef, cardHeight } = useCardHeight([
+    effectiveLimit,
+    loading,
+    nights,
+  ]);
 
   const fetchNights = useCallback(async () => {
+    setLoading(true);
     try {
-      const result = await getNights("", 1, 20, locale);
+      const fetchLimit = effectiveLimit || 9;
+      const result = await getNights("", 1, fetchLimit, locale);
       setNights(result.nights || []);
     } catch (err) {
       console.error("Failed to fetch nights:", err);
       setNights([]);
+    } finally {
+      setLoading(false);
     }
-  }, [locale]);
+  }, [locale, effectiveLimit]);
 
   useEffect(() => {
     fetchNights();
   }, [fetchNights]);
 
-  if (nights.length < 3) return null;
+  if (!loading && nights.length < 3) return null;
+
+  const displayNights = effectiveLimit
+    ? nights.slice(0, effectiveLimit)
+    : nights;
 
   return (
     <div className="nights">
@@ -36,15 +53,49 @@ function Nights() {
           <hr />
         </h1>
         <p className="sub-title">{t.sectionsTitles.masr_nights.subtitle}</p>
-        <Link href={`/nights`} className="main-button">
-          {t.sectionsTitles.masr_nights.btn}
-        </Link>
+        {!effectiveLimit && (
+          <Link href={`/nights`} className="main-button">
+            {t.sectionsTitles.masr_nights.btn}
+          </Link>
+        )}
       </div>
 
-      <div className="grid-holder container">
-        {nights.map((night) => (
-          <CardItem key={night.id} item={night} type="night" />
-        ))}
+      <div
+        ref={gridRef}
+        className={`grid-holder container ${effectiveLimit ? "limit-to-show" : ""}`}
+      >
+        {loading ? (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "40px",
+              gridColumn: "1 / -1",
+            }}
+          >
+            <p>{t.dashboard.forms.loading || "Loading..."}</p>
+          </div>
+        ) : (
+          <>
+            {displayNights.map((night) => (
+              <CardItem key={night.id} item={night} type="night" />
+            ))}
+            {effectiveLimit && (
+              <span
+                className="overlay-layer"
+                style={{ height: cardHeight ? `${cardHeight}px` : undefined }}
+              />
+            )}
+            {effectiveLimit && (
+              <Link
+                href={`/nights`}
+                style={{ bottom: cardHeight / 2 }}
+                className="main-button back-light-animation"
+              >
+                {t.sectionsTitles.masr_nights.btn}
+              </Link>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

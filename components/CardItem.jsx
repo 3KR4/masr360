@@ -11,7 +11,7 @@ import {
 import { FaRegHeart } from "react-icons/fa";
 import React, { useContext, useEffect, useState } from "react";
 import { mainContext } from "@/Contexts/mainContext";
-import { governoratesAr, governoratesEn } from "@/data";
+import { PiStepsDuotone } from "react-icons/pi";
 
 import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice";
@@ -20,6 +20,7 @@ import useTranslate from "@/Contexts/useTranslation";
 import useCart from "@/hooks/client/useCart";
 import useFavoriet from "@/hooks/client/useFavoriet";
 import { useRouter } from "next/navigation";
+import { governoratesAr, governoratesEn } from "@/data";
 
 export default function CardItem({ item, type, previewGame = false }) {
   const { screenSize, locale } = useContext(mainContext);
@@ -42,7 +43,11 @@ export default function CardItem({ item, type, previewGame = false }) {
   const isNight = type === "night";
   const isEvent = type === "event";
   const inCart = isProduct && (!!itemCartItem || isInCart(item?.id));
-  const favorited = isProduct && isFavorited("Product", item?.id);
+  const favorited = isProduct
+    ? isFavorited("Product", item?.id)
+    : isPlace
+      ? isFavorited("Place", item?.id)
+      : false;
   const isOutOfStock = isProduct && Number(item?.stock || 0) <= 0;
 
   const handleAddToCart = async (event) => {
@@ -67,14 +72,15 @@ export default function CardItem({ item, type, previewGame = false }) {
   const handleToggleFavorite = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (!isProduct || togglingFav) return;
+    if ((!isProduct && !isPlace) || togglingFav) return;
+    const targetType = isProduct ? "Product" : "Place";
     if (favorited) {
       router.push("/favorites");
       return;
     }
     setTogglingFav(true);
     try {
-      await toggleItem("Product", item?.id);
+      await toggleItem(targetType, item?.id);
     } catch (err) {
       console.error(err);
     } finally {
@@ -128,43 +134,43 @@ export default function CardItem({ item, type, previewGame = false }) {
     const totalMinutes = Math.floor(diff / (1000 * 60));
     const totalHours = Math.floor(diff / (1000 * 60 * 60));
     const totalDays = Math.floor(diff / (1000 * 60 * 60 * 24));
-    if (totalMinutes < 60) return `${totalMinutes} ${locale === "AR" ? "دقيقة" : "min"}`;
-    if (totalHours < 24) return `${totalHours} ${locale === "AR" ? "ساعة" : "hours"}`;
-    if (totalDays < 30) return `${totalDays} ${locale === "AR" ? "يوم" : "days"}`;
+    if (totalMinutes < 60)
+      return `${totalMinutes} ${locale === "AR" ? "دقيقة" : "min"}`;
+    if (totalHours < 24)
+      return `${totalHours} ${locale === "AR" ? "ساعة" : "hours"}`;
+    if (totalDays < 30)
+      return `${totalDays} ${locale === "AR" ? "يوم" : "days"}`;
     const months = Math.floor(totalDays / 30);
     return `${months} ${locale === "AR" ? "شهر" : "months"}`;
   };
 
   const eventStartAt = item?.startDate || item?.eventStartAt;
-  const eventDuration = item?.eventLasts || getEventDuration(item?.startDate, item?.endDate);
+  const eventDuration =
+    item?.eventLasts || getEventDuration(item?.startDate, item?.endDate);
 
   return (
     <div key={item?.id} className={`card ${type}`}>
       {(isProduct || isPlace) && (
         <div className="actions-icon">
-          {isProduct ? (
-            <>
-              <button
-                type="button"
-                className={`wish-icon ${favorited ? "active" : ""}`}
-                onClick={handleToggleFavorite}
-                disabled={togglingFav}
-                aria-label={favorited ? "Open favorites" : "Add to favorites"}
-              >
-                {favorited ? <FaHeart /> : <FaRegHeart />}
-              </button>
-              <button
-                type="button"
-                className={`cart-icon ${inCart ? "active" : ""}`}
-                onClick={handleAddToCart}
-                disabled={isOutOfStock || addingToCart}
-                aria-label={inCart ? "Open cart" : "Add to cart"}
-              >
-                <FaCartShopping />
-              </button>
-            </>
-          ) : (
-            <FaHeart className="wish-icon" />
+          <button
+            type="button"
+            className={`wish-icon ${favorited ? "active" : ""}`}
+            onClick={handleToggleFavorite}
+            disabled={togglingFav}
+            aria-label={favorited ? "Open favorites" : "Add to favorites"}
+          >
+            {favorited ? <FaHeart /> : <FaRegHeart />}
+          </button>
+          {isProduct && (
+            <button
+              type="button"
+              className={`cart-icon ${inCart ? "active" : ""}`}
+              onClick={handleAddToCart}
+              disabled={isOutOfStock || addingToCart}
+              aria-label={inCart ? "Open cart" : "Add to cart"}
+            >
+              <FaCartShopping />
+            </button>
           )}
         </div>
       )}
@@ -231,7 +237,7 @@ export default function CardItem({ item, type, previewGame = false }) {
             </Link>
           )}
 
-          {isGov && (
+          {isGov && item?.count > 0 && (
             <Link className="explore" href={`/discover/${item?.id}`}>
               {screenSize !== "small" ? t.mainCard.explore : ""}{" "}
               {item?.count || 0} {t.mainCard.places}{" "}
@@ -245,6 +251,7 @@ export default function CardItem({ item, type, previewGame = false }) {
           {isGame && (
             <span className="steps">
               {item?.totalSteps} {t.games.step}
+              <PiStepsDuotone />
             </span>
           )}
         </div>
@@ -252,16 +259,28 @@ export default function CardItem({ item, type, previewGame = false }) {
         {/* RATING */}
         {(isProduct || isNight || isGame) && !previewGame && (
           <div className="reviews">
-            <Rating
-              name="read-only"
-              value={item?.rate || 0}
-              precision={0.1}
-              readOnly
-              sx={{ color: "#ea8c43", fontSize: "18px" }}
-            />
-            <span className="count">
-              {item?.reviewsCount || 0} {t.mainCard.reviews}
-            </span>
+            {item?.rate > 0 ? (
+              <>
+                <Rating
+                  name="read-only"
+                  value={item?.rate || 0}
+                  precision={0.1}
+                  readOnly
+                  sx={{
+                    color: "#ea8c43",
+                    fontSize: "18px",
+                    "& .MuiRating-iconEmpty": {
+                      color: "var(--second-color)",
+                    },
+                  }}
+                />
+                <span className="count">
+                  {item?.reviewsCount || 0} {t.mainCard.reviews}
+                </span>
+              </>
+            ) : (
+              <p>no reviews yet</p>
+            )}
           </div>
         )}
         {isGame && (
@@ -275,7 +294,15 @@ export default function CardItem({ item, type, previewGame = false }) {
             stock={item?.stock}
           />
         )}
-
+        {item?.description && (
+          <p
+            className={`ellipsis description ${previewGame ? "no-clamp" : ""}`}
+          >
+            {isGov
+              ? item?.translations?.[locale]?.desc || item?.description
+              : item?.description}
+          </p>
+        )}
         {/* GAME DETAILS */}
         {isGame && (
           <div className="holder">
@@ -296,15 +323,6 @@ export default function CardItem({ item, type, previewGame = false }) {
           </div>
         )}
 
-        {item?.description && (
-          <p
-            className={`ellipsis description ${previewGame ? "no-clamp" : ""}`}
-          >
-            {isGov
-              ? item?.translations?.[locale]?.desc || item?.description
-              : item?.description}
-          </p>
-        )}
         {previewGame && (
           <Link href={`/games/${item?.id}`} className={`main-button`}>
             {t.games.purchase_and_play_now}
@@ -321,8 +339,7 @@ export default function CardItem({ item, type, previewGame = false }) {
             />
             <hr />
             <div>
-              <span>{t.mainCard.eventTime}:</span>{" "}
-              <span>{eventDuration}</span>
+              <span>{t.mainCard.eventTime}:</span> <span>{eventDuration}</span>
             </div>
           </div>
         )}

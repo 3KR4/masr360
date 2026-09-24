@@ -36,6 +36,8 @@ const en = {
     favorites: "Favorites",
     support: "support",
     change_language: "Change Language",
+    darkTheme: "Dark Theme",
+    lightTheme: "Light Theme",
     logout: "Logout",
 
     sign_up: "Sign Up",
@@ -115,7 +117,7 @@ const en = {
     },
 
     categories: {
-      title: "Categories",
+      title: "Tourism Categories",
       subtitle:
         "From ancient temples to sunlit shores — your journey starts here",
     },
@@ -130,6 +132,81 @@ const en = {
       title: "Discover Egypt",
       subtitle: "Take a look at the most famous governorates in Egypt",
       btn: "See All",
+    },
+
+    what_is_m360: {
+      tag: "WHAT IS M360?",
+      titleLine1: "ONE COUNTRY.",
+      titleLine2: "EVERY ANGLE.",
+      desc: "M360° is a gamified tourism platform and your gateway to Egypt — bringing its 27 governorates, places, history, culture, nights, and hidden stories together in one immersive experience.",
+      formulaMasr: "MASR",
+      formulaMasrVal: "Egypt",
+      formula360: "360°",
+      formula360Val: "Every angle. Every governorate. Every moment.",
+      formulaM360: "M360",
+      formulaM360Val: "The complete Egyptian experience.",
+      stat1Num: "27",
+      stat1Label: "Governorates",
+      stat2Num: "1,000+",
+      stat2Label: "Places To Discover",
+      stat3Num: "1",
+      stat3Label: "Integrated Platform",
+      stat4Num: "∞",
+      stat4Label: "Stories To Explore",
+      positioningText: "M360 is not just a tourism directory. It turns discovering Egypt into an interactive journey where exploration, challenges, rewards, and progression are seamlessly connected.",
+      quote: "EGYPT IS NOT JUST A DESTINATION. IT'S AN EXPERIENCE.",
+    },
+
+    how_it_works: {
+      tag: "HOW M360 WORKS",
+      titleLine1: "DISCOVER. PLAY.",
+      titleLine2: "EARN. EXPLORE.",
+      desc: "Your journey through Egypt becomes more than sightseeing. Explore destinations, uncover hidden details, complete challenges, and collect rewards as you move through the world of M360.",
+      btn: "START YOUR JOURNEY",
+
+      step1Num: "01",
+      step1Title: "DISCOVER EGYPT",
+      step1Sub: "Explore Egypt’s 27 governorates and discover new places.",
+
+      step2Num: "02",
+      step2Title: "PLAY CHALLENGES",
+      step2Sub: "Test your knowledge through fun interactive challenges.",
+
+      step3Num: "03",
+      step3Title: "EARN CREDITS",
+      step3Sub: "Earn credits as you explore and complete challenges.",
+
+      step4Num: "04",
+      step4Title: "CLIMB LEADERBOARDS",
+      step4Sub: "Compete with fellow explorers and climb the leaderboard.",
+
+      step5Num: "05",
+      step5Title: "UNLOCK REWARDS",
+      step5Sub: "Use your credits to unlock exclusive rewards and discounts.",
+
+      step6Num: "06",
+      step6Title: "EXPERIENCE M360",
+      step6Sub: "Unlock the full M360 experience as the journey unfolds.",
+
+      ecoTitle: "THE M360 REWARD & COMMUNITY ECOSYSTEM",
+      eco1Title: "Real Value Credits",
+      eco1Desc: "Every challenge completed and destination discovered earns you M360 credits with actual value in the ecosystem.",
+      eco2Title: "Marketplace & Local Crafts",
+      eco2Desc: "Redeem credits for exclusive discounts on authentic, handmade Egyptian products and artisan crafts.",
+      eco3Title: "Explorer Leaderboards",
+      eco3Desc: "Compete with fellow travelers, track your progression, and rise on the official explorer rankings.",
+      eco4Title: "Merchandise & Launch Perks",
+      eco4Desc: "Unlock official M360 merchandise, early access passes, and launch rewards as your journey unfolds.",
+
+      quote: "THE MORE YOU EXPLORE, THE MORE YOU UNLOCK.",
+    },
+
+    support_cta: {
+      title: "NEED ASSISTANCE WITH YOUR",
+      title_gold: "JOURNEY?",
+      subtitle:
+        "Have A Question Or Need Help? Our Support Team Is Here To Assist You And Make Your Marsr360 Experience Smooth And Enjoyable.",
+      btn: "GET SUPPORT",
     },
 
     discover_egypt_page: {
@@ -170,6 +247,15 @@ const en = {
       subTitle:
         "Explore hidden details only seen on-site, and earn coins you can redeem for real rewards in our marketplace.",
       btn: "see all",
+      exploreMoreTag: "MORE ADVENTURES AWAIT",
+      exploreMoreTitleLine1: "READY FOR YOUR NEXT",
+      exploreMoreTitleLine2: "ADVENTURE?",
+      exploreMoreSub:
+        "Discover more unforgettable experiences across Egypt. From ancient wonders to modern escapes — there's so much more to explore.",
+      exploreMoreBtn: "EXPLORE ALL",
+      feature1: "MORE PLACES",
+      feature2: "NEW EXPERIENCES",
+      feature3: "ALL IN ONE PLACE",
     },
   },
   sideNav: {
@@ -202,8 +288,7 @@ const en = {
     chooseNationality: "Choose your nationality",
     chooseInterests: "Choose your interests",
     emailPhoneLogin: "Email or phone number",
-    accountDescription:
-      "Create your account to connect with sellers or sell your own items.",
+
     phoneDescription: "Enter the verification code sent to your phone number.",
     emailDescription: "Enter the verification code sent to your email address.",
     addressDescription:

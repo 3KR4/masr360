@@ -1,0 +1,117 @@
+.pre-footer-cta {
+  background: var(--body-color, #fff);
+  text-align: center;
+  padding: 115px 20px;
+  margin: 53px 0 0;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .pre-footer-cta {
+  background: linear-gradient(#000 -15%, #f3ae1c14 100%);
+}
+
+[data-theme="dark"] .pre-footer-cta::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(231, 128, 44, 0.15) 0%,
+    rgba(0, 0, 0, 0) 70%
+  );
+}
+
+.pre-footer-cta .cta-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pre-footer-cta .cta-title {
+  font-family: var(--font-cinzel), serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--third-color, #1a1a1a);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 15px;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .pre-footer-cta .cta-title {
+  color: #ffffff;
+}
+
+[lang="AR"] .pre-footer-cta .cta-title {
+  font-family: var(--font-poppins), sans-serif;
+  letter-spacing: 0;
+}
+
+.pre-footer-cta .gold-text {
+  color: #f3ae1c;
+  background: linear-gradient(135deg, #f7c355 0%, #e7802c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pre-footer-cta .cta-subtitle {
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--paragraph, #575757);
+  max-width: 650px;
+  margin: 0 0 35px;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .pre-footer-cta .cta-subtitle {
+  color: #a0a0a0;
+}
+
+.pre-footer-cta .cta-button {
+  background: var(--main-gradient);
+}
+
+.pre-footer-cta .cta-button:hover {
+  transform: translateY(-2px) scale(1.03);
+
+  color: #000000;
+}
+
+.pre-footer-cta .cta-button svg {
+  font-size: 14px;
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.pre-footer-cta .cta-button:hover svg {
+  transform: translateX(4px);
+}
+
+[lang="AR"] .pre-footer-cta .cta-button:hover svg {
+  transform: translateX(-4px);
+}
+
+@media (max-width: 768px) {
+  .pre-footer-cta {
+    padding: 60px 20px;
+  }
+  .pre-footer-cta .cta-title {
+    font-size: 28px;
+  }
+  .pre-footer-cta .cta-subtitle {
+    font-size: 14px;
+  }
+  .pre-footer-cta .cta-button {
+    padding: 12px 28px;
+    font-size: 12.5px;
+  }
+}

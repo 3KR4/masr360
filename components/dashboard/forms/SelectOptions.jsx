@@ -161,7 +161,7 @@ function SelectOptions({
           )}
         </div>
 
-        <div className={`menu ${active ? "active" : ""}`}>
+        <div className={`menu backdrop-blur ${active ? "active" : ""}`}>
           {renderOptions()}
         </div>
       </div>

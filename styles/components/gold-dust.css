@@ -1,0 +1,139 @@
+.gold-dust {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9000;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gold-dust__particle {
+  position: absolute;
+    pointer-events: none;
+  left: var(--left);
+  bottom: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(40, 40, 40, 0.85) 0%,
+    rgba(0, 0, 0, 0.45) 40%,
+    rgba(0, 0, 0, 0) 72%
+  );
+  box-shadow:
+    0 0 4px rgba(0, 0, 0, 0.35),
+    0 0 10px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  filter: blur(var(--blur));
+  will-change: transform, opacity;
+}
+
+[data-theme="dark"] .gold-dust__particle {
+  background: radial-gradient(
+    circle,
+    rgba(255, 233, 168, 0.9) 0%,
+    rgba(243, 174, 28, 0.55) 40%,
+    rgba(243, 174, 28, 0) 72%
+  );
+  box-shadow:
+    0 0 4px rgba(243, 174, 28, 0.6),
+    0 0 10px rgba(243, 174, 28, 0.28);
+}
+
+.gold-dust__particle--falling {
+  bottom: auto;
+  top: 0;
+}
+
+.gold-dust.is-ready .gold-dust__particle {
+  animation: gold-dust-rise var(--duration) linear infinite;
+  animation-delay: var(--delay);
+}
+
+.gold-dust.is-ready .gold-dust__particle--falling {
+  animation: gold-dust-fall var(--duration) linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes gold-dust-rise {
+  0% {
+    transform: translate3d(
+        0,
+        calc(-1 * var(--rise-distance) * var(--rise-pct)),
+        0
+      )
+      scale(0.55);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--opacity);
+  }
+  50% {
+    transform: translate3d(
+        var(--drift-x),
+        calc(-1 * var(--rise-distance) * (var(--rise-pct) + 0.5)),
+        0
+      )
+      scale(var(--scale));
+  }
+  90% {
+    opacity: var(--opacity);
+  }
+  100% {
+    transform: translate3d(
+        calc(var(--drift-x) * 2),
+        calc(-1 * var(--rise-distance) * (var(--rise-pct) + 1.05)),
+        0
+      )
+      scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes gold-dust-fall {
+  0% {
+    transform: translate3d(
+        0,
+        calc(var(--rise-distance) * var(--rise-pct)),
+        0
+      )
+      scale(0.55);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--opacity);
+  }
+  50% {
+    transform: translate3d(
+        var(--drift-x),
+        calc(var(--rise-distance) * (var(--rise-pct) + 0.5)),
+        0
+      )
+      scale(var(--scale));
+  }
+  90% {
+    opacity: var(--opacity);
+  }
+  100% {
+    transform: translate3d(
+        calc(var(--drift-x) * 2),
+        calc(var(--rise-distance) * (var(--rise-pct) + 1.05)),
+        0
+      )
+      scale(0.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gold-dust.is-ready .gold-dust__particle,
+  .gold-dust.is-ready .gold-dust__particle--falling {
+    animation: none;
+    opacity: 0;
+  }
+}

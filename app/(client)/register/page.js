@@ -199,7 +199,6 @@ export default function Register() {
   };
 
   const descriptions = {
-    [STEPS.ACCOUNT]: auth.accountDescription,
     [STEPS.LOGIN]: auth.loginDescription || "", // اذا مش موجود هتضيفه في ملف الترجمة
     [STEPS.EMAIL_VERIFY]: auth.emailDescription,
     [STEPS.FORGET_PASS_VERIFY]: auth.emailDescription,
@@ -416,7 +415,7 @@ export default function Register() {
                     />
                   )}
                 </div>
-                <div className={`menu ${activeNational ? "active" : ""}`}>
+                <div className={`menu backdrop-blur ${activeNational ? "active" : ""}`}>
                   {filteredCountries?.length > 0 ? (
                     filteredCountries.map((country, index) => (
                       <button

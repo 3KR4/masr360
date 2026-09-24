@@ -11,7 +11,7 @@ function MiniCart() {
   const t = useTranslate();
 
   return (
-    <div className="cartMenu menu">
+    <div className="cartMenu menu backdrop-blur">
       {carts.length === 0 ? (
         <>
           <h4 className="top forEmpety">{t.cart.emptyCart}</h4>

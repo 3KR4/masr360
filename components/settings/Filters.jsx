@@ -26,48 +26,63 @@ const Filters = ({
   const [cats, setCats] = useState([]);
   const [loadingCats, setLoadingCats] = useState(false);
 
-  const categoryType = catsType === "place" ? "place" : catsType === "gov" ? "place" : catsType;
+  const categoryType =
+    catsType === "place" ? "place" : catsType === "gov" ? "place" : catsType;
 
   useEffect(() => {
     let isMounted = true;
 
-    const loadCategories = async () => {
-      setLoadingCats(true);
-      try {
-        const res = await getCategories({ type: categoryType, lang: locale });
-        const rawCategories = Array.isArray(res.data?.data?.data)
-          ? res.data.data.data
-          : Array.isArray(res.data?.data)
-            ? res.data.data
-            : Array.isArray(res.data)
-              ? res.data
-              : [];
+const loadCategories = async () => {
+  setLoadingCats(true);
 
-        const parentCategories = rawCategories.filter((cat) => !cat.parent);
-        const childCategories = rawCategories.filter((cat) => cat.parent);
+  try {
+    const res = await getCategories({
+      type: categoryType,
+      lang: locale,
+    });
 
-        const formatted = parentCategories.map((cat) => ({
-          id: cat._id || cat.id,
-          name: cat.name,
-          icon: cat.icon || "•",
-          subcategories: childCategories
-            .filter((sub) =>
-              sub.parent?.toString() === (cat._id || cat.id)?.toString(),
-            )
-            .map((sub) => ({
-              id: sub._id || sub.id,
-              name: sub.name,
-            })),
-        }));
+    const rawCategories =
+      Array.isArray(res.data?.data?.data)
+        ? res.data.data.data
+        : Array.isArray(res.data?.data)
+          ? res.data.data
+          : Array.isArray(res.data)
+            ? res.data
+            : [];
 
-        if (isMounted) setCats(formatted);
-      } catch (error) {
-        console.error("Failed to load category filters:", error);
-        if (isMounted) setCats([]);
-      } finally {
-        if (isMounted) setLoadingCats(false);
-      }
-    };
+    const parentCategories = rawCategories.filter(
+      (cat) => !cat.parent
+    );
+
+    const formatted = parentCategories.map((cat) => ({
+      id: cat._id || cat.id,
+      name: cat.name,
+      icon: cat.icon || "•",
+
+      subcategories: Array.isArray(cat.subCategories)
+        ? cat.subCategories.map((sub) => ({
+            id: sub._id || sub.id,
+            name: sub.name,
+            icon: sub.icon || "•",
+          }))
+        : [],
+    }));
+
+    if (isMounted) {
+      setCats(formatted);
+    }
+  } catch (error) {
+    console.error("Failed to load category filters:", error);
+
+    if (isMounted) {
+      setCats([]);
+    }
+  } finally {
+    if (isMounted) {
+      setLoadingCats(false);
+    }
+  }
+};
 
     loadCategories();
     return () => {
@@ -101,7 +116,9 @@ const Filters = ({
   };
 
   return (
-    <div className={`filters side-filter-nav ${active ? "active" : ""}`}>
+    <div
+      className={`filters side-filter-nav  backdrop-blur ${active ? "active" : ""}`}
+    >
       {screenSize !== "large" && (
         <IoIosClose className="close" onClick={() => setActive(false)} />
       )}
@@ -164,9 +181,10 @@ const Filters = ({
                   width: 15,
                   height: 15,
                 },
-                "& .MuiSlider-thumb:hover, & .MuiSlider-thumb.Mui-focusVisible": {
-                  boxShadow: "0px 0px 0px 7px rgb(94 94 94 / 16%)",
-                },
+                "& .MuiSlider-thumb:hover, & .MuiSlider-thumb.Mui-focusVisible":
+                  {
+                    boxShadow: "0px 0px 0px 7px rgb(94 94 94 / 16%)",
+                  },
               }}
             />
           </div>
@@ -178,7 +196,9 @@ const Filters = ({
       <div className="holder">
         <h4>{t.marketplace.filter_by_categories}</h4>
         {loadingCats ? (
-          <p className="loading">{t.dashboard.forms.loading || "Loading categories..."}</p>
+          <p className="loading">
+            {t.dashboard.forms.loading || "Loading categories..."}
+          </p>
         ) : (
           <ul>
             {cats.map((cat) => (
@@ -192,21 +212,22 @@ const Filters = ({
                   <span>{cat.icon}</span> {cat.name}
                 </div>
 
-                {cat.subcategories?.length > 0 && selectedCategory.catId === cat.id && (
-                  <div className="sub-cats">
-                    {cat.subcategories.map((sub) => (
-                      <div
-                        key={sub.id}
-                        className={`sub-cat ${
-                          selectedCategory.subCatId === sub.id ? "active" : ""
-                        }`}
-                        onClick={() => handleCategoryClick(cat, sub)}
-                      >
-                        ▸ {sub.name}
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {cat.subcategories?.length > 0 &&
+                  selectedCategory.catId === cat.id && (
+                    <div className="sub-cats">
+                      {cat.subcategories.map((sub) => (
+                        <div
+                          key={sub.id}
+                          className={`sub-cat ${
+                            selectedCategory.subCatId === sub.id ? "active" : ""
+                          }`}
+                          onClick={() => handleCategoryClick(cat, sub)}
+                        >
+                          ▸ {sub.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
               </li>
             ))}
           </ul>

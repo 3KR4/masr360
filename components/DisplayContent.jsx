@@ -7,6 +7,7 @@ import Pagination from "@/components/settings/Pagination";
 import "@/styles/pages/discover.css";
 import "@/styles/components/list-item.css";
 import { IoIosClose } from "react-icons/io";
+import { MdSearchOff, MdFilterAltOff } from "react-icons/md";
 import { mainContext } from "@/Contexts/mainContext";
 import { getAll as getProducts } from "@/services/porducts/products.service";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
@@ -19,6 +20,66 @@ import { FaList } from "react-icons/fa";
 import { IoGrid } from "react-icons/io5";
 import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { useRouter, useSearchParams } from "next/navigation";
+
+function SkeletonCard() {
+  return (
+    <div className="skeleton-card">
+      <div className="skeleton-image shimmer" />
+      <div className="skeleton-content">
+        <div className="skeleton-line skeleton-badge shimmer" />
+        <div className="skeleton-line skeleton-title shimmer" />
+        <div className="skeleton-line skeleton-text shimmer" />
+        <div className="skeleton-footer">
+          <div className="skeleton-line skeleton-price shimmer" />
+          <div className="skeleton-line skeleton-btn shimmer" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SkeletonList() {
+  return (
+    <div className="skeleton-list-item">
+      <div className="skeleton-image shimmer" style={{ width: "150px", height: "100px", borderRadius: "12px", minWidth: "150px" }} />
+      <div className="skeleton-content" style={{ flex: 1, display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div className="skeleton-line skeleton-title shimmer" style={{ width: "45%" }} />
+        <div className="skeleton-line skeleton-text shimmer" style={{ width: "75%" }} />
+        <div className="skeleton-line skeleton-price shimmer" style={{ width: "30%" }} />
+      </div>
+    </div>
+  );
+}
+
+function NoResultsFoundCard({ locale, hasActiveFilters, onResetFilters }) {
+  return (
+    <div className="no-results-card">
+      <div className="icon-wrapper">
+        <MdSearchOff className="search-off-icon" />
+        <div className="glow-aura" />
+      </div>
+      <h3 className="no-results-title">
+        {locale === "AR" ? "لم نجد أي نتائج متطابقة" : "No Results Found"}
+      </h3>
+      <p className="no-results-desc">
+        {locale === "AR"
+          ? "لم يتم العثور على أي عناصر تطابق البحث أو الفلاتر المحددة حالياً."
+          : "We couldn't find any items matching your active search or filters."}
+      </p>
+
+      {hasActiveFilters && (
+        <button
+          type="button"
+          className="main-button reset-filters-btn"
+          onClick={onResetFilters}
+        >
+          <MdFilterAltOff className="reset-icon" />
+          <span>{locale === "AR" ? "إعادة ضبط الفلاتر" : "Reset All Filters"}</span>
+        </button>
+      )}
+    </div>
+  );
+}
 
 const PRODUCT_SORT_OPTIONS = [
   { value: "createdAt,desc", labelEn: "Newest", labelAr: "الأحدث" },
@@ -240,6 +301,12 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
       setSelectedCategory((prev) => ({ ...prev, subCatId: null, subCatLabel: null }));
   };
 
+  const handleResetAllFilters = () => {
+    setAvailability(null);
+    setPriceRange([0, 10000]);
+    setSelectedCategory({ catId: null, subCatId: null, catLabel: null, subCatLabel: null });
+  };
+
   const hasActiveFilters =
     availability ||
     priceRange[0] !== 0 ||
@@ -356,30 +423,36 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
         )}
 
         {loading ? (
-          <div style={{ textAlign: "center", padding: "40px" }}>
-            <p>{t.dashboard.forms.loading || "Loading..."}</p>
-          </div>
+          viewMode === "list" ? (
+            <div className="list-holder">
+              {[1, 2, 3, 4].map((n) => (
+                <SkeletonList key={n} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid-holder">
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <SkeletonCard key={n} />
+              ))}
+            </div>
+          )
+        ) : data.length === 0 ? (
+          <NoResultsFoundCard
+            locale={locale}
+            hasActiveFilters={hasActiveFilters}
+            onResetFilters={handleResetAllFilters}
+          />
         ) : viewMode === "list" && (isProduct || isPlace || isNight || isEvent) ? (
           <div className="list-holder">
             {data.map((item) => (
               <ListItem key={item.id} item={item} type={type} />
             ))}
-            {data.length === 0 && (
-              <div style={{ textAlign: "center", padding: "40px" }}>
-                <p>{t.marketplace.no_results || "No products found"}</p>
-              </div>
-            )}
           </div>
         ) : (
           <div className="grid-holder">
             {data.map((item) => (
               <CardItem key={item.id} item={item} type={type} />
             ))}
-            {data.length === 0 && (
-              <div style={{ textAlign: "center", padding: "40px", gridColumn: "1 / -1" }}>
-                <p>{t.marketplace.no_results || "No products found"}</p>
-              </div>
-            )}
           </div>
         )}
 

@@ -1,16 +1,11 @@
-.discover {
-  overflow: hidden;
-}
-
 .discover .holder {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 13px;
   width: 100%;
 }
 .discover .grid-holder {
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(387px, 1fr));
 }
 .discover .grid-holder:has(.product) {
   grid-template-columns: repeat(auto-fill, minmax(286px, 1fr));
@@ -30,4 +25,194 @@
   .sub-title {
     max-width: 85%;
   }
+}
+
+/* ==========================================================================
+   SKELETON LOADING SHIMMER ANIMATIONS
+   ========================================================================== */
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(239, 207, 156, 0.15) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.8s infinite linear;
+}
+
+[data-theme="light"] .shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.04) 25%,
+    rgba(0, 0, 0, 0.12) 50%,
+    rgba(0, 0, 0, 0.04) 75%
+  );
+  background-size: 200% 100%;
+}
+
+.skeleton-card {
+  background: var(--section-color, rgba(20, 20, 20, 0.8));
+  border: 1px solid rgba(239, 207, 156, 0.15);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 380px;
+}
+
+.skeleton-card .skeleton-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px 20px 0 0;
+}
+
+.skeleton-card .skeleton-content {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.skeleton-line {
+  border-radius: 6px;
+}
+
+.skeleton-badge {
+  width: 35%;
+  height: 16px;
+  border-radius: 20px;
+}
+
+.skeleton-title {
+  width: 80%;
+  height: 20px;
+  border-radius: 8px;
+}
+
+.skeleton-text {
+  width: 60%;
+  height: 14px;
+}
+
+.skeleton-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skeleton-price {
+  width: 30%;
+  height: 18px;
+}
+
+.skeleton-btn {
+  width: 35%;
+  height: 32px;
+  border-radius: 20px;
+}
+
+.skeleton-list-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  background: var(--section-color, rgba(20, 20, 20, 0.8));
+  border: 1px solid rgba(239, 207, 156, 0.15);
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   EMPTY STATE / NO RESULTS FOUND CARD
+   ========================================================================== */
+
+.no-results-card {
+  text-align: center;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  transition: all 0.3s;
+  display: flex;
+}
+
+[data-theme="dark"] .no-results-card {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(239, 207, 156, 0.2);
+}
+
+.no-results-card .icon-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--main-gradient, linear-gradient(135deg, #efcf9c, #ea8c43));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 30px rgba(234, 140, 67, 0.3);
+}
+
+.no-results-card .search-off-icon {
+  color: #000;
+  font-size: 38px;
+  transform: translateX(3px);
+}
+
+.no-results-card .glow-aura {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: rgba(234, 140, 67, 0.2);
+  filter: blur(12px);
+  z-index: 1;
+}
+
+.no-results-card .no-results-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--title-color, #ffffff);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.no-results-card .no-results-desc {
+  color: var(--title-color, #fff);
+  opacity: 0.75;
+  max-width: 460px;
+  margin-bottom: 17px;
+  font-size: 14.5px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.no-results-card .reset-filters-btn {
+  background: var(--main-gradient);
+  box-shadow: 0 4px 15px #ea8c434d;
+}
+
+.no-results-card .reset-filters-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(234, 140, 67, 0.5);
+}
+
+.no-results-card .reset-icon {
+  font-size: 18px;
 }

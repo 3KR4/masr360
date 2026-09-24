@@ -8,6 +8,8 @@ import { CartProvider } from "@/Contexts/CartContext";
 import { FavouritesProvider } from "@/Contexts/FavouritesContext";
 import { NotificationProvider } from "@/Contexts/NotificationContext";
 import NotificationHolder from "@/components/settings/NotificationHolder";
+import GoldDust from "@/components/GoldDust";
+import AOSInit from "@/components/AOSInit";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -55,6 +57,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="EN" className={`${poppins.variable} ${cinzel.variable}`}>
       <body>
+        <AOSInit />
+        <GoldDust />
         <MainProvider>
           <NotificationProvider>
             <AuthProvider>

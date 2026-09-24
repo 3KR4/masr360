@@ -44,7 +44,11 @@ export default function ListItem({ item, type }) {
   };
 
   const inCart = isProduct && (!!itemCartItem || isInCart(item?.id));
-  const favorited = isProduct && isFavorited("Product", item?.id);
+  const favorited = isProduct
+    ? isFavorited("Product", item?.id)
+    : isPlace
+      ? isFavorited("Place", item?.id)
+      : false;
 
   const handleAddToCart = async () => {
     if (inCart) {
@@ -63,13 +67,14 @@ export default function ListItem({ item, type }) {
   };
 
   const handleToggleFav = async () => {
+    const targetType = isProduct ? "Product" : "Place";
     if (favorited) {
       router.push("/favorites");
       return;
     }
     setTogglingFav(true);
     try {
-      await toggleItem("Product", item?.id);
+      await toggleItem(targetType, item?.id);
     } catch (err) {
       console.error(err);
     } finally {
@@ -207,26 +212,28 @@ export default function ListItem({ item, type }) {
         )}
 
         <div className="list-item-actions">
-          {isProduct ? (
+          {isProduct || isPlace ? (
             <>
               <Link href={getItemLink()} className="main-button forCart list-view-btn">
                 <FaEye />
-                {t.mainCard.seeProduct}
+                {isProduct ? t.mainCard.seeProduct : t.mainCard.seeDetails}
               </Link>
-              <button
-                className={`main-button forCart list-view-btn ${inCart ? "active" : ""}`}
-                onClick={handleAddToCart}
-                disabled={addingToCart}
-              >
-                {addingToCart ? (
-                  <span className="loader" />
-                ) : (
-                  <>
-                    {inCart ? <IoCartSharp /> : <IoCartOutline />}
-                    {inCart ? (t.actions.in_cart || "In Cart") : t.actions.add_to_cart}
-                  </>
-                )}
-              </button>
+              {isProduct && (
+                <button
+                  className={`main-button forCart list-view-btn ${inCart ? "active" : ""}`}
+                  onClick={handleAddToCart}
+                  disabled={addingToCart}
+                >
+                  {addingToCart ? (
+                    <span className="loader" />
+                  ) : (
+                    <>
+                      {inCart ? <IoCartSharp /> : <IoCartOutline />}
+                      {inCart ? (t.actions.in_cart || "In Cart") : t.actions.add_to_cart}
+                    </>
+                  )}
+                </button>
+              )}
               <button
                 className={`main-button forCart list-view-btn ${favorited ? "active" : ""}`}
                 onClick={handleToggleFav}

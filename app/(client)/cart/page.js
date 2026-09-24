@@ -143,7 +143,7 @@ console.log(item);
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
                     className="quantity-btn"
                   >
-                    —
+                    -
                   </button>
                   <span className="quantity-number">{item.quantity}</span>
                   <button
@@ -365,7 +365,7 @@ console.log(item);
             <div className="checkout-navigation">
               <button
                 disabled={currentStep === 0}
-                className={`nav-btn prev-btn `}
+                className={`nav-btn main-button prev-btn back-light-animation`}
                 onClick={() => {
                   prevStep();
                   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -379,7 +379,7 @@ console.log(item);
               </div>
               <button
                 disabled={currentStep === 2}
-                className={`nav-btn next-btn`}
+                className={`nav-btn main-button next-btn back-light-animation`}
                 onClick={() => {
                   nextStep();
                   window.scrollTo({ top: 0, behavior: "smooth" });
