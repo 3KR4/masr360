@@ -25,9 +25,9 @@ export const MainProvider = ({ children }) => {
   });
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") || "light";
+      return localStorage.getItem("theme") || "dark";
     }
-    return "light";
+    return "dark";
   });
   const [referenceDataLoading, setReferenceDataLoading] = useState(true);
   const [governorates, setGovernorates] = useState([]);
@@ -54,7 +54,10 @@ export const MainProvider = ({ children }) => {
 
   useEffect(() => {
     document.documentElement.setAttribute("lang", locale);
-    document.documentElement.setAttribute("dir", locale === "AR" ? "rtl" : "ltr");
+    document.documentElement.setAttribute(
+      "dir",
+      locale === "AR" ? "rtl" : "ltr",
+    );
     localStorage.setItem("locale", locale);
   }, [locale]);
 
@@ -73,13 +76,17 @@ export const MainProvider = ({ children }) => {
   };
 
   const fetchReferenceData = async (activeLocale) => {
-    const [governoratesRes, placeCategoriesRes, nightCategoriesRes, productCategoriesRes] =
-      await Promise.all([
-        getGovernorates("", 1, 10000, activeLocale),
-        getCategories({ type: "place", lang: activeLocale }),
-        getCategories({ type: "night", lang: activeLocale }),
-        getCategories({ type: "product", lang: activeLocale }),
-      ]);
+    const [
+      governoratesRes,
+      placeCategoriesRes,
+      nightCategoriesRes,
+      productCategoriesRes,
+    ] = await Promise.all([
+      getGovernorates("", 1, 10000, activeLocale),
+      getCategories({ type: "place", lang: activeLocale }),
+      getCategories({ type: "night", lang: activeLocale }),
+      getCategories({ type: "product", lang: activeLocale }),
+    ]);
 
     return {
       governorates: governoratesRes.governorates || [],
@@ -146,7 +153,8 @@ export const MainProvider = ({ children }) => {
   };
 
   const toggleLocale = () => setLocale((prev) => (prev === "EN" ? "AR" : "EN"));
-  const toggleTheme = () => setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   if (!isReady) {
     return null;
