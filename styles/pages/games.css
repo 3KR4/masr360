@@ -297,25 +297,31 @@
 @media (max-width: 992px) {
   .card.explore-more-card {
     flex-direction: column;
-    min-height: auto;
+    min-height: unset;
   }
   .card.explore-more-card .image-side {
     width: 100%;
-    height: 180px;
+    height: unset;
+    left: 0;
     clip-path: none !important;
+    position: relative !important;
   }
   .card.explore-more-card .content-side {
     width: 100%;
     padding: 25px 20px;
+    align-items: center;
   }
   .card.explore-more-card .banner-title span {
-    font-size: 18px;
+    font-size: 33px;
+  }
+  .card.explore-more-card .banner-desc {
+    font-size: 14.5px;
   }
   .card.explore-more-card .banner-title strong.highlight {
-    font-size: 24px;
+    font-size: 44px;
   }
   .card.explore-more-card .features-row {
-    gap: 8px;
+    display: none;
   }
   .card.explore-more-card .feature-item span {
     font-size: 9.5px;
