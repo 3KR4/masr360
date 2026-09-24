@@ -7,9 +7,8 @@ import Link from "next/link";
 import * as MdIcons from "react-icons/md";
 import { mainContext } from "@/Contexts/mainContext";
 import { IoMenu, IoClose } from "react-icons/io5";
-import { FaSearch, FaRegMoon } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
-import { FiSun } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import {
@@ -18,7 +17,6 @@ import {
   FaAngleRight,
   FaAngleDown,
 } from "react-icons/fa6";
-import { GrLanguage } from "react-icons/gr";
 
 import MiniCart from "@/components/MiniCart";
 import { navLinks } from "@/data";
@@ -26,8 +24,7 @@ import useTranslate from "@/Contexts/useTranslation";
 import { useAuth } from "@/Contexts/AuthContext";
 
 function Header() {
-  const { screenSize, locale, toggleLocale, theme, toggleTheme } =
-    useContext(mainContext);
+  const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
   const { user, logout } = useAuth();
 
@@ -392,6 +389,7 @@ function Header() {
                       <Link href={`/support`}>{t.header.support}</Link>
                     </li>
 
+                    {/*
                     <li className="lang not-link" onClick={toggleLocale}>
                       <GrLanguage />
                       {t.header.change_language}
@@ -402,6 +400,7 @@ function Header() {
                         ? t.header.darkTheme
                         : t.header.lightTheme}
                     </li>
+                    */}
                     <li className="not-link danger" onClick={logout}>
                       <MdLogout />
                       {t.header.logout}
@@ -412,6 +411,7 @@ function Header() {
             </>
           ) : (
             <>
+              {/*
               <button className="lang" onClick={toggleLocale}>
                 <span className="lang-span">
                   <GrLanguage />
@@ -430,6 +430,7 @@ function Header() {
                       : "فاتح"}
                 </span>
               </button>
+              */}
               <Link
                 href={`/register?redirect=${pathname}`}
                 className="main-button"
