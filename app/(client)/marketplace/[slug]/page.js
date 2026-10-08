@@ -104,12 +104,26 @@ export default function ProductDetails() {
   const isLowStock = product.stock > 0 && product.stock < 5;
   const inCart = !!product?.cartItem || isInCart(product.id);
 
+  const activeLocale = (locale || "EN").toUpperCase();
+  const currentTranslation =
+    product.translations?.[activeLocale] || product.translations?.[locale];
+  const productName = currentTranslation?.name || product.name;
+  const productDesc =
+    currentTranslation?.desc || product.description || product.desc;
+
+  const categoryTranslation =
+    product.categoryTranslations?.[activeLocale] ||
+    product.categoryTranslations?.[locale] ||
+    product.category?.translations?.[activeLocale] ||
+    product.category?.translations?.[locale];
+  const categoryName = categoryTranslation?.name || product.categoryName;
+
   return (
     <div className="single-page container for-product">
       <Navigations
         items={[
           { name: t.header.marketplace, href: "/marketplace" },
-          { name: product.name, href: "" },
+          { name: productName, href: "" },
         ]}
         container="main"
       />
@@ -117,14 +131,14 @@ export default function ProductDetails() {
       <div className="holder big-holder">
         <div className="images-holder">
           {product.images?.[0] && (
-            <Image src={product.images[currentImg]} alt={product.name} fill />
+            <Image src={product.images[currentImg]} alt={productName} fill />
           )}
           <div className="imgs">
             {product.images?.map((x, index) => (
               <div className="img" key={index}>
                 <Image
                   src={x}
-                  alt={product.name}
+                  alt={productName}
                   fill
                   className={`${index === currentImg ? "active" : ""}`}
                   onClick={() => setCurrentImg(index)}
@@ -139,7 +153,7 @@ export default function ProductDetails() {
             <h5>
               {t.dashboard.forms.category}:{" "}
               <Link href={`/marketplace?cat=${product.category}`}>
-                {product.categoryName}
+                {categoryName}
               </Link>
             </h5>
             <div className="Availability">
@@ -158,9 +172,9 @@ export default function ProductDetails() {
 
             </div>
           </div>
-          <h3>{product.name}</h3>
+          <h3>{productName}</h3>
 
-          <p className="description">{product.description}</p>
+          <p className="description">{productDesc}</p>
           {product.rate > 0 && (
             <div className="reviews">
               <Rating
