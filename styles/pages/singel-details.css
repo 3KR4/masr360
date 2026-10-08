@@ -10,24 +10,24 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 25px;
-  margin: 0 auto 75px;
+  margin: 16px auto 75px;
 }
 .single-page .title-holder {
   margin: 38px auto 5px;
 }
 .single-page .images-holder {
   flex-direction: column;
-  gap: 14px;
+  gap: 20px;
   display: flex;
   height: fit-content;
   position: sticky;
   top: 88px;
 }
 .single-page .images-holder > img {
-  object-fit: fill;
-  position: relative !important;
+  object-fit: cover;
   aspect-ratio: 1;
-  border-radius: 20px;
+  border-radius: 30px;
+  position: relative !important;
 }
 .single-page .images-holder .imgs {
   align-items: center;
@@ -65,31 +65,25 @@
   height: fit-content;
   display: flex;
   position: sticky;
-  top: 72px;
+  top: 90px;
   padding-top: 20px;
 }
 .single-page .details-holder h3 {
-  font-size: 25px;
-  color: #3f3f3f;
+  color: var(--main-color-3);
+  font-size: 37px;
 }
 .single-page .details-holder h5 {
-  font-size: 16px;
-  color: var(--paragraph);
+  color: var(--main-color);
+  font-size: 17px;
 }
 .single-page .details-holder h5 a {
-  color: var(--title-color);
+  color: var(--paragraph);
 }
 .single-page .details-holder h5 a:hover {
   color: var(--main-color);
 }
-.single-page .details-holder .discount {
-  font-size: 15px;
-}
-.single-page .details-holder .old-price {
-  font-size: 17px;
-}
-.single-page .details-holder .new-price {
-  font-size: 19px;
+.single-page.for-product .price-holder p {
+  font-size: 22px;
 }
 .single-page .details-holder .Availability {
   display: flex;
@@ -135,13 +129,12 @@
   height: 44px;
   font-weight: 800;
   background: var(--second-color);
-  color: var(--paragraph);
-  border: 1px solid var(--main-color);
+  color: var(--main-color);
   transition: all 0.2s ease;
 }
 .single-page .actions button:hover {
   background: var(--main-color);
-  color: white;
+  color: var(--body-color);
 }
 .single-page .actions button svg {
   margin-right: 8px;
@@ -160,7 +153,7 @@
 }
 .single-page .actions .forCart.active {
   background: var(--main-color);
-  color: white;
+  color: var(--body-color);
 }
 .single-page .actions .forFavoriet {
   border: 1px solid #eb87ff;
@@ -182,7 +175,7 @@
   margin-top: 10px;
 }
 .single-page .details-holder .specifications h5 {
-  color: var(--paragraph);
+  color: var(--main-color);
   font-size: 18px;
   margin-bottom: 2px;
 }
@@ -198,10 +191,11 @@
 .single-page .details-holder .specifications ul li {
   color: var(--paragraph);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
   position: relative;
-  border-bottom: 1px solid #d5d5d5;
-  padding: 10px 0;
+  padding: 7px 0;
+  display: flex;
+  gap: 5px;
 }
 .single-page .details-holder .specifications ul li:last-child {
   border-color: transparent;
@@ -220,7 +214,7 @@
   right: -12px;
 }
 .single-page .details-holder .specifications ul li span {
-  color: var(--title-color);
+  color: var(--main-color-3);
   font-weight: 700;
 }
 
@@ -270,15 +264,14 @@
 }
 
 .single-page.forPlace .details .free {
-    color: var(--paragraph);
-    background: var(--second-color);
-    border: 1px solid var(--main-color);
-    border-radius: 15px;
-    min-width: max-content;
-    padding: 10px 16px;
-    font-size: 15px;
-    font-weight: 700;
-
+  color: var(--paragraph);
+  background: var(--second-color);
+  border: 1px solid var(--main-color);
+  border-radius: 15px;
+  min-width: max-content;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 700;
 }
 .single-page.forPlace > .holder {
   gap: 0px;
@@ -344,7 +337,13 @@
   transition: all 0.3s;
   white-space: nowrap;
 }
-.single-page.forPlace > .holder .location .top .actions .hold button:last-child {
+.single-page.forPlace
+  > .holder
+  .location
+  .top
+  .actions
+  .hold
+  button:last-child {
   border-radius: 0 15px 0 0 !important;
   border-left: 0;
 }
@@ -353,12 +352,26 @@
   border-color: var(--main-color);
   color: white;
 }
-[lang="AR"] .single-page.forPlace > .holder .location .top .actions .hold button:last-child {
+[lang="AR"]
+  .single-page.forPlace
+  > .holder
+  .location
+  .top
+  .actions
+  .hold
+  button:last-child {
   border-left: 1px solid var(--main-color);
   border-right: 0;
   border-radius: 15px 0 0 !important;
 }
-[lang="AR"] .single-page.forPlace > .holder .location .top .actions .hold button:first-child {
+[lang="AR"]
+  .single-page.forPlace
+  > .holder
+  .location
+  .top
+  .actions
+  .hold
+  button:first-child {
   border-radius: 0 15px 0 0 !important;
 }
 .single-page.forPlace > .holder .location .i-frame {

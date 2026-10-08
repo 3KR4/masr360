@@ -401,10 +401,9 @@
 }
 .game .text-holder .price-holder p {
   justify-content: center;
+  font-size: 14px;
 }
-.game .text-holder .price-holder .old-price {
-  color: #767676;
-}
+
 .game .text-holder .description {
   -webkit-line-clamp: 2;
   padding: 0 4px;
@@ -784,6 +783,12 @@
     width: 108px;
     height: 35px;
     font-size: 12px;
+  }
+  .games {
+    gap: 0px;
+  }
+  .games-banner-holder {
+    padding: 0;
   }
 
   .game-page .question-box .top {

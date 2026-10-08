@@ -6,27 +6,34 @@ import Image from "next/image";
 import Link from "next/link";
 import * as MdIcons from "react-icons/md";
 import { mainContext } from "@/Contexts/mainContext";
-import { IoMenu, IoClose } from "react-icons/io5";
-import { FaSearch } from "react-icons/fa";
+import { IoMenu, IoClose, IoGameController } from "react-icons/io5";
+import { FaRegMoon, FaSearch, FaRegUser } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
-import { MdLogout } from "react-icons/md";
+import { MdLogout, MdDashboard } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import {
   FaCartShopping,
   FaUser,
   FaAngleRight,
   FaAngleDown,
+  FaHouse,
+  FaHeadset,
 } from "react-icons/fa6";
 
 import MiniCart from "@/components/MiniCart";
 import { navLinks } from "@/data";
 import useTranslate from "@/Contexts/useTranslation";
 import { useAuth } from "@/Contexts/AuthContext";
+import useCart from "@/hooks/client/useCart";
+import { GrLanguage } from "react-icons/gr";
+import { FiSun } from "react-icons/fi";
 
 function Header() {
-  const { screenSize, locale } = useContext(mainContext);
+  const { toggleLocale, toggleTheme, screenSize, locale, theme } =
+    useContext(mainContext);
   const t = useTranslate();
   const { user, logout } = useAuth();
+  const { carts } = useCart();
 
   const pathname = usePathname();
 
@@ -37,8 +44,15 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    setActiveNav(null);
-  }, [pathname]);
+    if (user && screenSize !== "large") {
+      document.body.classList.add("has-bottom-header");
+    } else {
+      document.body.classList.remove("has-bottom-header");
+    }
+    return () => {
+      document.body.classList.remove("has-bottom-header");
+    };
+  }, [user, screenSize]);
 
   const [activeNav, setActiveNav] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -47,6 +61,19 @@ function Header() {
   const mobileMenuRef = useRef(null);
   const searchRef = useRef(null);
   const searchInputRef = useRef(null);
+
+  const bottomUserRef = useRef(null);
+  const bottomCartRef = useRef(null);
+  const [mobileUserMenuOpen, setMobileUserMenuOpen] = useState(false);
+  const [mobileCartMenuOpen, setMobileCartMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setActiveNav(null);
+    setMobileUserMenuOpen(false);
+    setMobileCartMenuOpen(false);
+    setMobileMenu(false);
+    setSearchActive(false);
+  }, [pathname]);
 
   const getNavTitle = (titleObj) => {
     return titleObj[locale];
@@ -62,6 +89,18 @@ function Header() {
       }
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setSearchActive(false);
+      }
+      if (
+        bottomUserRef.current &&
+        !bottomUserRef.current.contains(event.target)
+      ) {
+        setMobileUserMenuOpen(false);
+      }
+      if (
+        bottomCartRef.current &&
+        !bottomCartRef.current.contains(event.target)
+      ) {
+        setMobileCartMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -244,7 +283,7 @@ function Header() {
                     <Link
                       href={item.link || "/"}
                       onClick={() => setMobileMenu(false)}
-                      className="drawer-single-link"
+                      className={`drawer-single-link ${pathname === item.link ? "active" : ""}`}
                     >
                       {getNavTitle(item.title)}
                     </Link>
@@ -252,11 +291,203 @@ function Header() {
                 </li>
               );
             })}
+
+            {/* Support Link under About Us */}
+            <li className="drawer-nav-item">
+              <Link
+                href="/support"
+                onClick={() => setMobileMenu(false)}
+                className={`drawer-single-link ${pathname === "/support" ? "active" : ""}`}
+              >
+                {t.header?.support || (locale === "AR" ? "الدعم" : "Support")}
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
     </>
   );
+
+  const bottomMobileHeader = () => {
+    const isAdmin = user?.role === "admin";
+    const isDashboardPage = pathname?.includes("dashboard");
+
+    return (
+      <div className="bottom-mobile-header backdrop-blur">
+        <div className="bottom-nav-container">
+          {/* 1. Home / Dashboard */}
+          {isAdmin ? (
+            isDashboardPage ? (
+              <Link
+                href="/"
+                className={`bottom-nav-item ${pathname === "/" ? "active" : ""}`}
+              >
+                <FaHouse className="nav-icon" />
+                <span>{locale === "AR" ? "الرئيسية" : "Home"}</span>
+              </Link>
+            ) : (
+              <Link
+                href="/dashboard"
+                className={`bottom-nav-item ${isDashboardPage ? "active" : ""}`}
+              >
+                <MdDashboard className="nav-icon" />
+                <span>{locale === "AR" ? "الداشبورد" : "Dashboard"}</span>
+              </Link>
+            )
+          ) : (
+            <Link
+              href="/"
+              className={`bottom-nav-item ${pathname === "/" ? "active" : ""}`}
+            >
+              <FaHouse className="nav-icon" />
+              <span>{locale === "AR" ? "الرئيسية" : "Home"}</span>
+            </Link>
+          )}
+
+          {/* 2. Account / User Menu */}
+          <div
+            className={`bottom-nav-item bottom-user-wrapper ${mobileUserMenuOpen ? "active" : ""}`}
+            ref={bottomUserRef}
+          >
+            <button
+              type="button"
+              className="bottom-nav-btn"
+              onClick={() => {
+                setMobileUserMenuOpen((prev) => !prev);
+                setMobileCartMenuOpen(false);
+              }}
+              aria-label={t.header.user_menu}
+            >
+              <FaUser className="nav-icon" />
+              <span>{locale === "AR" ? "حسابي" : "Account"}</span>
+            </button>
+
+            {mobileUserMenuOpen && (
+              <div
+                className="bottom-menu-popup user-popup userMenu backdrop-blur"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {user ? (
+                  <>
+                    <div className="top">{user?.username}</div>
+                    <ul>
+                      {/* Dashboard and Support links are omitted here in bottom mobile context as requested */}
+                      <li>
+                        <Link
+                          href="/booking"
+                          onClick={() => setMobileUserMenuOpen(false)}
+                        >
+                          {t.header.my_bookings}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/orders"
+                          onClick={() => setMobileUserMenuOpen(false)}
+                        >
+                          {t.header.my_orders}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/favorites"
+                          onClick={() => setMobileUserMenuOpen(false)}
+                        >
+                          {t.header.favorites}
+                        </Link>
+                      </li>
+                      <li className="lang not-link" onClick={toggleLocale}>
+                        <GrLanguage />
+                        {t.header.change_language}
+                      </li>
+                      <li
+                        className="not-link danger"
+                        onClick={() => {
+                          logout();
+                          setMobileUserMenuOpen(false);
+                        }}
+                      >
+                        <MdLogout />
+                        {t.header.logout}
+                      </li>
+                    </ul>
+                  </>
+                ) : (
+                  <div className="bottom-logged-out-box">
+                    <p>
+                      {locale === "AR"
+                        ? "مرحباً بك في مصر 360"
+                        : "Welcome to Masr360"}
+                    </p>
+                    <Link
+                      href={`/register?redirect=${pathname}`}
+                      className="main-button"
+                      onClick={() => setMobileUserMenuOpen(false)}
+                    >
+                      {t.header.sign_up}
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* 3. Play Game (Center FAB) */}
+          <Link
+            href="/games"
+            className={`bottom-nav-item center-fab-item ${pathname?.includes("games") ? "active" : ""}`}
+          >
+            <div className="center-fab">
+              <IoGameController className="fab-icon" />
+            </div>
+            <span>{locale === "AR" ? "لعب لعبة" : "Play Game"}</span>
+          </Link>
+
+          {/* 4. Cart */}
+          <div
+            className={`bottom-nav-item bottom-cart-wrapper ${mobileCartMenuOpen ? "active" : ""}`}
+            ref={bottomCartRef}
+          >
+            <button
+              type="button"
+              className="bottom-nav-btn"
+              onClick={() => {
+                setMobileCartMenuOpen((prev) => !prev);
+                setMobileUserMenuOpen(false);
+              }}
+              aria-label={t.header.cart}
+            >
+              <div className="icon-with-badge">
+                <FaCartShopping className="nav-icon" />
+                {carts?.length > 0 && (
+                  <span className="cart-badge">{carts.length}</span>
+                )}
+              </div>
+              <span>{locale === "AR" ? "السلة" : "Cart"}</span>
+            </button>
+
+            {mobileCartMenuOpen && (
+              <div
+                className="bottom-menu-popup cart-popup"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <MiniCart />
+              </div>
+            )}
+          </div>
+
+          {/* 5. Support / Contact */}
+          <Link
+            href="/support"
+            className={`bottom-nav-item ${pathname === "/support" ? "active" : ""}`}
+          >
+            <FaHeadset className="nav-icon" />
+            <span>{locale === "AR" ? "الدعم" : "Support"}</span>
+          </Link>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <header
@@ -268,7 +499,6 @@ function Header() {
       <div className="container">
         <Link href="/" className="logo">
           <Image src="/main-logo.png" fill alt={t.header.logo_alt} />
-          {/* <Image src="/M360 Logo.png" fill alt={t.header.logo_alt} /> */}
         </Link>
 
         {screenSize === "large" && nav()}
@@ -360,11 +590,11 @@ function Header() {
           </div>
           {user ? (
             <>
-              <button className="btn cart">
+              <button className="btn cart desktop-only-action">
                 <FaCartShopping title={t.header.cart} />
                 <MiniCart />
               </button>
-              <button className="btn user">
+              <button className="btn user desktop-only-action">
                 <FaUser title={t.header.user_menu} />
                 <div className="userMenu menu backdrop-blur">
                   <div className="top">{user?.username}</div>
@@ -389,11 +619,11 @@ function Header() {
                       <Link href={`/support`}>{t.header.support}</Link>
                     </li>
 
-                    {/*
                     <li className="lang not-link" onClick={toggleLocale}>
                       <GrLanguage />
                       {t.header.change_language}
                     </li>
+                    {/*
                     <li className="lang not-link" onClick={toggleTheme}>
                       {theme === "light" ? <FaRegMoon /> : <FiSun />}
                       {theme === "light"
@@ -401,6 +631,7 @@ function Header() {
                         : t.header.lightTheme}
                     </li>
                     */}
+
                     <li className="not-link danger" onClick={logout}>
                       <MdLogout />
                       {t.header.logout}
@@ -411,31 +642,25 @@ function Header() {
             </>
           ) : (
             <>
-              {/*
               <button className="lang" onClick={toggleLocale}>
                 <span className="lang-span">
                   <GrLanguage />
                   {locale === "EN" ? "EN" : "AR"}
                 </span>
               </button>
-              <button className="lang" onClick={toggleTheme}>
-                <span className="lang-span">
-                  {theme === "light" ? <FaRegMoon /> : <FiSun />}
-                  {locale === "EN"
-                    ? theme === "light"
-                      ? "Dark"
-                      : "Light"
-                    : theme === "light"
-                      ? "داكن"
-                      : "فاتح"}
-                </span>
-              </button>
-              */}
+
               <Link
                 href={`/register?redirect=${pathname}`}
-                className="main-button"
+                className="signup-btn"
+                title={t.header.sign_up}
+                aria-label={t.header.sign_up}
               >
-                {t.header.sign_up}
+                <span className="desktop-signup-text main-button back-light-animation sign_up">
+                  {t.header.sign_up}
+                </span>
+                <span className="mobile-signup-icon">
+                  <FaRegUser />
+                </span>
               </Link>
             </>
           )}
@@ -459,6 +684,10 @@ function Header() {
       {screenSize !== "large" &&
         mounted &&
         createPortal(mobileNavDrawer(), document.body)}
+      {user &&
+        screenSize !== "large" &&
+        mounted &&
+        createPortal(bottomMobileHeader(), document.body)}
     </header>
   );
 }

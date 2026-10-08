@@ -6,7 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { FaCircleCheck } from "react-icons/fa6";
-import { IoCartOutline, IoHeartOutline, IoCartSharp, IoHeart } from "react-icons/io5";
+import {
+  IoCartOutline,
+  IoHeartOutline,
+  IoCartSharp,
+  IoHeart,
+} from "react-icons/io5";
 import Navigations from "@/components/Navigations";
 import Rating from "@mui/material/Rating";
 import DisplayPrice from "@/components/DisplayPrice";
@@ -58,7 +63,9 @@ export default function ProductDetails() {
     setAddingToCart(true);
     const added = await addItem(product.id, 1);
     if (added) {
-      setProduct((prev) => (prev ? { ...prev, cartItem: { cartQuantity: 1 } } : prev));
+      setProduct((prev) =>
+        prev ? { ...prev, cartItem: { cartQuantity: 1 } } : prev,
+      );
     }
     setAddingToCart(false);
   };
@@ -110,11 +117,7 @@ export default function ProductDetails() {
       <div className="holder big-holder">
         <div className="images-holder">
           {product.images?.[0] && (
-            <Image
-              src={product.images[currentImg]}
-              alt={product.name}
-              fill
-            />
+            <Image src={product.images[currentImg]} alt={product.name} fill />
           )}
           <div className="imgs">
             {product.images?.map((x, index) => (
@@ -132,15 +135,32 @@ export default function ProductDetails() {
         </div>
 
         <div className="details-holder">
+          <div className="row-holder">
+            <h5>
+              {t.dashboard.forms.category}:{" "}
+              <Link href={`/marketplace?cat=${product.category}`}>
+                {product.categoryName}
+              </Link>
+            </h5>
+            <div className="Availability">
+              <div className="hold">
+                {t.marketplace.availability}:{" "}
+                {!isOutOfStock ? (
+                  <span className="in">
+                    <FaCircleCheck /> {t.marketplace.in_stock}
+                  </span>
+                ) : (
+                  <span className="out">
+                    <IoCloseCircleSharp /> {t.marketplace.out_of_stock}
+                  </span>
+                )}
+              </div>
+
+            </div>
+          </div>
           <h3>{product.name}</h3>
 
-          <h5>
-            {t.dashboard.forms.category}:{" "}
-            <Link href={`/marketplace?cat=${product.category}`}>
-              {product.categoryName}
-            </Link>
-          </h5>
-
+          <p className="description">{product.description}</p>
           {product.rate > 0 && (
             <div className="reviews">
               <Rating
@@ -155,41 +175,19 @@ export default function ProductDetails() {
               </span>
             </div>
           )}
-
           <DisplayPrice
             price={product.price}
             sale={product.sale}
             stock={product.stock}
           />
-
-          <div className="Availability">
-            <div className="hold">
-              {t.marketplace.availability}:{" "}
-              {!isOutOfStock ? (
-                <span className="in">
-                  <FaCircleCheck /> {t.marketplace.in_stock}
-                </span>
-              ) : (
-                <span className="out">
-                  <IoCloseCircleSharp /> {t.marketplace.out_of_stock}
-                </span>
+              {isLowStock && (
+                <p className="dont-miss">
+                  Dont Miss Out, only {product.stock} pieces left in stock
+                </p>
               )}
-            </div>
-            {isLowStock && (
-              <p className="dont-miss">
-                Dont Miss Out, only {product.stock} pieces left in stock
-              </p>
-            )}
-          </div>
-
-          <p className="description">{product.description}</p>
-
           <div className="actions">
             <div className="actions-cart">
-              <button
-                className="main-button forCart"
-                disabled
-              >
+              <button className="main-button forCart" disabled>
                 {t.actions.buy_it_now}
               </button>
               <button
@@ -204,7 +202,7 @@ export default function ProductDetails() {
                   <>
                     {inCart ? <IoCartSharp /> : <IoCartOutline />}
                     {inCart
-                      ? (t.actions.in_cart || "In Cart")
+                      ? t.actions.in_cart || "In Cart"
                       : t.actions.add_to_cart}
                   </>
                 )}
@@ -220,9 +218,13 @@ export default function ProductDetails() {
                 <span className="loader" />
               ) : (
                 <>
-                  {isFavorited("Product", product.id) ? <IoHeart /> : <IoHeartOutline />}
+                  {isFavorited("Product", product.id) ? (
+                    <IoHeart />
+                  ) : (
+                    <IoHeartOutline />
+                  )}
                   {isFavorited("Product", product.id)
-                    ? (t.actions.in_favorites_list || "In Favorites List")
+                    ? t.actions.in_favorites_list || "In Favorites List"
                     : t.actions.add_to_favorites}
                 </>
               )}

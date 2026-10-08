@@ -59,8 +59,8 @@ body {
   background: #ffffffed;
 }
 [data-theme="dark"] .backdrop-blur {
-  background: #000000e3;
-  backdrop-filter: blur(7px);
+  backdrop-filter: blur(5px);
+  background: #000000de;
 }
 
 [lang="AR"] body {
@@ -216,10 +216,16 @@ body > .booking,
 body > .orders,
 body > .favorites,
 body > .support,
+.single-page.for-product,
 .legal-page-container {
   padding-top: 85px;
   padding-bottom: 50px;
 }
+.single-page.for-product {
+  padding-top: 130px;
+
+}
+
 .grid-holder {
   display: grid;
   gap: 16px;
@@ -308,6 +314,10 @@ body > .support,
 .back-light-animation:hover {
   background: var(--main-gradient) !important;
   transform: translateY(-2px) !important;
+}
+.back-light-animation.sign_up:hover  {
+  transform: unset !important;
+  scale: 1.05;
 }
 @keyframes buttonBreathing {
   0%,
@@ -658,39 +668,44 @@ button:hover .loader {
 .price-holder {
   font-weight: 700;
 }
+.row-holder {
+      display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 .price-holder p {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 2px 7px;
-  font-size: 14px;
+  font-size: 18px;
 }
-
+.card.product .price-holder p,
+.cartMenu.menu .price-holder p {
+      font-size: 14px;
+}
 .new-price {
   color: var(--hover-color);
   font-weight: 700;
-  font-size: 15px;
 }
 
 .old-price {
-  color: #999;
-  font-size: 14px;
+  color: var(--paragraph);
   font-weight: 700;
   text-decoration: line-through;
 }
 .regular-price {
-  color: var(--title-color);
+  color: var(--main-color-3);
   font-weight: 700;
-  font-size: 15px !important;
 }
 .discount {
   color: #16a34a;
-  font-size: 13px;
   font-weight: 700;
 }
 
 .out-of-stock .status {
-  color: #e63946;
+  color: var(--red-color);
   font-weight: 700;
 }
 

@@ -466,7 +466,7 @@
     font-size: 15px;
   }
   .swiper .slide-content span {
-    font-size: 20px;
+    font-size: 22px;
   }
   .swiper .slide-content h2 {
     max-width: 98%;
@@ -508,11 +508,7 @@
 }
 
 @media (max-width: 480px) {
-  .swiper .slide-content:before {
-  }
-  .swiper .slide-content span {
-    font-size: 15px;
-  }
+
   .swiper .slide-content h1 {
     font-size: 26px;
   }

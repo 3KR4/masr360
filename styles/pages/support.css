@@ -94,9 +94,13 @@
     grid-template-columns: repeat(1, 1fr);
   }
   .support form .hold.contact .grid {
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
   }
-
+  .support form .hold.contact .grid > * {
+    min-width: 40%;
+    flex: 1;
+  }
   .support form .hold .option {
     gap: 5px;
   }
