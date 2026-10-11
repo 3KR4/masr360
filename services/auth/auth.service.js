@@ -1,4 +1,4 @@
-import api, { plainApi } from "../axios";
+import api, { getAccessToken, plainApi } from "../axios";
 import { ENDPOINTS } from "../endpoints";
 
 export const registerUser = (payload) => {
@@ -23,4 +23,19 @@ export const refreshAuthSession = () => {
 
 export const getCurentUser = () => {
   return api.get(ENDPOINTS.AUTH.GET_CURENT_USER);
+};
+
+export const logoutUser = () => {
+  const token = getAccessToken();
+  return plainApi.post(
+    ENDPOINTS.AUTH.LOGOUT,
+    {},
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : {}
+  );
 };

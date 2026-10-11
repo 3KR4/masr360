@@ -23,6 +23,7 @@ const PUBLIC_AUTH_ROUTES = [
   "/auth/verify",
   "/auth/validateOtp",
   "/auth/refresh",
+  "/auth/logout",
 ];
 
 // -------------------- TOKEN STORAGE --------------------

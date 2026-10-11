@@ -7,6 +7,35 @@ const extractImages = (imgs) => {
   }).filter(Boolean);
 };
 
+export const getLocalizedSpecifications = (specs, locale = "EN") => {
+  if (!specs) return [];
+
+  if (Array.isArray(specs)) {
+    return specs.filter((s) => s && (s.key || s.value));
+  }
+
+  if (typeof specs !== "object") return [];
+
+  const active = String(locale || "EN").toUpperCase();
+  const fallback = active === "AR" ? "EN" : "AR";
+
+  if (specs.EN || specs.AR) {
+    const targetObj = specs[active] || specs[fallback] || {};
+    if (typeof targetObj === "object" && !Array.isArray(targetObj)) {
+      return Object.entries(targetObj).map(([key, value]) => ({
+        key,
+        value: typeof value === "object" ? JSON.stringify(value) : String(value ?? ""),
+      }));
+    }
+    return [];
+  }
+
+  return Object.entries(specs).map(([key, value]) => ({
+    key,
+    value: typeof value === "object" ? JSON.stringify(value) : String(value ?? ""),
+  }));
+};
+
 export const normalizeProduct = (p) => ({
   id: p._id,
   name: p.name,
@@ -21,11 +50,7 @@ export const normalizeProduct = (p) => ({
   priceAfterDiscount: p.priceAfterDiscount,
   description: p.desc,
   stock: p.quantity,
-  specifications: p.specifications
-    ? typeof p.specifications === "object" && !Array.isArray(p.specifications)
-      ? Object.entries(p.specifications).map(([key, value]) => ({ key, value }))
-      : p.specifications
-    : [],
+  specifications: p.specifications || null,
   tags: p.tags,
   translations: p.translations,
   createdAt: p.createdAt,

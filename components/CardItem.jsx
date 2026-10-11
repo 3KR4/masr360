@@ -94,8 +94,30 @@ export default function CardItem({ item, type, previewGame = false }) {
     return t.mainCard.seeDetails;
   };
 
+  const activeLocale = String(locale || "EN").toUpperCase();
+  const activeLocaleLower = activeLocale.toLowerCase();
+
+  const currentTranslation =
+    item?.translations?.[activeLocale] ||
+    item?.translations?.[activeLocaleLower] ||
+    item?.translations?.[locale];
+
+  const itemName =
+    currentTranslation?.name ||
+    currentTranslation?.title ||
+    item?.name ||
+    item?.title ||
+    "";
+
+  const itemDesc =
+    currentTranslation?.desc ||
+    currentTranslation?.description ||
+    item?.description ||
+    item?.desc ||
+    "";
+
   const currentGovernorate =
-    locale === "EN"
+    activeLocale === "EN"
       ? governoratesEn?.find(
           (x) =>
             x.id === item?.governorate?.id ||
@@ -109,8 +131,14 @@ export default function CardItem({ item, type, previewGame = false }) {
             x.id === item?.governorate,
         );
 
+  const govTranslations = item?.governorate?.translations;
+  const govTrans =
+    govTranslations?.[activeLocale] ||
+    govTranslations?.[activeLocaleLower] ||
+    govTranslations?.[locale];
+
   const govName =
-    item?.governorate?.translations?.[locale]?.name ||
+    govTrans?.name ||
     item?.governorate?.name ||
     item?.governorateName ||
     currentGovernorate?.name ||
@@ -195,7 +223,7 @@ export default function CardItem({ item, type, previewGame = false }) {
       >
         <Image
           src={isGov || isGame ? item?.image : item?.images?.[0]}
-          alt={item?.name}
+          alt={itemName}
           fill
         />
         {!isGov && !previewGame && (
@@ -222,9 +250,7 @@ export default function CardItem({ item, type, previewGame = false }) {
             }
             className="name-link ellipsis"
           >
-            {isGov
-              ? item?.translations?.[locale]?.name || item?.name
-              : item?.name}
+            {itemName}
           </Link>
 
           {(isPlace || isNight || isEvent) && (
@@ -279,7 +305,7 @@ export default function CardItem({ item, type, previewGame = false }) {
                 </span>
               </>
             ) : (
-              <p>no reviews yet</p>
+              <p>{locale === "AR" ? "لا توجد تقييمات بعد" : "no reviews yet"}</p>
             )}
           </div>
         )}
@@ -294,13 +320,11 @@ export default function CardItem({ item, type, previewGame = false }) {
             stock={item?.stock}
           />
         )}
-        {item?.description && (
+        {itemDesc && (
           <p
             className={`ellipsis description ${previewGame ? "no-clamp" : ""}`}
           >
-            {isGov
-              ? item?.translations?.[locale]?.desc || item?.description
-              : item?.description}
+            {itemDesc}
           </p>
         )}
         {/* GAME DETAILS */}

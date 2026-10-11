@@ -204,59 +204,238 @@
 .order-information {
   display: grid;
   grid-template-columns: 1fr 400px;
-  gap: 20px;
+  gap: 24px;
   margin-top: 2rem;
+  align-items: start;
 }
 
 .form-section,
 .summary-section {
   border-radius: 24px;
   flex-direction: column;
-  padding: 20px 17px;
+  padding: 24px 20px;
   display: flex;
   box-shadow: 0 0 16px 0px var(--box-shadow-2);
   background: var(--section-color);
 }
 
 .summary-section {
-  padding: 10 0;
+  padding: 16px 0;
+  height: fit-content;
+  position: sticky;
+  top: 90px;
+  z-index: 5;
 }
+
 .section-title {
   color: var(--main-color);
   padding: 7px 16px 13px;
   font-size: 17px;
 }
+
 .form-section .section-title {
   padding: 0;
   font-size: 19px;
+  margin-bottom: 8px;
 }
+
+.form-section .rowHolder {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 650px) {
+  .form-section .rowHolder {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-section .box.forInput {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  position: relative;
+}
+
 .form-section .box.forInput label {
-  margin: 16px 0 4px;
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--paragraph);
 }
-.form-section .form-section {
-  height: 100%;
+
+.form-section .box.forInput .inputHolder {
+  height: auto;
+  display: flex;
+  flex-direction: column;
 }
+
+.form-section .box.forInput .inputHolder .holder {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  background: var(--body-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.form-section .box.forInput .inputHolder .holder:focus-within {
+  border-color: var(--main-color);
+}
+
+.form-section .box.forInput .inputHolder .holder svg {
+  color: var(--paragraph);
+  font-size: 17px;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.form-section .box.forInput .inputHolder .holder input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--title-color);
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.form-section .box.forInput .inputHolder .holder:has(textarea) {
+  height: auto;
+  min-height: 90px;
+  padding: 12px 14px;
+}
+
+.form-section .box.forInput .inputHolder .holder textarea {
+  width: 100% !important;
+  height: 80px;
+  resize: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--title-color);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Error message spacing */
+.form-section .box.forInput .error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 7px 4px 0 !important;
+  color: #ea4335 !important;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.form-section .box.forInput .error svg {
+  width: 14px !important;
+  height: 14px !important;
+  color: #ea4335 !important;
+  flex-shrink: 0;
+}
+
+/* SelectOptions inside form-section */
+.form-section .filters.for-cats {
+  width: 100% !important;
+  position: relative;
+}
+
+.form-section .filters.for-cats .btn {
+  width: 100%;
+  height: 48px;
+  background: var(--body-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.form-section .filters.for-cats .btn:hover {
+  border-color: var(--main-color);
+}
+
+.form-section .filters.for-cats .btn h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--title-color);
+  flex: 1;
+  text-align: start;
+}
+
+.form-section .filters.for-cats .btn svg.main-ico {
+  color: var(--paragraph);
+  font-size: 18px;
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  background: transparent;
+}
+
+.form-section .filters.for-cats .menu {
+  width: 100%;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 1000;
+  background: var(--section-color);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  top: 54px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section .filters.for-cats .menu button {
+  width: 100%;
+  text-align: start;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--title-color);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.form-section .filters.for-cats .menu button:hover {
+  background: var(--second-color);
+  color: var(--main-color);
+}
+
+.form-section .filters.for-cats .menu button.active {
+  background: var(--second-color);
+  color: var(--main-color);
+  font-weight: 700;
+}
+
+.form-section .filters.for-cats .search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--title-color);
+  font-size: 14px;
+}
+
 .coupon-holder {
   padding: 0 !important;
   gap: 0 !important;
   display: flex;
   overflow: hidden;
   border: none !important;
-}
-.form-section .box.forInput .inputHolder,
-.form-section .box.forInput .inputHolder .holder,
-.form-section .box.forInput:has(textarea),
-.form-section .box.forInput .inputHolder .holder textarea {
-  height: 100%;
-}
-.form-section .box.forInput .inputHolder .holder:has(textarea) {
-  padding: 14px 14px;
-}
-
-.form-section .box.forInput .inputHolder .holder textarea {
-  width: 100% !important;
-  resize: none;
-  /* height: 242px; */
 }
 .coupon-section.box.forInput .inputHolder .holder input {
   border: 1px solid var(--second-color);
@@ -449,4 +628,137 @@
     height: 38px;
     font-size: 15px;
   }
+  .payment-methods-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Payment Methods Grid */
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  max-width: 750px;
+  margin: 2rem auto 0;
+  text-align: initial;
+}
+
+.payment-card {
+  position: relative;
+  background: var(--section-color);
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.payment-card.active {
+  border-color: var(--main-color);
+  background: var(--second-color);
+  box-shadow: 0 4px 20px rgba(234, 140, 67, 0.15);
+}
+
+.payment-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.payment-card.disabled:hover {
+  border-color: rgba(217, 68, 82, 0.4);
+}
+
+.payment-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.payment-card-icon {
+  font-size: 28px;
+  color: var(--main-color);
+}
+
+.payment-card.disabled .payment-card-icon {
+  color: var(--paragraph);
+}
+
+.payment-card-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--paragraph);
+}
+
+.payment-card-badge.active-badge {
+  background: var(--main-color);
+  color: var(--body-color);
+  display: flex;
+  align-items: center;
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.payment-card-body h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--title-color);
+  margin-bottom: 4px;
+}
+
+.payment-card-body p {
+  font-size: 13px;
+  color: var(--paragraph);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.payment-tooltip {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  left: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #ff9800;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  font-weight: 600;
+}
+
+.payment-card.disabled:hover .payment-tooltip {
+  opacity: 1;
+}
+
+.place-order-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  min-width: 170px;
+  padding: 0 1.5rem;
+}
+
+.checkout-error-banner {
+  background: rgba(217, 68, 82, 0.12);
+  border: 1px solid rgba(217, 68, 82, 0.4);
+  color: #e55353;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
 }

@@ -1,9 +1,21 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
-import { FaTrashAlt } from "react-icons/fa";
+import {
+  FaTrashAlt,
+  FaRoad,
+  FaHome,
+  FaCity,
+  FaMapMarkedAlt,
+  FaCheckCircle,
+  FaMoneyBillWave,
+  FaCreditCard,
+  FaWallet,
+} from "react-icons/fa";
+import { SiContactlesspayment } from "react-icons/si";
 import { FaCircleCheck } from "react-icons/fa6";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import DisplayPrice from "@/components/DisplayPrice";
@@ -11,6 +23,10 @@ import { CircleAlert } from "lucide-react";
 import { useForm } from "react-hook-form";
 import "@/styles/forms.css";
 import useCart from "@/hooks/client/useCart";
+import { useAuth } from "@/Contexts/AuthContext";
+import { createOrder } from "@/services/orders/orders.service";
+import { EGYPT_CITIES } from "@/constants/egyptCities";
+import SelectOptions from "@/components/dashboard/forms/SelectOptions";
 import { SlLocationPin } from "react-icons/sl";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import Link from "next/link";
@@ -18,6 +34,8 @@ import { mainContext } from "@/Contexts/mainContext";
 import useTranslate from "@/Contexts/useTranslation";
 
 function Cart() {
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
 
@@ -26,6 +44,7 @@ function Cart() {
     loading,
     updateQuantity,
     removeItem,
+    clearAll,
     getItemPrice,
     getTotalPrice,
     grandTotal,
@@ -33,12 +52,47 @@ function Cart() {
   const {
     register,
     formState: { errors },
-  } = useForm();
+    trigger,
+    getValues,
+    setValue,
+    watch,
+    clearErrors,
+  } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+    defaultValues: {
+      city: "",
+      street: "",
+      home: "",
+      fullAddress: "",
+      googleMapsLink: "",
+      instructions: "",
+    },
+  });
+
+  const cityOptions = useMemo(() => {
+    return EGYPT_CITIES.map((c) => ({
+      id: c.value,
+      name: locale === "AR" ? c.labelAr : c.labelEn,
+      value: c.value,
+    }));
+  }, [locale]);
+
+  const currentCityValue = watch("city");
+  const selectedCity = useMemo(() => {
+    if (!currentCityValue) return null;
+    return cityOptions.find((c) => c.value === currentCityValue) || null;
+  }, [currentCityValue, cityOptions]);
+
+  useEffect(() => {
+    register("city", { required: t.cart.cityRequired });
+  }, [register, t.cart.cityRequired]);
 
   const [currentStep, setCurrentStep] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [submittingOrder, setSubmittingOrder] = useState(false);
+  const [orderError, setOrderError] = useState(null);
   const [formData, setFormData] = useState({
-    address: "",
-    note: "",
     coupon: "",
   });
 
@@ -50,12 +104,89 @@ function Cart() {
     }));
   };
 
-  const nextStep = () => {
-    if (currentStep < 2) setCurrentStep(currentStep + 1);
+  const nextStep = async () => {
+    if (currentStep === 0) {
+      setCurrentStep(1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (currentStep === 1) {
+      const isValid = await trigger([
+        "city",
+        "street",
+        "home",
+        "fullAddress",
+        "googleMapsLink",
+      ]);
+      if (isValid) {
+        setOrderError(null);
+        setCurrentStep(2);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
   };
 
   const prevStep = () => {
-    if (currentStep > 0) setCurrentStep(currentStep - 1);
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handlePlaceOrder = async () => {
+    if (!isAuthenticated) {
+      router.push("/auth/login?redirect=/cart");
+      return;
+    }
+
+    const isValid = await trigger([
+      "city",
+      "street",
+      "home",
+      "fullAddress",
+      "googleMapsLink",
+    ]);
+    if (!isValid) {
+      setCurrentStep(1);
+      return;
+    }
+
+    const values = getValues();
+    setSubmittingOrder(true);
+    setOrderError(null);
+
+    try {
+      const mapLink = values.googleMapsLink?.trim();
+      const formattedMapLink = mapLink
+        ? mapLink.startsWith("http://") || mapLink.startsWith("https://")
+          ? mapLink
+          : `https://${mapLink}`
+        : `https://maps.google.com/?q=${encodeURIComponent(values.city)}`;
+
+      const payload = {
+        location: {
+          nearMetro: false,
+          nearmetro: false,
+          street: values.street?.trim(),
+          fullAddress: values.fullAddress?.trim(),
+          home: values.home?.trim(),
+          city: values.city,
+          googleMapsLink: formattedMapLink,
+        },
+        paymentMethod: "cash",
+      };
+
+      await createOrder(payload);
+      await clearAll();
+      router.push("/orders");
+    } catch (err) {
+      console.error("Order creation failed:", err);
+      const errMsg =
+        err.response?.data?.message ||
+        err.response?.data?.errors?.[0]?.msg ||
+        t.cart.orderFailed;
+      setOrderError(errMsg);
+    } finally {
+      setSubmittingOrder(false);
+    }
   };
 
   const applyCoupon = () => {};
@@ -184,39 +315,142 @@ console.log(item);
   );
 
   const renderStep2 = () => (
-    <div className="order-information  ">
-      <form className="form-section ">
+    <div className="order-information">
+      <div className="form-section">
         <h3 className="section-title">{t.cart.orderInformation}</h3>
 
-        <div
-          className="box forInput"
-          onClick={() => document.getElementById("address").focus()}
-        >
-          <label htmlFor="address">{t.cart.deliveryAddress}</label>
-          <div className="inputHolder">
-            <div className="holder">
-              <SlLocationPin />
-              <input
-                type="text"
-                id="address"
-                {...register("address", {
-                  required: t.cart.addressRequired,
-                })}
-                placeholder={t.cart.addressPlaceholder}
-              />
+        {/* City Select with our site-wide SelectOptions component */}
+        <SelectOptions
+          label={t.cart.city}
+          placeholder={t.cart.selectCity}
+          options={cityOptions}
+          value={selectedCity}
+          onChange={(item) => {
+            setValue("city", item.value, { shouldValidate: true });
+            clearErrors("city");
+          }}
+          error={errors.city?.message}
+        />
+
+        {/* Row 1: Street Name & Apartment / Home / Building */}
+        <div className="rowHolder">
+          <div className="box forInput">
+            <label htmlFor="street">{t.cart.street}</label>
+            <div className="inputHolder">
+              <div className="holder">
+                <FaRoad />
+                <input
+                  type="text"
+                  id="street"
+                  {...register("street", {
+                    required: t.cart.streetRequired,
+                  })}
+                  placeholder={t.cart.streetPlaceholder}
+                />
+              </div>
+              {errors.street && (
+                <span className="error">
+                  <CircleAlert size={14} />
+                  {errors.street.message}
+                </span>
+              )}
             </div>
-            {errors.address && (
-              <span className="error">
-                <CircleAlert />
-                {errors.address.message}
-              </span>
-            )}
+          </div>
+
+          <div className="box forInput">
+            <label htmlFor="home">{t.cart.home}</label>
+            <div className="inputHolder">
+              <div className="holder">
+                <FaHome />
+                <input
+                  type="text"
+                  id="home"
+                  {...register("home", {
+                    required: t.cart.homeRequired,
+                  })}
+                  placeholder={t.cart.homePlaceholder}
+                />
+              </div>
+              {errors.home && (
+                <span className="error">
+                  <CircleAlert size={14} />
+                  {errors.home.message}
+                </span>
+              )}
+            </div>
           </div>
         </div>
-        <div
-          className="box forInput"
-          onClick={() => document.getElementById("instructions").focus()}
-        >
+
+        {/* Row 2: Full Address & Google Maps Link */}
+        <div className="rowHolder">
+          <div className="box forInput">
+            <label htmlFor="fullAddress">{t.cart.fullAddress}</label>
+            <div className="inputHolder">
+              <div className="holder">
+                <SlLocationPin />
+                <input
+                  type="text"
+                  id="fullAddress"
+                  {...register("fullAddress", {
+                    required: t.cart.fullAddressRequired,
+                  })}
+                  placeholder={t.cart.fullAddressPlaceholder}
+                />
+              </div>
+              {errors.fullAddress && (
+                <span className="error">
+                  <CircleAlert size={14} />
+                  {errors.fullAddress.message}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="box forInput">
+            <label htmlFor="googleMapsLink">{t.cart.googleMapsLink}</label>
+            <div className="inputHolder">
+              <div className="holder">
+                <FaMapMarkedAlt />
+                <input
+                  type="text"
+                  id="googleMapsLink"
+                  {...register("googleMapsLink", {
+                    validate: (val) => {
+                      if (!val || !val.trim()) return true;
+                      const trimmed = val.trim();
+                      const urlPattern =
+                        /^(https?:\/\/)?([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(\/.*)?$/;
+                      if (!urlPattern.test(trimmed)) {
+                        return t.cart.googleMapsLinkInvalid;
+                      }
+                      try {
+                        new URL(
+                          trimmed.startsWith("http://") ||
+                            trimmed.startsWith("https://")
+                            ? trimmed
+                            : `https://${trimmed}`
+                        );
+                        return true;
+                      } catch {
+                        return t.cart.googleMapsLinkInvalid;
+                      }
+                    },
+                  })}
+                  placeholder={t.cart.googleMapsLinkPlaceholder}
+                />
+              </div>
+              {errors.googleMapsLink && (
+                <span className="error">
+                  <CircleAlert size={14} />
+                  {errors.googleMapsLink.message}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Delivery Instructions (Optional) */}
+        <div className="box forInput">
           <label htmlFor="instructions">{t.cart.deliveryInstructions}</label>
           <div className="inputHolder">
             <div className="holder">
@@ -228,7 +462,7 @@ console.log(item);
             </div>
           </div>
         </div>
-      </form>
+      </div>
 
       <div className="summary-section">
         <h3 className="section-title">{t.cart.orderSummary}</h3>
@@ -293,6 +527,75 @@ console.log(item);
     <div className="payment-method">
       <h1 className="payment-title">{t.cart.paymentMethod}</h1>
       <p className="payment-subtitle">{t.cart.paymentIntegration}</p>
+
+      {orderError && (
+        <div
+          className="checkout-error-banner"
+          style={{ maxWidth: 750, margin: "1.5rem auto 0" }}
+        >
+          <CircleAlert />
+          <span>{orderError}</span>
+        </div>
+      )}
+
+      <div className="payment-methods-grid">
+        {/* Cash - Active */}
+        <div
+          className={`payment-card ${paymentMethod === "cash" ? "active" : ""}`}
+          onClick={() => setPaymentMethod("cash")}
+        >
+          <div className="payment-card-header">
+            <FaMoneyBillWave className="payment-card-icon" />
+            <span className="payment-card-badge active-badge">
+              <FaCheckCircle style={{ marginInlineEnd: 4 }} />
+              Active
+            </span>
+          </div>
+          <div className="payment-card-body">
+            <h4>{t.cart.cashOnDelivery}</h4>
+            <p>{t.cart.cashDesc}</p>
+          </div>
+        </div>
+
+        {/* Credit Card - Disabled */}
+        <div className="payment-card disabled">
+          <div className="payment-card-header">
+            <FaCreditCard className="payment-card-icon" />
+            <span className="payment-card-badge">{t.cart.comingSoon}</span>
+          </div>
+          <div className="payment-card-body">
+            <h4>{t.cart.creditCard}</h4>
+            <p>{t.cart.notAvailableYet}</p>
+          </div>
+          <span className="payment-tooltip">{t.cart.notAvailableYet}</span>
+        </div>
+
+        {/* Vodafone Cash - Disabled */}
+        <div className="payment-card disabled">
+          <div className="payment-card-header">
+            <FaWallet className="payment-card-icon" />
+            <span className="payment-card-badge">{t.cart.comingSoon}</span>
+          </div>
+          <div className="payment-card-body">
+            <h4>{t.cart.vodafoneCash}</h4>
+            <p>{t.cart.notAvailableYet}</p>
+          </div>
+          <span className="payment-tooltip">{t.cart.notAvailableYet}</span>
+        </div>
+
+        {/* InstaPay - Disabled */}
+        <div className="payment-card disabled">
+          <div className="payment-card-header">
+            <SiContactlesspayment className="payment-card-icon" />
+            <span className="payment-card-badge">{t.cart.comingSoon}</span>
+          </div>
+          <div className="payment-card-body">
+            <h4>{t.cart.instapay}</h4>
+            <p>{t.cart.notAvailableYet}</p>
+          </div>
+          <span className="payment-tooltip">{t.cart.notAvailableYet}</span>
+        </div>
+      </div>
     </div>
   );
 
@@ -348,7 +651,7 @@ console.log(item);
                   className={`progress-step ${
                     currentStep >= 2 ? "active" : ""
                   }`}
-                  onClick={() => setCurrentStep(2)}
+                  onClick={() => nextStep()}
                 >
                   <span className="step-number">3</span>
                   <span className="step-label">{t.cart.step3}</span>
@@ -368,7 +671,6 @@ console.log(item);
                 className={`nav-btn main-button prev-btn back-light-animation`}
                 onClick={() => {
                   prevStep();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >
                 {t.cart.previous}
@@ -377,16 +679,31 @@ console.log(item);
                 <span className="total-label">{t.cart.total}:</span>
                 <span className="total-amount">${grandTotal.toFixed(2)}</span>
               </div>
-              <button
-                disabled={currentStep === 2}
-                className={`nav-btn main-button next-btn back-light-animation`}
-                onClick={() => {
-                  nextStep();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              >
-                {t.cart.next}
-              </button>
+              {currentStep === 2 ? (
+                <button
+                  disabled={submittingOrder}
+                  className={`nav-btn main-button place-order-btn back-light-animation`}
+                  onClick={handlePlaceOrder}
+                >
+                  {submittingOrder ? (
+                    <span>{t.cart.placingOrder}</span>
+                  ) : (
+                    <>
+                      <FaCheckCircle />
+                      <span>{t.cart.placeOrder}</span>
+                    </>
+                  )}
+                </button>
+              ) : (
+                <button
+                  className={`nav-btn main-button next-btn back-light-animation`}
+                  onClick={() => {
+                    nextStep();
+                  }}
+                >
+                  {t.cart.next}
+                </button>
+              )}
             </div>
           </div>
         </>

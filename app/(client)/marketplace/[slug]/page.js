@@ -19,7 +19,10 @@ import ReviewSection from "@/components/reviews/ReviewSection";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
 import { getOne } from "@/services/porducts/products.service";
-import { normalizeProduct } from "@/services/normalizers/productNormalizer";
+import {
+  normalizeProduct,
+  getLocalizedSpecifications,
+} from "@/services/normalizers/productNormalizer";
 import useCart from "@/hooks/client/useCart";
 import useFavoriet from "@/hooks/client/useFavoriet";
 
@@ -117,6 +120,11 @@ export default function ProductDetails() {
     product.category?.translations?.[activeLocale] ||
     product.category?.translations?.[locale];
   const categoryName = categoryTranslation?.name || product.categoryName;
+
+  const productSpecs = getLocalizedSpecifications(
+    product.specifications,
+    activeLocale
+  );
 
   return (
     <div className="single-page container for-product">
@@ -245,11 +253,11 @@ export default function ProductDetails() {
             </button>
           </div>
 
-          {product.specifications?.length > 0 && (
+          {productSpecs?.length > 0 && (
             <div className="specifications">
               <h5>{t.dashboard.forms.specifications}</h5>
               <ul>
-                {product.specifications.map((spec, index) => (
+                {productSpecs.map((spec, index) => (
                   <li key={index}>
                     <span>{spec.key}: </span>
                     {spec.value}

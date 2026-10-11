@@ -4,60 +4,95 @@ import { CircleAlert } from "lucide-react";
 import { forms } from "@/Contexts/forms";
 import { useContext } from "react";
 import useTranslate from "@/Contexts/useTranslation";
-function Specs() {
-const t = useTranslate();
+
+function Specs({ locale = "EN" }) {
+  const t = useTranslate();
+  const activeLocale = String(locale || "EN").toUpperCase();
 
   const { specifications, setSpecifications, compsErrors, updateCompsError } =
     useContext(forms);
 
+  const currentSpecs = Array.isArray(specifications)
+    ? specifications
+    : specifications?.[activeLocale] || [];
+
+  const updateLocaleSpecs = (newList) => {
+    if (Array.isArray(specifications)) {
+      setSpecifications({
+        EN: activeLocale === "EN" ? newList : specifications,
+        AR: activeLocale === "AR" ? newList : [],
+      });
+    } else {
+      setSpecifications({
+        ...specifications,
+        [activeLocale]: newList,
+      });
+    }
+  };
+
   const addSpecification = () => {
-    // check if any existing spec is invalid
-    for (let s of specifications) {
+    for (let s of currentSpecs) {
       if (
         !s.key.trim() ||
         !s.value.trim() ||
-        s.key.trim().length < 3 ||
-        s.value.trim().length < 3
+        s.key.trim().length < 2 ||
+        s.value.trim().length < 2
       ) {
         updateCompsError(
           "specs",
-          "complete the existing specifications before adding a new one"
+          activeLocale === "AR"
+            ? "يرجى إكمال المواصفات الحالية قبل إضافة جديدة"
+            : "Complete the existing specifications before adding a new one"
         );
         return;
       }
     }
 
     updateCompsError("specs", "");
-    setSpecifications([...specifications, { key: "", value: "" }]);
+    updateLocaleSpecs([...currentSpecs, { key: "", value: "" }]);
   };
 
   const removeSpecs = (index) => {
-    setSpecifications((prev) => prev.filter((_, i) => i !== index));
+    updateLocaleSpecs(currentSpecs.filter((_, i) => i !== index));
     updateCompsError("specs", "");
   };
 
   const updateSpec = (index, field, value) => {
-    const updated = [...specifications];
-    updated[index][field] = value;
-    setSpecifications(updated);
+    const updated = [...currentSpecs];
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
+    };
+    updateLocaleSpecs(updated);
   };
 
   return (
     <div className="box forInput">
-      <label>{t.dashboard.forms.specifications}</label>
+      <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <label>{t.dashboard.forms.specifications}</label>
+        <span className="lang-badge">({activeLocale})</span>
+      </div>
 
       <ul className="spec-list">
-        {specifications?.map((spec, i) => (
+        {currentSpecs?.map((spec, i) => (
           <li className="spec-item" key={i}>
             <input
               type="text"
-              placeholder={t.dashboard.forms.specKey}
+              placeholder={
+                activeLocale === "AR"
+                  ? "الخاصية (مثال: الخامة)"
+                  : t.dashboard.forms.specKey || "Key"
+              }
               value={spec.key}
               onChange={(e) => updateSpec(i, "key", e.target.value)}
             />
             <input
               type="text"
-              placeholder={t.dashboard.forms.specValue}
+              placeholder={
+                activeLocale === "AR"
+                  ? "القيمة (مثال: فخار طبيعي)"
+                  : t.dashboard.forms.specValue || "Value"
+              }
               value={spec.value}
               onChange={(e) => updateSpec(i, "value", e.target.value)}
             />
@@ -77,7 +112,7 @@ const t = useTranslate();
           className="main-button for-specs"
           onClick={addSpecification}
         >
-          {t.dashboard.forms.addSpecification}
+          {t.dashboard.forms.addSpecification} ({activeLocale})
         </button>
       </ul>
     </div>

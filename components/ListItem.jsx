@@ -13,6 +13,7 @@ import { mainContext } from "@/Contexts/mainContext";
 import useTranslate from "@/Contexts/useTranslation";
 import useCart from "@/hooks/client/useCart";
 import useFavoriet from "@/hooks/client/useFavoriet";
+import { getLocalizedSpecifications } from "@/services/normalizers/productNormalizer";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -31,6 +32,40 @@ export default function ListItem({ item, type }) {
   useEffect(() => {
     setItemCartItem(item?.cartItem || null);
   }, [item?.cartItem]);
+
+  const activeLocale = String(locale || "EN").toUpperCase();
+  const activeLocaleLower = activeLocale.toLowerCase();
+
+  const currentTranslation =
+    item?.translations?.[activeLocale] ||
+    item?.translations?.[activeLocaleLower] ||
+    item?.translations?.[locale];
+
+  const itemName =
+    currentTranslation?.name ||
+    currentTranslation?.title ||
+    item?.name ||
+    item?.title ||
+    "";
+
+  const itemDesc =
+    currentTranslation?.desc ||
+    currentTranslation?.description ||
+    item?.description ||
+    item?.desc ||
+    "";
+
+  const govTranslations = item?.governorate?.translations;
+  const govTrans =
+    govTranslations?.[activeLocale] ||
+    govTranslations?.[activeLocaleLower] ||
+    govTranslations?.[locale];
+
+  const govName =
+    govTrans?.name ||
+    item?.governorate?.name ||
+    item?.governorateName ||
+    "";
 
   const isProduct = type === "product";
   const isPlace = type === "place";
@@ -99,14 +134,14 @@ export default function ListItem({ item, type }) {
             {images.map((img, index) => (
               <SwiperSlide key={index}>
                 <div className="swiper-image-wrapper">
-                  <Image src={img} alt={item?.name} fill className="swiper-image" />
+                  <Image src={img} alt={itemName} fill className="swiper-image" />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         ) : (
           <div className="single-image-wrapper">
-            <Image src={images[0]} alt={item?.name} fill />
+            <Image src={images[0]} alt={itemName} fill />
           </div>
         )}
       </div>
@@ -114,7 +149,7 @@ export default function ListItem({ item, type }) {
       <div className="list-item-content">
         <div className="list-item-top">
           <Link href={getItemLink()} className="list-item-name">
-            {item?.name}
+            {itemName}
           </Link>
 
           {(isPlace || isNight) && item?.governorate && (
@@ -128,12 +163,7 @@ export default function ListItem({ item, type }) {
               className="list-item-location"
             >
               <FaLocationDot />
-              <span>
-                {item?.governorate?.translations?.[locale]?.name ||
-                  item?.governorate?.name ||
-                  item?.governorateName ||
-                  ""}
-              </span>
+              <span>{govName}</span>
             </Link>
           )}
         </div>
@@ -153,21 +183,24 @@ export default function ListItem({ item, type }) {
           </div>
         )}
 
-        <p className="list-item-description">{item?.description}</p>
+        {itemDesc && <p className="list-item-description">{itemDesc}</p>}
 
         {isProduct && (
           <div className="list-item-product-info">
             <DisplayPrice price={item?.price} sale={item?.sale} stock={item?.stock} />
 
-            {item?.specifications?.length > 0 && (
-              <div className="list-item-specs">
-                {item.specifications.map((spec, index) => (
-                  <span key={index} className="spec-tag">
-                    {spec.key}: {spec.value}
-                  </span>
-                ))}
-              </div>
-            )}
+            {(() => {
+              const productSpecs = getLocalizedSpecifications(item?.specifications, locale);
+              return productSpecs.length > 0 ? (
+                <div className="list-item-specs">
+                  {productSpecs.map((spec, index) => (
+                    <span key={index} className="spec-tag">
+                      {spec.key}: {spec.value}
+                    </span>
+                  ))}
+                </div>
+              ) : null;
+            })()}
           </div>
         )}
 

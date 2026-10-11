@@ -210,6 +210,12 @@ footer.footer-redesign {
   pointer-events: none;
 }
 
+[lang="AR"] .value-popup,
+[dir="rtl"] .value-popup {
+  left: auto;
+  right: 0;
+}
+
 @keyframes popupFade {
   from {
     opacity: 0;

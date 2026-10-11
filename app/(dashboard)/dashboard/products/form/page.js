@@ -93,7 +93,7 @@ export default function Product() {
     setProductSubCategoryId(null);
     setImages([]);
     setTags([]);
-    setSpecifications([]);
+    setSpecifications({ EN: [], AR: [] });
     setOldImages([]);
     setCurentCreateLocale("EN");
     setisSubmited(false);
@@ -130,26 +130,57 @@ export default function Product() {
   }, [locale, productCategories]);
 
   useEffect(() => {
-    if (!productCategoryId || !categories.length) return;
-    if (selectedCategory?.id === productCategoryId && selectedCategory?.name) return;
+    if (!categories.length) return;
+    if (!productCategoryId && !productSubCategoryId) return;
 
-    const matchedCategory = categories.find((cat) => cat.id === productCategoryId);
-    if (matchedCategory) {
+    let matchedCategory = null;
+    let matchedSubCategory = null;
+
+    if (productCategoryId) {
+      matchedCategory = categories.find((cat) => cat.id === productCategoryId);
+      if (!matchedCategory) {
+        matchedCategory = categories.find((cat) =>
+          cat.subcategories?.some((sub) => sub.id === productCategoryId),
+        );
+        if (matchedCategory) {
+          matchedSubCategory = matchedCategory.subcategories.find(
+            (sub) => sub.id === productCategoryId,
+          );
+        }
+      }
+    }
+
+    if (productSubCategoryId) {
+      if (matchedCategory) {
+        const foundSub = matchedCategory.subcategories?.find(
+          (sub) => sub.id === productSubCategoryId,
+        );
+        if (foundSub) matchedSubCategory = foundSub;
+      } else {
+        matchedCategory = categories.find((cat) =>
+          cat.subcategories?.some((sub) => sub.id === productSubCategoryId),
+        );
+        if (matchedCategory) {
+          matchedSubCategory = matchedCategory.subcategories.find(
+            (sub) => sub.id === productSubCategoryId,
+          );
+        }
+      }
+    }
+
+    if (matchedCategory && selectedCategory?.id !== matchedCategory.id) {
       setSelectedCategory(matchedCategory);
     }
-  }, [categories, productCategoryId, selectedCategory]);
-
-  useEffect(() => {
-    if (!productSubCategoryId || !selectedCategory?.subcategories?.length) return;
-    if (selectedSubCategory?.id === productSubCategoryId) return;
-
-    const matchedSubCategory = selectedCategory.subcategories.find(
-      (sub) => sub.id === productSubCategoryId,
-    );
-    if (matchedSubCategory) {
+    if (matchedSubCategory && selectedSubCategory?.id !== matchedSubCategory.id) {
       setSelectedSubCategory(matchedSubCategory);
     }
-  }, [productSubCategoryId, selectedCategory, selectedSubCategory]);
+  }, [
+    categories,
+    productCategoryId,
+    productSubCategoryId,
+    selectedCategory?.id,
+    selectedSubCategory?.id,
+  ]);
 
   const handleTranslationChange = (field, value) => {
     setTranslations((prev) => ({
@@ -213,31 +244,57 @@ export default function Product() {
         setValue("price", product.price || "");
         setValue("sale", product.discount || product.sale || "");
 
-        if (product.category) {
-          const categoryId =
-            typeof product.category === "string"
-              ? product.category
-              : (product.category._id || product.category.id);
+        const rawCategory = product.category || product.categoryId;
+        const rawSubCategory =
+          product.subCategory ||
+          product.subcategory ||
+          product.subcategories ||
+          product.subCategoryId;
 
+        let categoryId = null;
+        let subCategoryId = null;
+
+        if (rawCategory) {
+          const catObj = typeof rawCategory === "object" ? rawCategory : null;
+          const id = catObj ? (catObj._id || catObj.id) : rawCategory;
+          if (catObj?.parent) {
+            const parentId =
+              typeof catObj.parent === "object"
+                ? (catObj.parent._id || catObj.parent.id)
+                : catObj.parent;
+            categoryId = parentId;
+            subCategoryId = id;
+          } else {
+            categoryId = id;
+          }
+        }
+
+        if (rawSubCategory) {
+          const subObj = typeof rawSubCategory === "object" ? rawSubCategory : null;
+          const id = subObj ? (subObj._id || subObj.id) : rawSubCategory;
+          subCategoryId = id;
+          if (subObj?.parent && !categoryId) {
+            categoryId =
+              typeof subObj.parent === "object"
+                ? (subObj.parent._id || subObj.parent.id)
+                : subObj.parent;
+          }
+        }
+
+        if (categoryId) {
           setProductCategoryId(categoryId);
-
           const matchedCategory = categories.find((cat) => cat.id === categoryId);
           if (matchedCategory) {
             setSelectedCategory(matchedCategory);
           } else {
             setSelectedCategory({
               id: categoryId,
-              name:
-                typeof product.category === "object" ? product.category.name || "" : "",
+              name: typeof rawCategory === "object" ? rawCategory.name || "" : "",
             });
           }
         }
 
-        if (product.subCategory) {
-          const subCategoryId =
-            typeof product.subCategory === "string"
-              ? product.subCategory
-              : (product.subCategory._id || product.subCategory.id);
+        if (subCategoryId) {
           setProductSubCategoryId(subCategoryId);
         }
 
@@ -268,13 +325,34 @@ export default function Product() {
 
         if (
           product.specifications &&
-          typeof product.specifications === "object" &&
-          Object.keys(product.specifications).length > 0
+          typeof product.specifications === "object"
         ) {
-          const specsArray = Object.entries(product.specifications).map(
-            ([key, value]) => ({ key, value: String(value) }),
-          );
-          setSpecifications(specsArray);
+          const rawSpecs = product.specifications;
+          if (rawSpecs.EN || rawSpecs.AR) {
+            const enSpecs =
+              rawSpecs.EN && typeof rawSpecs.EN === "object"
+                ? Object.entries(rawSpecs.EN).map(([key, value]) => ({
+                    key,
+                    value: String(value),
+                  }))
+                : [];
+            const arSpecs =
+              rawSpecs.AR && typeof rawSpecs.AR === "object"
+                ? Object.entries(rawSpecs.AR).map(([key, value]) => ({
+                    key,
+                    value: String(value),
+                  }))
+                : [];
+            setSpecifications({ EN: enSpecs, AR: arSpecs });
+          } else {
+            const legacySpecs = Object.entries(rawSpecs).map(([key, value]) => ({
+              key,
+              value: String(value),
+            }));
+            setSpecifications({ EN: legacySpecs, AR: [] });
+          }
+        } else {
+          setSpecifications({ EN: [], AR: [] });
         }
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -349,15 +427,13 @@ export default function Product() {
       formData.append("price", data.price);
       if (data.sale) formData.append("discount", data.sale);
       formData.append("quantity", data.stock);
-      if (editId) {
+      if (selectedSubCategory?.id) {
+        formData.append("subCategory", selectedSubCategory.id);
+      } else if (selectedCategory?.id || selectedCategory?.value) {
         formData.append(
           "category",
-          selectedSubCategory?.id || selectedCategory.id || selectedCategory.value,
+          selectedCategory.id || selectedCategory.value,
         );
-      } else if (selectedSubCategory?.id) {
-        formData.append("subCategory", selectedSubCategory.id);
-      } else {
-        formData.append("category", selectedCategory.id || selectedCategory.value);
       }
       formData.append("translations", JSON.stringify(translationsPayload));
 
@@ -365,17 +441,38 @@ export default function Product() {
         formData.append("tags", JSON.stringify(tags));
       }
 
-      if (specifications?.length > 0) {
-        const specsPayload = specifications.reduce((acc, item) => {
-          if (item.key?.trim() && item.value?.trim()) {
-            acc[item.key.trim()] = item.value.trim();
-          }
-          return acc;
-        }, {});
+      const specsPayload = {};
 
-        if (Object.keys(specsPayload).length > 0) {
-          formData.append("specifications", JSON.stringify(specsPayload));
+      const enList = Array.isArray(specifications?.EN)
+        ? specifications.EN
+        : Array.isArray(specifications)
+          ? specifications
+          : [];
+      const arList = Array.isArray(specifications?.AR) ? specifications.AR : [];
+
+      const enObj = enList.reduce((acc, item) => {
+        if (item.key?.trim() && item.value?.trim()) {
+          acc[item.key.trim()] = item.value.trim();
         }
+        return acc;
+      }, {});
+
+      const arObj = arList.reduce((acc, item) => {
+        if (item.key?.trim() && item.value?.trim()) {
+          acc[item.key.trim()] = item.value.trim();
+        }
+        return acc;
+      }, {});
+
+      if (Object.keys(enObj).length > 0) {
+        specsPayload.EN = enObj;
+      }
+      if (Object.keys(arObj).length > 0) {
+        specsPayload.AR = arObj;
+      }
+
+      if (Object.keys(specsPayload).length > 0) {
+        formData.append("specifications", JSON.stringify(specsPayload));
       }
 
       if (editId) {
@@ -598,7 +695,7 @@ export default function Product() {
         <div className="row-holder two-column">
           <div className="column-holder">
             <Tags />
-            <Specs />
+            <Specs locale={curentCreateLocale} />
           </div>
           <Images limit={5} />
         </div>

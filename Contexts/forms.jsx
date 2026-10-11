@@ -36,7 +36,7 @@ export const FormsCompsProvider = ({ children }) => {
   const [tags, setTags] = useState([]);
 
   // Specific
-  const [specifications, setSpecifications] = useState([]);
+  const [specifications, setSpecifications] = useState({ EN: [], AR: [] });
 
   const [images, setImages] = useState([]);
 

@@ -58,6 +58,16 @@ function FilterMenu({
   );
 }
 
+const ORDER_STATUS_OPTIONS = [
+  { key: "all", labelEn: "All Orders", labelAr: "كل الطلبات" },
+  { key: "pending", labelEn: "Pending", labelAr: "قيد الانتظار" },
+  { key: "confirmed", labelEn: "Confirmed", labelAr: "مؤكد" },
+  { key: "processing", labelEn: "Processing", labelAr: "قيد المعالجة" },
+  { key: "shipped", labelEn: "Shipped", labelAr: "تم الشحن" },
+  { key: "delivered", labelEn: "Delivered", labelAr: "تم التوصيل" },
+  { key: "cancelled", labelEn: "Cancelled", labelAr: "ملغي" },
+];
+
 function DashboardToolbar() {
   const {
     pathname,
@@ -125,6 +135,7 @@ function DashboardToolbar() {
   const isCategoriesPage = pageKey === "categories_list";
   const isPlacesPage = pageKey === "places_list";
   const isEventsPage = pageKey === "events_list";
+  const isOrdersPage = pageKey === "orders_list";
   const shouldShowSubCatFilter =
     pageKey === "places_list" || pageKey === "nights_list" || pageKey === "products_list";
   const selectedParentCategory =
@@ -149,7 +160,7 @@ function DashboardToolbar() {
   return (
     <div className="dashboard-toolbar-shell">
       <div
-        className={`dashboard-toolbar-row ${isGovernoratesPage || isCategoriesPage ? "governorates-toolbar-row" : ""} ${isEventsPage ? "events-toolbar-row" : ""} ${pageKey === "products_list" ? "products-toolbar-row" : ""}`}
+        className={`dashboard-toolbar-row ${isGovernoratesPage || isCategoriesPage ? "governorates-toolbar-row" : ""} ${isEventsPage ? "events-toolbar-row" : ""} ${pageKey === "products_list" ? "products-toolbar-row" : ""} ${isOrdersPage ? "orders-toolbar-row" : ""}`}
       >
         {!isCategoriesPage ? (
           <div className="dashboard-toolbar-search compact">
@@ -350,7 +361,55 @@ function DashboardToolbar() {
           </FilterMenu>
         )}
 
-        {!citys?.length && !cats?.length && !subCats?.length && !prodCats?.length ? null : null}
+        {isOrdersPage && (
+          <FilterMenu
+            label={locale === "AR" ? "تصفية حسب الحالة" : "Filter Status"}
+            triggerLabel={
+              ORDER_STATUS_OPTIONS.find(
+                (s) => s.key === (filtersState.status || "all")
+              )?.[locale === "AR" ? "labelAr" : "labelEn"] ||
+              (locale === "AR" ? "كل الطلبات" : "All Orders")
+            }
+            active={activeMenu === "orderStatus"}
+            value={
+              filtersState.status && filtersState.status !== "all"
+                ? {
+                    name: ORDER_STATUS_OPTIONS.find(
+                      (s) => s.key === filtersState.status
+                    )?.[locale === "AR" ? "labelAr" : "labelEn"],
+                  }
+                : null
+            }
+            search={catsSearch}
+            setSearch={setCatsSearch}
+            onOpen={() => openMenu("orderStatus")}
+            onClose={() => setActiveMenu(null)}
+          >
+            {ORDER_STATUS_OPTIONS.filter((opt) =>
+              (locale === "AR" ? opt.labelAr : opt.labelEn)
+                .toLowerCase()
+                .includes(catsSearch.toLowerCase())
+            ).map((opt) => {
+              const currentVal = filtersState.status || "all";
+              const isActive = currentVal === opt.key;
+              return (
+                <button
+                  key={opt.key}
+                  type="button"
+                  className={isActive ? "active" : ""}
+                  onClick={() => {
+                    updateFilter("status", opt.key === "all" ? "" : opt.key, "filters");
+                    setActiveMenu(null);
+                  }}
+                >
+                  {locale === "AR" ? opt.labelAr : opt.labelEn}
+                </button>
+              );
+            })}
+          </FilterMenu>
+        )}
+
+        {!citys?.length && !cats?.length && !subCats?.length && !prodCats?.length && !isOrdersPage ? null : null}
       </div>
     </div>
   );

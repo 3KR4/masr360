@@ -5,6 +5,7 @@ import api, { clearAuth, setAccessToken } from "@/services/axios";
 import {
   getCurentUser,
   refreshAuthSession,
+  logoutUser,
 } from "@/services/auth/auth.service";
 
 const AuthContext = createContext(null);
@@ -33,11 +34,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    setUser(null);
-    clearAuth();
-    localStorage.removeItem("user");
-    localStorage.setItem("_logout", "true");
-    window.location.href = "/";
+    try {
+      await logoutUser();
+    } catch (err) {
+      console.error("Logout request failed:", err);
+    } finally {
+      setUser(null);
+      clearAuth();
+      localStorage.removeItem("user");
+      localStorage.setItem("_logout", "true");
+      window.location.href = "/";
+    }
   };
 
   const fetchUser = useCallback(async () => {

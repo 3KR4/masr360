@@ -150,7 +150,7 @@ body:has(.form-holder) footer {
   margin-top: 5px;
   font-size: 14px;
   font-weight: 700;
-  border-radius: 10px !important;
+  border-radius: 40px !important;
 }
 .form-holder form .main-button:hover {
   transform: translateY(-1px);
