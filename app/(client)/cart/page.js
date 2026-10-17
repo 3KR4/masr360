@@ -38,6 +38,8 @@ function Cart() {
   const { isAuthenticated } = useAuth();
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
+  const currency = locale === "AR" ? "ج.م" : "L.E";
+  const SHIPPING_FEE = 80;
 
   const {
     carts,
@@ -49,6 +51,10 @@ function Cart() {
     getTotalPrice,
     grandTotal,
   } = useCart();
+
+  const totalAmount = useMemo(() => {
+    return carts.length > 0 ? grandTotal + SHIPPING_FEE : 0;
+  }, [carts.length, grandTotal, SHIPPING_FEE]);
   const {
     register,
     formState: { errors },
@@ -174,9 +180,19 @@ function Cart() {
         paymentMethod: "cash",
       };
 
-      await createOrder(payload);
+      const res = await createOrder(payload);
+      const newOrderId =
+        res?.data?._id ||
+        res?.data?.id ||
+        res?._id ||
+        res?.id ||
+        "";
       await clearAll();
-      router.push("/orders");
+      if (newOrderId) {
+        router.push(`/order-success?orderId=${newOrderId}`);
+      } else {
+        router.push("/order-success");
+      }
     } catch (err) {
       console.error("Order creation failed:", err);
       const errMsg =
@@ -488,7 +504,7 @@ console.log(item);
                   </p>
                 </div>
                 <div className="summary-item-price">
-                  ${totalPrice.toFixed(2)}
+                  {totalPrice.toFixed(2)} {currency}
                 </div>
               </div>
             );
@@ -497,10 +513,10 @@ console.log(item);
         <div className="summary-total">
           <div className="total-line">
             <span>{t.cart.shipping}:</span>
-            <span>$18.00</span>
+            <span>{SHIPPING_FEE.toFixed(2)} {currency}</span>
           </div>
         </div>
-        <div className="coupon-section box forInput">
+        <div className="coupon-section box forInput" style={{ display: "none" }}>
           <div className="hold">
             <label htmlFor="coupon">{t.cart.couponCode}</label>
             <div className="inputHolder">
@@ -677,7 +693,7 @@ console.log(item);
               </button>
               <div className="navigation-total">
                 <span className="total-label">{t.cart.total}:</span>
-                <span className="total-amount">${grandTotal.toFixed(2)}</span>
+                <span className="total-amount">{totalAmount.toFixed(2)} {currency}</span>
               </div>
               {currentStep === 2 ? (
                 <button

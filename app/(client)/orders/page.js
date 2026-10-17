@@ -22,6 +22,7 @@ function Orders() {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const dateLocale = locale === "AR" ? "ar-EG" : "en-US";
+  const currency = locale === "AR" ? "ج.م" : "L.E";
 
   const fetchOrders = useCallback(async () => {
     if (!isAuthenticated) {
@@ -117,10 +118,19 @@ function Orders() {
                     ?.toLowerCase()
                     .replace(/\s+/g, "_");
 
-                  const displayPrice =
-                    item.priceAfterDiscount !== undefined
-                      ? item.priceAfterDiscount
-                      : item.totalPrice || 0;
+                  const priceAfterDiscount =
+                    item.priceAfterDiscount !== undefined && item.priceAfterDiscount !== null
+                      ? Number(item.priceAfterDiscount)
+                      : Number(item.totalPrice || 0);
+
+                  const deliveryFees =
+                    item.dilveryFees !== undefined && item.dilveryFees !== null
+                      ? Number(item.dilveryFees)
+                      : item.deliveryFees !== undefined && item.deliveryFees !== null
+                      ? Number(item.deliveryFees)
+                      : 0;
+
+                  const totalOrderPrice = priceAfterDiscount + deliveryFees;
 
                   return (
                     <div key={item._id} className="table-item">
@@ -150,7 +160,7 @@ function Orders() {
                       </div>
 
                       {/* 💰 TOTAL PRICE */}
-                      <div className="price">${Number(displayPrice).toFixed(2)}</div>
+                      <div className="price">{Number(totalOrderPrice).toFixed(2)} {currency}</div>
 
                       {/* 📦 ITEMS COUNT */}
                       <p className="total-quantity">

@@ -181,6 +181,7 @@ REVIEWS: {
     GET_ALL: "/orders",
     GET_ONE: (id) => `/orders/${id}`,
     CREATE: "/orders",
+    UPDATE: (id) => `/orders/${id}`,
     CANCEL: (id) => `/orders/${id}/cancel`,
     DELETE: (id) => `/orders/${id}`,
   },

@@ -208,10 +208,14 @@ export default function ProductDetails() {
                 </p>
               )}
           <div className="actions">
-            <div className="actions-cart">
-              <button className="main-button forCart" disabled>
-                {t.actions.buy_it_now}
-              </button>
+            <button
+              className="main-button forCart buy-it-now-btn"
+              disabled
+              style={{ display: "none" }}
+            >
+              {t.actions.buy_it_now}
+            </button>
+            <div className="actions-cart-row">
               <button
                 className={`main-button forCart ${inCart ? "active" : ""}`}
                 onClick={handleAddToCart}
@@ -229,28 +233,28 @@ export default function ProductDetails() {
                   </>
                 )}
               </button>
+              <button
+                className={`main-button forCart forFavoriet ${isFavorited("Product", product.id) ? "active" : ""}`}
+                onClick={handleToggleFavorite}
+                disabled={togglingFav}
+                style={{ position: "relative" }}
+              >
+                {togglingFav ? (
+                  <span className="loader" />
+                ) : (
+                  <>
+                    {isFavorited("Product", product.id) ? (
+                      <IoHeart />
+                    ) : (
+                      <IoHeartOutline />
+                    )}
+                    {isFavorited("Product", product.id)
+                      ? t.actions.in_favorites_list || "In Favorites List"
+                      : t.actions.add_to_favorites}
+                  </>
+                )}
+              </button>
             </div>
-            <button
-              className={`main-button forCart ${isFavorited("Product", product.id) ? "active" : ""}`}
-              onClick={handleToggleFavorite}
-              disabled={togglingFav}
-              style={{ position: "relative" }}
-            >
-              {togglingFav ? (
-                <span className="loader" />
-              ) : (
-                <>
-                  {isFavorited("Product", product.id) ? (
-                    <IoHeart />
-                  ) : (
-                    <IoHeartOutline />
-                  )}
-                  {isFavorited("Product", product.id)
-                    ? t.actions.in_favorites_list || "In Favorites List"
-                    : t.actions.add_to_favorites}
-                </>
-              )}
-            </button>
           </div>
 
           {productSpecs?.length > 0 && (

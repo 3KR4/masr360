@@ -6,18 +6,19 @@
   flex-direction: row;
 }
 .review-section .overview {
-  border-radius: 12px;
+  border-radius: 26px;
   flex-direction: column;
   align-items: center;
   gap: 5px;
   width: 385px;
   max-width: 100%;
   height: fit-content;
-  padding: 16px 16px 17px;
+  padding: 22px ;
   display: flex;
-  box-shadow: 0 1px 5px #0000001a;
   position: sticky;
   top: 88px;
+  border: 1px solid var(--second-color);
+  background: var(--section-color);
 }
 .review-section .holder .overview h3 {
   color: var(--paragraph);
@@ -60,10 +61,10 @@
   margin-left: -2px;
 }
 .review-section .overview .holder .bar {
-  height: 8px;
-  border-radius: 7px;
+  background: var(--second-color);
+  border-radius: 28px;
   width: 100%;
-  background: var(--section-color);
+  height: 6px;
   position: relative;
   overflow: hidden;
 }
@@ -82,11 +83,11 @@
   gap: 12px;
 }
 .review-section .review {
-  box-shadow: 0 1px 5px #0000001a;
-
-  border-radius: 10px;
+  background: var(--section-color);
+  border: 1px solid var(--second-color);
+  border-radius: 26px;
   gap: 8px;
-  padding: 16px 15px;
+  padding: 18px;
   display: flex;
 }
 
@@ -95,7 +96,7 @@
   flex-direction: column;
   gap: 8px;
   padding-top: 2px;
-flex: 1;
+  flex: 1;
 }
 .review-section .review .hold .top {
   display: flex;
@@ -106,10 +107,10 @@ flex: 1;
   flex-direction: row;
 }
 .review-section .review .image.left {
-    background: var(--second-color);
+  background: var(--second-color);
   min-width: 40px;
   height: 40px;
-  color: var(--paragraph);
+  color: var(--main-color);
   border-radius: 50%;
   justify-content: center;
   align-items: center;
@@ -229,4 +230,127 @@ flex: 1;
   .review-section .holder {
     gap: 12px;
   }
+}
+
+/* No reviews container and first review form */
+.review-section .no-reviews-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 0 40px;
+  width: 100%;
+}
+
+.review-section .no-reviews-message {
+  text-align: center;
+  background: var(--section-color);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 22px 28px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.review-section .no-reviews-message p {
+  font-size: 16px;
+  color: var(--paragraph);
+  font-weight: 600;
+  margin: 0;
+}
+
+.review-section .no-reviews-form-wrapper {
+  max-width: 640px;
+  width: 100%;
+}
+
+/* Review form & prompt styles */
+.review-form {
+  border-radius: 26px;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  display: flex;
+  background: var(--section-color);
+  border: 1px solid var(--second-color);
+}
+
+.review-form .review-form-title {
+  margin: 0;
+  color: var(--title-color, var(--paragraph));
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.review-input,
+.review-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--section-color);
+  color: var(--paragraph);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.review-input:focus,
+.review-textarea:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 0 2px rgba(243, 174, 28, 0.2);
+}
+
+.review-textarea {
+  resize: vertical;
+}
+
+.review-error {
+  color: var(--red-color, #e03737);
+  font-size: 13px;
+  margin: 0;
+}
+
+.review-submit-btn {
+  align-self: flex-start;
+  padding: 10px 24px;
+  cursor: pointer;
+}
+
+.review-login-prompt,
+.review-success-prompt {
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 1px 6px #00000018;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--body-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-login-prompt p,
+.review-success-prompt p {
+  color: var(--paragraph);
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.review-success-prompt p {
+  color: var(--main-color);
+  font-weight: 600;
+}
+
+.review-auth-btn,
+.review-another-btn {
+  display: inline-block;
+  padding: 10px 22px;
+  cursor: pointer;
 }

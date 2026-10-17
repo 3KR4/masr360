@@ -322,10 +322,17 @@ export default function ReviewSection({ productId, onReviewAdded }) {
           )}
 
           {!hasReviews && (
-            <div style={{ textAlign: "center", padding: "30px 20px" }}>
-              <p style={{ fontSize: "16px", color: "#666", fontWeight: 500 }}>
-                {t.singelPages.no_reviews || "No reviews yet. Be the first to review!"}
-              </p>
+            <div className="no-reviews-container">
+              <div className="no-reviews-message">
+                <p>
+                  {t.singelPages.no_reviews || "No reviews yet. Be the first to review!"}
+                </p>
+              </div>
+              {productId && (
+                <div className="no-reviews-form-wrapper">
+                  <Review productId={productId} onReviewAdded={reviewFormCb} />
+                </div>
+              )}
             </div>
           )}
         </>

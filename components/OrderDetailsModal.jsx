@@ -4,7 +4,8 @@ import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
-import { FaBan, FaExternalLinkAlt } from "react-icons/fa";
+import { FaBan, FaExternalLinkAlt, FaTrashAlt } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
 import { mainContext } from "@/Contexts/mainContext";
 import useTranslate from "@/Contexts/useTranslation";
 import { cancelOrder } from "@/services/orders/orders.service";
@@ -19,6 +20,8 @@ export default function OrderDetailsModal({
   isOpen,
   onClose,
   onOrderCancelled,
+  onEdit,
+  onDelete,
 }) {
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
@@ -54,6 +57,7 @@ export default function OrderDetailsModal({
   if (!isOpen || !currentOrder) return null;
 
   const dateLocale = locale === "AR" ? "ar-EG" : "en-US";
+  const currency = locale === "AR" ? "ج.م" : "L.E";
 
   // Helpers for customer info
   const customerName =
@@ -88,18 +92,23 @@ export default function OrderDetailsModal({
     0
   );
 
-  const displayPrice =
-    currentOrder.priceAfterDiscount !== undefined
-      ? currentOrder.priceAfterDiscount
-      : currentOrder.totalPrice || 0;
+  const priceAfterDiscount =
+    currentOrder.priceAfterDiscount !== undefined && currentOrder.priceAfterDiscount !== null
+      ? Number(currentOrder.priceAfterDiscount)
+      : Number(currentOrder.totalPrice || 0);
 
-  const rawTotalPrice = currentOrder.totalPrice || displayPrice;
   const deliveryFees =
-    currentOrder.dilveryFees !== undefined
-      ? currentOrder.dilveryFees
-      : currentOrder.deliveryFees !== undefined
-      ? currentOrder.deliveryFees
+    currentOrder.dilveryFees !== undefined && currentOrder.dilveryFees !== null
+      ? Number(currentOrder.dilveryFees)
+      : currentOrder.deliveryFees !== undefined && currentOrder.deliveryFees !== null
+      ? Number(currentOrder.deliveryFees)
       : 0;
+
+  const finalTotal = priceAfterDiscount + deliveryFees;
+  const rawTotalPrice =
+    currentOrder.discount > 0 && currentOrder.totalPrice
+      ? currentOrder.totalPrice
+      : priceAfterDiscount;
 
   const formattedDate = new Date(
     currentOrder.date || currentOrder.createdAt
@@ -362,7 +371,7 @@ export default function OrderDetailsModal({
                         {t.orders.totalPrice || "Total Price"}:
                       </span>
                       <span className="order-card-value">
-                        ${Number(rawTotalPrice).toFixed(2)}
+                        {Number(rawTotalPrice).toFixed(2)} {currency}
                       </span>
                     </div>
                     <span className="order-split-slash">/</span>
@@ -371,7 +380,7 @@ export default function OrderDetailsModal({
                         {t.orders.deliveryFees || "Delivery Fees"}:
                       </span>
                       <span className="order-card-value">
-                        ${Number(deliveryFees).toFixed(2)}
+                        {Number(deliveryFees).toFixed(2)} {currency}
                       </span>
                     </div>
                   </li>
@@ -382,7 +391,7 @@ export default function OrderDetailsModal({
                         {t.orders.discount || "Discount"}:
                       </span>
                       <span className="order-card-value" style={{ color: "#34d399" }}>
-                        -${Number(currentOrder.discount).toFixed(2)}
+                        -{Number(currentOrder.discount).toFixed(2)} {currency}
                       </span>
                     </li>
                   )}
@@ -391,7 +400,7 @@ export default function OrderDetailsModal({
                       {t.orders.finalTotal || "Final Amount"}:
                     </span>
                     <span className="order-card-value highlight">
-                      ${Number(displayPrice).toFixed(2)}
+                      {Number(finalTotal).toFixed(2)} {currency}
                     </span>
                   </li>
                 </ul>
@@ -525,7 +534,7 @@ export default function OrderDetailsModal({
                               fontSize: "15px",
                             }}
                           >
-                            ${lineTotal.toFixed(2)}
+                            {lineTotal.toFixed(2)} {currency}
                           </div>
                         </div>
                       );
@@ -548,18 +557,43 @@ export default function OrderDetailsModal({
 
           {/* Footer Actions */}
           <div className="order-details-footer">
-            {isPending && (
-              <button
-                className="order-cancel-btn"
-                onClick={() => {
-                  setCancelError(null);
-                  setShowCancelConfirm(true);
-                }}
-              >
-                <FaBan />
-                {t.orders.cancelOrder || "Cancel Order"}
-              </button>
-            )}
+            <div className="order-details-footer-actions">
+              {isPending && (
+                <button
+                  type="button"
+                  className="order-cancel-btn"
+                  onClick={() => {
+                    setCancelError(null);
+                    setShowCancelConfirm(true);
+                  }}
+                >
+                  <FaBan />
+                  {t.orders.cancelOrder || "Cancel Order"}
+                </button>
+              )}
+
+              {onEdit && (
+                <button
+                  type="button"
+                  className="order-edit-action-btn"
+                  onClick={() => onEdit(currentOrder)}
+                >
+                  <MdEdit />
+                  {locale === "AR" ? "تعديل الطلب" : "Edit Order"}
+                </button>
+              )}
+
+              {onDelete && (
+                <button
+                  type="button"
+                  className="order-delete-action-btn"
+                  onClick={() => onDelete(currentOrder._id)}
+                >
+                  <FaTrashAlt />
+                  {locale === "AR" ? "حذف الطلب" : "Delete Order"}
+                </button>
+              )}
+            </div>
 
             <button className="order-close-action-btn" onClick={onClose}>
               {t.orders.close || "Close"}

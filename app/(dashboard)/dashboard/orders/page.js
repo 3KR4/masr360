@@ -11,6 +11,7 @@ import { useNotification } from "@/Contexts/NotificationContext";
 import { getAllOrders, deleteOrder } from "@/services/orders/orders.service";
 import Pagination from "@/components/settings/Pagination";
 import OrderDetailsModal from "@/components/OrderDetailsModal";
+import EditOrderModal from "@/components/dashboard/EditOrderModal";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import "@/styles/dashboard/orders.css";
@@ -26,11 +27,13 @@ export default function DashboardOrdersPage() {
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [editingOrderId, setEditingOrderId] = useState(null);
   const [deletingOrderId, setDeletingOrderId] = useState(null);
 
   // 10 items per page limit as requested
   const limit = 10;
   const dateLocale = locale === "AR" ? "ar-EG" : "en-US";
+  const currency = locale === "AR" ? "ج.م" : "L.E";
   const selectedStatus = filtersState?.status || "all";
 
   const fetchOrders = useCallback(async () => {
@@ -230,7 +233,7 @@ export default function DashboardOrdersPage() {
 
                     {/* 💰 Total Price */}
                     <div className="price">
-                      ${Number(displayPrice).toFixed(2)}
+                      {Number(displayPrice).toFixed(2)} {currency}
                     </div>
 
                     {/* 📦 Total Quantity */}
@@ -277,7 +280,7 @@ export default function DashboardOrdersPage() {
                       <button
                         type="button"
                         className="dash-action-btn"
-                        onClick={() => setSelectedOrder(item)}
+                        onClick={() => setEditingOrderId(item._id)}
                         title={t.dashboard?.tables?.edit || "Edit"}
                       >
                         <MdEdit className="edit" />
@@ -327,16 +330,51 @@ export default function DashboardOrdersPage() {
         )}
       </div>
 
-      {/* Order Details Modal */}
+      {/* Order Details Modal (View) */}
       <OrderDetailsModal
         order={selectedOrder}
         isOpen={Boolean(selectedOrder)}
         onClose={() => setSelectedOrder(null)}
+        onEdit={(ord) => {
+          setSelectedOrder(null);
+          setEditingOrderId(ord._id);
+        }}
+        onDelete={(orderId) => {
+          setSelectedOrder(null);
+          handleDeleteOrder(orderId);
+        }}
         onOrderCancelled={(cancelledId) => {
           setOrders((prev) =>
             prev.map((ord) =>
               ord._id === cancelledId
                 ? { ...ord, orderStatus: "cancelled" }
+                : ord
+            )
+          );
+        }}
+      />
+
+      {/* Edit Order Modal */}
+      <EditOrderModal
+        orderId={editingOrderId}
+        isOpen={Boolean(editingOrderId)}
+        onClose={() => setEditingOrderId(null)}
+        onOrderUpdated={(updated) => {
+          if (!updated?._id) return;
+          setOrders((prev) =>
+            prev.map((ord) =>
+              ord._id === updated._id
+                ? {
+                    ...ord,
+                    ...updated,
+                    orderStatus: updated.orderStatus || ord.orderStatus,
+                    paymentStatus: updated.paymentStatus || ord.paymentStatus,
+                    paymentMethod: updated.paymentMethod || ord.paymentMethod,
+                    date: updated.date || ord.date,
+                    location: updated.location
+                      ? { ...(ord.location || {}), ...updated.location }
+                      : ord.location,
+                  }
                 : ord
             )
           );

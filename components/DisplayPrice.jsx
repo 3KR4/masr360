@@ -12,6 +12,7 @@ export default function DisplayPrice({
   const { locale } = useContext(mainContext);
 
   const t = useTranslate();
+  const currency = locale === "AR" ? "ج.م" : "L.E";
 
   // Ensure qty is at least 1
   const quantity = Math.max(1, qty);
@@ -32,7 +33,7 @@ export default function DisplayPrice({
       {/* Out of Stock */}
       {stock <= 0 ? (
         <p className="out-of-stock">
-          {t.mainCard.lastPrice}: <span>${totalOriginal}</span>
+          {t.mainCard.lastPrice}: <span>{totalOriginal} {currency}</span>
           {!dashboard && (
             <>
               - <span className="status">{t.mainCard.outOfStock}</span>
@@ -42,8 +43,8 @@ export default function DisplayPrice({
       ) : isOnSale ? (
         // On Sale
         <p className="on-sale">
-          <span className="new-price">${totalDiscounted}</span>
-          <span className="old-price">${totalOriginal}</span>
+          <span className="new-price">{totalDiscounted} {currency}</span>
+          <span className="old-price">{totalOriginal} {currency}</span>
           <span className="discount">
             {locale == "AR" ? "- " : "-"}
             {sale}% {t.mainCard.discount}
@@ -51,7 +52,7 @@ export default function DisplayPrice({
         </p>
       ) : (
         // Normal Price
-        <p className="regular-price">${totalOriginal}</p>
+        <p className="regular-price">{totalOriginal} {currency}</p>
       )}
     </div>
   );

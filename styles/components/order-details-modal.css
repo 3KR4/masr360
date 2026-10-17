@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  opacity: 0;
+  opacity: 0; 
   animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -400,6 +400,56 @@
   padding: 16px 28px 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   background: #141414;
+}
+
+.order-details-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.order-edit-action-btn {
+  background: rgba(229, 156, 53, 0.15);
+  border: 1px solid rgba(229, 156, 53, 0.4);
+  color: #f5ab42;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.order-edit-action-btn:hover {
+  background: linear-gradient(135deg, #f5ab42, #e59c35);
+  color: #121212;
+  box-shadow: 0 4px 14px rgba(229, 156, 53, 0.3);
+}
+
+.order-delete-action-btn {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #ef4444;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.order-delete-action-btn:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
 }
 
 .order-cancel-btn {

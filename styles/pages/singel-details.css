@@ -145,6 +145,17 @@
   margin: 0 auto;
 }
 
+.single-page .actions .buy-it-now-btn {
+  display: none !important;
+}
+
+.single-page .actions .actions-cart-row {
+  gap: 12px;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+}
+
 .single-page .actions .actions-cart {
   gap: 8px;
   display: grid;
@@ -155,22 +166,12 @@
   background: var(--main-color);
   color: var(--body-color);
 }
-.single-page .actions .forFavoriet {
-  border: 1px solid #eb87ff;
-  background: #f8d4ff;
-  font-weight: 700;
-  font-size: 12px;
-  width: 100%;
-}
+
 
 [lang="AR"] .single-page .actions .forFavoriet {
   font-weight: 700;
 }
-.single-page .actions .forFavoriet:hover,
-.single-page .actions .forFavoriet.active {
-  background: #eb87ff;
-  color: white;
-}
+
 .single-page .details-holder .specifications {
   margin-top: 10px;
 }

@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Rating from "@mui/material/Rating";
 import { useAuth } from "@/Contexts/AuthContext";
 import { createReview } from "@/services/reviews/reviews.service";
@@ -8,6 +10,7 @@ import "@/styles/components/reviews.css";
 
 export default function Review({ productId, onReviewAdded }) {
   const t = useTranslate();
+  const pathname = usePathname();
   const { isAuthenticated } = useAuth();
   const [rate, setRate] = useState(0);
   const [title, setTitle] = useState("");
@@ -43,22 +46,27 @@ export default function Review({ productId, onReviewAdded }) {
 
   if (!isAuthenticated) {
     return (
-      <div style={{ padding: "20px", textAlign: "center", boxShadow: "0 1px 5px #0000001a", borderRadius: "10px" }}>
+      <div className="review-login-prompt">
         <p>{t.singelPages.login_to_review || "Please log in to write a review."}</p>
+        <Link
+          href={`/register?redirect=${encodeURIComponent(pathname || "/")}`}
+          className="main-button review-auth-btn"
+        >
+          {t.auth?.login || t.header?.sign_up || "Log In / Register"}
+        </Link>
       </div>
     );
   }
 
   if (success) {
     return (
-      <div style={{ padding: "20px", textAlign: "center", boxShadow: "0 1px 5px #0000001a", borderRadius: "10px" }}>
-        <p style={{ color: "var(--main-color)", fontWeight: 600 }}>
+      <div className="review-success-prompt">
+        <p>
           {t.singelPages.review_submitted || "Thank you! Your review has been submitted."}
         </p>
         <button
-          className="main-button"
+          className="main-button review-another-btn"
           onClick={() => setSuccess(false)}
-          style={{ marginTop: "10px" }}
         >
           {t.singelPages.write_another || "Write another review"}
         </button>
@@ -67,22 +75,12 @@ export default function Review({ productId, onReviewAdded }) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        padding: "20px",
-        boxShadow: "0 1px 5px #0000001a",
-        borderRadius: "10px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-      }}
-    >
-      <h4 style={{ margin: 0, color: "var(--paragraph)" }}>
+    <form onSubmit={handleSubmit} className="review-form">
+      <h4 className="review-form-title">
         {t.singelPages.write_a_review || "Write a Review"}
       </h4>
 
-      <div>
+      <div className="review-rating-picker">
         <Rating
           name="rating"
           value={rate}
@@ -93,43 +91,31 @@ export default function Review({ productId, onReviewAdded }) {
 
       <input
         type="text"
+        className="review-input"
         placeholder={t.singelPages.review_title_placeholder || "Review title"}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         required
-        style={{
-          padding: "10px 12px",
-          borderRadius: "6px",
-          border: "1px solid #ddd",
-          fontSize: "14px",
-        }}
       />
 
       <textarea
+        className="review-textarea"
         placeholder={t.singelPages.review_desc_placeholder || "Write your review..."}
         value={desc}
         onChange={(e) => setDesc(e.target.value)}
         required
         rows={4}
-        style={{
-          padding: "10px 12px",
-          borderRadius: "6px",
-          border: "1px solid #ddd",
-          fontSize: "14px",
-          resize: "vertical",
-        }}
       />
 
-      {error && <p style={{ color: "red", fontSize: "13px" }}>{error}</p>}
+      {error && <p className="review-error">{error}</p>}
 
       <button
         type="submit"
-        className="main-button"
+        className="main-button  back-light-animation"
         disabled={submitting || !rate || !title.trim() || !desc.trim()}
-        style={{ alignSelf: "flex-start" }}
       >
         {submitting
-          ? (t.dashboard.forms.loading || "Loading...")
+          ? (t.dashboard?.forms?.loading || "Loading...")
           : (t.singelPages.submit_review || "Submit Review")}
       </button>
     </form>

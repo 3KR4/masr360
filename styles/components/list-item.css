@@ -23,24 +23,25 @@
 .sort-bar-right .box.forInput .filters.for-cats {
   position: relative;
   border-radius: 20px;
-  background: unset;
+  background: transparent !important;
 }
 .sort-bar-right .box.forInput .filters.for-cats .btn {
+  background: var(--section-color);
+  border: 1px solid var(--second-color);
+  border-radius: 6px;
   min-height: 36px;
   padding: 0 10px;
-  border-radius: 6px;
-  background: var(--main-color-3);
-  border: none;
   font-size: 13px;
 }
 .sort-bar-right .box.forInput .filters.for-cats .btn h4 {
   margin: 0;
   font-size: 13px;
   font-weight: 700;
-  color: var(--body-color);
+  color: var(--main-color);
 }
 .sort-bar-right .box.forInput .filters.for-cats .btn .main-ico {
-  color: black;
+  color: var(--main-color);
+
   padding: 6px;
   background: transparent;
   width: 43px;
@@ -101,18 +102,20 @@
   width: 50px;
   height: 36px;
   border: none;
-  background: var(--main-color-3);
   cursor: pointer;
-  color: black;
   font-size: 18px;
   transition: all 0.2s ease;
+  background: var(--second-color);
+  color: var(--main-color);
 }
 
 .view-btn:not(.active):hover {
   background: var(--main-color);
+  color: var(--body-color);
 }
 .view-btn.active {
   background: var(--main-gradient);
+  color: var(--body-color);
 }
 
 .list-holder {

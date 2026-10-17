@@ -6,7 +6,7 @@
   padding: 18px 4px;
   width: 300px !important;
   position: sticky !important;
-  background: var(--section-color);
+  background: var(--section-color) !important;
   border: 1px solid var(--second-color);
 }
 

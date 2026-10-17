@@ -223,7 +223,6 @@ body > .support,
 }
 .single-page.for-product {
   padding-top: 130px;
-
 }
 
 .grid-holder {
@@ -315,7 +314,7 @@ body > .support,
   background: var(--main-gradient) !important;
   transform: translateY(-2px) !important;
 }
-.back-light-animation.sign_up:hover  {
+.back-light-animation.sign_up:hover {
   transform: unset !important;
   scale: 1.05;
 }
@@ -669,10 +668,10 @@ button:hover .loader {
   font-weight: 700;
 }
 .row-holder {
-      display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .price-holder p {
   display: flex;
@@ -683,7 +682,7 @@ button:hover .loader {
 }
 .card.product .price-holder p,
 .cartMenu.menu .price-holder p {
-      font-size: 14px;
+  font-size: 14px;
 }
 .new-price {
   color: var(--hover-color);
@@ -810,7 +809,7 @@ button:hover .loader {
   align-items: center;
   display: flex;
   position: relative;
-  box-shadow: 0 0 3px 1px var(--box-shadow-2);
+  border: 1px solid var(--second-color);
 }
 .box.forInput .inputHolder .holder.nationality {
   cursor: pointer;
@@ -1000,7 +999,6 @@ button:hover .loader {
   visibility: hidden;
   opacity: 0;
   z-index: -1;
-  border: 1px solid var(--border-color);
   border-radius: 20px;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
@@ -1012,6 +1010,8 @@ button:hover .loader {
   position: absolute;
   top: 34px;
   left: 0;
+  border: 1px solid var(--second-color);
+  background: var(--section-color);
 }
 .filters.filters.for-cats .menu {
   gap: 5px;
@@ -1091,13 +1091,13 @@ button:hover .loader {
 
 .filters.for-cats input {
   flex: 1;
-  color: var(--body-color);
+  color: var(--paragraph);
   font-weight: 700;
   font-size: 15px;
   height: 20px;
 }
 .filters.for-cats input::placeholder {
-  color: var(--body-color);
+  color: var(--paragraph);
   font-weight: 700;
   font-size: 15px;
 }

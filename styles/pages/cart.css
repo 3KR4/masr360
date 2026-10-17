@@ -211,12 +211,12 @@
 
 .form-section,
 .summary-section {
-  border-radius: 24px;
-  flex-direction: column;
-  padding: 24px 20px;
-  display: flex;
-  box-shadow: 0 0 16px 0px var(--box-shadow-2);
+  border: 1px solid var(--second-color);
   background: var(--section-color);
+  border-radius: 30px;
+  flex-direction: column;
+  padding: 25px 23px;
+  display: flex;
 }
 
 .summary-section {
@@ -236,7 +236,7 @@
 .form-section .section-title {
   padding: 0;
   font-size: 19px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .form-section .rowHolder {
@@ -251,7 +251,7 @@
   }
 }
 
-.form-section .box.forInput {
+.form-section .box.forInput:not(:last-child) {
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
@@ -274,14 +274,7 @@
 }
 
 .form-section .box.forInput .inputHolder .holder {
-  height: 48px;
-  display: flex;
-  align-items: center;
   padding: 0 14px;
-  background: var(--body-color);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  transition: border-color 0.2s ease;
 }
 
 .form-section .box.forInput .inputHolder .holder:focus-within {
@@ -346,20 +339,17 @@
 .form-section .filters.for-cats {
   width: 100% !important;
   position: relative;
+  border: none;
+  padding: 0px;
 }
 
 .form-section .filters.for-cats .btn {
-  width: 100%;
-  height: 48px;
-  background: var(--body-color);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 0 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background: transparent;
+  border: 1px solid var(--second-color) !important;
   cursor: pointer;
-  transition: border-color 0.2s ease;
+  border-radius: 50px;
+  height: 48px;
+  padding: 0 13px 0 22px;
 }
 
 .form-section .filters.for-cats .btn:hover {
@@ -384,17 +374,18 @@
 }
 
 .form-section .filters.for-cats .menu {
-  width: 100%;
-  max-height: 240px;
-  overflow-y: auto;
   z-index: 1000;
   background: var(--section-color);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-  top: 54px;
-  display: flex;
+  border: 1px solid var(--second-color);
+  border-radius: 27px;
   flex-direction: column;
+  width: 100%;
+  max-height: 330px;
+  display: flex;
+  gap: 4px;
+  top: 56px;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px #0000005e;
 }
 
 .form-section .filters.for-cats .menu button {
@@ -429,12 +420,13 @@
   color: var(--title-color);
   font-size: 14px;
 }
-
+.form-section .filters.for-cats .search-input::placeholder {
+  color: var(--paragraph);
+}
 .coupon-holder {
   padding: 0 !important;
   gap: 0 !important;
   display: flex;
-  overflow: hidden;
   border: none !important;
 }
 .coupon-section.box.forInput .inputHolder .holder input {
@@ -516,6 +508,7 @@
   font-weight: 700;
 }
 .coupon-section {
+  display: none;
   padding: 13px 17px 8px;
 }
 .coupon-section .hold {
@@ -530,16 +523,16 @@
   font-weight: 600 !important;
 }
 .summary-total {
-  border-bottom: 1px solid var(--second-color);
+  /* border-bottom: 1px solid var(--second-color); */
   gap: 14px;
-  padding: 15px 16px 7px;
+  padding: 15px 18px 0;
   display: flex;
 }
 
 .total-line {
   letter-spacing: 0.2px;
-  color: var(--paragraph);
-  margin-bottom: 0.45rem;
+  color: var(--main-color-3) !important;
+  /* margin-bottom: 0.45rem; */
   font-size: 14px;
   font-weight: 700;
   display: flex;

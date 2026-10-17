@@ -22,6 +22,11 @@ export const cancelOrder = async (orderId) => {
   return res.data;
 };
 
+export const updateOrder = async (orderId, orderData) => {
+  const res = await api.put(ENDPOINTS.ORDERS.UPDATE(orderId), orderData);
+  return res.data;
+};
+
 export const deleteOrder = async (orderId) => {
   const res = await api.delete(ENDPOINTS.ORDERS.DELETE(orderId));
   return res.data;
