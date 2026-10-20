@@ -10,7 +10,9 @@ import {
   remove,
   update,
 } from "@/services/categories/categories.service";
+import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 import "@/styles/dashboard/categories-manager.css";
+import "@/styles/pages/tables.css";
 
 const TYPE_CONFIG = [
   { key: "place", label: "Places", icon: Layers2 },
@@ -83,7 +85,8 @@ export default function CategoriesManagerPage() {
   const [formState, setFormState] = useState(EMPTY_FORM);
   const [editorOpen, setEditorOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [deletingId, setDeletingId] = useState("");
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [errors, setErrors] = useState({});
 
   const sections = useMemo(
@@ -185,9 +188,11 @@ export default function CategoriesManagerPage() {
     }
   };
 
-  const handleDelete = async (itemId) => {
-    setDeletingId(itemId);
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+    setIsDeleting(true);
     try {
+      const itemId = itemToDelete._id || itemToDelete.id;
       await remove(itemId);
       await refreshReferenceData();
       addNotification({
@@ -198,13 +203,14 @@ export default function CategoriesManagerPage() {
       if (formState._id === itemId) {
         resetForm();
       }
+      setItemToDelete(null);
     } catch (error) {
       addNotification({
         type: "warning",
         message: error.response?.data?.message || "Failed to delete category",
       });
     } finally {
-      setDeletingId("");
+      setIsDeleting(false);
     }
   };
 
@@ -264,8 +270,8 @@ export default function CategoriesManagerPage() {
                             <button
                               type="button"
                               className="icon-button danger"
-                              onClick={() => handleDelete(item._id)}
-                              disabled={deletingId === item._id}
+                              onClick={() => setItemToDelete(item)}
+                              disabled={isDeleting}
                             >
                               <Trash2 size={15} />
                             </button>
@@ -299,8 +305,8 @@ export default function CategoriesManagerPage() {
                                   <button
                                     type="button"
                                     className="icon-button danger"
-                                    onClick={() => handleDelete(sub._id)}
-                                    disabled={deletingId === sub._id}
+                                    onClick={() => setItemToDelete(sub)}
+                                    disabled={isDeleting}
                                   >
                                     <Trash2 size={14} />
                                   </button>
@@ -325,8 +331,15 @@ export default function CategoriesManagerPage() {
                       </article>
                     ))
                   ) : (
-                    <div className="empty-state-card">
-                      <p>No categories created yet for {section.label.toLowerCase()}.</p>
+                    <div className="empty-category-list">
+                      <p>No categories yet for this section.</p>
+                      <button
+                        type="button"
+                        className="main-button small"
+                        onClick={() => openCreate(section.key)}
+                      >
+                        Create the first one
+                      </button>
                     </div>
                   )}
                 </div>
@@ -337,46 +350,41 @@ export default function CategoriesManagerPage() {
       </div>
 
       {editorOpen ? (
-        <div className="category-editor-overlay" onClick={resetForm}>
+        <div className="category-drawer-backdrop" onClick={resetForm}>
           <aside
-            className="category-editor-panel modal-open"
+            className="category-drawer"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="editor-head">
+            <div className="category-drawer-header">
               <div>
                 <h2>{currentTitle}</h2>
+                <p>
+                  Configure bilingual category details and choose an optional icon.
+                </p>
               </div>
 
               <button
                 type="button"
                 className="icon-button"
                 onClick={resetForm}
-                aria-label="Close editor"
               >
-                <X size={16} />
+                <X size={18} />
               </button>
             </div>
 
             <form onSubmit={handleSubmit} className="category-editor-form">
-              <div className="editor-grid">
+              <div className="form-group-section">
                 <label className="editor-field">
-                  <span>Type</span>
-                  <input value={formState.type} disabled />
-                </label>
-
-                <label className="editor-field">
-                  <span>Icon</span>
+                  <span>Icon (emoji or short symbol)</span>
                   <input
                     value={formState.icon}
                     onChange={(e) =>
                       setFormState((prev) => ({ ...prev, icon: e.target.value }))
                     }
-                    placeholder="Optional icon text"
+                    placeholder="e.g. 🏛️ or 🎧"
                   />
                 </label>
-              </div>
 
-              <div className="editor-grid bilingual-grid">
                 <label className="editor-field">
                   <span>English Name</span>
                   <input
@@ -438,6 +446,14 @@ export default function CategoriesManagerPage() {
           </aside>
         </div>
       ) : null}
+
+      <DeleteConfirmModal
+        isOpen={Boolean(itemToDelete)}
+        onClose={() => setItemToDelete(null)}
+        onConfirm={confirmDelete}
+        loading={isDeleting}
+        itemName={getCategoryName(itemToDelete, locale)}
+      />
     </div>
   );
 }

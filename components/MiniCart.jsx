@@ -73,7 +73,7 @@ function MiniCart() {
             <Link className="main-button forcart" href={`/cart`}>
               {t.cart.viewCart}
             </Link>
-            <Link className="main-button" href={`/cart?Checkout=true`}>
+            <Link className="main-button" href={`/cart?step=2`}>
               {t.cart.checkout}
             </Link>
           </div>

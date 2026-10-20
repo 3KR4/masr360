@@ -13,6 +13,7 @@ import { getAll, remove } from "@/services/events/events.service";
 import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
+import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 
@@ -84,6 +85,8 @@ export default function Events() {
   const [totalCount, setTotalCount] = useState(0);
   const [governorates, setGovernorates] = useState([]);
   const [governoratesLoading, setGovernoratesLoading] = useState(true);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const limit = 6;
 
   const fetchEvents = useCallback(async () => {
@@ -161,20 +164,26 @@ export default function Events() {
     [governorates, governoratesLoading, locale, t],
   );
 
-  const deleteEvent = async (id) => {
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
     try {
+      setIsDeleting(true);
+      const id = itemToDelete._id || itemToDelete.id;
       await remove(id);
       await fetchEvents();
       addNotification({
         type: "success",
         message: "Event has been deleted successfully",
       });
+      setItemToDelete(null);
     } catch (error) {
       console.error(error);
       addNotification({
         type: "warning",
         message: error.response?.data?.message || "Something went wrong",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -290,7 +299,7 @@ export default function Events() {
                     <FaTrashAlt
                       className="delete"
                       title={t.dashboard.tables.delete}
-                      onClick={() => deleteEvent(itemId)}
+                      onClick={() => setItemToDelete(item)}
                     />
                   </div>
                 </div>
@@ -322,6 +331,18 @@ export default function Events() {
           />
         )}
       </div>
+
+      <DeleteConfirmModal
+        isOpen={Boolean(itemToDelete)}
+        onClose={() => setItemToDelete(null)}
+        onConfirm={confirmDelete}
+        loading={isDeleting}
+        itemName={
+          itemToDelete?.translations?.[String(locale || "EN").toUpperCase()]?.name ||
+          itemToDelete?.name ||
+          ""
+        }
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useContext, useMemo, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useContext, useMemo, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import {
@@ -35,6 +35,7 @@ import useTranslate from "@/Contexts/useTranslation";
 
 function Cart() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { isAuthenticated } = useAuth();
   const { screenSize, locale } = useContext(mainContext);
   const t = useTranslate();
@@ -95,6 +96,19 @@ function Cart() {
   }, [register, t.cart.cityRequired]);
 
   const [currentStep, setCurrentStep] = useState(0);
+
+  useEffect(() => {
+    const stepParam = searchParams.get("step");
+    const checkoutParam =
+      searchParams.get("Checkout") || searchParams.get("checkout");
+    if (
+      stepParam === "2" ||
+      stepParam === "checkout" ||
+      checkoutParam === "true"
+    ) {
+      setCurrentStep(1);
+    }
+  }, [searchParams]);
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [submittingOrder, setSubmittingOrder] = useState(false);
   const [orderError, setOrderError] = useState(null);
@@ -731,4 +745,18 @@ console.log(item);
   );
 }
 
-export default Cart;
+export default function CartPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="cart">
+          <div className="error-page container">
+            <div className="loader" />
+          </div>
+        </div>
+      }
+    >
+      <Cart />
+    </Suspense>
+  );
+}

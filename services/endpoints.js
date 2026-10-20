@@ -149,7 +149,7 @@ CATEGORIES: {
   CREATE: "/categories",
   UPDATE: (id) => `/categories/${id}`,
   DELETE: (id) => `/categories/${id}`,
-  GET_ALL: (type, lang) => `categories?type=${type}&lang=${lang}`,
+  GET_ALL: (type, lang) => `/categories?type=${type}&lang=${lang}`,
   GET_ONE: (id) => `/categories/${id}`,
 },
 CART: {
@@ -184,6 +184,13 @@ REVIEWS: {
     UPDATE: (id) => `/orders/${id}`,
     CANCEL: (id) => `/orders/${id}/cancel`,
     DELETE: (id) => `/orders/${id}`,
+  },
+  SUPPORT_TICKETS: {
+    CREATE: "/support-tickets",
+    GET_ALL: "/support-tickets",
+    GET_ONE: (id) => `/support-tickets/${id}`,
+    UPDATE: (id) => `/support-tickets/${id}`,
+    DELETE: (id) => `/support-tickets/${id}`,
   },
 };
 

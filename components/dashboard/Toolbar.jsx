@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
@@ -8,6 +8,7 @@ import { dashboard } from "@/Contexts/dashboard";
 import { mainContext } from "@/Contexts/mainContext";
 import { getBreadcrumbItems } from "@/utlies/getBreadcrumbItems";
 import useTranslate from "@/Contexts/useTranslation";
+import { getSupportCategories } from "@/services/support/support.service";
 
 function FilterMenu({
   label,
@@ -66,6 +67,21 @@ const ORDER_STATUS_OPTIONS = [
   { key: "shipped", labelEn: "Shipped", labelAr: "تم الشحن" },
   { key: "delivered", labelEn: "Delivered", labelAr: "تم التوصيل" },
   { key: "cancelled", labelEn: "Cancelled", labelAr: "ملغي" },
+];
+
+const SUPPORT_STATUS_OPTIONS = [
+  { key: "all", labelEn: "All Statuses", labelAr: "كل الحالات" },
+  { key: "open", labelEn: "Open", labelAr: "مفتوحة" },
+  { key: "in_progress", labelEn: "In Progress", labelAr: "قيد المتابعة" },
+  { key: "on_hold", labelEn: "On Hold", labelAr: "معلقة" },
+  { key: "closed", labelEn: "Closed", labelAr: "مغلقة" },
+];
+
+const SUPPORT_METHOD_OPTIONS = [
+  { key: "all", labelEn: "All Methods", labelAr: "جميع الطرق" },
+  { key: "whatsapp", labelEn: "WhatsApp", labelAr: "واتساب" },
+  { key: "email", labelEn: "Email", labelAr: "بريد إلكتروني" },
+  { key: "phone", labelEn: "Phone Call", labelAr: "مكالمة هاتفية" },
 ];
 
 function DashboardToolbar() {
@@ -136,6 +152,22 @@ function DashboardToolbar() {
   const isPlacesPage = pageKey === "places_list";
   const isEventsPage = pageKey === "events_list";
   const isOrdersPage = pageKey === "orders_list";
+  const isSupportPage = pageKey === "support_list";
+  const [supportCategories, setSupportCategories] = useState([]);
+
+  useEffect(() => {
+    if (isSupportPage) {
+      getSupportCategories(locale)
+        .then((res) => {
+          setSupportCategories(Array.isArray(res) ? res : []);
+        })
+        .catch(() => setSupportCategories([]));
+    }
+  }, [isSupportPage, locale]);
+
+  const filteredSupportCats = supportCategories?.filter((x) =>
+    getLocaleName(x).toLowerCase().includes(catsSearch.toLowerCase()),
+  );
   const shouldShowSubCatFilter =
     pageKey === "places_list" || pageKey === "nights_list" || pageKey === "products_list";
   const selectedParentCategory =
@@ -160,7 +192,7 @@ function DashboardToolbar() {
   return (
     <div className="dashboard-toolbar-shell">
       <div
-        className={`dashboard-toolbar-row ${isGovernoratesPage || isCategoriesPage ? "governorates-toolbar-row" : ""} ${isEventsPage ? "events-toolbar-row" : ""} ${pageKey === "products_list" ? "products-toolbar-row" : ""} ${isOrdersPage ? "orders-toolbar-row" : ""}`}
+        className={`dashboard-toolbar-row ${isGovernoratesPage || isCategoriesPage ? "governorates-toolbar-row" : ""} ${isEventsPage ? "events-toolbar-row" : ""} ${pageKey === "products_list" ? "products-toolbar-row" : ""} ${isOrdersPage ? "orders-toolbar-row" : ""} ${isSupportPage ? "support-toolbar-row" : ""}`}
       >
         {!isCategoriesPage ? (
           <div className="dashboard-toolbar-search compact">
@@ -409,7 +441,153 @@ function DashboardToolbar() {
           </FilterMenu>
         )}
 
-        {!citys?.length && !cats?.length && !subCats?.length && !prodCats?.length && !isOrdersPage ? null : null}
+        {isSupportPage && (
+          <FilterMenu
+            label={locale === "AR" ? "تصفية حسب الحالة" : "Filter Status"}
+            triggerLabel={
+              SUPPORT_STATUS_OPTIONS.find(
+                (s) => s.key === (filtersState.status || "all")
+              )?.[locale === "AR" ? "labelAr" : "labelEn"] ||
+              (locale === "AR" ? "كل الحالات" : "All Statuses")
+            }
+            active={activeMenu === "supportStatus"}
+            value={
+              filtersState.status && filtersState.status !== "all"
+                ? {
+                    name: SUPPORT_STATUS_OPTIONS.find(
+                      (s) => s.key === filtersState.status
+                    )?.[locale === "AR" ? "labelAr" : "labelEn"],
+                  }
+                : null
+            }
+            search={catsSearch}
+            setSearch={setCatsSearch}
+            onOpen={() => openMenu("supportStatus")}
+            onClose={() => setActiveMenu(null)}
+          >
+            {SUPPORT_STATUS_OPTIONS.filter((opt) =>
+              (locale === "AR" ? opt.labelAr : opt.labelEn)
+                .toLowerCase()
+                .includes(catsSearch.toLowerCase())
+            ).map((opt) => {
+              const currentVal = filtersState.status || "all";
+              const isActive = currentVal === opt.key;
+              return (
+                <button
+                  key={opt.key}
+                  type="button"
+                  className={isActive ? "active" : ""}
+                  onClick={() => {
+                    updateFilter("status", opt.key === "all" ? "" : opt.key, "filters");
+                    setActiveMenu(null);
+                  }}
+                >
+                  {locale === "AR" ? opt.labelAr : opt.labelEn}
+                </button>
+              );
+            })}
+          </FilterMenu>
+        )}
+
+        {isSupportPage && (
+          <FilterMenu
+            label={locale === "AR" ? "طريقة التواصل" : "Contact Method"}
+            triggerLabel={
+              SUPPORT_METHOD_OPTIONS.find(
+                (m) => m.key === (filtersState.method || "all")
+              )?.[locale === "AR" ? "labelAr" : "labelEn"] ||
+              (locale === "AR" ? "جميع الطرق" : "All Methods")
+            }
+            active={activeMenu === "supportMethod"}
+            value={
+              filtersState.method && filtersState.method !== "all"
+                ? {
+                    name: SUPPORT_METHOD_OPTIONS.find(
+                      (m) => m.key === filtersState.method
+                    )?.[locale === "AR" ? "labelAr" : "labelEn"],
+                  }
+                : null
+            }
+            search={catsSearch}
+            setSearch={setCatsSearch}
+            onOpen={() => openMenu("supportMethod")}
+            onClose={() => setActiveMenu(null)}
+          >
+            {SUPPORT_METHOD_OPTIONS.filter((opt) =>
+              (locale === "AR" ? opt.labelAr : opt.labelEn)
+                .toLowerCase()
+                .includes(catsSearch.toLowerCase())
+            ).map((opt) => {
+              const currentVal = filtersState.method || "all";
+              const isActive = currentVal === opt.key;
+              return (
+                <button
+                  key={opt.key}
+                  type="button"
+                  className={isActive ? "active" : ""}
+                  onClick={() => {
+                    updateFilter("method", opt.key === "all" ? "" : opt.key, "filters");
+                    setActiveMenu(null);
+                  }}
+                >
+                  {locale === "AR" ? opt.labelAr : opt.labelEn}
+                </button>
+              );
+            })}
+          </FilterMenu>
+        )}
+
+        {isSupportPage && supportCategories?.length > 0 && (
+          <FilterMenu
+            label={t.head?.filterCat || (locale === "AR" ? "فئة المشكلة" : "Category")}
+            triggerLabel={
+              selectedCats.cat
+                ? getLocaleName(selectedCats.cat) || selectedCats.cat.name || (locale === "AR" ? "الفئة المختارة" : "Selected Category")
+                : (locale === "AR" ? "جميع الفئات" : "All Categories")
+            }
+            active={activeMenu === "supportCat"}
+            value={
+              selectedCats.cat
+                ? { name: getLocaleName(selectedCats.cat) || selectedCats.cat.name }
+                : null
+            }
+            search={catsSearch}
+            setSearch={setCatsSearch}
+            onOpen={() => openMenu("supportCat")}
+            onClose={() => setActiveMenu(null)}
+          >
+            <button
+              type="button"
+              className={!selectedCats.cat ? "active" : ""}
+              onClick={() => {
+                updateFilter("cat", null, "categories");
+                setActiveMenu(null);
+              }}
+            >
+              {locale === "AR" ? "جميع الفئات" : "All Categories"}
+            </button>
+            {filteredSupportCats?.map((c) => {
+              const cId = c._id || c.id;
+              const isActive =
+                (selectedCats.cat?._id || selectedCats.cat?.id || selectedCats.cat) === cId;
+              return (
+                <button
+                  key={cId}
+                  type="button"
+                  className={isActive ? "active" : ""}
+                  onClick={() => {
+                    updateFilter("cat", isActive ? null : c, "categories");
+                    setActiveMenu(null);
+                  }}
+                >
+                  {getLocaleName(c)}
+                </button>
+              );
+            })}
+          </FilterMenu>
+        )}
+
+        {!citys?.length && !cats?.length && !subCats?.length && !prodCats?.length && !isOrdersPage && !isSupportPage ? null : null}
       </div>
     </div>
   );

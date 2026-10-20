@@ -56,6 +56,10 @@
   grid-template-columns: minmax(240px, 1fr) minmax(210px, 0.52fr);
 }
 
+.dashboard-toolbar-row.support-toolbar-row {
+  grid-template-columns: minmax(240px, 1fr) repeat(3, minmax(180px, 0.52fr));
+}
+
 .dashboard-toolbar-search {
   min-width: 0;
 }

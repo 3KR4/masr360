@@ -20,6 +20,7 @@ import DisplayPrice from "@/components/DisplayPrice";
 import { mainContext } from "@/Contexts/mainContext";
 import { dashboard } from "@/Contexts/dashboard";
 import { getAll, remove } from "@/services/porducts/products.service";
+import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 
@@ -37,6 +38,8 @@ export default function Products() {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const limit = 20;
 
   const categoriesMap = useMemo(() => {
@@ -102,20 +105,26 @@ export default function Products() {
     [categoriesMap, locale, t],
   );
 
-  const deleteProduct = async (id) => {
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
     try {
+      setIsDeleting(true);
+      const id = itemToDelete._id || itemToDelete.id;
       await remove(id);
       await fetchProducts();
       addNotification({
         type: "success",
         message: "Product has been deleted successfully",
       });
+      setItemToDelete(null);
     } catch (err) {
       console.error("Failed to delete product:", err);
       addNotification({
         type: "warning",
         message: err.response?.data?.message || "Something went wrong ❌",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -264,7 +273,7 @@ export default function Products() {
                     <FaTrashAlt
                       className="delete"
                       title={t.dashboard.tables.delete}
-                      onClick={() => deleteProduct(productId)}
+                      onClick={() => setItemToDelete(item)}
                     />
                   </div>
                 </div>
@@ -296,6 +305,18 @@ export default function Products() {
           />
         )}
       </div>
+
+      <DeleteConfirmModal
+        isOpen={Boolean(itemToDelete)}
+        onClose={() => setItemToDelete(null)}
+        onConfirm={confirmDelete}
+        loading={isDeleting}
+        itemName={
+          itemToDelete?.translations?.[String(locale || "EN").toUpperCase()]?.name ||
+          itemToDelete?.name ||
+          ""
+        }
+      />
     </div>
   );
 }

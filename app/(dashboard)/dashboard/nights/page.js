@@ -15,6 +15,7 @@ import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { getAll as getCategories } from "@/services/categories/categories.service";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
+import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 
@@ -35,6 +36,8 @@ export default function Nights() {
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [governorates, setGovernorates] = useState([]);
   const [governoratesLoading, setGovernoratesLoading] = useState(true);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const limit = 6;
 
   const fetchNights = useCallback(async () => {
@@ -178,20 +181,26 @@ export default function Nights() {
     [governorates, governoratesLoading, locale, t],
   );
 
-  const deleteNight = async (id) => {
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
     try {
+      setIsDeleting(true);
+      const id = itemToDelete._id || itemToDelete.id;
       await remove(id);
       await fetchNights();
       addNotification({
         type: "success",
         message: "Night has been deleted successfully",
       });
+      setItemToDelete(null);
     } catch (error) {
       console.error(error);
       addNotification({
         type: "warning",
         message: error.response?.data?.message || "Something went wrong ❌",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -314,7 +323,7 @@ export default function Nights() {
                     <FaTrashAlt
                       className="delete"
                       title={t.dashboard.tables.delete}
-                      onClick={() => deleteNight(itemId)}
+                      onClick={() => setItemToDelete(item)}
                     />
                   </div>
                 </div>
@@ -346,6 +355,18 @@ export default function Nights() {
           />
         )}
       </div>
+
+      <DeleteConfirmModal
+        isOpen={Boolean(itemToDelete)}
+        onClose={() => setItemToDelete(null)}
+        onConfirm={confirmDelete}
+        loading={isDeleting}
+        itemName={
+          itemToDelete?.translations?.[String(locale || "EN").toUpperCase()]?.name ||
+          itemToDelete?.name ||
+          ""
+        }
+      />
     </div>
   );
 }

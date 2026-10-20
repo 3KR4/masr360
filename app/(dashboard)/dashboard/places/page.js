@@ -15,6 +15,7 @@ import { getAll, remove } from "@/services/places/places.service";
 import { useNotification } from "@/Contexts/NotificationContext";
 import { getAll as getCategories } from "@/services/categories/categories.service";
 import { getAll as getGovernorates } from "@/services/govenorates/govenorates.service";
+import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 
@@ -36,6 +37,10 @@ export default function Places() {
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [governorates, setGovernorates] = useState([]);
   const [governoratesLoading, setGovernoratesLoading] = useState(true);
+
+  // Delete modal state
+  const [placeToDelete, setPlaceToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const limit = 6;
 
@@ -183,20 +188,26 @@ export default function Places() {
     [governorates, governoratesLoading, locale, t],
   );
 
-  const deletePlaces = async (id) => {
+  const deletePlaces = async () => {
+    if (!placeToDelete) return;
+    const id = placeToDelete._id;
     try {
+      setIsDeleting(true);
       await remove(id);
       await fetchPlaces();
       addNotification({
         type: "success",
-        message: "Place has been deleted successfully",
+        message: locale === "AR" ? "تم حذف المزار بنجاح" : "Place has been deleted successfully",
       });
+      setPlaceToDelete(null);
     } catch (error) {
       console.error(error);
       addNotification({
         type: "warning",
         message: error.response?.data?.message || error.response?.data?.errors?.[0]?.msg || "Something went wrong",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -306,7 +317,7 @@ export default function Places() {
                     <FaTrashAlt
                       className="delete"
                       title={t.dashboard.tables.delete}
-                      onClick={() => deletePlaces(item?._id)}
+                      onClick={() => setPlaceToDelete(item)}
                     />
                   </div>
                 </div>
@@ -338,6 +349,27 @@ export default function Places() {
           />
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={Boolean(placeToDelete)}
+        onClose={() => setPlaceToDelete(null)}
+        onConfirm={deletePlaces}
+        title={locale === "AR" ? "حذف المزار" : "Delete Place"}
+        message={
+          locale === "AR"
+            ? "هل أنت متأكد من حذف هذا المزار السياحي؟ لا يمكن التراجع عن هذا الإجراء."
+            : "Are you sure you want to delete this place? This action cannot be undone."
+        }
+        itemName={
+          placeToDelete?.translations?.[locale]?.name ||
+          placeToDelete?.name ||
+          placeToDelete?.translations?.EN?.name ||
+          placeToDelete?.translations?.AR?.name ||
+          ""
+        }
+        loading={isDeleting}
+      />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import { getAllOrders, deleteOrder } from "@/services/orders/orders.service";
 import Pagination from "@/components/settings/Pagination";
 import OrderDetailsModal from "@/components/OrderDetailsModal";
 import EditOrderModal from "@/components/dashboard/EditOrderModal";
+import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 import "@/styles/pages/cart.css";
 import "@/styles/pages/tables.css";
 import "@/styles/dashboard/orders.css";
@@ -29,6 +30,7 @@ export default function DashboardOrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [editingOrderId, setEditingOrderId] = useState(null);
   const [deletingOrderId, setDeletingOrderId] = useState(null);
+  const [orderToDelete, setOrderToDelete] = useState(null);
 
   // 10 items per page limit as requested
   const limit = 10;
@@ -83,16 +85,10 @@ export default function DashboardOrdersPage() {
 
   const pageCount = Math.max(1, Math.ceil((totalCount || 0) / limit));
 
-  const handleDeleteOrder = async (orderId) => {
-    if (
-      !window.confirm(
-        locale === "AR"
-          ? "هل أنت متأكد من حذف هذا الطلب؟"
-          : "Are you sure you want to delete this order?"
-      )
-    ) {
-      return;
-    }
+  const handleDeleteOrder = async () => {
+    if (!orderToDelete) return;
+    const orderId =
+      typeof orderToDelete === "object" ? orderToDelete?._id : orderToDelete;
 
     setDeletingOrderId(orderId);
     try {
@@ -102,10 +98,9 @@ export default function DashboardOrdersPage() {
       addNotification({
         type: "success",
         message:
-          locale === "AR"
-            ? "تم حذف الطلب بنجاح"
-            : "Order deleted successfully",
+          locale === "AR" ? "تم حذف الطلب بنجاح" : "Order deleted successfully",
       });
+      setOrderToDelete(null);
     } catch (err) {
       console.error("Failed to delete order:", err);
       addNotification({
@@ -150,9 +145,15 @@ export default function DashboardOrdersPage() {
           <div className="table-header">
             <div className="header-item">{t.orders.products || "Products"}</div>
             <div className="header-item">{t.orders.customer || "Customer"}</div>
-            <div className="header-item">{t.orders.totalPrice || "Total Price"}</div>
-            <div className="header-item">{t.orders.productsQuantity || "Qty"}</div>
-            <div className="header-item">{t.orders.paymentMethod || "Payment"}</div>
+            <div className="header-item">
+              {t.orders.totalPrice || "Total Price"}
+            </div>
+            <div className="header-item">
+              {t.orders.productsQuantity || "Qty"}
+            </div>
+            <div className="header-item">
+              {t.orders.paymentMethod || "Payment"}
+            </div>
             <div className="header-item">{t.orders.status || "Status"}</div>
             <div className="header-item">{t.orders.date || "Date"}</div>
             <div className="header-item">{t.orders.actions || "Actions"}</div>
@@ -171,7 +172,7 @@ export default function DashboardOrdersPage() {
                 const itemsList = item.items || [];
                 const totalItemsCount = itemsList.reduce(
                   (sum, it) => sum + (it.quantity || 1),
-                  0
+                  0,
                 );
 
                 const statusKey = item.orderStatus
@@ -238,13 +239,16 @@ export default function DashboardOrdersPage() {
 
                     {/* 📦 Total Quantity */}
                     <p className="total-quantity">
-                      {t.orders.itemsCount?.replace("{count}", totalItemsCount) ||
-                        `${totalItemsCount} items`}
+                      {t.orders.itemsCount?.replace(
+                        "{count}",
+                        totalItemsCount,
+                      ) || `${totalItemsCount} items`}
                     </p>
 
                     {/* 💳 Payment Method */}
                     <p className="payment">
-                      {t.orders.paymentTypes?.[paymentKey] || item.paymentMethod}
+                      {t.orders.paymentTypes?.[paymentKey] ||
+                        item.paymentMethod}
                     </p>
 
                     {/* 📌 Order Status */}
@@ -262,7 +266,7 @@ export default function DashboardOrdersPage() {
                           month: "short",
                           day: "numeric",
                           year: "numeric",
-                        }
+                        },
                       )}
                     </div>
 
@@ -289,8 +293,7 @@ export default function DashboardOrdersPage() {
                       <button
                         type="button"
                         className="dash-action-btn"
-                        onClick={() => handleDeleteOrder(item._id)}
-                        disabled={deletingOrderId === item._id}
+                        onClick={() => setOrderToDelete(item)}
                         title={t.dashboard?.tables?.delete || "Delete"}
                       >
                         <FaTrashAlt className="delete" />
@@ -305,7 +308,9 @@ export default function DashboardOrdersPage() {
                   size={42}
                   style={{ color: "var(--main-color)", opacity: 0.7 }}
                 />
-                <h4 style={{ margin: "14px 0 6px", color: "var(--title-color)" }}>
+                <h4
+                  style={{ margin: "14px 0 6px", color: "var(--title-color)" }}
+                >
                   {t.orders.emptyOrders || "No orders found"}
                 </h4>
                 <p style={{ color: "var(--paragraph)", fontSize: "14px" }}>
@@ -341,15 +346,15 @@ export default function DashboardOrdersPage() {
         }}
         onDelete={(orderId) => {
           setSelectedOrder(null);
-          handleDeleteOrder(orderId);
+          setOrderToDelete(orderId);
         }}
         onOrderCancelled={(cancelledId) => {
           setOrders((prev) =>
             prev.map((ord) =>
               ord._id === cancelledId
                 ? { ...ord, orderStatus: "cancelled" }
-                : ord
-            )
+                : ord,
+            ),
           );
         }}
       />
@@ -375,10 +380,29 @@ export default function DashboardOrdersPage() {
                       ? { ...(ord.location || {}), ...updated.location }
                       : ord.location,
                   }
-                : ord
-            )
+                : ord,
+            ),
           );
         }}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={Boolean(orderToDelete)}
+        onClose={() => setOrderToDelete(null)}
+        onConfirm={handleDeleteOrder}
+        title={locale === "AR" ? "حذف الطلب" : "Delete Order"}
+        message={
+          locale === "AR"
+            ? "هل أنت متأكد من رغبتك في حذف هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء."
+            : "Are you sure you want to delete this order? This action cannot be undone."
+        }
+        itemName={
+          typeof orderToDelete === "object"
+            ? `#${String(orderToDelete?._id).slice(-8).toUpperCase()} - ${orderToDelete?.user?.username || orderToDelete?.customerName || ""}`
+            : `#${String(orderToDelete).slice(-8).toUpperCase()}`
+        }
+        loading={Boolean(deletingOrderId)}
       />
     </div>
   );

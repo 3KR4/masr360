@@ -15,6 +15,7 @@ import useTranslate from "@/Contexts/useTranslation";
 import { getAll, remove } from "@/services/govenorates/govenorates.service";
 import { dashboard } from "@/Contexts/dashboard";
 import { useNotification } from "@/Contexts/NotificationContext";
+import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 
 const DASHBOARD_LIST_IMAGE_PLACEHOLDER = "/images/dashboard-product-placeholder.svg";
 
@@ -27,8 +28,11 @@ export default function Governorates() {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const limit = 6;
   const { addNotification } = useNotification();
+
   const fetchGovernorates = useCallback(async () => {
     try {
       setLoading(true);
@@ -54,22 +58,26 @@ export default function Governorates() {
     fetchGovernorates();
   }, [fetchGovernorates]);
 
-  const deleteGovernorates = async (id) => {
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
     try {
+      setIsDeleting(true);
+      const id = itemToDelete._id || itemToDelete.id;
       await remove(id);
-
-      await fetchGovernorates(); // 🔥 ده الحل الصح
-
+      await fetchGovernorates();
       addNotification({
         type: "success",
         message: "Governorate has been deleted successfully",
       });
+      setItemToDelete(null);
     } catch (error) {
       console.error(error);
       addNotification({
         type: "warning",
         message: error.response?.data?.message || "Something went wrong ❌",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -147,11 +155,10 @@ export default function Governorates() {
                     >
                       <MdEdit className="edit" />
                     </Link>
-
                     <hr />
                     <FaTrashAlt
                       className="delete"
-                      onClick={() => deleteGovernorates(item?._id)}
+                      onClick={() => setItemToDelete(item)}
                     />
                   </div>
                 </div>
@@ -182,6 +189,18 @@ export default function Governorates() {
           />
         )}
       </div>
+
+      <DeleteConfirmModal
+        isOpen={Boolean(itemToDelete)}
+        onClose={() => setItemToDelete(null)}
+        onConfirm={confirmDelete}
+        loading={isDeleting}
+        itemName={
+          itemToDelete?.translations?.[locale]?.name ||
+          itemToDelete?.name ||
+          ""
+        }
+      />
     </div>
   );
 }
