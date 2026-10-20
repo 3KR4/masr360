@@ -777,6 +777,9 @@ header .actions-btns .btn:hover .menu {
   white-space: nowrap;
   transform: translateX(27px);
 }
+[lang="AR"] .cartMenu .item .info .price-holder .qty {
+  transform: translateX(-27px);
+}
 .cartMenu .total {
   justify-content: space-between;
   align-items: center;

@@ -43,12 +43,105 @@
 .support form .hold .option:hover {
   background: var(--main-color-3) !important;
 }
-.support form .hold .box.forInput {
+/* Support Form Fields - Matching Review Form */
+.support form .hold:has(.box.forInput) {
+  gap: 16px;
+}
+
+.support form .box.forInput {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2px;
   width: 100%;
 }
-.support form .hold .box.forInput:has(textarea) {
-  margin-top: 9px;
+
+.support form .box.forInput label {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--paragraph);
+  display: block;
 }
+
+[lang="AR"] .support form .box.forInput label {
+  letter-spacing: normal;
+}
+
+.support form .box.forInput .inputHolder {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.support form .support-field .inputHolder .support-holder,
+.support form .box.forInput .inputHolder .holder {
+  padding: 0 16px;
+  border-radius: 50px;
+  border: 1px solid var(--second-color);
+  background: var(--section-color);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.support form .box.forInput .inputHolder .holder:focus-within {
+  border-color: var(--main-color);
+  box-shadow: 0 0 10px rgba(234, 140, 67, 0.2);
+}
+
+.support form .box.forInput .inputHolder .holder svg {
+  color: var(--paragraph);
+  font-size: 15px;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.support form .box.forInput .inputHolder .holder input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--title-color);
+  font-size: 14px;
+  padding: 0 10px;
+  height: 48px;
+  width: 100%;
+}
+
+[lang="AR"] .support form .box.forInput .inputHolder .holder input {
+  padding: 0 10px;
+}
+
+.support form .support-field .inputHolder .support-holder.textarea-holder,
+.support form .box.forInput .inputHolder .holder:has(textarea),
+.support form .box.forInput .inputHolder .holder.textarea-holder {
+  height: auto;
+  min-height: 100px;
+  padding: 12px 16px;
+  border-radius: 20px;
+  align-items: flex-start;
+  background: var(--section-color);
+  border: 1px solid var(--second-color);
+}
+
+.support form .box.forInput .inputHolder .holder textarea {
+  width: 100% !important;
+  height: 85px;
+  resize: vertical;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--title-color);
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
 .support form .hold .option svg {
   font-size: 28px;
   color: var(--main-color-3);
@@ -77,16 +170,24 @@
 .support form .main-button:hover {
   background: var(--hover-color);
 }
-.support .box.forInput .inputHolder .holder input {
-  padding-left: 10px;
+
+/* Error message styling matching review form & checkout */
+.support form .error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 7px 4px 0 !important;
+  color: #ea4335 !important;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
 }
-[lang="AR"] .support .box.forInput .inputHolder .holder input {
-  padding-right: 10px;
-  padding-left: unset;
-}
-.support .error {
-  margin: 0;
-  margin-bottom: -10px;
+
+.support form .error svg {
+  width: 14px !important;
+  height: 14px !important;
+  color: #ea4335 !important;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {

@@ -322,18 +322,18 @@ export default function ReviewSection({ productId, onReviewAdded }) {
           )}
 
           {!hasReviews && (
-            <div className="no-reviews-container">
-              <div className="no-reviews-message">
-                <p>
-                  {t.singelPages.no_reviews || "No reviews yet. Be the first to review!"}
-                </p>
+            <>
+              <p className="sub-title" style={{ textAlign: "center" }}>
+                {t.singelPages.no_reviews || "No reviews yet. Be the first to review!"}
+              </p>
+              <div className="no-reviews-container">
+                {productId && (
+                  <div className="no-reviews-form-wrapper">
+                    <Review productId={productId} onReviewAdded={reviewFormCb} />
+                  </div>
+                )}
               </div>
-              {productId && (
-                <div className="no-reviews-form-wrapper">
-                  <Review productId={productId} onReviewAdded={reviewFormCb} />
-                </div>
-              )}
-            </div>
+            </>
           )}
         </>
       )}

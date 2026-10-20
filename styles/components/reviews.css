@@ -13,10 +13,10 @@
   width: 385px;
   max-width: 100%;
   height: fit-content;
-  padding: 22px ;
+  padding: 22px;
   display: flex;
   position: sticky;
-  top: 88px;
+  top: 100px;
   border: 1px solid var(--second-color);
   background: var(--section-color);
 }
@@ -238,29 +238,12 @@
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  padding: 16px 0 40px;
+  padding: 0 0 40px;
   width: 100%;
-}
-
-.review-section .no-reviews-message {
-  text-align: center;
-  background: var(--section-color);
-  border: 1px dashed var(--border-color);
-  border-radius: 12px;
-  padding: 22px 28px;
-  max-width: 600px;
-  width: 100%;
-}
-
-.review-section .no-reviews-message p {
-  font-size: 16px;
-  color: var(--paragraph);
-  font-weight: 600;
-  margin: 0;
 }
 
 .review-section .no-reviews-form-wrapper {
-  max-width: 640px;
+  max-width: 950px;
   width: 100%;
 }
 
@@ -280,45 +263,152 @@
   color: var(--title-color, var(--paragraph));
   font-size: 17px;
   font-weight: 700;
+  text-transform: uppercase;
 }
 
-.review-input,
-.review-textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  background: var(--section-color);
-  color: var(--paragraph);
-  font-size: 14px;
-  font-family: inherit;
-  outline: none;
-  box-sizing: border-box;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+.review-form .review-rating-box {
+  margin-bottom: 4px;
 }
 
-.review-input:focus,
-.review-textarea:focus {
-  border-color: var(--main-color);
-  box-shadow: 0 0 0 2px rgba(243, 174, 28, 0.2);
+.review-form .review-rating-picker {
+  align-items: center;
+  display: flex;
+  margin: -7px 0px -4px;
 }
 
-.review-textarea {
-  resize: vertical;
+.review-form .review-rating-picker .MuiRating-root {
+  font-size: 42.5px !important;
+  color: var(--main-color);
+  gap: 7px !important;
 }
 
-.review-error {
-  color: var(--red-color, #e03737);
+.review-form .review-rating-picker .MuiRating-icon {
+  font-size: 42.5px !important;
+}
+
+.review-form .review-rating-picker .MuiRating-icon svg,
+.review-form .review-rating-picker svg,
+.review-form .review-rating-picker .MuiSvgIcon-root {
+  width: 42.5px !important;
+  height: 42.5px !important;
+  font-size: 42.5px !important;
+}
+
+.review-form .review-rating-picker .MuiRating-iconEmpty {
+  color: var(--second-color) !important;
+}
+
+.review-form .review-rating-picker .MuiRating-iconFilled,
+.review-form .review-rating-picker .MuiRating-iconHover {
+  color: var(--main-color) !important;
+}
+
+.review-form .box.forInput {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2px;
+}
+
+.review-form .box.forInput label {
+  margin: 0 0 8px 0;
   font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--paragraph);
+  display: block;
+}
+
+.review-form .box.forInput .inputHolder {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-form .box.forInput .inputHolder .holder {
+  padding: 0 16px;
+  border-radius: 50px;
+  border: 1px solid var(--second-color);
+  background: transparent;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.review-form .box.forInput .inputHolder .holder:focus-within {
+  border-color: var(--main-color);
+  box-shadow: 0 0 10px rgba(234, 140, 67, 0.2);
+}
+
+.review-form .box.forInput .inputHolder .holder svg {
+  color: var(--paragraph);
+  font-size: 15px;
+  flex-shrink: 0;
   margin: 0;
+}
+
+.review-form .box.forInput .inputHolder .holder input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--title-color);
+  font-size: 14px;
+  padding: 0 10px;
+  height: 48px;
+}
+
+.review-form .box.forInput .inputHolder .holder:has(textarea),
+.review-form .box.forInput .inputHolder .holder.textarea-holder {
+  height: auto;
+  min-height: 100px;
+  padding: 12px 16px;
+  border-radius: 20px;
+  align-items: flex-start;
+}
+
+.review-form .box.forInput .inputHolder .holder textarea {
+  width: 100% !important;
+  height: 85px;
+  resize: vertical;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--title-color);
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
+/* Error message spacing matching checkout form */
+.review-form .box.forInput .error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 7px 4px 0 !important;
+  color: #ea4335 !important;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.review-form .box.forInput .error svg {
+  width: 14px !important;
+  height: 14px !important;
+  color: #ea4335 !important;
+  flex-shrink: 0;
 }
 
 .review-submit-btn {
   align-self: flex-start;
-  padding: 10px 24px;
+  padding: 10px 28px;
   cursor: pointer;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 14px;
+  height: 46px;
+  margin-top: 4px;
 }
 
 .review-login-prompt,

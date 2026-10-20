@@ -1,4 +1,4 @@
-.filters {
+.filters.side-filter-nav {
   border-radius: 26px;
   height: fit-content;
   transition: all 0.3s;
@@ -258,10 +258,10 @@
     border-radius: 0;
     transform: translateX(-100%);
   }
-  .filters.active {
+  .filters.side-filter-nav.active {
     transform: translateX(0%) !important;
   }
-  [lang="AR"] .filters {
+  [lang="AR"] .filters.side-filter-nav {
     left: unset;
     right: 0;
     transform: translateX(100%);

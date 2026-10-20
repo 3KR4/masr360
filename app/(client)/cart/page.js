@@ -338,6 +338,7 @@ console.log(item);
         {/* City Select with our site-wide SelectOptions component */}
         <SelectOptions
           label={t.cart.city}
+          className="city-select-options"
           placeholder={t.cart.selectCity}
           options={cityOptions}
           value={selectedCity}
@@ -691,10 +692,12 @@ console.log(item);
               >
                 {t.cart.previous}
               </button>
-              <div className="navigation-total">
+              {currentStep > 0 && (
+                <div className="navigation-total">
                 <span className="total-label">{t.cart.total}:</span>
                 <span className="total-amount">{totalAmount.toFixed(2)} {currency}</span>
               </div>
+              )}
               {currentStep === 2 ? (
                 <button
                   disabled={submittingOrder}

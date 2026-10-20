@@ -125,7 +125,7 @@ export default function Support() {
           </div>
           {categoryError && (
             <span className="error">
-              <CircleAlert />
+              <CircleAlert size={14} />
               {categoryError}
             </span>
           )}
@@ -134,10 +134,17 @@ export default function Support() {
         {/* ===== Description ===== */}
         <div className="hold">
           <h4>{t.support.description_title}</h4>
-          <div className="box forInput">
+
+          {/* Title Field (without icon) */}
+          <div className="box forInput support-field">
+            <label htmlFor="support-title">
+              {t.support.description_placeholder_title}
+            </label>
             <div className="inputHolder">
-              <div className="holder">
+              <div className="holder support-holder">
                 <input
+                  type="text"
+                  id="support-title"
                   {...register("title", {
                     required: t.support.errors.title_required,
                     minLength: {
@@ -148,26 +155,37 @@ export default function Support() {
                   placeholder={t.support.description_placeholder_title}
                 />
               </div>
+              {errors.title && (
+                <span className="error">
+                  <CircleAlert size={14} />
+                  {errors.title.message}
+                </span>
+              )}
             </div>
           </div>
 
-          <div className="box forInput">
+          {/* Description Textarea Field */}
+          <div className="box forInput support-field">
+            <label htmlFor="support-description">
+              {t.support.description_placeholder_details}
+            </label>
             <div className="inputHolder">
-              <div className="holder">
+              <div className="holder textarea-holder support-holder">
                 <textarea
+                  id="support-description"
                   {...register("description")}
                   placeholder={t.support.description_placeholder_details}
+                  rows={4}
                 />
               </div>
+              {errors.description && (
+                <span className="error">
+                  <CircleAlert size={14} />
+                  {errors.description.message}
+                </span>
+              )}
             </div>
           </div>
-
-          {errors.title && (
-            <span className="error">
-              <CircleAlert />
-              {errors.title.message}
-            </span>
-          )}
         </div>
 
         {/* ===== Contact Method ===== */}
@@ -190,7 +208,7 @@ export default function Support() {
           </div>
           {contactError && (
             <span className="error">
-              <CircleAlert />
+              <CircleAlert size={14} />
               {contactError}
             </span>
           )}

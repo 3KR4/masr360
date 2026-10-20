@@ -1,14 +1,17 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import useCart from "@/hooks/client/useCart";
 import { IoIosCloseCircle } from "react-icons/io";
 import useTranslate from "@/Contexts/useTranslation";
+import { mainContext } from "@/Contexts/mainContext";
 
 function MiniCart() {
   const { carts, getItemPrice, grandTotal, removeItem } = useCart();
+  const { locale } = useContext(mainContext);
   const t = useTranslate();
+  const currency = locale === "AR" ? "ج.م" : "L.E";
 
   return (
     <div className="cartMenu menu backdrop-blur">
@@ -39,7 +42,7 @@ function MiniCart() {
                   <div className="price-holder">
                     <p className={item?.sale > 0 ? "on-sale" : "regular-price"}>
                       <span className="new-price">
-                        ${getItemPrice(item).toFixed(2)}
+                        {getItemPrice(item).toFixed(2)} {currency}
                       </span>
                       {item?.sale > 0 && (
                         <span className="discount">
@@ -62,7 +65,9 @@ function MiniCart() {
 
           <div className="total">
             <span>{t.cart.totalPrice}</span>
-            <strong>${grandTotal.toFixed(2)}</strong>
+            <strong>
+              {grandTotal.toFixed(2)} {currency}
+            </strong>
           </div>
           <div className="btns">
             <Link className="main-button forcart" href={`/cart`}>

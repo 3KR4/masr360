@@ -117,10 +117,10 @@ function SelectOptions({
   };
 
   return (
-    <div ref={selectRef} className={`box forInput ${disabled ? "disabled" : ""} ${className}`}>
+    <div ref={selectRef} className={`box forInput select-options-box ${disabled ? "disabled" : ""} ${active ? "select-active" : ""} ${className}`}>
       <label>{label}</label>
 
-      <div className="filters for-cats">
+      <div className={`filters for-cats ${active ? "active" : ""}`}>
         <div className="btn">
           <h4 className="ellipsis" onClick={() => !disabled && setActive(true)}>
             {active ? (
