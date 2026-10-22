@@ -153,10 +153,10 @@ function Guardian({ pupilRef }) {
       <ellipse cx="56" cy="144" rx="10" ry="5" fill="#e7802c" opacity=".25" />
       <ellipse cx="100" cy="160" rx="7" ry="6" fill="#3b2410" />
       <g className="arm">
-        <rect x="92" y="130" width="16" height="44" rx="8" fill="#f6dcae" stroke="#c99b5c" strokeWidth="3" />
-        <path d="M94 148 h12 M94 158 h12" stroke="#c99b5c" strokeWidth="3" />
-        <rect x="78" y="168" width="44" height="36" rx="15" fill="#f6dcae" stroke="#c99b5c" strokeWidth="3" />
-        <path d="M84 182 h32" stroke="#c99b5c" strokeWidth="3" />
+        <rect x="92" y="130" width="16" height="46" rx="8" fill="#f6dcae" stroke="#c99b5c" strokeWidth="3" />
+        <path d="M94 148 h12" stroke="#c99b5c" strokeWidth="3" />
+        <rect x="90" y="166" width="50" height="38" rx="14" fill="#f6dcae" stroke="#c99b5c" strokeWidth="3" />
+        <path d="M110 166 v12 M122 166 v12 M104 189 h26" stroke="#c99b5c" strokeWidth="3" fill="none" strokeLinecap="round" />
       </g>
     </svg>
   );
