@@ -292,6 +292,63 @@ const en = {
         "Discover the latest events happening around Egypt. From cultural festivals to live performances, find something exciting to attend.",
     },
 
+    game_coming_soon: {
+      tag: "THE M360 GAME",
+      titleLine1: "THE TOMB IS",
+      titleLine2: "STILL SEALED",
+      description:
+        "We're still digging the M360 game out of the sand. Light up the walls, find what's hidden, and knock if you dare.",
+      hintMouse: "Move your torch across the walls, then knock on the door.",
+      hintTouch: "Drag your finger to light the walls, then tap the door to knock.",
+      hintHunt: "Five scarabs are hidden in these walls. Find them all.",
+      doorLabel: "Knock on the sealed door",
+      scarabLabel: "Hidden scarab",
+      cartouche: "GAME",
+      excavation: "Excavation",
+      secretsFound: "Secrets found",
+      sound: "Sound",
+      knocks: [
+        "Shhh! Not yet.",
+        "I said not yet. It's not ready.",
+        "You again? The paint isn't even dry.",
+        "Knock once more and I'm telling the pharaoh.",
+        "Okay, okay... here.",
+      ],
+      after: [
+        "Still sealed. The demo is waiting for you!",
+        "Patience is a pharaoh's best friend.",
+        "Go play the demo. I'm busy guarding.",
+        "Every knock adds a day. Kidding. Maybe.",
+      ],
+      allFound: "You found every secret. Fine, you earned a peek.",
+      secretHead: "Secret {n} of {total}",
+      secretsTitle: "Behind The Door",
+      secretsSub:
+        "Every scarab you find in the chamber breaks one seal. Here's what you've uncovered so far.",
+      locked: "Still sealed",
+      lockedHint: "Search the chamber walls",
+      secrets: [
+        { title: "Real Missions", sub: "Quests at real landmarks across Egypt's 27 governorates." },
+        { title: "Photo Challenges", sub: "Snap the shot on the spot to prove you were there." },
+        { title: "Earn Credits", sub: "Every stage you clear earns credits for the marketplace." },
+        { title: "Leaderboards", sub: "Climb the ranks against explorers from all over Egypt." },
+        { title: "Real Rewards", sub: "Turn your credits into real rewards and discounts." },
+      ],
+      ctaTitle: "CAN'T WAIT FOR",
+      ctaGold: "THE FULL GAME?",
+      ctaSub:
+        "There's a small taste of it on our landing page. The guardian won't like it, but you can ask.",
+      ctaBtn: "ASK THE GUARDIAN",
+      modalPre: "The guardian gives in",
+      modalPreAll: "The guardian is impressed",
+      modalTitle: "Okay, okay. If you insist...",
+      modalTitleAll: "You found all 5 secrets",
+      modalBody:
+        "There's a demo of the game on our landing page: 7 questions to prove you know Egypt.",
+      modalPromise: "But hey, the real game behind this door will be way better. Don't worry.",
+      play: "PLAY THE DEMO",
+      later: "I'll wait for the real one",
+    },
     explore_games: {
       mainTitle: "Explore Games",
       subTitle:
