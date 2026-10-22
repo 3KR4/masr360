@@ -1,0 +1,921 @@
+/*! Game coming soon (shown on /games until launch) */
+.game-coming-soon {
+  padding-top: 85px;
+  flex: 1;
+  position: relative;
+}
+
+/* ---------- header block (same language as How M360 Works) ---------- */
+.game-coming-soon .gcs-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+  max-width: 780px;
+  margin: 60px auto 40px;
+}
+.game-coming-soon .top-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 420px;
+}
+.game-coming-soon .top-tag hr {
+  flex: 1;
+  border: none;
+  height: 1px;
+  margin: 0;
+  background: linear-gradient(90deg, transparent, var(--main-color), transparent);
+}
+.game-coming-soon .top-tag span {
+  color: var(--main-color);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-family: var(--font-cinzel), serif;
+  white-space: nowrap;
+}
+.game-coming-soon .hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  line-height: 1.15;
+}
+.game-coming-soon .hero-title .line1 {
+  font-size: 44px;
+  font-weight: 900;
+  color: var(--title-color);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: var(--font-cinzel), serif;
+}
+.game-coming-soon .hero-title .line2 {
+  font-size: 50px;
+  font-weight: 900;
+  color: var(--main-color);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-family: var(--font-cinzel), serif;
+  text-shadow: 0 0 25px rgba(234, 140, 67, 0.35);
+}
+.game-coming-soon .description {
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 300;
+  opacity: 0.9;
+  max-width: 600px;
+}
+[lang="AR"] .game-coming-soon .top-tag span,
+[lang="AR"] .game-coming-soon .hero-title span {
+  font-family: "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+/* ---------- the chamber (always dark: it's a tomb) ---------- */
+.game-coming-soon .gcs-chamber {
+  --x: 50%;
+  --y: 50%;
+  --r: 200px;
+  position: relative;
+  height: clamp(480px, 64vh, 640px);
+  border-radius: 40px;
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: pan-y;
+  background: radial-gradient(120% 90% at 50% 40%, #130e03 0%, #050402 72%);
+  border: 1px solid #ea8c4340;
+  box-shadow:
+    0 0 0 1px #00000080,
+    0 30px 70px #00000099,
+    0 0 60px #f3ae1c14;
+}
+.game-coming-soon .gcs-chamber.shake {
+  animation: gcsShake 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@keyframes gcsShake {
+  10%, 90% { transform: translate(-1px, 1px); }
+  20%, 80% { transform: translate(3px, -2px); }
+  30%, 50%, 70% { transform: translate(-5px, 2px); }
+  40%, 60% { transform: translate(5px, -1px); }
+}
+
+.game-coming-soon .wall-canvas,
+.game-coming-soon .fx-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.game-coming-soon .vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(130% 100% at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.85) 100%);
+}
+
+/* hidden scarabs */
+.game-coming-soon .secrets {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.game-coming-soon .scarab {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: #ffe2b6;
+  filter: drop-shadow(0 0 10px #f3ae1c) drop-shadow(0 0 22px #e7802c);
+  animation: gcsBreathe 2.4s ease-in-out infinite;
+  opacity: 0; /* set by the torch */
+  will-change: transform, opacity;
+}
+.game-coming-soon .scarab svg {
+  cursor: pointer;
+}
+.game-coming-soon .scarab.found {
+  color: #6b5634;
+  filter: none;
+  animation: none;
+  cursor: default;
+}
+.game-coming-soon .scarab.found::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1.5px dashed #f3ae1c73;
+  border-radius: 50%;
+}
+@keyframes gcsBreathe {
+  50% { transform: translate(-50%, -50%) scale(1.12) rotate(-8deg); }
+}
+
+/* ---------- the tomb door ---------- */
+.game-coming-soon .gcs-tomb {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  width: min(250px, 52%, calc(var(--door-h, 360px) * 0.8));
+  pointer-events: none;
+}
+.game-coming-soon .lintel {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -2px;
+  padding: 8px 0 10px;
+  background: linear-gradient(#3a2d1b, #21190f);
+  border: 1px solid #4a3920;
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+}
+.game-coming-soon .cartouche {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-cinzel), serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--main-color);
+  padding: 4px 14px;
+  border: 1.5px solid var(--main-color);
+  border-radius: 50px;
+  white-space: nowrap;
+}
+.game-coming-soon .cartouche i {
+  font-style: normal;
+  font-family: var(--font-glyph), "Noto Sans Egyptian Hieroglyphs", serif;
+  letter-spacing: 0;
+  font-size: 14px;
+}
+[lang="AR"] .game-coming-soon .cartouche {
+  font-family: "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+.game-coming-soon .doorway {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 0 0 6px 6px;
+  background: #000;
+  border: 10px solid #2a2014;
+  border-top-width: 0;
+  box-shadow:
+    0 0 0 1px #4a3920,
+    0 30px 60px rgba(0, 0, 0, 0.8),
+    0 0 80px rgba(243, 174, 28, 0.08);
+}
+.game-coming-soon .gcs-tomb.rumble .doorway {
+  animation: gcsRumble 0.5s linear;
+}
+@keyframes gcsRumble {
+  20%, 60% { transform: translateX(-1.5px); }
+  40%, 80% { transform: translateX(1.5px); }
+}
+.game-coming-soon .beyond {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(
+    90% 60% at 50% 100%,
+    rgba(247, 195, 85, 0.95) 0%,
+    rgba(231, 128, 44, 0.55) 35%,
+    rgba(43, 26, 8, 0.9) 75%,
+    #000 100%
+  );
+}
+.game-coming-soon .gcs-tomb.open .beyond {
+  opacity: 1;
+}
+
+.game-coming-soon .slab {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: auto;
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.35)),
+    repeating-linear-gradient(0deg, transparent 0 23px, rgba(0, 0, 0, 0.25) 23px 24px),
+    linear-gradient(170deg, #33281a 0%, #1b150d 60%, #120d07 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10%;
+  transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.3, 1);
+  will-change: transform;
+}
+.game-coming-soon .slab::before {
+  content: "";
+  position: absolute;
+  inset: 9%;
+  border: 1.5px solid rgba(243, 174, 28, 0.22);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.25);
+}
+.game-coming-soon .slab::after {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--main-gradient);
+  filter: blur(1.5px);
+  opacity: 0.75;
+  animation: gcsLeak 3.2s ease-in-out infinite;
+}
+@keyframes gcsLeak {
+  50% { opacity: 0.25; }
+}
+.game-coming-soon .seal {
+  position: relative;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, var(--second-color) 0%, #0009 100%), #1a130a;
+  border: 1px solid #ea8c4399;
+  box-shadow:
+    0 0 0 6px rgba(243, 174, 28, 0.06),
+    0 0 30px rgba(243, 174, 28, 0.22);
+  transition: 0.3s;
+}
+.game-coming-soon .seal img {
+  width: 72%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(243, 174, 28, 0.55));
+}
+.game-coming-soon .slab:hover .seal {
+  transform: scale(1.06);
+  box-shadow:
+    0 0 0 6px rgba(243, 174, 28, 0.1),
+    0 0 40px rgba(243, 174, 28, 0.4);
+  border-color: var(--main-color);
+}
+.game-coming-soon .glyphrow {
+  position: relative;
+  font-family: var(--font-glyph), "Noto Sans Egyptian Hieroglyphs", serif;
+  font-size: clamp(16px, 2.2vw, 22px);
+  letter-spacing: 0.5em;
+  color: rgba(243, 174, 28, 0.55);
+}
+.game-coming-soon .peepers {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  animation: gcsPeep 11s 3s infinite;
+}
+.game-coming-soon .peepers i {
+  width: 7px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fff3c4;
+  box-shadow: 0 0 8px 2px var(--main-color);
+}
+@keyframes gcsPeep {
+  0%, 86%, 100% { opacity: 0; }
+  88%, 94% { opacity: 1; }
+  91% { opacity: 0.1; }
+}
+
+.game-coming-soon .gcs-tomb.open .slab {
+  transform: translateY(-42%);
+}
+.game-coming-soon .gcs-tomb.slam .slab {
+  transition: transform 0.17s cubic-bezier(0.75, 0, 1, 0.7);
+}
+.game-coming-soon .gcs-tomb.knock .slab {
+  animation: gcsKnock 0.36s ease-in-out;
+}
+@keyframes gcsKnock {
+  25% { transform: translate(-2px, 1px) rotate(-0.6deg); }
+  50% { transform: translate(2px, 0) rotate(0.5deg); }
+  75% { transform: translate(-1px, 1px); }
+}
+
+.game-coming-soon .guardian {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  width: 64%;
+  transform: translate(-50%, 105%);
+  transition: transform 0.38s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.game-coming-soon .gcs-tomb.peek .guardian {
+  transform: translate(-50%, 16%);
+}
+.game-coming-soon .guardian svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  cursor: default;
+}
+.game-coming-soon .guardian .arm {
+  transform: translateY(110px);
+  transition: transform 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.game-coming-soon .gcs-tomb.shh .guardian .arm {
+  transform: translateY(0);
+}
+.game-coming-soon .guardian .brow {
+  transform-origin: 72px 88px;
+  transition: transform 0.25s;
+}
+.game-coming-soon .gcs-tomb.mad .guardian .brow {
+  transform: rotate(14deg) translateY(4px);
+}
+.game-coming-soon .guardian .slit {
+  animation: gcsSlit 1.6s ease-in-out infinite;
+}
+@keyframes gcsSlit {
+  50% { opacity: 0.4; }
+}
+
+.game-coming-soon .bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  z-index: 3;
+  width: max-content;
+  max-width: min(260px, 80vw);
+  transform: translate(-50%, 10px) scale(0.85);
+  opacity: 0;
+  transition:
+    transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1),
+    opacity 0.2s;
+  padding: 11px 18px;
+  border-radius: 20px;
+  background: var(--main-gradient);
+  color: #1a0f02;
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(255, 180, 0, 0.35);
+}
+[lang="AR"] .game-coming-soon .bubble {
+  font-family: "Segoe UI", sans-serif;
+}
+.game-coming-soon .bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%) rotate(45deg);
+  background: #eb9a3c;
+}
+.game-coming-soon .bubble.show {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.game-coming-soon .gcs-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  z-index: 3;
+  margin: 0;
+  padding: 0 20px;
+  text-align: center;
+  color: #efcf9e;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  text-shadow: 0 1px 10px #000;
+  pointer-events: none;
+}
+
+/* secret revealed toast (game-card style) */
+.game-coming-soon .gcs-toast {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  z-index: 4;
+  width: min(360px, calc(100% - 32px));
+  transform: translateX(-50%);
+  padding: 14px 20px 15px;
+  border-radius: 20px;
+  text-align: center;
+  background: #130e03f2;
+  border: 1px solid #ea8c4366;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(255, 180, 0, 0.15);
+  animation: gcsToast 3.6s ease forwards;
+  pointer-events: none;
+}
+.game-coming-soon .gcs-toast small {
+  display: block;
+  color: var(--main-color);
+  font-family: var(--font-cinzel), serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+.game-coming-soon .gcs-toast strong {
+  display: block;
+  margin: 4px 0 2px;
+  color: #efcf9e;
+  font-family: var(--font-cinzel), serif;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.game-coming-soon .gcs-toast p {
+  margin: 0;
+  font-size: 13.5px;
+  color: #a1a1a1;
+  line-height: 1.5;
+}
+[lang="AR"] .game-coming-soon .gcs-toast small,
+[lang="AR"] .game-coming-soon .gcs-toast strong {
+  font-family: "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+@keyframes gcsToast {
+  0% { opacity: 0; transform: translate(-50%, -12px) scale(0.95); }
+  8%, 88% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -8px); }
+}
+
+/* ---------- status row ---------- */
+.game-coming-soon .gcs-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 16px auto 0;
+  padding: 12px 22px;
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  background: var(--section-color);
+  max-width: 760px;
+}
+.game-coming-soon .gcs-status hr {
+  width: 1px;
+  height: 22px;
+  margin: 0;
+  background: var(--border-color);
+}
+.game-coming-soon .gcs-status .item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--title-color);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-cinzel), serif;
+}
+.game-coming-soon .gcs-status .item.excavation {
+  flex: 1;
+}
+.game-coming-soon .gcs-status .label {
+  white-space: nowrap;
+}
+.game-coming-soon .gcs-status .value {
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+}
+.game-coming-soon .gcs-status .main-color {
+  color: var(--main-color);
+}
+.game-coming-soon .gcs-status .bar {
+  position: relative;
+  flex: 1;
+  min-width: 60px;
+  height: 8px;
+  border-radius: 6px;
+  background: #f3ae1c26;
+  overflow: hidden;
+}
+.game-coming-soon .gcs-status .fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 6px;
+  background: var(--main-gradient);
+  box-shadow: 0 0 12px rgba(255, 180, 0, 0.45);
+}
+[lang="AR"] .game-coming-soon .gcs-status .fill {
+  inset: 0 0 0 auto;
+}
+.game-coming-soon .gcs-status .fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: translateX(-100%);
+  animation: gcsShine 2.6s ease-in-out infinite;
+}
+@keyframes gcsShine {
+  60%, 100% { transform: translateX(100%); }
+}
+.game-coming-soon .sound-toggle {
+  padding: 7px 14px;
+  border-radius: 50px;
+  color: var(--main-color) !important;
+  border: 1px solid #ea8c4366;
+}
+.game-coming-soon .sound-toggle:hover,
+.game-coming-soon .sound-toggle[aria-pressed="true"] {
+  background: var(--main-color);
+  color: var(--body-color) !important;
+  border-color: var(--main-color);
+}
+.game-coming-soon .sound-toggle svg {
+  color: inherit;
+}
+[lang="AR"] .game-coming-soon .gcs-status .item {
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ---------- secrets grid (How M360 Works cards) ---------- */
+.game-coming-soon .gcs-secrets {
+  padding: 90px 0 20px;
+}
+.game-coming-soon .gcs-secrets .title-holder {
+  margin-bottom: 40px;
+}
+.game-coming-soon .secrets-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 17px;
+}
+.game-coming-soon .secret-card {
+  flex: 1 1 calc(20% - 17px);
+  min-width: 190px;
+  max-width: 260px;
+  background: linear-gradient(to bottom, var(--section-color) 60%, transparent 100%);
+  text-align: center;
+  border-radius: 35px 35px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 18px;
+  transition: all 0.35s;
+  position: relative;
+  overflow: hidden;
+  font-weight: 400;
+}
+.game-coming-soon .secret-card:hover {
+  transform: translateY(-5px);
+}
+.game-coming-soon .secret-card .bg-floating-icon {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font-size: 85px;
+  color: var(--main-color);
+  opacity: 0.04;
+  pointer-events: none;
+  display: flex;
+  animation: gcsFloatIcon 5s ease-in-out infinite;
+}
+@keyframes gcsFloatIcon {
+  0%, 100% { transform: translateY(0) rotate(-15deg); }
+  50% { transform: translateY(-10px) rotate(-8deg); }
+}
+[lang="AR"] .game-coming-soon .secret-card .bg-floating-icon {
+  left: auto;
+  right: 18px;
+}
+.game-coming-soon .secret-card .circle-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 5px;
+  font-size: 26px;
+  color: var(--main-color);
+  background: radial-gradient(circle, var(--second-color) 0%, #0006 100%);
+  border: 1px solid #ea8c4366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  position: relative;
+  z-index: 1;
+}
+.game-coming-soon .secret-card:hover .circle-icon {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(234, 140, 67, 0.4);
+  border-color: var(--main-color);
+}
+.game-coming-soon .secret-card .step-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--main-color-3);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: var(--font-cinzel), serif;
+  position: relative;
+  z-index: 1;
+}
+.game-coming-soon .secret-card .step-sub {
+  font-size: 13px;
+  color: var(--paragraph);
+  line-height: 1.5;
+  opacity: 0.85;
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-poppins), sans-serif;
+}
+[lang="AR"] .game-coming-soon .secret-card .step-title,
+[lang="AR"] .game-coming-soon .secret-card .step-sub {
+  font-family: "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+.game-coming-soon .secret-card.locked .circle-icon {
+  color: #8a7a5c;
+  font-size: 20px;
+}
+.game-coming-soon .secret-card.locked .step-title {
+  color: var(--paragraph);
+}
+.game-coming-soon .secret-card.open .circle-icon {
+  background: var(--main-gradient);
+  color: #1a0f02;
+  border-color: transparent;
+  box-shadow: 0 0 18px rgba(234, 140, 67, 0.45);
+  animation: gcsUnlock 0.6s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+@keyframes gcsUnlock {
+  from { transform: scale(0.6) rotate(-20deg); }
+}
+
+/* the CTA reuses .pre-footer-cta; it needs a little less top spacing here */
+.game-coming-soon .gcs-cta {
+  margin-top: 40px;
+}
+
+/* ---------- modal ---------- */
+.gcs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: gcsFade 0.25s ease;
+}
+@keyframes gcsFade {
+  from { opacity: 0; }
+}
+.gcs-modal {
+  position: relative;
+  width: min(460px, 100%);
+  padding: 34px 30px 26px;
+  border-radius: 35px;
+  text-align: center;
+  background: var(--section-color);
+  border: 1px solid #ea8c4366;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(243, 174, 28, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: gcsPop 0.45s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+@keyframes gcsPop {
+  from { transform: translateY(20px) scale(0.92); opacity: 0; }
+}
+.gcs-modal .close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--main-color);
+  background: var(--body-color);
+}
+[lang="AR"] .gcs-modal .close {
+  right: auto;
+  left: 18px;
+}
+.gcs-modal .close:hover {
+  background: var(--main-color);
+  color: var(--body-color);
+}
+.gcs-modal .eye {
+  width: 120px;
+  height: auto;
+  filter: drop-shadow(0 0 16px rgba(243, 174, 28, 0.5));
+}
+.gcs-modal .top-tag {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 320px;
+}
+.gcs-modal .top-tag hr {
+  flex: 1;
+  height: 1px;
+  margin: 0;
+  background: linear-gradient(90deg, transparent, var(--main-color), transparent);
+}
+.gcs-modal .top-tag span {
+  color: var(--main-color);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.gcs-modal h2 {
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--main-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 25px rgba(234, 140, 67, 0.3);
+}
+.gcs-modal .body {
+  font-size: 15px;
+  line-height: 1.65;
+}
+.gcs-modal .promise {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--main-color-3);
+  margin-bottom: 8px;
+}
+[data-theme="light"] .gcs-modal .promise {
+  color: #b5700f;
+}
+.gcs-modal .main-button {
+  background: var(--main-gradient);
+  color: #1a0f02;
+}
+.gcs-modal .main-button svg {
+  color: inherit;
+}
+.gcs-modal .later {
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--paragraph);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 6px;
+}
+.gcs-modal .later:hover {
+  color: var(--main-color);
+}
+[lang="AR"] .gcs-modal .top-tag span,
+[lang="AR"] .gcs-modal h2,
+[lang="AR"] .gcs-modal .later {
+  font-family: "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+/* focus */
+.game-coming-soon button:focus-visible,
+.gcs-modal a:focus-visible,
+.gcs-modal button:focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 3px;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 768px) {
+  .game-coming-soon .gcs-head {
+    margin: 36px auto 28px;
+  }
+  .game-coming-soon .hero-title .line1 {
+    font-size: 30px;
+  }
+  .game-coming-soon .hero-title .line2 {
+    font-size: 34px;
+  }
+  .game-coming-soon .gcs-chamber {
+    height: 520px;
+    border-radius: 30px;
+  }
+  .game-coming-soon .gcs-tomb {
+    width: min(220px, 62%);
+  }
+  .game-coming-soon .gcs-status {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 20px;
+    gap: 12px 16px;
+  }
+  .game-coming-soon .gcs-status .item.excavation {
+    flex-basis: 100%;
+  }
+  .game-coming-soon .gcs-status hr:first-of-type {
+    display: none;
+  }
+  .game-coming-soon .gcs-secrets {
+    padding-top: 60px;
+  }
+  .game-coming-soon .secret-card {
+    flex-basis: calc(50% - 17px);
+    min-width: 0;
+    max-width: none;
+    padding: 26px 14px;
+  }
+  .gcs-modal h2 {
+    font-size: 22px;
+  }
+}
+@media (max-width: 420px) {
+  .game-coming-soon .secret-card {
+    flex-basis: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-coming-soon *,
+  .game-coming-soon *::before,
+  .game-coming-soon *::after,
+  .gcs-overlay,
+  .gcs-modal {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.12s !important;
+  }
+}
