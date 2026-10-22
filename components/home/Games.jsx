@@ -72,7 +72,10 @@ function Games() {
                 ? "اكتشف المزيد من التجارب التي لا تُنسى في جميع أنحاء مصر. من العجائب القديمة إلى الملاذات الحديثة — هناك الكثير لاستكشافه."
                 : "Discover more unforgettable experiences across Egypt. From ancient wonders to modern escapes — there's so much more to explore.")}
           </p>
-          <Link href="/games" className="main-button explore-btn back-light-animation">
+          <Link
+            href="/games"
+            className="main-button explore-btn back-light-animation"
+          >
             {t.sectionsTitles.explore_games.exploreMoreBtn ||
               (locale === "AR" ? "استكشف الكل" : "EXPLORE ALL")}{" "}
             {locale === "AR" ? <FaArrowLeft /> : <FaArrowRight />}
@@ -114,7 +117,7 @@ function Games() {
         {renderExploreMoreCard()}
       </div>
 
-      {screenSize !== "small" ? (
+      {/* {screenSize !== "small" ? (
         <div className="games-swiper-holder fluid-container">
           <Swiper
             key={locale}
@@ -164,7 +167,7 @@ function Games() {
             <CardItem key={game.id} item={game} type="game" />
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
