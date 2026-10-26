@@ -686,3 +686,92 @@
   }
 }
 
+/* Slides Table Styles */
+.dashboard .table-container.slides .table-header,
+.dashboard .table-container.slides .table-item {
+  grid-template-columns: 2.2fr 1.3fr 1fr 0.8fr;
+  align-items: center;
+}
+
+.table-container.slides .slide-small-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--main-color);
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.table-container.slides .slide-link-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--paragraph);
+  word-break: break-all;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.table-container.slides .slide-link-cell:hover {
+  color: var(--main-color);
+}
+
+.table-container.slides .status-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+}
+
+.table-container.slides .status-toggle-btn.active {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.table-container.slides .status-toggle-btn.inactive {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+@media (max-width: 992px) {
+  .dashboard .table-container.slides .table-header,
+  .dashboard .table-container.slides .table-item {
+    grid-template-columns: 2fr 1.2fr 0.9fr 0.9fr;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard .table-container.slides .table-header {
+    display: none;
+  }
+
+  .dashboard .table-container.slides .table-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .dashboard .table-container.slides .table-item .item-image {
+    width: 100%;
+  }
+
+  .dashboard .table-container.slides .table-item .action-buttons {
+    justify-content: flex-end;
+  }
+}

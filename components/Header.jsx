@@ -21,7 +21,7 @@ import {
 } from "react-icons/fa6";
 
 import MiniCart from "@/components/MiniCart";
-import { navLinks } from "@/data";
+import { navLinks } from "@/data/navLinks";
 import useTranslate from "@/Contexts/useTranslation";
 import { useAuth } from "@/Contexts/AuthContext";
 import useCart from "@/hooks/client/useCart";
@@ -128,59 +128,78 @@ function Header() {
     <nav className="desktop-nav">
       <ul>
         {/* Dynamic Dropdown Menus */}
-        {navLinks.map((x, index) => (
-          <li
-            key={index}
-            className={`${activeNav === index ? "active" : ""} ${x.departments ? "has-menu" : ""}`}
-            onMouseEnter={() => {
-              setActiveNav(index || 0);
-            }}
-          >
-            {x.departments ? (
-              <>
-                {getNavTitle(x.title)}
-                <FaAngleDown />
-              </>
-            ) : (
-              <Link className="page-route" href={x.link}>
-                {getNavTitle(x.title)}
-              </Link>
-            )}
-          </li>
-        ))}
+        {navLinks.map((x, index) => {
+          const isMenu = Boolean(
+            x.departments && x.departments.length > 0 && !x.disabled,
+          );
+
+          return (
+            <li
+              key={index}
+              className={`${activeNav === index ? "active" : ""} ${isMenu ? "has-menu" : ""} ${x.disabled ? "disabled" : ""}`}
+              onMouseEnter={() => {
+                if (isMenu) {
+                  setActiveNav(index);
+                } else {
+                  setActiveNav(null);
+                }
+              }}
+            >
+              {isMenu ? (
+                <>
+                  {getNavTitle(x.title)}
+                  <FaAngleDown />
+                </>
+              ) : x.disabled ? (
+                <span
+                  className="page-route disabled-route"
+                  title={locale === "AR" ? "قريباً" : "Coming Soon"}
+                >
+                  {getNavTitle(x.title)}
+                </span>
+              ) : (
+                <Link className="page-route" href={x.link}>
+                  {getNavTitle(x.title)}
+                </Link>
+              )}
+            </li>
+          );
+        })}
 
         {/* Routes Menu */}
-        <div className="routs-menu">
-          <div className="container">
-            {navLinks[activeNav]?.departments?.map((dept, index) => {
-              const Icon = dept.icon ? MdIcons[dept.icon] : null;
-              return (
-                <div key={index}>
-                  <h4>
-                    {Icon && <Icon />}
-                    <Link href={dept.link}>{dept.name[locale]}</Link>
-                    <FaAngleRight className="arrow-right side-arrow" />
-                  </h4>
+        {navLinks[activeNav]?.departments && !navLinks[activeNav]?.disabled ? (
+          <div className="routs-menu">
+            <div className="container">
+              {navLinks[activeNav]?.departments?.map((dept, index) => {
+                const Icon = dept.icon ? MdIcons[dept.icon] : null;
+                return (
+                  <div key={index}>
+                    <h4>
+                      {Icon && <Icon />}
+                      <Link href={dept.link}>{dept.name[locale]}</Link>
+                      <FaAngleRight className="arrow-right side-arrow" />
+                    </h4>
 
-                  {dept.categories && (
-                    <ul>
-                      {dept.categories.map((cat, idx) => (
-                        <li key={idx}>{cat[locale]}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              );
-            })}
+                    {dept.categories && (
+                      <ul>
+                        {dept.categories.map((cat, idx) => (
+                          <li key={idx}>{cat[locale]}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })}
 
-            <Link
-              href={navLinks[activeNav]?.link || "/"}
-              className="main-button back-light-animation"
-            >
-              {locale === "AR" ? "عرض الكل" : "See All"}
-            </Link>
+              <Link
+                href={navLinks[activeNav]?.link || "/"}
+                className="main-button back-light-animation"
+              >
+                {locale === "AR" ? "عرض الكل" : "See All"}
+              </Link>
+            </div>
           </div>
-        </div>
+        ) : null}
       </ul>
     </nav>
   );
@@ -213,6 +232,19 @@ function Header() {
         <div className="drawer-body">
           <ul className="drawer-nav-list">
             {navLinks.map((item, index) => {
+              if (item.disabled) {
+                return (
+                  <li key={index} className="drawer-nav-item disabled">
+                    <span
+                      className="drawer-single-link disabled-route"
+                      title={locale === "AR" ? "قريباً" : "Coming Soon"}
+                    >
+                      {getNavTitle(item.title)}
+                    </span>
+                  </li>
+                );
+              }
+
               const hasDepts = item.departments && item.departments.length > 0;
               const isOpen = openSubMenuIndex === index;
 
@@ -372,6 +404,7 @@ function Header() {
                     <div className="top">{user?.username}</div>
                     <ul>
                       {/* Dashboard and Support links are omitted here in bottom mobile context as requested */}
+                      {/*
                       <li>
                         <Link
                           href="/booking"
@@ -380,6 +413,7 @@ function Header() {
                           {t.header.my_bookings}
                         </Link>
                       </li>
+                      */}
                       <li>
                         <Link
                           href="/orders"
@@ -606,9 +640,11 @@ function Header() {
                         </Link>
                       </li>
                     )}
+                    {/*
                     <li>
                       <Link href={`/booking`}>{t.header.my_bookings}</Link>
                     </li>
+                    */}
                     <li>
                       <Link href={`/orders`}>{t.header.my_orders}</Link>
                     </li>

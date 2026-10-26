@@ -466,7 +466,7 @@ header .actions-btns .searchMenu .search-results-list a:not(.see-more-btn) {
   color: var(--title-color);
   letter-spacing: 0.5px;
   text-align: left;
-  border-radius: 8px;
+  border-radius: 26px;
   padding: 8px 12px;
   font-size: 14px;
   font-weight: 500;
@@ -620,7 +620,7 @@ header .actions-btns .btn:hover .menu {
   color: var(--title-color);
   cursor: pointer;
   text-align: left;
-  border-radius: 8px;
+  border-radius: 25px;
   padding: 9px 12px;
   font-size: 14px;
   font-weight: 600;
@@ -1736,4 +1736,58 @@ header .actions-btns .btn:hover .menu {
   justify-content: center;
   height: 40px;
   border-radius: 20px;
+}
+
+/* Disabled & Shaded Navigation & Menu Items */
+header nav > ul > li.disabled {
+  opacity: 0.35 !important;
+  cursor: not-allowed !important;
+  user-select: none;
+}
+header nav > ul > li.disabled .page-route {
+  cursor: not-allowed !important;
+  color: var(--title-color) !important;
+}
+header nav > ul > li.disabled:hover::before,
+header nav > ul > li.disabled::before {
+  display: none !important;
+  width: 0% !important;
+}
+header nav > ul > li.disabled:hover {
+  color: var(--title-color) !important;
+}
+
+.drawer-nav-item.disabled {
+  opacity: 0.35 !important;
+  cursor: not-allowed !important;
+}
+.drawer-nav-item.disabled .drawer-single-link {
+  cursor: not-allowed !important;
+  color: var(--title-color) !important;
+  pointer-events: none;
+}
+
+.userMenu li.disabled {
+  cursor: not-allowed !important;
+}
+.userMenu li.disabled .disabled-link {
+  opacity: 0.35 !important;
+  cursor: not-allowed !important;
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  user-select: none;
+  transition: none;
+  color: var(--title-color);
+  border-radius: 8px;
+}
+[lang="AR"] .userMenu li.disabled .disabled-link {
+  text-align: right;
+}
+.userMenu li.disabled:hover,
+.userMenu li.disabled:hover .disabled-link {
+  background: transparent !important;
+  color: var(--title-color) !important;
 }

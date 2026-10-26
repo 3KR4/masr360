@@ -70,6 +70,15 @@ const loadCategories = async () => {
 
     if (isMounted) {
       setCats(formatted);
+      if (selectedCategory?.catId && !selectedCategory?.catLabel) {
+        const found = formatted.find((c) => c.id === selectedCategory.catId);
+        if (found) {
+          setSelectedCategory((prev) => ({
+            ...prev,
+            catLabel: found.name,
+          }));
+        }
+      }
     }
   } catch (error) {
     console.error("Failed to load category filters:", error);

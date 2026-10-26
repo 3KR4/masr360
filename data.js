@@ -1,4 +1,4 @@
-export const navLinks = [
+export { navLinks } from "./data/navLinks"; const legacyNavLinks = [
   {
     title: {
       EN: "Governorates",
@@ -11,35 +11,35 @@ export const navLinks = [
           EN: "Cairo",
           AR: "القاهرة",
         },
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
           EN: "Alexandria",
           AR: "الإسكندرية",
         },
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
           EN: "Giza",
           AR: "الجيزة",
         },
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
           EN: "Luxor",
           AR: "الأقصر",
         },
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
           EN: "Aswan",
           AR: "أسوان",
         },
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
     ],
   },
@@ -53,23 +53,23 @@ export const navLinks = [
       {
         name: {
           EN: "The Egyptian Museum",
-          AR: "المتحف المصري",
+          AR: "المتحف المصري الكبير",
         },
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
           EN: "The Pyramids of Giza",
           AR: "أهرامات الجيزة",
         },
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
           EN: "Abu Simbel Temples",
           AR: "معابد أبو سمبل",
         },
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
     ],
   },
@@ -86,7 +86,7 @@ export const navLinks = [
           AR: "حفلات النيل",
         },
         icon: "MdOutlineCelebration",
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
@@ -94,7 +94,7 @@ export const navLinks = [
           AR: "ليالي السفاري",
         },
         icon: "MdOutlineNightlife",
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
@@ -102,7 +102,7 @@ export const navLinks = [
           AR: "مطاعم وكافيهات",
         },
         icon: "MdRestaurant",
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
@@ -110,7 +110,7 @@ export const navLinks = [
           AR: "فعاليات ثقافية",
         },
         icon: "MdLocalActivity",
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
     ],
   },
@@ -127,7 +127,7 @@ export const navLinks = [
           AR: "هدايا تذكارية",
         },
         icon: "MdShoppingBag",
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
@@ -135,7 +135,7 @@ export const navLinks = [
           AR: "حرف يدوية محلية",
         },
         icon: "MdHandyman",
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
@@ -143,7 +143,7 @@ export const navLinks = [
           AR: "فن وديكور",
         },
         icon: "MdBrush",
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
       {
         name: {
@@ -151,7 +151,7 @@ export const navLinks = [
           AR: "ملابس تراثية",
         },
         icon: "MdCheckroom",
-        link: "/",
+        link: "/discover/6a508061fa1fe0e05d4f0e71",
       },
     ],
   },

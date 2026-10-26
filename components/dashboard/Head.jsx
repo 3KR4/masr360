@@ -14,7 +14,9 @@ function Head() {
 
   function getBaseName(name) {
     if (!name) return "";
-    return name.replace(" list", "").trim();
+    const base = name.replace(" list", "").trim();
+    if (base === "slides") return "slide";
+    return base;
   }
 
   function canCreate(name) {
@@ -27,6 +29,7 @@ function Head() {
       "event",
       "game",
       "user",
+      "slide",
     ];
     return allowed.some((word) => base.includes(word));
   }

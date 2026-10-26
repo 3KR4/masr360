@@ -73,8 +73,8 @@ function SideNav() {
         />
 
         <NavLink
-          href="/dashboard/slieds"
-          active={isActive("/dashboard/slieds")}
+          href="/dashboard/slides"
+          active={isActive(["/dashboard/slides", "/dashboard/slieds", "/dashboard/slides/form"])}
           icon={<PiCardsFill />}
           text={t.sideNav.slides}
         />

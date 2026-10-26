@@ -160,7 +160,7 @@ export default function DisplayContent({ type, isSharedData = false, shared }) {
     return [min, max];
   });
   const [selectedCategory, setSelectedCategory] = useState(() => ({
-    catId: searchParams.get("category") || null,
+    catId: searchParams.get("category") || searchParams.get("cat") || null,
     subCatId: searchParams.get("subCategory") || null,
     catLabel: searchParams.get("catLabel") || null,
     subCatLabel: searchParams.get("subCatLabel") || null,

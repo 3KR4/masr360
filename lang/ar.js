@@ -539,6 +539,7 @@ const ar = {
       first: "الأول",
       last: "الأخير",
       nights: "المساء",
+      slides: "شرائح العرض",
       places: "الأماكن",
       products: "المنتجات",
       users: "المستخدمين",
