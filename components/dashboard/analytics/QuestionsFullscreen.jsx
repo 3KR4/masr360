@@ -45,7 +45,7 @@ function FilterMenu({ label, value, active, onOpen, onClose, children }) {
         </div>
         {active ? <IoMdClose className="main-ico" /> : <IoIosArrowDown className="main-ico" />}
       </button>
-      <div className={`toolbar-filter-dropdown ${active ? "active" : ""}`}>
+      <div className={`toolbar-filter-dropdown backdrop-blur ${active ? "active" : ""}`}>
         {children}
       </div>
     </div>

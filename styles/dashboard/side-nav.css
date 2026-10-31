@@ -100,7 +100,7 @@
 .side-nav .a:hover svg,
 .side-nav .a.active h4,
 .side-nav .a.active svg {
-  color: white;
+  color:var(--body-color);
 }
 
 .side-nav .a-user {

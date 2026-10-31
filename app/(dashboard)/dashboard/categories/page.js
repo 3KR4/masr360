@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { CircleAlert, Layers2, PencilLine, Plus, Shapes, Trash2, X } from "lucide-react";
 import { mainContext } from "@/Contexts/mainContext";
 import { useNotification } from "@/Contexts/NotificationContext";
@@ -88,6 +88,17 @@ export default function CategoriesManagerPage() {
   const [itemToDelete, setItemToDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (!editorOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && !submitting) {
+        resetForm();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [editorOpen, submitting]);
 
   const sections = useMemo(
     () =>

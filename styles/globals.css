@@ -810,6 +810,7 @@ button:hover .loader {
   display: flex;
   position: relative;
   border: 1px solid var(--second-color);
+  background: var(--section-color);
 }
 .box.forInput .inputHolder .holder.nationality {
   cursor: pointer;
@@ -1011,6 +1012,7 @@ button:hover .loader {
   top: 34px;
   left: 0;
   border: 1px solid var(--second-color);
+  background: var(--section-color);
   background: var(--section-color);
 }
 .filters.filters.for-cats .menu {

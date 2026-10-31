@@ -75,7 +75,7 @@ function Images({ limit = 5 }) {
           style={{
             height: images.length === 0 && !isSubmited ? "100%" : "",
             border: `2px dashed ${
-              images.length === 0 && isSubmited ? "#f43521" : "#a6a6a6"
+              images.length === 0 && isSubmited ? "#f43521" : "var(--second-color)"
             }`,
             opacity: isLimitReached ? 0.6 : 1,
             cursor: isLimitReached ? "not-allowed" : "pointer",
@@ -95,13 +95,13 @@ function Images({ limit = 5 }) {
         >
           <FaCloudUploadAlt
             style={{
-              color: images.length === 0 && isSubmited ? "red" : "#a6a6a6",
+              color: images.length === 0 && isSubmited ? "red" : "var(--paragraph)",
             }}
           />
 
           <p
             style={{
-              color: images.length === 0 && isSubmited ? "red" : "#9b9b9b",
+              color: images.length === 0 && isSubmited ? "red" : "var(--paragraph)",
             }}
           >
             {limit == 1
@@ -111,7 +111,7 @@ function Images({ limit = 5 }) {
 
           <h1
             style={{
-              color: images.length === 0 && isSubmited ? "#df3a3a" : "#9b9b9b",
+              color: images.length === 0 && isSubmited ? "#df3a3a" : "var(--paragraph)",
             }}
           >
             {isLimitReached

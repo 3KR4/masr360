@@ -385,7 +385,7 @@ function SlideFormContent() {
                     gap: "10px",
                     cursor: "pointer",
                     padding: "8px 0",
-                    color: "var(--color-white, #fff)",
+                    color: "var(--title-color)",
                     fontSize: "14px",
                   }}
                 >
@@ -397,7 +397,7 @@ function SlideFormContent() {
                       width: "18px",
                       height: "18px",
                       cursor: "pointer",
-                      accentColor: "var(--color-primary, #b39359)",
+                      accentColor: "var(--main-color)",
                     }}
                   />
                   <span>
