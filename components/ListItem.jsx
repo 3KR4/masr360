@@ -175,7 +175,7 @@ export default function ListItem({ item, type }) {
               value={item?.rate}
               precision={0.1}
               readOnly
-              sx={{ color: "#ea8c43", fontSize: "16px" }}
+              sx={{ color: "var(--main-color)", fontSize: "16px" }}
             />
             <span className="count">
               ({item?.reviewsCount || 0}) {t.mainCard.reviews}

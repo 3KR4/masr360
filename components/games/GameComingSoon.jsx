@@ -119,12 +119,12 @@ function Guardian({ pupilRef }) {
         </clipPath>
         <radialGradient id="gcsEyeGlow">
           <stop offset="0" stopColor="#fff6d2" />
-          <stop offset=".5" stopColor="#f3ae1c" />
-          <stop offset="1" stopColor="#f3ae1c" stopOpacity="0" />
+          <stop offset=".5" stopColor="#f9ac26" />
+          <stop offset="1" stopColor="#f9ac26" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="gcsGoldBand" x1="0" x2="1">
-          <stop offset="0" stopColor="#f7c355" />
-          <stop offset="1" stopColor="#e7802c" />
+          <stop offset="0" stopColor="#f9ac26" />
+          <stop offset="1" stopColor="#ef6326" />
         </linearGradient>
       </defs>
       <ellipse cx="100" cy="128" rx="72" ry="88" fill="#efcf9e" />
@@ -141,7 +141,7 @@ function Guardian({ pupilRef }) {
         </g>
       </g>
       <path d="M34 82 Q100 18 166 82" stroke="url(#gcsGoldBand)" strokeWidth="11" fill="none" strokeLinecap="round" />
-      <circle cx="100" cy="46" r="8" fill="#f3ae1c" stroke="#7a4a10" strokeWidth="2" />
+      <circle cx="100" cy="46" r="8" fill="#f9ac26" stroke="#7a4a10" strokeWidth="2" />
       <path d="M98 100 L174 94 L172 122 L98 124 Z" fill="#dcb47c" />
       <ellipse className="slit" cx="134" cy="110" rx="14" ry="3.5" fill="url(#gcsEyeGlow)" />
       <circle cx="72" cy="112" r="18" fill="#fffaf0" stroke="#c99b5c" strokeWidth="3" />
@@ -150,7 +150,7 @@ function Guardian({ pupilRef }) {
         <circle cx="69" cy="109" r="2.4" fill="#fff" />
       </g>
       <path className="brow" d="M54 88 Q72 80 90 92" stroke="#7a5428" strokeWidth="5" fill="none" strokeLinecap="round" />
-      <ellipse cx="56" cy="144" rx="10" ry="5" fill="#e7802c" opacity=".25" />
+      <ellipse cx="56" cy="144" rx="10" ry="5" fill="#ef6326" opacity=".25" />
       <ellipse cx="100" cy="160" rx="7" ry="6" fill="#3b2410" />
       <g className="arm">
         <rect x="92" y="130" width="16" height="46" rx="8" fill="#f6dcae" stroke="#c99b5c" strokeWidth="3" />
@@ -323,9 +323,9 @@ export default function GameComingSoon() {
       // ruled lines (dim on the wall, brighter in the lit copy)
       for (let top = pad; top < H; top += lineH) {
         const ly = Math.round(top + lineH) - 1;
-        wctx.fillStyle = "rgba(243,174,28,0.05)";
+        wctx.fillStyle = "rgba(249,172,38,0.05)";
         wctx.fillRect(0, ly, W, 1);
-        lctx.fillStyle = "rgba(243,174,28,0.35)";
+        lctx.fillStyle = "rgba(249,172,38,0.35)";
         lctx.fillRect(0, ly, W, 1);
       }
 
@@ -345,8 +345,8 @@ export default function GameComingSoon() {
       for (const [g, gx, gy] of placed) wctx.fillText(g, gx, gy);
 
       // lit copy carries the same glow the CSS text-shadow had, baked in once
-      lctx.fillStyle = "#f7c355";
-      lctx.shadowColor = "rgba(243,174,28,0.55)";
+      lctx.fillStyle = "#f9ac26";
+      lctx.shadowColor = "rgba(249,172,38,0.55)";
       lctx.shadowBlur = 14 * dpr;
       for (const [g, gx, gy] of placed) lctx.fillText(g, gx, gy);
       lctx.shadowColor = "rgba(255,226,182,0.6)";
@@ -453,8 +453,8 @@ export default function GameComingSoon() {
       const gr = r * 1.7;
       const gg = ctx.createRadialGradient(x, y, 0, x, y, gr);
       gg.addColorStop(0, "rgba(231,128,44,0.2)");
-      gg.addColorStop(0.38, "rgba(243,174,28,0.07)");
-      gg.addColorStop(0.7, "rgba(243,174,28,0)");
+      gg.addColorStop(0.38, "rgba(249,172,38,0.07)");
+      gg.addColorStop(0.7, "rgba(249,172,38,0)");
       ctx.globalCompositeOperation = "lighter";
       ctx.fillStyle = gg;
       ctx.fillRect(x - gr, y - gr, gr * 2, gr * 2);
@@ -673,7 +673,7 @@ export default function GameComingSoon() {
     setFound(next);
     if (el) {
       const p = localPoint(el);
-      burst(p.x, p.y, 26, "#f7c355");
+      burst(p.x, p.y, 26, "#f9ac26");
     }
     play("chime");
     showToast(next.length, i);

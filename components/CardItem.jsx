@@ -293,7 +293,7 @@ export default function CardItem({ item, type, previewGame = false }) {
                   precision={0.1}
                   readOnly
                   sx={{
-                    color: "#ea8c43",
+                    color: "var(--main-color)",
                     fontSize: "18px",
                     "& .MuiRating-iconEmpty": {
                       color: "var(--second-color)",

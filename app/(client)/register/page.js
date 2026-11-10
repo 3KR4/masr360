@@ -2,6 +2,7 @@
 
 import "@/styles/forms.css";
 import Image from "next/image";
+import BrandLogo from "@/components/brand/BrandLogo";
 import countryList from "react-select-country-list";
 import React, { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -225,12 +226,7 @@ export default function Register() {
 
         {(step == 1 || step == 2) && (
           <Link href="/" className="logo">
-            <Image
-              src="/main-logo.png"
-              alt="Masr360 Logo"
-              className={`main-img`}
-              fill
-            />
+            <BrandLogo variant="lockup" alt="Masr360 Logo" className="main-img" priority />
           </Link>
         )}
         {/* ================= TITLE & DESCRIPTION ================= */}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="48" viewBox="0 0 120 48" fill="none">
+  <!-- MASR 360 retro "Nile" wave — seamless horizontal tile -->
+  <path d="M0 12 C20 2 40 2 60 12 S100 22 120 12" stroke="#f9ac26" stroke-width="11"/>
+  <path d="M0 24 C20 14 40 14 60 24 S100 34 120 24" stroke="#ef6326" stroke-width="11"/>
+  <path d="M0 36 C20 26 40 26 60 36 S100 46 120 36" stroke="#662715" stroke-width="11"/>
+</svg>

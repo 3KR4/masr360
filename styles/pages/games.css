@@ -1,6 +1,6 @@
 /*! games-card */
 .games {
-  background: linear-gradient(#f3ae1c14 0%, #000 64%);
+  background: linear-gradient(rgba(249, 172, 38, 0.1) 0%, var(--body-color) 64%);
   margin: 0;
   padding: 0 0 100px;
   position: relative;
@@ -89,14 +89,14 @@
   opacity: 1 !important;
   transition: all 0.35s ease !important;
   margin: 0 !important;
-  background-color: rgba(243, 174, 28, 0.3) !important;
+  background-color: rgba(249, 172, 38, 0.35) !important;
 }
 
 .games-swiper-holder .games-pagination .swiper-pagination-bullet-active {
   width: 6px !important;
   height: 28px !important;
   background-color: var(--main-color) !important;
-  box-shadow: 0 0 12px rgba(234, 140, 67, 0.8) !important;
+  box-shadow: 0 0 12px var(--main-color) !important;
 }
 .games-swiper .card.game {
   display: flex;
@@ -231,7 +231,7 @@
   color: var(--main-color);
   letter-spacing: 2px;
   text-transform: uppercase;
-  text-shadow: 0 0 20px rgba(234, 140, 67, 0.3);
+  text-shadow: 0 0 20px rgba(239, 99, 38, 0.3);
 }
 
 .card.explore-more-card .banner-desc {
@@ -247,11 +247,12 @@
 .card.explore-more-card .explore-btn {
   background: var(--main-gradient);
   margin-top: 5px;
+  color: var(--on-accent);
 }
 
 .card.explore-more-card .explore-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 20px 2px rgba(234, 140, 67, 0.6);
+  box-shadow: 0 0 20px 2px rgba(239, 99, 38, 0.6);
 }
 
 /* Features Row */
@@ -595,6 +596,7 @@
 .steps-accordion .step-item.active .step-header {
   border-radius: 12px 12px 0 0;
   background: var(--main-color);
+  color: var(--on-accent);
 }
 .steps-accordion .step-item.active .step-header > * {
   color: white !important;
@@ -652,7 +654,7 @@
 .game-page .progress-bar {
   width: 100%;
   height: 8px;
-  background: #eee;
+  background: var(--second-color);
   border-radius: 6px;
   overflow: hidden;
   margin-bottom: 10px;
@@ -705,7 +707,7 @@
   padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  background: #fafafa;
+  background: var(--section-color);
   cursor: pointer;
   transition: 0.3s;
   color: var(--paragraph);
@@ -734,7 +736,7 @@
 }
 .game-page .prev-btn {
   color: var(--paragraph);
-  background: #fafafa;
+  background: var(--section-color);
   border: 1px solid #ccc;
 }
 .game-page .prev-btn:disabled {
@@ -797,7 +799,6 @@
   }
   .game-page .question-box .top span {
     font-size: 14px;
-
     font-weight: 700;
   }
   .game-page .options {
@@ -825,5 +826,140 @@
   }
   .game-page .nav-btns button {
     font-size: 10px;
+  }
+}
+
+/* ==========================================================================
+   MASR 360 REBRAND — full-width "Ready for your next adventure" banner
+   ========================================================================== */
+.games-banner-holder {
+  width: 100%;
+  position: relative;
+}
+.card.explore-more-card {
+  position: relative; /* image is anchored to the banner, not the page */
+  border: 0;
+  border-block: 1px solid var(--border-color);
+  border-radius: 0;
+  min-height: 540px;
+  background:
+    radial-gradient(ellipse 50% 80% at 78% 50%, rgba(249, 172, 38, 0.12), transparent 70%),
+    var(--surface-color);
+  transform: none !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+[data-theme="dark"] .card.explore-more-card {
+  background:
+    radial-gradient(ellipse 50% 80% at 78% 50%, rgba(239, 99, 38, 0.14), transparent 70%),
+    var(--section-color);
+}
+[lang="AR"] .card.explore-more-card {
+  background:
+    radial-gradient(ellipse 50% 80% at 22% 50%, rgba(249, 172, 38, 0.12), transparent 70%),
+    var(--surface-color);
+}
+.card.explore-more-card:hover {
+  border-color: var(--border-color);
+}
+.card.explore-more-card .image-side {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 58%;
+  height: 100%;
+  aspect-ratio: auto;
+  clip-path: polygon(0 0, 100% 0, 78% 100%, 0 100%);
+}
+[lang="AR"] .card.explore-more-card .image-side {
+  left: auto;
+  right: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 22% 100%);
+}
+.card.explore-more-card .image-side img {
+  transition: transform 1.4s var(--ease-out) !important;
+  transform-origin: center;
+}
+.card.explore-more-card:hover .image-side img {
+  transform: scale(1.06);
+}
+/* sun-ray edge along the diagonal cut */
+.card.explore-more-card .image-side::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 60%, rgba(43, 18, 10, 0.25));
+  pointer-events: none;
+}
+[lang="AR"] .card.explore-more-card .image-side::after {
+  background: linear-gradient(270deg, transparent 60%, rgba(43, 18, 10, 0.25));
+}
+.card.explore-more-card .content-side,
+[lang="AR"] .card.explore-more-card .content-side {
+  margin: 0;
+  padding-block: 70px;
+  padding-inline: 52% max(4vw, 24px);
+  align-items: center;
+}
+.card.explore-more-card .main-info {
+  max-width: 560px;
+}
+.card.explore-more-card .banner-title span {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 3vw, 46px);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.card.explore-more-card .banner-title strong.highlight {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 3.8vw, 58px);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-shadow: none;
+  background: var(--brand-sunset);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.06em;
+}
+[lang="AR"] .card.explore-more-card .banner-title span,
+[lang="AR"] .card.explore-more-card .banner-title strong.highlight {
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+.card.explore-more-card .banner-desc {
+  font-size: 15.5px;
+  font-weight: 400;
+  color: var(--paragraph);
+  max-width: 460px;
+  line-height: 1.7;
+}
+.card.explore-more-card .explore-btn:hover {
+  box-shadow:
+    var(--pop-shadow-hover),
+    0 16px 36px -8px rgba(239, 99, 38, 0.7) !important;
+}
+.card.explore-more-card .feature-icon {
+  font-size: 22px;
+  cursor: default;
+}
+.card.explore-more-card .feature-item span {
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 992px) {
+  .card.explore-more-card .image-side,
+  [lang="AR"] .card.explore-more-card .image-side {
+    width: 100%;
+    aspect-ratio: 2;
+    height: auto;
+    clip-path: none !important;
+  }
+  .card.explore-more-card .content-side,
+  [lang="AR"] .card.explore-more-card .content-side {
+    padding: 36px 20px 44px;
   }
 }

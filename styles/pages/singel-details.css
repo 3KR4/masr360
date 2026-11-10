@@ -351,7 +351,7 @@
 .single-page.forPlace > .holder .location .top .actions .hold button:hover {
   background: var(--main-color);
   border-color: var(--main-color);
-  color: white;
+  color: var(--on-accent);
 }
 [lang="AR"]
   .single-page.forPlace
@@ -406,6 +406,7 @@
   height: 33px;
   display: flex;
   background: var(--second-color);
+  color: var(--on-accent);
 }
 [lang="AR"] .single-page.forPlace .images-swiper .navigation button {
   transform: scaleX(-1);
@@ -418,6 +419,7 @@
 .single-page.forPlace .images-swiper .navigation button:hover {
   background: var(--main-color);
   border-color: var(--main-color);
+  color: var(--on-accent);
 }
 .single-page.forPlace .images-swiper .navigation button svg {
   color: var(--paragraph);

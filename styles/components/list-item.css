@@ -205,9 +205,9 @@
   width: 32px;
   height: 6px;
   border-radius: 10px;
-  background: var(--main-color, #efcf9c);
+  background: var(--main-color, var(--main-color-2));
   opacity: 1;
-  box-shadow: 0 2px 8px rgba(234, 140, 67, 0.5);
+  box-shadow: 0 2px 8px var(--box-shadow-2);
 }
 
 .list-item-content {
@@ -240,7 +240,7 @@
   align-items: center;
   gap: 4px;
   font-size: 13px;
-  color: #888;
+  color: var(--paragraph);
   text-decoration: none;
 }
 .list-item-location:hover {
@@ -294,7 +294,7 @@
   display: inline-block;
 }
 .spec-more {
-  color: white;
+  color: var(--on-accent);
   background: var(--main-color);
 }
 
@@ -342,7 +342,7 @@
 .event-time,
 .event-duration {
   font-size: 13px;
-  color: #666;
+  color: var(--paragraph);
 }
 .event-time span,
 .event-duration span {

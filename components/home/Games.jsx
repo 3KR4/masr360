@@ -113,7 +113,7 @@ function Games() {
 
   return (
     <div className="games">
-      <div className="games-banner-holder container">
+      <div className="games-banner-holder">
         {renderExploreMoreCard()}
       </div>
 

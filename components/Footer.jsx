@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import Image from "next/image";
+import BrandLogo from "@/components/brand/BrandLogo";
 import Link from "next/link";
 import { FaAngleRight, FaAngleLeft, FaArrowUp } from "react-icons/fa6";
 import useTranslate from "@/Contexts/useTranslation";
 import { mainContext } from "@/Contexts/mainContext";
 import "@/styles/components/footer.css";
+
+const RING_RADIUS = 19;
+const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
 export default function Footer() {
   const t = useTranslate();
@@ -14,28 +18,37 @@ export default function Footer() {
   const [hoveredValue, setHoveredValue] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight =
-        document.documentElement.scrollHeight ||
-        document.body.scrollHeight ||
-        0;
-      const currentScroll = window.scrollY || window.pageYOffset || 0;
+  const ringRef = useRef(null);
 
-      if (totalHeight >= 2000 && currentScroll >= totalHeight / 2) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      const y = window.scrollY || window.pageYOffset || 0;
+      const progress = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+
+      // loader ring: fills as you approach the end of the page
+      if (ringRef.current) {
+        ringRef.current.style.strokeDashoffset = String(
+          RING_CIRCUMFERENCE * (1 - progress),
+        );
       }
+      setShowScrollTop(y > 300 && max > 600);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleScroll);
-    handleScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    update();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
@@ -135,12 +148,7 @@ export default function Footer() {
       {/* Top Header Section with Logo and Tagline */}
       <div className="footer-top container">
         <Link href="/" className="footer-logo">
-          <Image
-            src="/main-logo.png"
-            alt={t.footer?.logo_alt || "Masr360 Logo"}
-            fill
-            style={{ objectFit: "contain" }}
-          />
+          <BrandLogo variant="lockup" alt={t.footer?.logo_alt || "Masr360 Logo"} />
         </Link>
         <p className="footer-tagline">
           {t.footer?.tagline ||
@@ -261,7 +269,20 @@ export default function Footer() {
         title={t.footer?.scroll_to_top || "Scroll to Top"}
         aria-label={t.footer?.scroll_to_top || "Scroll to Top"}
       >
-        <FaArrowUp />
+        {/* loader ring — fills as the page is scrolled */}
+        <svg className="scroll-ring" viewBox="0 0 48 48" aria-hidden="true">
+          <circle className="track" cx="24" cy="24" r={RING_RADIUS} />
+          <circle
+            ref={ringRef}
+            className="fill"
+            cx="24"
+            cy="24"
+            r={RING_RADIUS}
+            strokeDasharray={RING_CIRCUMFERENCE}
+            strokeDashoffset={RING_CIRCUMFERENCE}
+          />
+        </svg>
+        <FaArrowUp className="arrow" />
       </button>
     </footer>
   );

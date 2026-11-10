@@ -4,27 +4,30 @@ footer {
 
 
 footer::before {
+  /* retro Nile wave straddling the seam: half over the section above, half over the footer */
   content: "";
-  background: linear-gradient(
-    90deg,
-    #0000 0%,
-    #564929 20%,
-    #f3ae1c94 50%,
-    #564929 80%,
-    #0000 100%
-  );
-  width: 100%;
-  height: 1px;
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  z-index: 3;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background-image: url("/brand/wave.svg");
+  background-size: 40px 16px;
+  background-repeat: repeat-x;
+  animation: waveDrift 24s linear infinite;
 }
 footer.footer-redesign {
-  font-family: var(--font-poppins), sans-serif;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 0%, rgba(249, 172, 38, 0.1), transparent 70%),
+    var(--section-color);
+  border-radius: 0;
+  overflow: visible;
+  overflow-x: clip; /* the wave may poke out above, but never sideways */
+  font-family: var(--font-body);
   flex-direction: column;
   gap: 30px;
-  padding: 55px 0 30px;
+  padding: 70px 0 30px;
   display: flex;
   position: relative;
 }
@@ -46,8 +49,7 @@ footer.footer-redesign {
 }
 .footer-logo img {
   cursor: pointer;
-  width: 200px !important;
-  position: relative !important;
+  width: 240px !important;
 }
 
 .footer-logo:hover {
@@ -70,14 +72,8 @@ footer.footer-redesign {
 }
 
 .orange-gradient-line {
-  background: linear-gradient(
-    90deg,
-    #0000 0%,
-    #564929 20%,
-    #f3ae1c70 50%,
-    #564929 80%,
-    #0000 100%
-  );
+  background: repeating-linear-gradient(90deg, var(--main-color) 0 6px, transparent 6px 14px);
+  opacity: 0.45;
   width: 100%;
   height: 1px;
 }
@@ -153,7 +149,7 @@ footer.footer-redesign {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #e5e5e5;
+  color: var(--title-color);
   font-size: 15px;
   font-weight: 600;
   transition: color 0.3s ease;
@@ -198,8 +194,8 @@ footer.footer-redesign {
   top: 32px;
   width: 400px;
   max-width: 85vw;
-  background: rgba(18, 18, 18, 0.95);
-  border: 1px solid rgba(231, 128, 44, 0.35);
+  background: var(--section-color);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 18px 20px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.85);
@@ -237,11 +233,11 @@ footer.footer-redesign {
   align-items: center;
   justify-content: space-between;
   padding-top: 25px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-color);
 }
 
 .footer-bottom-left p {
-  color: #777777;
+  color: var(--paragraph);
   font-size: 13px;
   margin: 0;
 }
@@ -253,7 +249,7 @@ footer.footer-redesign {
 }
 
 .footer-tag-dots {
-  color: #555555;
+  color: var(--paragraph);
   font-size: 13px;
   letter-spacing: 1px;
 }
@@ -293,7 +289,7 @@ footer.footer-redesign {
 .scroll-top-btn.active:hover {
   color: var(--body-color);
   transform: translateY(-5px) scale(1.08);
-  box-shadow: 0 0 20px rgba(231, 128, 44, 0.6);
+  box-shadow: 0 0 20px var(--box-shadow-2);
 }
 
 /* Responsive adjustments */
@@ -348,5 +344,72 @@ footer.footer-redesign {
     flex-direction: column;
     gap: 15px;
     text-align: center;
+  }
+}
+
+/* ==========================================================================
+   Scroll-to-top: sunset button, matching outline, ring that fills with scroll
+   ========================================================================== */
+.scroll-top-btn {
+  width: 52px;
+  height: 52px;
+  color: var(--on-accent);
+  font-size: 15px;
+  /* outline in the button's own colour, with a little air around it */
+  outline: 2px solid var(--main-color);
+  outline-offset: 4px;
+  box-shadow: 0 10px 24px -8px rgba(239, 99, 38, 0.7);
+}
+.scroll-top-btn.active:hover {
+  color: var(--on-accent);
+  outline-offset: 6px;
+  box-shadow: 0 14px 28px -8px rgba(239, 99, 38, 0.85);
+}
+[dir="rtl"] .scroll-top-btn {
+  right: auto;
+  left: 30px;
+}
+.scroll-top-btn .arrow {
+  position: relative;
+  z-index: 1;
+  color: var(--on-accent);
+  transition: transform 0.4s var(--ease-pop);
+}
+.scroll-top-btn:hover .arrow {
+  transform: translateY(-3px);
+}
+.scroll-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  rotate: -90deg; /* start filling from 12 o'clock */
+  pointer-events: none;
+  cursor: inherit;
+}
+.scroll-ring circle {
+  fill: none;
+  stroke-width: 2.5;
+}
+.scroll-ring .track {
+  stroke: color-mix(in srgb, var(--on-accent) 28%, transparent);
+}
+/* dasharray/offset are set on the element (real circumference, JS-driven) */
+.scroll-ring .fill {
+  stroke: var(--on-accent);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.25s linear;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--on-accent) 55%, transparent));
+}
+@media (max-width: 768px) {
+  .scroll-top-btn {
+    width: 46px;
+    height: 46px;
+    bottom: 20px;
+    right: 20px;
+  }
+  [dir="rtl"] .scroll-top-btn {
+    left: 20px;
+    right: auto;
   }
 }

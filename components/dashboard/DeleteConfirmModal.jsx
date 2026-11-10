@@ -47,7 +47,7 @@ export default function DeleteConfirmModal({
           borderRadius: "24px",
           background: "var(--section-color)",
           border: "1px solid var(--border-color)",
-          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.7)",
+          boxShadow: "0 20px 60px var(--box-shadow-2)",
         }}
       >
         {/* Warning Icon with subtle glow */}
@@ -56,9 +56,9 @@ export default function DeleteConfirmModal({
             width: "60px",
             height: "60px",
             borderRadius: "50%",
-            background: "rgba(217, 68, 82, 0.14)",
-            border: "1px solid rgba(217, 68, 82, 0.35)",
-            color: "#d94452",
+            background: "rgba(214, 58, 106, 0.14)",
+            border: "1px solid rgba(214, 58, 106, 0.35)",
+            color: "var(--red-color)",
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
@@ -102,8 +102,8 @@ export default function DeleteConfirmModal({
             style={{
               padding: "10px 16px",
               borderRadius: "12px",
-              background: "var(--body-color)",
-              border: "1px solid var(--second-color)",
+              background: "var(--surface-color)",
+              border: "1px solid var(--border-color)",
               color: "var(--main-color)",
               fontWeight: 700,
               fontSize: "13.5px",

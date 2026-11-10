@@ -16,12 +16,12 @@
 
 /* Category Panel (Column) */
 .category-type-panel {
-  border: 1px solid var(--second-color);
+  border: 1px solid var(--border-color);
   border-radius: 24px;
-  background: var(--body-color);
+  background: var(--section-color);
   overflow: hidden;
   height: fit-content;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 30px var(--box-shadow);
   transition: all 0.3s ease;
 }
 
@@ -31,8 +31,8 @@
   gap: 14px;
   align-items: center;
   padding: 16px 18px;
-  border-bottom: 1px solid var(--second-color);
-  background: var(--section-color);
+  border-bottom: 1px solid var(--border-color);
+  background: var(--surface-color);
 }
 
 .title-wrap {
@@ -63,8 +63,8 @@
   align-items: center;
   justify-content: center;
   color: var(--main-color);
-  background: var(--second-color);
-  border: 1px solid var(--second-color);
+  background: var(--body-color);
+  border: 1px solid var(--border-color);
 }
 
 .category-card-list {
@@ -75,15 +75,16 @@
 
 /* Root Category Card */
 .category-card {
-  border: 1px solid var(--second-color);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 16px;
-  background: var(--section-color);
+  background: var(--body-color);
   transition: all 0.25s ease;
 }
 
 .category-card:hover {
-  border-color: rgba(234, 140, 67, 0.35);
+  border-color: var(--main-color);
+  box-shadow: 0 4px 16px var(--box-shadow);
 }
 
 .category-card-top {
@@ -131,8 +132,8 @@
   align-items: center;
   justify-content: center;
   color: var(--paragraph);
-  background: var(--body-color);
-  border: 1px solid var(--second-color);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
   cursor: pointer;
   transition: all 0.25s ease;
   flex-shrink: 0;
@@ -141,20 +142,20 @@
 .icon-button:hover {
   color: var(--main-color);
   border-color: var(--main-color);
-  background: var(--second-color);
+  background: var(--body-color);
   transform: translateY(-1px);
 }
 
 .icon-button.danger:hover {
-  color: #ff5757;
-  border-color: #ff5757;
-  background: rgba(255, 87, 87, 0.12);
+  color: var(--red-color);
+  border-color: var(--red-color);
+  background: rgba(214, 58, 106, 0.12);
 }
 
 .ghost-action,
 .inline-add {
-  border: 1px solid var(--second-color);
-  background: var(--body-color);
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
   color: var(--paragraph);
   border-radius: 50px;
   display: inline-flex;
@@ -173,7 +174,7 @@
 .inline-add:hover {
   border-color: var(--main-color);
   color: var(--main-color);
-  background: var(--second-color);
+  background: rgba(239, 99, 38, 0.08);
   transform: translateY(-1px);
 }
 
@@ -195,12 +196,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--second-color);
-  color: var(--main-color);
+  background: var(--surface-color);
+  color: var(--main-color-2);
   font-size: 14px;
   font-weight: 700;
   flex-shrink: 0;
-  border: 1px solid var(--second-color);
+  border: 1px solid var(--border-color);
 }
 
 .root-category-icon {
@@ -223,28 +224,21 @@
   gap: 8px;
 }
 
-.subcategory-pill,
-.empty-state-card,
-.panel-note,
-.empty-subcategories {
-  border-radius: 50px;
-  background: var(--second-color);
-
-  border: 1px solid var(--second-color);
-  transition: all 0.25s ease;
-}
-
 .subcategory-pill {
+  border-radius: 50px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
   padding: 8px 14px;
   display: flex;
   justify-content: space-between;
   gap: 10px;
   align-items: center;
+  transition: all 0.25s ease;
 }
 
 .subcategory-pill:hover {
-  border-color: rgba(234, 140, 67, 0.35);
-  background: rgba(255, 255, 255, 0.02);
+  border-color: var(--main-color);
+  background: rgba(239, 99, 38, 0.08);
 }
 
 .subcategory-content {
@@ -286,7 +280,8 @@
   color: var(--paragraph);
   text-align: center;
   font-size: 12px;
-  border: 1px dashed var(--second-color);
+  background: transparent;
+  border: 1px dashed var(--border-color);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -317,12 +312,12 @@
 
 .category-drawer {
   background: var(--section-color);
-  border: 1px solid var(--second-color);
+  border: 1px solid var(--border-color);
   border-radius: 28px;
   width: 100%;
   max-width: 520px;
   padding: 26px 24px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 25px 60px var(--box-shadow-2);
   position: relative;
   animation: catModalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   max-height: 90vh;
@@ -355,7 +350,7 @@
   justify-content: space-between;
   gap: 16px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--second-color);
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 20px;
 }
 
@@ -407,8 +402,8 @@
   height: 46px;
   padding: 0 16px;
   border-radius: 50px;
-  border: 1px solid var(--second-color);
-  background: var(--body-color);
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
   color: var(--title-color);
   font-size: 14px;
   outline: none;
@@ -419,14 +414,19 @@
 
 .editor-field input:focus {
   border-color: var(--main-color);
-  box-shadow: 0 0 10px rgba(234, 140, 67, 0.2);
+  box-shadow: 0 0 10px rgba(239, 99, 38, 0.2);
+}
+
+.editor-field input::placeholder {
+  color: var(--paragraph);
+  opacity: 0.65;
 }
 
 .field-error {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #ff5757;
+  color: var(--red-color);
   font-size: 12px;
   padding-left: 6px;
 }
@@ -437,41 +437,42 @@
   gap: 12px;
   margin-top: 8px;
   padding-top: 16px;
-  border-top: 1px solid var(--second-color);
+  border-top: 1px solid var(--border-color);
 }
 
 .editor-actions .ghost-action {
   height: 44px;
   border-radius: 50px;
-  border: 1px solid var(--second-color);
+  border: 1px solid var(--border-color);
   background: transparent;
   color: var(--paragraph);
   font-weight: 600;
 }
 
 .editor-actions .ghost-action:hover {
-  background: var(--second-color);
+  background: var(--surface-color);
   color: var(--title-color);
-  border-color: var(--second-color);
+  border-color: var(--border-color);
 }
 
 .editor-actions .main-button {
   height: 44px;
   border-radius: 50px;
-  background: var(--main-color);
-  color: #fff;
-  border: 1px solid var(--main-color);
+  background: var(--main-gradient);
+  color: var(--on-accent);
+  border: none;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 14px var(--box-shadow-2);
 }
 
 .editor-actions .main-button:hover {
-  background: transparent;
-  color: var(--main-color);
+  background: var(--hover-color);
+  color: var(--on-accent);
 }
 
 /* Responsive adjustments */

@@ -99,7 +99,7 @@ function Favorites() {
                             value={item?.rate || 0}
                             precision={0.1}
                             readOnly
-                            sx={{ color: "#ea8c43", fontSize: "18px" }}
+                            sx={{ color: "var(--main-color)", fontSize: "18px" }}
                           />
                           <span className="reviews-count">
                             ({item?.reviewsCount || 0}) {t.mainCard.reviews}

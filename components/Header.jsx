@@ -3,6 +3,7 @@ import "@/styles/components/header.css";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import BrandLogo from "@/components/brand/BrandLogo";
 import Link from "next/link";
 import * as MdIcons from "react-icons/md";
 import { mainContext } from "@/Contexts/mainContext";
@@ -220,12 +221,7 @@ function Header() {
             onClick={() => setMobileMenu(false)}
             className="drawer-logo"
           >
-            <Image
-              src="/main-logo.png"
-              width={100}
-              height={35}
-              alt={t.header.logo_alt}
-            />
+            <BrandLogo variant="inline" alt={t.header.logo_alt} />
           </Link>
         </div>
 
@@ -532,7 +528,7 @@ function Header() {
     >
       <div className="container">
         <Link href="/" className="logo">
-          <Image src="/main-logo.png" fill alt={t.header.logo_alt} />
+          <BrandLogo variant="inline" alt={t.header.logo_alt} priority />
         </Link>
 
         {screenSize === "large" && nav()}

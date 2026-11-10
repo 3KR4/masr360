@@ -36,7 +36,7 @@
   font-weight: 800;
   letter-spacing: 3px;
   text-transform: uppercase;
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-display);
   white-space: nowrap;
 }
 .game-coming-soon .hero-title {
@@ -53,7 +53,7 @@
   color: var(--title-color);
   letter-spacing: 2px;
   text-transform: uppercase;
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-display);
 }
 .game-coming-soon .hero-title .line2 {
   font-size: 50px;
@@ -61,8 +61,8 @@
   color: var(--main-color);
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  font-family: var(--font-cinzel), serif;
-  text-shadow: 0 0 25px rgba(234, 140, 67, 0.35);
+  font-family: var(--font-display);
+  text-shadow: 0 0 25px rgba(239, 99, 38, 0.35);
 }
 .game-coming-soon .description {
   font-size: 15px;
@@ -73,7 +73,7 @@
 }
 [lang="AR"] .game-coming-soon .top-tag span,
 [lang="AR"] .game-coming-soon .hero-title span {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   letter-spacing: 0;
 }
 
@@ -89,11 +89,11 @@
   isolation: isolate;
   touch-action: pan-y;
   background: radial-gradient(120% 90% at 50% 40%, #130e03 0%, #050402 72%);
-  border: 1px solid #ea8c4340;
+  border: 1px solid rgba(239, 99, 38, 0.25);
   box-shadow:
     0 0 0 1px #00000080,
     0 30px 70px #00000099,
-    0 0 60px #f3ae1c14;
+    0 0 60px rgba(249, 172, 38, 0.08);
 }
 .game-coming-soon .gcs-chamber.shake {
   animation: gcsShake 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97);
@@ -136,7 +136,7 @@
   justify-content: center;
   font-size: 40px;
   color: #ffe2b6;
-  filter: drop-shadow(0 0 10px #f3ae1c) drop-shadow(0 0 22px #e7802c);
+  filter: drop-shadow(0 0 10px var(--main-color-2)) drop-shadow(0 0 22px var(--main-color));
   animation: gcsBreathe 2.4s ease-in-out infinite;
   opacity: 0; /* set by the torch */
   will-change: transform, opacity;
@@ -154,7 +154,7 @@
   content: "";
   position: absolute;
   inset: 6px;
-  border: 1.5px dashed #f3ae1c73;
+  border: 1.5px dashed rgba(249, 172, 38, 0.45);
   border-radius: 50%;
 }
 @keyframes gcsBreathe {
@@ -187,7 +187,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 11px;
   letter-spacing: 0.22em;
@@ -204,7 +204,7 @@
   font-size: 14px;
 }
 [lang="AR"] .game-coming-soon .cartouche {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   letter-spacing: 0;
 }
 .game-coming-soon .doorway {
@@ -219,7 +219,7 @@
   box-shadow:
     0 0 0 1px #4a3920,
     0 30px 60px rgba(0, 0, 0, 0.8),
-    0 0 80px rgba(243, 174, 28, 0.08);
+    0 0 80px rgba(249, 172, 38, 0.08);
 }
 .game-coming-soon .gcs-tomb.rumble .doorway {
   animation: gcsRumble 0.5s linear;
@@ -267,7 +267,7 @@
   content: "";
   position: absolute;
   inset: 9%;
-  border: 1.5px solid rgba(243, 174, 28, 0.22);
+  border: 1.5px solid rgba(249, 172, 38, 0.22);
   border-radius: 2px;
   box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.25);
 }
@@ -296,23 +296,23 @@
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle, var(--second-color) 0%, #0009 100%), #1a130a;
-  border: 1px solid #ea8c4399;
+  border: 1px solid rgba(239, 99, 38, 0.6);
   box-shadow:
-    0 0 0 6px rgba(243, 174, 28, 0.06),
-    0 0 30px rgba(243, 174, 28, 0.22);
+    0 0 0 6px rgba(249, 172, 38, 0.06),
+    0 0 30px rgba(249, 172, 38, 0.22);
   transition: 0.3s;
 }
 .game-coming-soon .seal img {
   width: 72%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(243, 174, 28, 0.55));
+  filter: drop-shadow(0 0 10px rgba(249, 172, 38, 0.55));
 }
 .game-coming-soon .slab:hover .seal {
   transform: scale(1.06);
   box-shadow:
-    0 0 0 6px rgba(243, 174, 28, 0.1),
-    0 0 40px rgba(243, 174, 28, 0.4);
+    0 0 0 6px rgba(249, 172, 38, 0.1),
+    0 0 40px rgba(249, 172, 38, 0.4);
   border-color: var(--main-color);
 }
 .game-coming-soon .glyphrow {
@@ -320,7 +320,7 @@
   font-family: var(--font-glyph), "Noto Sans Egyptian Hieroglyphs", serif;
   font-size: clamp(16px, 2.2vw, 22px);
   letter-spacing: 0.5em;
-  color: rgba(243, 174, 28, 0.55);
+  color: rgba(249, 172, 38, 0.55);
 }
 .game-coming-soon .peepers {
   position: absolute;
@@ -415,8 +415,8 @@
   padding: 11px 18px;
   border-radius: 20px;
   background: var(--main-gradient);
-  color: #1a0f02;
-  font-family: var(--font-poppins), sans-serif;
+  color: #2b120a;
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 15px;
   line-height: 1.35;
@@ -426,7 +426,7 @@
     0 0 25px rgba(255, 180, 0, 0.35);
 }
 [lang="AR"] .game-coming-soon .bubble {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-body);
 }
 .game-coming-soon .bubble::after {
   content: "";
@@ -436,7 +436,7 @@
   width: 14px;
   height: 14px;
   transform: translateX(-50%) rotate(45deg);
-  background: #eb9a3c;
+  background: var(--main-color);
 }
 .game-coming-soon .bubble.show {
   opacity: 1;
@@ -452,7 +452,7 @@
   margin: 0;
   padding: 0 20px;
   text-align: center;
-  color: #efcf9e;
+  color: #fde2cf;
   font-size: 14px;
   letter-spacing: 0.2px;
   text-shadow: 0 1px 10px #000;
@@ -471,7 +471,7 @@
   border-radius: 20px;
   text-align: center;
   background: #130e03f2;
-  border: 1px solid #ea8c4366;
+  border: 1px solid rgba(239, 99, 38, 0.4);
   box-shadow:
     0 18px 40px rgba(0, 0, 0, 0.7),
     0 0 25px rgba(255, 180, 0, 0.15);
@@ -481,7 +481,7 @@
 .game-coming-soon .gcs-toast small {
   display: block;
   color: var(--main-color);
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-display);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 2.5px;
@@ -490,8 +490,8 @@
 .game-coming-soon .gcs-toast strong {
   display: block;
   margin: 4px 0 2px;
-  color: #efcf9e;
-  font-family: var(--font-cinzel), serif;
+  color: #fde2cf;
+  font-family: var(--font-display);
   font-size: 18px;
   text-transform: uppercase;
 }
@@ -503,7 +503,7 @@
 }
 [lang="AR"] .game-coming-soon .gcs-toast small,
 [lang="AR"] .game-coming-soon .gcs-toast strong {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   letter-spacing: 0;
 }
 @keyframes gcsToast {
@@ -538,7 +538,7 @@
   color: var(--title-color);
   font-size: 14px;
   font-weight: 700;
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-display);
 }
 .game-coming-soon .gcs-status .item.excavation {
   flex: 1;
@@ -559,7 +559,7 @@
   min-width: 60px;
   height: 8px;
   border-radius: 6px;
-  background: #f3ae1c26;
+  background: rgba(249, 172, 38, 0.15);
   overflow: hidden;
 }
 .game-coming-soon .gcs-status .fill {
@@ -587,7 +587,7 @@
   padding: 7px 14px;
   border-radius: 50px;
   color: var(--main-color) !important;
-  border: 1px solid #ea8c4366;
+  border: 1px solid rgba(239, 99, 38, 0.4);
 }
 .game-coming-soon .sound-toggle:hover,
 .game-coming-soon .sound-toggle[aria-pressed="true"] {
@@ -599,7 +599,7 @@
   color: inherit;
 }
 [lang="AR"] .game-coming-soon .gcs-status .item {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-body);
 }
 
 /* ---------- secrets grid (How M360 Works cards) ---------- */
@@ -661,7 +661,7 @@
   font-size: 26px;
   color: var(--main-color);
   background: radial-gradient(circle, var(--second-color) 0%, #0006 100%);
-  border: 1px solid #ea8c4366;
+  border: 1px solid rgba(239, 99, 38, 0.4);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -672,7 +672,7 @@
 }
 .game-coming-soon .secret-card:hover .circle-icon {
   transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(234, 140, 67, 0.4);
+  box-shadow: 0 0 15px rgba(239, 99, 38, 0.4);
   border-color: var(--main-color);
 }
 .game-coming-soon .secret-card .step-title {
@@ -681,7 +681,7 @@
   color: var(--main-color-3);
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-display);
   position: relative;
   z-index: 1;
 }
@@ -692,11 +692,11 @@
   opacity: 0.85;
   position: relative;
   z-index: 1;
-  font-family: var(--font-poppins), sans-serif;
+  font-family: var(--font-body);
 }
 [lang="AR"] .game-coming-soon .secret-card .step-title,
 [lang="AR"] .game-coming-soon .secret-card .step-sub {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   letter-spacing: 0;
 }
 .game-coming-soon .secret-card.locked .circle-icon {
@@ -708,9 +708,9 @@
 }
 .game-coming-soon .secret-card.open .circle-icon {
   background: var(--main-gradient);
-  color: #1a0f02;
+  color: #2b120a;
   border-color: transparent;
-  box-shadow: 0 0 18px rgba(234, 140, 67, 0.45);
+  box-shadow: 0 0 18px rgba(239, 99, 38, 0.45);
   animation: gcsUnlock 0.6s cubic-bezier(0.3, 1.6, 0.5, 1);
 }
 @keyframes gcsUnlock {
@@ -743,10 +743,10 @@
   border-radius: 35px;
   text-align: center;
   background: var(--section-color);
-  border: 1px solid #ea8c4366;
+  border: 1px solid rgba(239, 99, 38, 0.4);
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(243, 174, 28, 0.12);
+    0 0 40px rgba(249, 172, 38, 0.12);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -780,7 +780,7 @@
 .gcs-modal .eye {
   width: 120px;
   height: auto;
-  filter: drop-shadow(0 0 16px rgba(243, 174, 28, 0.5));
+  filter: drop-shadow(0 0 16px rgba(249, 172, 38, 0.5));
 }
 .gcs-modal .top-tag {
   display: flex;
@@ -810,7 +810,7 @@
   color: var(--main-color);
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 0 0 25px rgba(234, 140, 67, 0.3);
+  text-shadow: 0 0 25px rgba(239, 99, 38, 0.3);
 }
 .gcs-modal .body {
   font-size: 15px;
@@ -827,13 +827,13 @@
 }
 .gcs-modal .main-button {
   background: var(--main-gradient);
-  color: #1a0f02;
+  color: #2b120a;
 }
 .gcs-modal .main-button svg {
   color: inherit;
 }
 .gcs-modal .later {
-  font-family: var(--font-poppins), sans-serif;
+  font-family: var(--font-body);
   font-weight: 500;
   font-size: 13px;
   color: var(--paragraph);
@@ -847,7 +847,7 @@
 [lang="AR"] .gcs-modal .top-tag span,
 [lang="AR"] .gcs-modal h2,
 [lang="AR"] .gcs-modal .later {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   letter-spacing: 0;
 }
 

@@ -294,7 +294,7 @@ export default function Nights() {
                         value={item?.rate}
                         precision={0.1}
                         readOnly
-                        sx={{ color: "#ea8c43", fontSize: "19px" }}
+                        sx={{ color: "var(--main-color)", fontSize: "19px" }}
                       />
                       <h4>({item?.rate})</h4>
                     </div>

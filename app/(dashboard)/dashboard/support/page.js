@@ -288,7 +288,7 @@ export default function SupportDashboardPage() {
                       {isGuest ? (
                         <>
                           <span className="support-customer-name">
-                            <FaUserCircle size={15} color="#ea8c43" />
+                            <FaUserCircle size={15} color="var(--main-color)" />
                             {customerName}
                           </span>
                           <span className="support-customer-meta">

@@ -24,7 +24,7 @@
   left: 15px;
 }
 .filters .close:hover {
-  background: #c23737;
+  background: var(--red-color);
   color: white;
 }
 .filters .holder {
@@ -35,9 +35,9 @@
   background: linear-gradient(
     90deg,
     #0000 0%,
-    #5649294d 20%,
-    #f3ae1c4d 50%,
-    #5649294d 80%,
+    var(--border-color) 20%,
+    var(--border-color) 50%,
+    var(--border-color) 80%,
     #0000 100%
   );
 }
@@ -171,14 +171,14 @@
   color: var(--main-color);
 }
 [lang="EN"] .selected-filters p {
-  font-family: var(--font-cinzel);
+  font-family: var(--font-display);
 }
 [lang="AR"] .selected-filters p {
   padding: 3px 10px 3px 4px;
 }
 .selected-filters p:hover {
   color: white;
-  background: #c23737;
+  background: var(--red-color);
 }
 .selected-filters svg {
   color: var(--main-gradient);
@@ -233,7 +233,7 @@
 /* Checkmark */
 .input:checked + .custom-checkbox::after {
   content: "";
-  border: 2px solid #000000;
+  border: 2px solid var(--title-color);
   border-width: 0 2px 2px 0;
   width: 4px;
   height: 7px;
@@ -267,7 +267,7 @@
     transform: translateX(100%);
   }
   .selected-filters strong {
-    color: black;
+    color: var(--body-color);
     text-transform: capitalize;
     cursor: pointer;
     width: 100%;

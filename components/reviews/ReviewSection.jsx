@@ -150,7 +150,7 @@ export default function ReviewSection({ productId, onReviewAdded }) {
                       value={overview.finalRate}
                       precision={0.1}
                       readOnly
-                      sx={{ color: "#ea8c43", fontSize: "20px" }}
+                      sx={{ color: "var(--main-color)", fontSize: "20px" }}
                     />
                     <span className="count">
                       {overview.finalRate}{" "}
@@ -247,7 +247,7 @@ export default function ReviewSection({ productId, onReviewAdded }) {
                                 name="edit-rating"
                                 value={editRate}
                                 onChange={(_, v) => setEditRate(v)}
-                                sx={{ color: "#ea8c43", fontSize: "22px" }}
+                                sx={{ color: "var(--main-color)", fontSize: "22px" }}
                               />
                               <input
                                 type="text"
@@ -286,7 +286,7 @@ export default function ReviewSection({ productId, onReviewAdded }) {
                                   value={x.rate}
                                   precision={0.1}
                                   readOnly
-                                  sx={{ color: "#ea8c43", fontSize: "18px" }}
+                                  sx={{ color: "var(--main-color)", fontSize: "18px" }}
                                 />
                                 <span className="count">
                                   ({x.rate}){" "}

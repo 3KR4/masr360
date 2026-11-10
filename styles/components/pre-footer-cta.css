@@ -1,25 +1,63 @@
+/* Pre-footer CTA — a brown brand "poster" (mirrors the identity deck) */
+/* full-bleed, sits flush on the footer on every client page */
 .pre-footer-cta {
-  background: var(--body-color, #fff);
-  text-align: center;
-  padding: 115px 20px;
-  margin: 53px 0 0;
-  transition:
-    background-color 0.3s,
-    border-color 0.3s;
+  padding: 0;
+  margin: 90px 0 0;
+  position: relative;
+  z-index: 0;
+}
+.pre-footer-cta + footer,
+body:has(.pre-footer-cta) footer {
+  margin-top: 0;
+  z-index: 1;
+}
+
+.pre-footer-cta .cta-poster {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
+  border-radius: 0;
+  background: var(--brand-brown);
+  padding: 96px 0 0;
+}
+.pre-footer-cta .cta-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 30px;
+}
+.pre-footer-cta .cta-content {
+  align-self: center;
+  padding-bottom: 56px;
 }
 
-[data-theme="dark"] .pre-footer-cta {
-  background: linear-gradient(#000 -15%, #f3ae1c14 100%);
-}
 
-[data-theme="dark"] .pre-footer-cta::before {
-  background: radial-gradient(
-    ellipse at center,
-    rgba(231, 128, 44, 0.15) 0%,
-    rgba(0, 0, 0, 0) 70%
+/* rotating 27-ray sun — centred on the falcon, who sits in its hollow ring */
+.pre-footer-cta .cta-sun {
+  position: absolute;
+  z-index: -1;
+  width: calc(var(--falcon-w) * 2.5);
+  aspect-ratio: 1;
+  left: 50%;
+  top: 46%; /* the head, not the bust, is the visual centre */
+  translate: -50% -50%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: repeating-conic-gradient(
+    rgba(249, 172, 38, 0.16) 0deg 5deg,
+    transparent 5deg 13.333deg
   );
+  /* hollow ≈ 1.3× the falcon so the hat clears the rays */
+  -webkit-mask: radial-gradient(circle closest-side, transparent 51%, #000 52.5%, #000 88%, transparent 100%);
+  mask: radial-gradient(circle closest-side, transparent 51%, #000 52.5%, #000 88%, transparent 100%);
+  animation: sunSpin 90s linear infinite;
+}
+.pre-footer-cta .cta-sun::after {
+  content: "";
+  position: absolute;
+  inset: 27%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(239, 99, 38, 0.5), rgba(239, 99, 38, 0) 70%);
 }
 
 .pre-footer-cta .cta-content {
@@ -27,91 +65,157 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 800px;
-  margin: 0 auto;
+  align-items: flex-start;
+  max-width: 640px;
 }
 
 .pre-footer-cta .cta-title {
-  font-family: var(--font-cinzel), serif;
-  font-size: 40px;
-  font-weight: 700;
-  color: var(--third-color, #1a1a1a);
-  letter-spacing: 2px;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 900;
+  color: var(--brand-cream);
+  letter-spacing: -0.01em;
   text-transform: uppercase;
-  margin: 0 0 15px;
-  line-height: 1.2;
-  transition: color 0.3s ease;
+  margin: 0 0 16px;
+  line-height: 1.02;
 }
-
-[data-theme="dark"] .pre-footer-cta .cta-title {
-  color: #ffffff;
-}
-
 [lang="AR"] .pre-footer-cta .cta-title {
-  font-family: var(--font-poppins), sans-serif;
+  line-height: 1.3;
   letter-spacing: 0;
 }
 
 .pre-footer-cta .gold-text {
-  color: #f3ae1c;
-  background: linear-gradient(135deg, #f7c355 0%, #e7802c 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--brand-yellow);
+  display: inline-block;
 }
 
 .pre-footer-cta .cta-subtitle {
-  font-family: var(--font-poppins), sans-serif;
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--paragraph, #575757);
-  max-width: 650px;
-  margin: 0 0 35px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(253, 226, 207, 0.82);
+  max-width: 540px;
+  margin: 0 0 32px;
   font-weight: 400;
-  transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .pre-footer-cta .cta-subtitle {
-  color: #a0a0a0;
 }
 
 .pre-footer-cta .cta-button {
-  background: var(--main-gradient);
+  box-shadow: 0 4px 0 #2b120a;
 }
-
 .pre-footer-cta .cta-button:hover {
-  transform: translateY(-2px) scale(1.03);
-
-  color: #000000;
+  box-shadow: 0 7px 0 #2b120a;
 }
-
+.pre-footer-cta .cta-button:active {
+  box-shadow: 0 1px 0 #2b120a !important;
+}
 .pre-footer-cta .cta-button svg {
   font-size: 14px;
-  transform: translateY(-2px);
-  transition: transform 0.3s ease;
 }
 
-.pre-footer-cta .cta-button:hover svg {
-  transform: translateX(4px);
+.pre-footer-cta .cta-falcon {
+  --falcon-w: 280px;
+  position: relative; /* no z-index: the sun drops behind the copy too */
+  width: var(--falcon-w);
+  align-self: end;
+  margin-bottom: 0;
+}
+.pre-footer-cta .cta-falcon img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.35));
+  animation: falconBob 5s ease-in-out infinite; /* only the bird bobs, the sun stays put */
+}
+[lang="AR"] .pre-footer-cta .cta-falcon img {
+  scale: -1 1;
 }
 
-[lang="AR"] .pre-footer-cta .cta-button:hover svg {
-  transform: translateX(-4px);
+
+@media (max-width: 992px) {
+  .pre-footer-cta .cta-poster {
+    padding: 72px 0 0;
+  }
+  .pre-footer-cta .cta-falcon {
+    --falcon-w: 190px;
+  }
 }
 
 @media (max-width: 768px) {
   .pre-footer-cta {
-    padding: 60px 20px;
+    margin-top: 60px;
   }
-  .pre-footer-cta .cta-title {
-    font-size: 28px;
+  .pre-footer-cta .cta-poster {
+    padding: 56px 0 0;
+  }
+  .pre-footer-cta .cta-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .pre-footer-cta .cta-content {
+    padding-bottom: 8px;
+  }
+  .pre-footer-cta .cta-content {
+    align-items: center;
+    margin: 0 auto;
   }
   .pre-footer-cta .cta-subtitle {
-    font-size: 14px;
+    font-size: 14.5px;
   }
-  .pre-footer-cta .cta-button {
-    padding: 12px 28px;
-    font-size: 12.5px;
+  .pre-footer-cta .cta-falcon {
+    --falcon-w: 150px;
+    justify-self: center;
+    margin: 0;
+  }
+}
+
+/* auth pages hide header + footer, so the banner goes too */
+body:has(.form-holder) .pre-footer-cta {
+  display: none;
+}
+
+/* ---------- /games: the coming-soon page brings its own CTA ----------
+   Style it as the same brown poster and drop the global banner there,
+   so the page never shows two banners back to back. */
+body:has(.gcs-cta) .pre-footer-cta:not(.gcs-cta) {
+  display: none;
+}
+.pre-footer-cta.gcs-cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  margin: 90px 0 0;
+  padding: 96px 0;
+  background: var(--brand-brown);
+}
+.pre-footer-cta.gcs-cta::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 760px;
+  aspect-ratio: 1;
+  top: -300px;
+  inset-inline-end: -120px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgba(249, 172, 38, 0.16) 0deg 5deg, transparent 5deg 13.333deg);
+  -webkit-mask: radial-gradient(circle, transparent 26%, #000 27%, #000 64%, transparent 70%);
+  mask: radial-gradient(circle, transparent 26%, #000 27%, #000 64%, transparent 70%);
+  animation: sunSpin 90s linear infinite;
+}
+.pre-footer-cta.gcs-cta .cta-content {
+  max-width: none;
+  padding-bottom: 0;
+}
+.pre-footer-cta.gcs-cta .cta-button {
+  box-shadow: 0 4px 0 #2b120a;
+}
+@media (max-width: 768px) {
+  .pre-footer-cta.gcs-cta {
+    padding: 60px 0;
+    text-align: center;
+  }
+  .pre-footer-cta.gcs-cta .cta-content {
+    align-items: center;
   }
 }

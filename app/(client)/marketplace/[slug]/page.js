@@ -190,7 +190,7 @@ export default function ProductDetails() {
                 value={product.rate}
                 precision={0.1}
                 readOnly
-                sx={{ color: "#ea8c43", fontSize: "18px" }}
+                sx={{ color: "var(--main-color)", fontSize: "18px" }}
               />
               <span className="count">
                 {product.reviewsCount} {t.mainCard.reviews}

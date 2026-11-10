@@ -1,0 +1,646 @@
+/* ==========================================================================
+   MASR 360 — Brand components
+   Logo · Wave band · Eyebrow · Badge Quest · Mascot · Error page
+   ========================================================================== */
+
+/* ---------- Theme-aware logo ---------- */
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+.brand-logo img {
+  height: auto;
+  display: block;
+}
+.brand-logo .on-dark {
+  display: none !important;
+}
+[data-theme="dark"] .brand-logo .on-light {
+  display: none !important;
+}
+[data-theme="dark"] .brand-logo .on-dark {
+  display: block !important;
+}
+
+.brand-logo--inline {
+  gap: 10px;
+  direction: ltr; /* the wordmark always reads left → right */
+}
+.brand-logo__sun {
+  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  transition: transform 0.9s var(--ease-out);
+}
+.brand-logo__sun img {
+  width: 100% !important;
+  height: 100% !important;
+}
+.brand-logo__word {
+  display: inline-flex;
+}
+.brand-logo__word img {
+  width: 150px !important;
+}
+/* "360": the sun turns a full circle on hover */
+a:hover .brand-logo__sun,
+.brand-logo--inline:hover .brand-logo__sun {
+  transform: rotate(360deg);
+}
+
+.brand-logo--lockup img {
+  width: 230px !important;
+}
+.brand-logo--sun img {
+  width: 100% !important;
+}
+
+@media (max-width: 1200px) {
+  .brand-logo__word img {
+    width: 128px !important;
+  }
+  .brand-logo__sun {
+    width: 34px;
+    height: 34px;
+  }
+}
+@media (max-width: 480px) {
+  .brand-logo__word img {
+    width: 112px !important;
+  }
+  .brand-logo__sun {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* ---------- Retro wave band (from the brand pattern) ---------- */
+.wave-band {
+  display: block;
+  width: 100%;
+  height: 24px;
+  background-image: url("/brand/wave.svg");
+  background-size: 60px 24px;
+  background-repeat: repeat-x;
+  animation: waveDrift 18s linear infinite;
+  pointer-events: none;
+}
+.wave-band.slim {
+  height: 14px;
+  background-size: 35px 14px;
+}
+@keyframes waveDrift {
+  to {
+    background-position-x: 600px;
+  }
+}
+[dir="rtl"] .wave-band {
+  animation-direction: reverse;
+}
+
+/* ---------- Eyebrow tag ---------- */
+.brand-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding: 7px 16px 7px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(239, 99, 38, 0.1);
+  color: var(--main-color);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[lang="AR"] .brand-eyebrow {
+  letter-spacing: 0;
+  font-size: 14px;
+  padding: 7px 10px 7px 16px;
+}
+.brand-eyebrow i {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(var(--main-color) 0 6deg, transparent 6deg 13.33deg);
+  -webkit-mask: radial-gradient(circle, transparent 38%, #000 40%);
+  mask: radial-gradient(circle, transparent 38%, #000 40%);
+  animation: sunSpin 14s linear infinite;
+}
+@keyframes sunSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Badge Quest ---------- */
+.badge-quest {
+  position: relative;
+  padding: 110px 0 120px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.badge-quest::before {
+  /* giant slow-turning sun behind the board */
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(1100px, 130vw);
+  aspect-ratio: 1;
+  top: 50%;
+  inset-inline-end: -22%;
+  translate: 0 -50%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    rgba(249, 172, 38, 0.13) 0deg 5deg,
+    transparent 5deg 13.333deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 30%, #000 31%, #000 62%, transparent 70%);
+  mask: radial-gradient(circle, transparent 30%, #000 31%, #000 62%, transparent 70%);
+  animation: sunSpin 120s linear infinite;
+}
+.badge-quest__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 56px;
+  align-items: center;
+}
+.badge-quest__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+.badge-quest__title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(44px, 6vw, 86px);
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: var(--title-color);
+}
+.badge-quest__title .accent {
+  background: var(--brand-sunset);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.08em;
+}
+[lang="AR"] .badge-quest__title {
+  line-height: 1.25;
+}
+.badge-quest__desc {
+  font-size: 17px;
+  max-width: 460px;
+}
+
+.quest-progress {
+  width: 100%;
+  max-width: 440px;
+  margin: 6px 0 10px;
+}
+.quest-progress__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: var(--paragraph);
+  font-size: 14px;
+  font-weight: 600;
+}
+.quest-progress__meta strong {
+  font-family: var(--font-display);
+  font-size: 30px;
+  color: var(--title-color);
+  font-weight: 900;
+  line-height: 1;
+}
+.quest-progress__meta small {
+  font-size: 16px;
+  opacity: 0.55;
+}
+.quest-progress__track {
+  position: relative;
+  height: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--second-color);
+  overflow: hidden;
+  box-shadow: inset 0 2px 0 rgba(102, 39, 21, 0.12);
+}
+.quest-progress__track > span {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 0;
+  border-radius: inherit;
+  background:
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.22) 0 8px, transparent 8px 16px),
+    var(--brand-sunset);
+  transition: width 2.2s var(--ease-out) 0.5s;
+}
+.badge-quest.in-view .quest-progress__track > span {
+  width: var(--pct);
+}
+.quest-progress__track > i {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  width: 1px;
+  background: rgba(102, 39, 21, 0.14);
+}
+[data-theme="dark"] .quest-progress__track > i {
+  background: rgba(253, 226, 207, 0.08);
+}
+[dir="rtl"] .quest-progress__track > i {
+  translate: -100%;
+}
+
+.badge-quest__board {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+}
+.badge-quest__mascot {
+  position: relative;
+  flex: 0 0 30%;
+  align-self: center;
+  animation: falconBob 5s ease-in-out infinite;
+}
+.badge-quest__mascot img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 22px 22px rgba(102, 39, 21, 0.25));
+}
+[data-theme="dark"] .badge-quest__mascot img {
+  filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.6));
+}
+@keyframes falconBob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+}
+.speech-bubble {
+  position: absolute;
+  bottom: 96%;
+  inset-inline-start: 6%;
+  width: max-content;
+  max-width: 210px;
+  padding: 12px 16px;
+  border-radius: 18px;
+  background: var(--section-color);
+  color: var(--title-color);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.35;
+  box-shadow: var(--pop-shadow), var(--card-shadow);
+  border: 2px solid var(--brand-brown);
+  opacity: 0;
+  transform: translateY(10px) scale(0.9);
+  transform-origin: bottom left;
+  transition:
+    opacity 0.4s ease 1.1s,
+    transform 0.6s var(--ease-pop) 1.1s;
+}
+[data-theme="dark"] .speech-bubble {
+  border-color: var(--brand-yellow);
+}
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 30px;
+  border: 10px solid transparent;
+  border-top-color: var(--brand-brown);
+}
+[data-theme="dark"] .speech-bubble::after {
+  border-top-color: var(--brand-yellow);
+}
+.badge-quest.in-view .speech-bubble {
+  opacity: 1;
+  transform: none;
+}
+
+.badge-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.badge-tile {
+  position: relative;
+  aspect-ratio: 0.84;
+  border-radius: 20px;
+  padding: 12px 10px 8px;
+  background: var(--section-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(26px) scale(0.85) rotate(-4deg);
+  transition:
+    opacity 1.1s ease calc(var(--i) * 0.16s + 0.4s),
+    transform 1.5s var(--ease-pop) calc(var(--i) * 0.16s + 0.4s),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+.badge-quest.in-view .badge-tile {
+  opacity: 1;
+  transform: none;
+}
+.badge-tile img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s var(--ease-pop);
+}
+[data-theme="dark"] .badge-tile:not(.locked) {
+  background: radial-gradient(circle at 50% 40%, #3a2216 0%, var(--section-color) 70%);
+}
+.badge-quest.in-view .badge-tile.is-live:hover,
+.badge-quest.in-view .badge-tile.is-live:focus-visible {
+  transform: translateY(-8px) rotate(-3deg);
+  border-color: var(--main-color);
+  box-shadow: var(--pop-shadow-hover), var(--card-shadow-hover);
+  transition-delay: 0s;
+}
+.badge-tile.is-live:hover img {
+  transform: scale(1.08) rotate(3deg);
+}
+.badge-tile__shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  translate: -120% 0;
+  pointer-events: none;
+}
+.badge-tile.is-live:hover .badge-tile__shine {
+  translate: 120% 0;
+  transition: translate 0.8s ease;
+}
+.badge-tile.locked {
+  cursor: default;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--surface-color) 0 10px,
+    transparent 10px 20px
+  );
+  border-style: dashed;
+  border-width: 2px;
+  border-color: var(--border-color2);
+  box-shadow: none;
+  gap: 8px;
+}
+.locked-disc {
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 5px solid var(--border-color2);
+  color: var(--paragraph);
+  opacity: 0.6;
+  font-size: 18px;
+}
+.locked-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paragraph);
+  opacity: 0.6;
+}
+[lang="AR"] .locked-label {
+  letter-spacing: 0;
+  font-size: 13px;
+}
+
+@media (max-width: 1200px) and (min-width: 993px) {
+  .badge-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .badge-tile.locked {
+    display: none;
+  }
+}
+@media (max-width: 992px) {
+  .badge-quest {
+    padding: 80px 0;
+  }
+  .badge-quest__inner {
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+  .badge-quest__copy {
+    align-items: center;
+    text-align: center;
+  }
+  .badge-quest__title {
+    align-items: center;
+  }
+  .badge-quest__board {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 64px; /* room for the speech bubble above the falcon */
+  }
+  .badge-quest__mascot {
+    width: 200px;
+    flex: none;
+  }
+  .badge-grid {
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .badge-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .badge-tile.locked {
+    display: none;
+  }
+  .speech-bubble {
+    font-size: 13px;
+    max-width: 170px;
+  }
+}
+
+/* ---------- Error / 404 page ---------- */
+.error-page.brand-404 {
+  min-height: 78vh;
+  padding: 120px 15px 70px;
+  gap: 10px;
+  text-align: center;
+  position: relative;
+}
+.brand-404__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin-bottom: 6px;
+}
+.brand-404__stage .digits {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(110px, 20vw, 220px);
+  line-height: 0.85;
+  color: var(--title-color);
+  letter-spacing: -0.03em;
+}
+.brand-404__stage .zero {
+  width: 0.78em;
+  height: 0.78em;
+  margin: 0 0.04em;
+  animation: sunSpin 22s linear infinite;
+}
+.brand-404__stage .zero img {
+  width: 100% !important;
+  height: 100% !important;
+}
+.brand-404__falcon {
+  position: absolute;
+  width: clamp(110px, 16vw, 170px);
+  bottom: -14%;
+  inset-inline-end: -38%;
+  rotate: 8deg;
+  animation: falconBob 4.5s ease-in-out infinite;
+}
+.brand-404__falcon img {
+  width: 100% !important;
+  height: auto !important;
+}
+.error-page.brand-404 h4 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(24px, 3vw, 34px);
+  margin-top: 24px;
+}
+.error-page.brand-404 p {
+  font-weight: 400;
+  font-size: 17px;
+  max-width: 460px;
+}
+.error-page.brand-404 .btns {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+.error-page.brand-404 .wave-band {
+  position: absolute;
+  bottom: 0;
+  inset-inline: 0;
+  opacity: 0.9;
+}
+
+/* ---- badge states ---- */
+.badge-status {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px 3px 6px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+[lang="AR"] .badge-status {
+  font-size: 11px;
+  letter-spacing: 0;
+  padding: 3px 6px 3px 8px;
+}
+.badge-status svg {
+  font-size: 10px;
+  cursor: default;
+}
+
+/* live: the one badge you can earn today */
+.badge-tile.is-live {
+  border: 2px solid var(--main-color);
+  box-shadow: var(--pop-shadow), var(--card-shadow);
+}
+.badge-tile.is-live .badge-status {
+  background: var(--main-color);
+  color: var(--on-accent);
+}
+.badge-tile.is-live::after {
+  /* soft pulsing halo */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(239, 99, 38, 0.45);
+  animation: livePulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes livePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 99, 38, 0.45);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 14px rgba(239, 99, 38, 0);
+  }
+}
+
+/* preparing: visible but faded, with a "loading" shimmer */
+.badge-tile.is-soon {
+  cursor: default;
+  box-shadow: none;
+  border-style: dashed;
+  border-color: var(--border-color2);
+}
+.badge-tile.is-soon img {
+  opacity: 0.32;
+  filter: grayscale(0.7);
+}
+.badge-quest.in-view .badge-tile.is-soon {
+  opacity: 0.9;
+}
+.badge-tile.is-soon .badge-status {
+  background: var(--second-color);
+  color: var(--title-color);
+}
+.badge-tile.is-soon .badge-status svg {
+  animation: hourglassFlip 2.4s ease-in-out infinite;
+}
+@keyframes hourglassFlip {
+  0%,
+  40% {
+    transform: rotate(0deg);
+  }
+  60%,
+  100% {
+    transform: rotate(180deg);
+  }
+}
+.badge-tile.is-soon .badge-tile__shine {
+  background: linear-gradient(110deg, transparent 30%, rgba(249, 172, 38, 0.22) 50%, transparent 70%);
+  animation: preparingSweep 2.8s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.25s);
+}
+@keyframes preparingSweep {
+  0% {
+    translate: -120% 0;
+  }
+  60%,
+  100% {
+    translate: 120% 0;
+  }
+}

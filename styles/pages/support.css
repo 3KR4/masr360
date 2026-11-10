@@ -37,11 +37,13 @@
   transition: all 0.3s;
   display: flex;
   background: var(--section-color);
-  border: 1px solid var(--box-shadow-2);
+  border: 1px solid var(--border-color);
 }
 .support form .hold .option.active,
 .support form .hold .option:hover {
-  background: var(--main-color-3) !important;
+  background: var(--main-gradient) !important;
+  border-color: transparent;
+  color: var(--on-accent);
 }
 /* Support Form Fields - Matching Review Form */
 .support form .hold:has(.box.forInput) {
@@ -80,8 +82,8 @@
 .support form .box.forInput .inputHolder .holder {
   padding: 0 16px;
   border-radius: 50px;
-  border: 1px solid var(--second-color);
-  background: var(--section-color);
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -91,7 +93,7 @@
 
 .support form .box.forInput .inputHolder .holder:focus-within {
   border-color: var(--main-color);
-  box-shadow: 0 0 10px rgba(234, 140, 67, 0.2);
+  box-shadow: 0 0 10px rgba(239, 99, 38, 0.2);
 }
 
 .support form .box.forInput .inputHolder .holder svg {
@@ -113,6 +115,12 @@
   width: 100%;
 }
 
+.support form .box.forInput .inputHolder .holder input::placeholder,
+.support form .box.forInput .inputHolder .holder textarea::placeholder {
+  color: var(--paragraph);
+  opacity: 0.65;
+}
+
 [lang="AR"] .support form .box.forInput .inputHolder .holder input {
   padding: 0 10px;
 }
@@ -125,8 +133,8 @@
   padding: 12px 16px;
   border-radius: 20px;
   align-items: flex-start;
-  background: var(--section-color);
-  border: 1px solid var(--second-color);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
 }
 
 .support form .box.forInput .inputHolder .holder textarea {
@@ -144,31 +152,35 @@
 
 .support form .hold .option svg {
   font-size: 28px;
-  color: var(--main-color-3);
+  color: var(--main-color);
 }
 .support form .hold .option h5 {
   font-size: 16px;
-  color: var(--main-color-3);
-  font-weight: 400;
+  color: var(--title-color);
+  font-weight: 500;
 }
 
 .support form .hold .option.active svg,
 .support form .hold .option.active h5,
 .support form .hold .option:hover h5,
 .support form .hold .option:hover svg {
-  color: var(--body-color);
-  font-weight: 600;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .support form .main-button {
   width: 100%;
   height: 50px;
   border-radius: 40px !important;
-  background: var(--main-color);
+  background: var(--main-gradient);
+  color: var(--on-accent);
+  border: none;
   font-weight: 700;
+  box-shadow: 0 4px 14px var(--box-shadow-2);
 }
 .support form .main-button:hover {
   background: var(--hover-color);
+  color: var(--on-accent);
 }
 
 /* Error message styling matching review form & checkout */
@@ -177,7 +189,7 @@
   align-items: center;
   gap: 6px;
   margin: 7px 4px 0 !important;
-  color: #ea4335 !important;
+  color: var(--red-color) !important;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.2;
@@ -186,7 +198,7 @@
 .support form .error svg {
   width: 14px !important;
   height: 14px !important;
-  color: #ea4335 !important;
+  color: var(--red-color) !important;
   flex-shrink: 0;
 }
 
@@ -235,8 +247,8 @@
   gap: 8px;
   padding: 10px 24px;
   border-radius: 40px;
-  background: var(--section-color);
-  border: 1px solid var(--second-color);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
   color: var(--paragraph);
   font-size: 14px;
   font-weight: 800;
@@ -250,10 +262,10 @@
 }
 
 .support-tab-btn.active {
-  background: var(--main-color);
-  color: var(--body-color) !important;
-  border-color: var(--main-color);
-  box-shadow: 0 4px 15px rgba(234, 140, 67, 0.25);
+  background: var(--main-gradient);
+  color: var(--on-accent) !important;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(239, 99, 38, 0.25);
 }
 
 .support-tab-badge {
@@ -267,14 +279,12 @@
   background: rgba(255, 255, 255, 0.22);
   font-size: 11px;
   font-weight: 700;
-  color: var(--body-color);
-
-
+  color: #fff;
   display: none;
 }
 
 .support-tab-btn:not(.active) .support-tab-badge {
-  background: var(--second-color);
+  background: var(--border-color);
   color: var(--title-color);
 }
 
@@ -323,21 +333,21 @@
 }
 
 .ticket-status-badge.status-open {
-  background: rgba(234, 140, 67, 0.14);
-  color: #ea8c43;
-  border: 1px solid rgba(234, 140, 67, 0.4);
+  background: rgba(239, 99, 38, 0.14);
+  color: var(--main-color);
+  border: 1px solid rgba(239, 99, 38, 0.4);
 }
 
 .ticket-status-badge.status-in_progress {
-  background: rgba(245, 158, 11, 0.14);
-  color: #f59e0b;
-  border: 1px solid rgba(245, 158, 11, 0.4);
+  background: rgba(249, 172, 38, 0.14);
+  color: var(--main-color-2);
+  border: 1px solid rgba(249, 172, 38, 0.4);
 }
 
 .ticket-status-badge.status-on_hold {
-  background: rgba(168, 85, 247, 0.14);
-  color: #a855f7;
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  background: rgba(31, 122, 122, 0.14);
+  color: var(--accent-teal);
+  border: 1px solid rgba(31, 122, 122, 0.4);
 }
 
 .ticket-status-badge.status-closed {
@@ -359,14 +369,14 @@
 }
 
 .submitter-badge.user {
-  background: rgba(59, 130, 246, 0.12);
-  color: #3b82f6;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: rgba(31, 122, 122, 0.12);
+  color: var(--accent-teal);
+  border: 1px solid rgba(31, 122, 122, 0.3);
 }
 
 .submitter-badge.guest {
   background: rgba(156, 163, 175, 0.14);
-  color: #9ca3af;
+  color: var(--paragraph);
   border: 1px solid rgba(156, 163, 175, 0.3);
 }
 
@@ -380,7 +390,7 @@
 
 .ticket-card {
   background: var(--section-color);
-  border: 1px solid var(--second-color);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 20px;
   display: flex;
@@ -444,7 +454,7 @@
   font-size: 12px;
   color: var(--paragraph);
   padding-top: 12px;
-  border-top: 1px solid var(--box-shadow-2);
+  border-top: 1px solid var(--border-color);
 }
 
 .ticket-card-actions {
@@ -466,7 +476,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
-  border: 1px solid var(--second-color);
+  border: 1px solid var(--border-color);
   background: transparent;
   color: var(--paragraph);
 }
@@ -477,13 +487,14 @@
 }
 
 .ticket-action-btn.primary {
-  background: var(--main-color);
-  color: var(--body-color) !important;
-  border-color: var(--main-color);
+  background: var(--main-gradient);
+  color: var(--on-accent) !important;
+  border-color: transparent;
 }
 
 .ticket-action-btn.primary:hover:not(:disabled) {
   background: var(--hover-color);
+  color: var(--on-accent);
 }
 
 .ticket-action-btn:disabled {
@@ -496,7 +507,7 @@
   text-align: center;
   padding: 60px 20px;
   background: var(--section-color);
-  border: 1px dashed var(--second-color);
+  border: 1px dashed var(--border-color);
   border-radius: 24px;
   display: flex;
   flex-direction: column;

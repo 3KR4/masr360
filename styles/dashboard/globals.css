@@ -96,7 +96,7 @@
 
 .dashboard-toolbar-search-input.has-value .main-ico {
   background: var(--hover-color);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .dashboard-toolbar-inline-badge {
@@ -302,7 +302,7 @@
 }
 .dashboard header .actions-btns .btn {
   background-color: var(--main-color);
-  color: #fff;
+  color: var(--on-accent);
   border-radius: 9px;
   overflow: hidden;
   display: flex;
@@ -439,10 +439,10 @@ header .actions-btns .userMenu .top {
   justify-content: center;
 }
 .dashboard .table-container .item-stock h4.low {
-  background: #ffe3c7;
+  background: var(--second-color);
 }
 .dashboard .table-container .item-stock h4.out {
-  background: #ffafaf;
+  background: rgba(214, 58, 106, 0.2);
 }
 .dashboard .table-container .actions {
   align-items: center;
@@ -457,29 +457,29 @@ header .actions-btns .userMenu .top {
   padding: 7px;
 }
 .dashboard .table-container .actions svg.view {
-  color: #ff9642;
+  color: var(--main-color);
 }
 .dashboard .table-container .actions svg.edit {
-  color: #2a84ff;
+  color: var(--accent-teal);
 }
 .dashboard .table-container .actions svg.delete {
-  color: #ff4f4ff5;
+  color: var(--red-color);
   padding: 8px;
 }
 .dashboard .table-container .actions svg.view:hover {
   background: var(--main-color);
-  color: white;
+  color: var(--on-accent);
 }
 .dashboard .table-container .actions svg.edit:hover {
-  background: #2a84ff;
+  background: var(--accent-teal);
   color: white;
 }
 .dashboard .table-container .actions svg.delete:hover {
-  background: #ff4f4ff5;
+  background: var(--red-color);
   color: white;
 }
 .dashboard .table-container .actions hr {
-  background: #d5d5d5;
+  background: var(--border-color);
   margin: 0 6px;
   height: 16px;
   width: 2px;
@@ -614,7 +614,7 @@ header .actions-btns .userMenu .top {
 
 .analytics-stat-card:hover {
   border-color: var(--main-color);
-  box-shadow: 0 4px 20px rgba(231, 128, 44, 0.1);
+  box-shadow: 0 4px 20px rgba(239, 99, 38, 0.1);
 }
 
 .analytics-stat-card.skeleton {
@@ -730,15 +730,16 @@ header .actions-btns .userMenu .top {
 }
 .analytics-card-title-wrap:hover {
   background: var(--hover-color);
+  color: var(--on-accent);
 }
 
 .analytics-card-title-wrap:hover .analytics-card-title,
 .analytics-card-title-wrap:hover svg {
-  color: white !important;
+  color: var(--on-accent) !important;
 }
 
 .analytics-card-title-wrap:hover .analytics-card-title svg {
-  color: white !important;
+  color: var(--on-accent) !important;
 } /* override */
 .analytics-card-title-wrap-old {
   color: var(--main-color);
@@ -1077,7 +1078,7 @@ header .actions-btns .userMenu .top {
 
 .analytics-error-state h3 {
   font-size: 18px;
-  color: #d32f2f;
+  color: var(--red-color);
 }
 
 .analytics-error-state p {
@@ -1311,7 +1312,7 @@ header .actions-btns .userMenu .top {
 
 .analytics-filter-search .main-ico:hover {
   background: var(--hover-color);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .analytics-filter-bar > .analytics-filter-checkbox-wrapper {
@@ -1410,7 +1411,7 @@ header .actions-btns .userMenu .top {
 }
 
 .progress-pill.empty .progress-pill-icon {
-  color: #bbb;
+  color: var(--paragraph);
 }
 
 .progress-total {

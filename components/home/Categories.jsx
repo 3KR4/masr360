@@ -2,13 +2,12 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa6";
 import { mainContext } from "@/Contexts/mainContext";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Pagination } from "swiper/modules";
-import SwiperCore from "swiper";
+import { Autoplay } from "swiper/modules";
 
 import "swiper/css";
-import "swiper/css/effect-fade";
 
 import useTranslate from "@/Contexts/useTranslation";
 import { getAll as getCategories } from "@/services/categories/categories.service";
@@ -137,7 +136,6 @@ const getCategoryImage = (cat) => {
 
 function Categories() {
   const t = useTranslate();
-  SwiperCore.use([Autoplay, EffectFade, Pagination]);
 
   const { screenSize, locale } = useContext(mainContext);
   const swiperRef = useRef(null);
@@ -180,14 +178,7 @@ function Categories() {
     };
   }, [locale]);
 
-  useEffect(() => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.params.pagination.el = ".custom-pagination";
-      swiperRef.current.swiper.pagination.init();
-      swiperRef.current.swiper.pagination.render();
-      swiperRef.current.swiper.pagination.update();
-    }
-  }, [screenSize, items, locale]);
+  const [active, setActive] = useState(0);
 
   const getCategoryName = (cat) => {
     if (!cat) return "";
@@ -207,6 +198,19 @@ function Categories() {
     );
   };
 
+  // Swiper needs ≥ 8 slides to loop with 3 centred cards + 2 peeking ones.
+  // Repeat the list as needed; the bullets below still map to real categories.
+  const MIN_LOOP_SLIDES = 10;
+  const repeat = items.length ? Math.max(1, Math.ceil(MIN_LOOP_SLIDES / items.length)) : 1;
+  const loopSlides = Array.from({ length: repeat }, (_, r) =>
+    items.map((cat) => ({ cat, key: `${cat._id || cat.id}-${r}` })),
+  ).flat();
+
+  const goTo = (i) => {
+    const sw = swiperRef.current?.swiper;
+    if (sw) sw.slideToLoop(i);
+  };
+
   return (
     <div className="categories">
       <div className="title-holder">
@@ -222,45 +226,29 @@ function Categories() {
         key={`${locale}-${items.length}`}
         dir={locale === "AR" ? "rtl" : "ltr"}
         ref={swiperRef}
-        modules={[Autoplay, Pagination, EffectFade]}
-        slidesPerView={4.4}
-        spaceBetween={15}
-        loop={items.length >= 4}
-        speed={2000}
-        // autoplay={{ delay: 3000, disableOnInteraction: false }}
-        pagination={{
-          el: ".custom-pagination", // نربطها بعنصر خارجي
-          clickable: true,
-        }}
+        modules={[Autoplay]}
+        centeredSlides
+        loop={items.length > 1}
+        speed={1100}
+        grabCursor
+        autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+        onSlideChange={(sw) => setActive(sw.realIndex % Math.max(1, items.length))}
         breakpoints={{
-          0: {
-            slidesPerView: 1.2,
-          },
-          650: {
-            slidesPerView: 1.5,
-          },
-          1024: {
-            slidesPerView: 2,
-          },
-          1350: {
-            slidesPerView: 2.5,
-          },
-          1520: {
-            slidesPerView: 3,
-          },
-          1650: {
-            slidesPerView: 3.5,
-          },
+          // 3 main cards in the middle + a slice of one card at each screen edge
+          0: { slidesPerView: 1.35, spaceBetween: 12 },
+          650: { slidesPerView: 2.4, spaceBetween: 14 },
+          1024: { slidesPerView: 3.5, spaceBetween: 18 },
+          1600: { slidesPerView: 3.6, spaceBetween: 22 },
         }}
         className="categories-swiper"
       >
-        {items.map((cat) => {
+        {loopSlides.map(({ cat, key }) => {
           const catId = cat._id || cat.id;
           const catName = getCategoryName(cat);
           const imgSrc = getCategoryImage(cat);
 
           return (
-            <SwiperSlide key={catId}>
+            <SwiperSlide key={key}>
               <Link
                 href={`/places?category=${catId}&catLabel=${encodeURIComponent(catName)}`}
                 className="box"
@@ -269,11 +257,13 @@ function Categories() {
                   src={imgSrc}
                   alt={catName}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  sizes="(max-width: 768px) 80vw, (max-width: 1200px) 45vw, 30vw"
                 />
+                <span className="cat-arrow" aria-hidden="true">
+                  {locale === "AR" ? <FaArrowLeft /> : <FaArrowRight />}
+                </span>
                 <div className="text-holder">
                   <h2 className="name">{catName}</h2>
-                  {/* <span className="places-count">{cat.count || 0} places</span> */}
                 </div>
               </Link>
             </SwiperSlide>
@@ -281,8 +271,20 @@ function Categories() {
         })}
       </Swiper>
 
-      {/* ✅ الباجنيشن الخارجي */}
-      <ul className="swiper-pagination custom-pagination backhome"></ul>
+      <ul className="swiper-pagination custom-pagination backhome" role="tablist">
+        {items.map((cat, i) => (
+          <li key={cat._id || cat.id || i}>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={active === i}
+              aria-label={getCategoryName(cat)}
+              className={`swiper-pagination-bullet ${active === i ? "swiper-pagination-bullet-active" : ""}`}
+              onClick={() => goTo(i)}
+            />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

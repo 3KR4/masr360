@@ -37,12 +37,12 @@
   background: radial-gradient(
     circle,
     rgba(255, 233, 168, 0.9) 0%,
-    rgba(243, 174, 28, 0.55) 40%,
-    rgba(243, 174, 28, 0) 72%
+    rgba(249, 172, 38, 0.55) 40%,
+    rgba(249, 172, 38, 0) 72%
   );
   box-shadow:
-    0 0 4px rgba(243, 174, 28, 0.6),
-    0 0 10px rgba(243, 174, 28, 0.28);
+    0 0 4px rgba(249, 172, 38, 0.6),
+    0 0 10px rgba(249, 172, 38, 0.28);
 }
 
 .gold-dust__particle--falling {

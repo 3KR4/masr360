@@ -1,0 +1,226 @@
+/* ==========================================================================
+   MASR 360 — Motion system
+   Reveals use keyframes with fill-mode "backwards" so, once played, every
+   element falls back to its own styles (hover transforms keep working).
+   ========================================================================== */
+
+/* ---------- scroll reveals ---------- */
+.fx-ready [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+}
+.fx-ready [data-reveal].is-revealed {
+  animation: fxUp 1.9s var(--ease-out) var(--rd, 0ms) backwards;
+}
+.fx-ready [data-reveal="pop"].is-revealed {
+  animation: fxPop 1.8s var(--ease-pop) var(--rd, 0ms) backwards;
+}
+.fx-ready [data-reveal="slide"].is-revealed {
+  animation: fxSlide 2s var(--ease-out) var(--rd, 0ms) backwards;
+}
+[dir="rtl"].fx-ready [data-reveal="slide"].is-revealed {
+  animation-name: fxSlideRtl;
+}
+.fx-ready [data-reveal="side"].is-revealed {
+  animation: fxSide 2.5s var(--ease-out) var(--rd, 0ms) backwards;
+}
+[dir="rtl"].fx-ready [data-reveal="side"].is-revealed {
+  animation-name: fxSideRtl;
+}
+
+@keyframes fxUp {
+  from {
+    opacity: 0;
+    translate: 0 38px;
+    filter: blur(6px);
+  }
+}
+@keyframes fxPop {
+  from {
+    opacity: 0;
+    translate: 0 30px;
+    scale: 0.86;
+  }
+}
+@keyframes fxSlide {
+  from {
+    opacity: 0;
+    translate: 90px 0;
+  }
+}
+@keyframes fxSlideRtl {
+  from {
+    opacity: 0;
+    translate: -90px 0;
+  }
+}
+@keyframes fxSide {
+  from {
+    opacity: 0;
+    translate: -8% 0;
+  }
+}
+@keyframes fxSideRtl {
+  from {
+    opacity: 0;
+    translate: 8% 0;
+  }
+}
+
+/* section-title rays draw outward once the title is revealed */
+.fx-ready .title-holder[data-reveal] .main-title hr {
+  width: 0;
+  transition: width 2s var(--ease-out) 0.7s;
+}
+.fx-ready .title-holder.is-revealed .main-title hr {
+  width: 76px;
+}
+
+/* ---------- scroll progress ---------- */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 50;
+  pointer-events: none;
+}
+.scroll-progress span {
+  display: block;
+  height: 100%;
+  background: var(--brand-sunset);
+  transform: scaleX(0);
+  transform-origin: left center;
+  box-shadow: 0 0 12px rgba(239, 99, 38, 0.6);
+}
+[dir="rtl"] .scroll-progress span {
+  transform-origin: right center;
+}
+body:has(.form-holder) .scroll-progress {
+  display: none;
+}
+
+/* ---------- smart header ---------- */
+header {
+  transition:
+    translate 0.7s var(--ease-out),
+    top 0.5s var(--ease-out),
+    box-shadow 0.4s ease;
+}
+.is-scrolled header {
+  top: 10px;
+}
+.header-tucked header:not(:has(.routs-menu:hover)):not(:has(.menu.active)) {
+  translate: 0 calc(-100% - 30px);
+}
+
+/* ---------- 3D tilt ---------- */
+.is-tilting {
+  transition:
+    transform 0.12s linear,
+    box-shadow 0.4s ease !important;
+  will-change: transform;
+}
+
+/* ---------- hero: slow Ken Burns on the active slide ---------- */
+.landing .swiper-slide img {
+  scale: 1.12;
+  transition: scale 9s cubic-bezier(0.2, 0.6, 0.3, 1);
+}
+.landing .swiper-slide-active img {
+  scale: 1;
+}
+
+/* ---------- scroll-driven parallax (Chromium/Safari 26+; harmless elsewhere) ---------- */
+@supports (animation-timeline: view()) {
+  /* hero sinks + softens as you scroll away from it */
+  .landing .swiper {
+    animation: heroDrift linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 100vh;
+  }
+  @keyframes heroDrift {
+    to {
+      translate: 0 22%;
+      opacity: 0.55;
+    }
+  }
+
+  /* Eye of Horus watermark slowly turns */
+  .what-is-m360-main-wrapper .bg-eye {
+    animation: eyeTurn linear both;
+    animation-timeline: view();
+  }
+  @keyframes eyeTurn {
+    from {
+      rotate: -10deg;
+      scale: 0.9;
+    }
+    to {
+      rotate: 12deg;
+      scale: 1.1;
+    }
+  }
+
+  /* banner photo drifts against the scroll */
+  .explore-more-card .image-side img {
+    animation: photoDrift linear both;
+    animation-timeline: view();
+  }
+  @keyframes photoDrift {
+    from {
+      translate: 0 -6%;
+      scale: 1.14;
+    }
+    to {
+      translate: 0 6%;
+      scale: 1.14;
+    }
+  }
+
+  /* falcon climbs into the CTA as it enters */
+  .pre-footer-cta .cta-falcon img {
+    animation: falconClimb linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 45%;
+  }
+  @keyframes falconClimb {
+    from {
+      translate: 0 45%;
+      rotate: -8deg;
+    }
+    to {
+      translate: 0 0;
+      rotate: 0deg;
+    }
+  }
+
+  /* big Badge Quest sun spins with the scroll */
+  .badge-quest__board {
+    animation: boardFloat linear both;
+    animation-timeline: view();
+  }
+  @keyframes boardFloat {
+    from {
+      translate: 0 60px;
+    }
+    to {
+      translate: 0 -40px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing .swiper-slide img {
+    scale: 1;
+    transition: none;
+  }
+  .landing .swiper,
+  .what-is-m360-main-wrapper .bg-eye,
+  .explore-more-card .image-side img,
+  .pre-footer-cta .cta-falcon img,
+  .badge-quest__board {
+    animation: none !important;
+  }
+  .header-tucked header {
+    translate: none !important;
+  }
+}

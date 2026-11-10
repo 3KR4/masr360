@@ -183,9 +183,14 @@ function LandingSwiper() {
         key={`${locale}-${currentSlides.length}`}
         dir={locale === "AR" ? "rtl" : "ltr"}
         modules={[Autoplay, EffectFade]}
+        // always exactly one slide on screen: cross-fade instead of sliding,
+        // so a neighbour never peeks in during the transition
         slidesPerView={1}
+        spaceBetween={0}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
         loop={currentSlides.length > 1}
-        speed={2000}
+        speed={1600}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
       >
         {currentSlides.map((slide, index) => (

@@ -57,7 +57,7 @@
   font-size: 14px;
 }
 .review-section .overview .holder li svg {
-  color: #a5a5a5;
+  color: var(--paragraph);
   margin-left: -2px;
 }
 .review-section .overview .holder .bar {
@@ -158,18 +158,18 @@
   transition: all 0.2s ease;
 }
 .review-section .review .actions svg.edit {
-  color: #2a84ff;
+  color: var(--accent-teal);
 }
 .review-section .review .actions svg.delete {
-  color: #ff4f4ff5;
+  color: var(--red-color);
   padding: 8px;
 }
 .review-section .review .actions svg.edit:hover {
-  background: #2a84ff;
+  background: var(--accent-teal);
   color: white;
 }
 .review-section .review .actions svg.delete:hover {
-  background: #ff4f4ff5;
+  background: var(--red-color);
   color: white;
 }
 
@@ -187,22 +187,22 @@
   transition: all 0.2s ease;
 }
 .review-section .review-actions svg.edit {
-  color: #2a84ff;
+  color: var(--accent-teal);
 }
 .review-section .review-actions svg.delete {
-  color: #ff4f4ff5;
+  color: var(--red-color);
   padding: 8px;
 }
 .review-section .review-actions svg.edit:hover {
-  background: #2a84ff;
+  background: var(--accent-teal);
   color: white;
 }
 .review-section .review-actions svg.delete:hover {
-  background: #ff4f4ff5;
+  background: var(--red-color);
   color: white;
 }
 .review-section .review-actions hr {
-  background: #d5d5d5;
+  background: var(--border-color);
   margin: 0 6px;
   height: 16px;
   width: 2px;
@@ -338,7 +338,7 @@
 
 .review-form .box.forInput .inputHolder .holder:focus-within {
   border-color: var(--main-color);
-  box-shadow: 0 0 10px rgba(234, 140, 67, 0.2);
+  box-shadow: 0 0 10px rgba(239, 99, 38, 0.2);
 }
 
 .review-form .box.forInput .inputHolder .holder svg {
@@ -387,7 +387,7 @@
   align-items: center;
   gap: 6px;
   margin: 7px 4px 0 !important;
-  color: #ea4335 !important;
+  color: var(--red-color) !important;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.2;
@@ -396,7 +396,7 @@
 .review-form .box.forInput .error svg {
   width: 14px !important;
   height: 14px !important;
-  color: #ea4335 !important;
+  color: var(--red-color) !important;
   flex-shrink: 0;
 }
 

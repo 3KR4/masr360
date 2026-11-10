@@ -89,6 +89,7 @@
 .side-nav .a.active .hold {
   background: var(--main-color);
   border-radius: 7px;
+  color: var(--on-accent);
 }
 .side-nav svg {
   font-size: 20px;

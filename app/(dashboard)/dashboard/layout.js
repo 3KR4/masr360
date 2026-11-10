@@ -1,8 +1,9 @@
-import { Cinzel, Poppins } from "next/font/google";
+import { fontVariables } from "@/app/fonts";
 import SideNav from "@/components/dashboard/SideNav";
 import { MainProvider } from "@/Contexts/mainContext";
 import { DashBoardProvider } from "@/Contexts/dashboard";
 import "@/styles/globals.css";
+import "@/styles/components/brand.css";
 import "@/styles/dashboard/globals.css";
 import Head from "@/components/dashboard/Head";
 import Toolbar from "@/components/dashboard/Toolbar";
@@ -11,20 +12,6 @@ import { NotificationProvider } from "@/Contexts/NotificationContext";
 import { AuthProvider } from "@/Contexts/AuthContext";
 import AdminGuard from "@/components/dashboard/AdminGuard";
   import NotificationHolder from "@/components/settings/NotificationHolder";
-
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  display: "swap",
-  variable: "--font-cinzel",
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
-  variable: "--font-poppins",
-});
 
 export const metadata = {
   title: "Masr360 DashBoard",
@@ -37,9 +24,9 @@ export const metadata = {
     siteName: "Masr360 DashBoard",
     images: [
       {
-        url: "/full-logo.jpg",
-        width: 1000,
-        height: 1000,
+        url: "/brand/og-image.jpg",
+        width: 1200,
+        height: 630,
         alt: "Masr360-logo",
       },
     ],
@@ -47,15 +34,22 @@ export const metadata = {
     type: "website",
   },
   icons: {
-    icon: "/full-logo.jpg",
-    shortcut: "/full-logo.jpg",
-    apple: "/full-logo.jpg",
+    icon: "/brand/favicon-32.png",
+    shortcut: "/brand/favicon-32.png",
+    apple: "/brand/favicon-180.png",
   },
 };
 export default function RootLayout({ children }) {
 
   return (
-    <html lang="EN" className={`${poppins.variable} ${cinzel.variable}`}>
+    <html lang="EN" className={fontVariables} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var d=document.documentElement,t=localStorage.getItem("theme")||"dark",l=localStorage.getItem("locale")||"EN";d.setAttribute("data-theme",t);d.setAttribute("lang",l);d.setAttribute("dir",l==="AR"?"rtl":"ltr")}catch(e){}`,
+          }}
+        />
+      </head>
       <body>
         <MainProvider>
           <NotificationProvider>
