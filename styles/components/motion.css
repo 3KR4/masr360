@@ -224,3 +224,49 @@ header {
     translate: none !important;
   }
 }
+
+/* ---------- "See All" buttons: reveal on top of their looping sunset glow ---------- */
+.fx-ready .back-light-animation[data-reveal].is-revealed {
+  animation:
+    fxPop 1.4s var(--ease-pop) var(--rd, 0ms) backwards,
+    sunsetShift 6s ease-in-out infinite;
+}
+
+/* ---------- phones & tablets ---------- */
+@media (max-width: 992px) {
+  /* snappier reveals */
+  .fx-ready [data-reveal].is-revealed {
+    animation-duration: 0.9s;
+  }
+  .fx-ready [data-reveal="pop"].is-revealed {
+    animation-duration: 0.8s;
+  }
+  .fx-ready [data-reveal="slide"].is-revealed {
+    animation-duration: 0.9s;
+  }
+  .fx-ready [data-reveal="side"].is-revealed {
+    animation-duration: 1.1s;
+  }
+  .fx-ready .back-light-animation[data-reveal].is-revealed {
+    animation-duration: 0.8s, 6s;
+  }
+  .fx-ready .title-holder[data-reveal] .main-title hr {
+    transition-duration: 1s;
+    transition-delay: 0.3s;
+  }
+
+  /* header pinned at the very top, never tucks away */
+  header,
+  .is-scrolled header {
+    top: 0;
+  }
+  .header-tucked header:not(:has(.routs-menu:hover)):not(:has(.menu.active)) {
+    translate: none;
+  }
+
+  /* progress bar runs along the bottom edge of the header */
+  .scroll-progress {
+    top: var(--header-h, 0px);
+    z-index: 9;
+  }
+}

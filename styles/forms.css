@@ -427,3 +427,44 @@ p.have-problem {
     font-size: 26px;
   }
 }
+
+/* ==========================================================================
+   Field consistency: the nationality select looks exactly like the text
+   fields (same border, background, height) and every field shares one
+   focus state on its container instead of a ring around the bare input.
+   ========================================================================== */
+.form-holder .filters.for-cats .btn {
+  height: 44px !important;
+  border-radius: 50px !important;
+  border: 1px solid var(--second-color);
+  background: var(--section-color);
+  box-shadow: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.form-holder .filters.for-cats .btn:hover {
+  border-color: var(--second-color);
+}
+.form-holder .box.forInput .inputHolder .holder {
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.form-holder .box.forInput .inputHolder .holder:focus-within,
+.form-holder .filters.for-cats .btn:focus-within,
+.form-holder .filters.for-cats:has(.menu.active) .btn {
+  border-color: var(--main-color);
+  box-shadow: 0 0 10px rgba(239, 99, 38, 0.2);
+}
+.form-holder .box.forInput input:focus-visible {
+  outline: none;
+}
+.form-holder .filters.for-cats .btn h4 .search-input {
+  height: 100%;
+  width: 100%;
+  padding: 0 !important;
+  font-size: inherit;
+  font-weight: 500;
+  color: var(--title-color);
+}

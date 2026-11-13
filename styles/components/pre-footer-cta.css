@@ -219,3 +219,21 @@ body:has(.gcs-cta) .pre-footer-cta:not(.gcs-cta) {
     align-items: center;
   }
 }
+
+/* phones: the falcon stands fully in view (no scroll-driven climb that can leave it half-sunk) */
+@media (max-width: 768px) {
+  .pre-footer-cta .cta-falcon {
+    --falcon-w: 175px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+  .pre-footer-cta .cta-falcon img,
+  [lang="AR"] .pre-footer-cta .cta-falcon img {
+    animation: falconBob 5s ease-in-out infinite !important;
+    translate: none;
+    rotate: none;
+  }
+  .pre-footer-cta .cta-sun {
+    top: 50%;
+  }
+}

@@ -1915,3 +1915,231 @@ header .actions-btns .searchMenu .search-results-list .see-more-btn {
 [lang="AR"] header .actions-btns .searchMenu .top input::placeholder {
   font-size: 13.5px;
 }
+
+/* ==========================================================================
+   UNIFIED "PRESSABLE" DEPTH FOR ALL HEADER ACTIONS (matches the Sign Up CTA)
+   ========================================================================== */
+header .actions-btns .btn.search svg,
+header .actions-btns .btn.cart > svg,
+header .actions-btns .btn.user > svg,
+header .actions-btns .menuHandler svg,
+header .actions-btns .signup-btn .mobile-signup-icon svg,
+header .actions-btns .icon-action > svg {
+  box-shadow: 0 3px 0 var(--brand-brown);
+  transform: translateY(0);
+  transition:
+    transform 0.25s var(--ease-pop),
+    box-shadow 0.25s var(--ease-pop),
+    background-color 0.25s ease;
+}
+[data-theme="dark"] header .actions-btns .btn.search svg,
+[data-theme="dark"] header .actions-btns .btn.cart > svg,
+[data-theme="dark"] header .actions-btns .btn.user > svg,
+[data-theme="dark"] header .actions-btns .menuHandler svg,
+[data-theme="dark"] header .actions-btns .signup-btn .mobile-signup-icon svg,
+[data-theme="dark"] header .actions-btns .icon-action > svg {
+  box-shadow: 0 3px 0 #000;
+}
+
+header .actions-btns .btn.search:hover svg,
+header .actions-btns .btn.cart:hover > svg,
+header .actions-btns .btn.user:hover > svg,
+header .actions-btns .menuHandler:hover svg,
+header .actions-btns .signup-btn:hover .mobile-signup-icon svg,
+header .actions-btns .icon-action:hover > svg {
+  scale: none;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 0 var(--brand-brown);
+}
+[data-theme="dark"] header .actions-btns .btn.search:hover svg,
+[data-theme="dark"] header .actions-btns .btn.cart:hover > svg,
+[data-theme="dark"] header .actions-btns .btn.user:hover > svg,
+[data-theme="dark"] header .actions-btns .menuHandler:hover svg,
+[data-theme="dark"] header .actions-btns .signup-btn:hover .mobile-signup-icon svg,
+[data-theme="dark"] header .actions-btns .icon-action:hover > svg {
+  box-shadow: 0 5px 0 #000;
+}
+
+header .actions-btns .btn.search:active svg,
+header .actions-btns .btn.cart:active > svg,
+header .actions-btns .btn.user:active > svg,
+header .actions-btns .menuHandler:active svg,
+header .actions-btns .signup-btn:active .mobile-signup-icon svg,
+header .actions-btns .icon-action:active > svg {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--brand-brown);
+  transition-duration: 0.08s;
+}
+[data-theme="dark"] header .actions-btns .btn.search:active svg,
+[data-theme="dark"] header .actions-btns .btn.cart:active > svg,
+[data-theme="dark"] header .actions-btns .btn.user:active > svg,
+[data-theme="dark"] header .actions-btns .menuHandler:active svg,
+[data-theme="dark"] header .actions-btns .signup-btn:active .mobile-signup-icon svg,
+[data-theme="dark"] header .actions-btns .icon-action:active > svg {
+  box-shadow: 0 1px 0 #000;
+}
+
+/* ==========================================================================
+   ICON-ONLY ACTIONS (language + theme) — same look as the search button
+   ========================================================================== */
+header .actions-btns .btn.icon-action {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+header .actions-btns .btn.icon-action > svg {
+  width: 42px;
+  height: 35px;
+  padding: 8px;
+  border-radius: 40px;
+  background: var(--main-gradient);
+  color: var(--on-accent);
+}
+header .actions-btns .btn.pref-theme > svg {
+  animation: prefThemeIn 0.4s var(--ease-pop);
+}
+@keyframes prefThemeIn {
+  from {
+    scale: 0.6;
+    opacity: 0;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 992px) {
+  header .actions-btns .btn.icon-action > svg {
+    height: 35px !important;
+    width: 42px !important;
+    padding: 8px !important;
+  }
+}
+@media (max-width: 480px) {
+  header .actions-btns .btn.icon-action > svg {
+    height: 32px !important;
+    width: 38px !important;
+    padding: 7px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  header .actions-btns .btn.pref-theme > svg {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   PHONES & TABLETS: full-width header pinned to top:0,
+   lang/theme live in the side drawer instead of the header
+   ========================================================================== */
+@media (max-width: 992px) {
+  header,
+  [data-theme="dark"] header {
+    width: 100%;
+    top: 0;
+    border-radius: 0;
+    border: 0;
+    border-bottom: 1px solid var(--border-color);
+    padding: 5px;
+  }
+  header .actions-btns .btn.icon-action {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  header .logo .brand-logo__sun {
+    display: none;
+  }
+}
+
+/* ---------- drawer footer: language + theme ---------- */
+.mobile-nav-drawer .drawer-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--border-color);
+}
+.mobile-nav-drawer .drawer-pref {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.mobile-nav-drawer .drawer-pref-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--paragraph);
+}
+.mobile-nav-drawer .drawer-pref-label svg {
+  font-size: 17px;
+  color: var(--main-color-2);
+}
+.mobile-nav-drawer .drawer-segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 40px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+}
+[data-theme="dark"] .mobile-nav-drawer .drawer-segment {
+  background: rgba(0, 0, 0, 0.3);
+}
+.mobile-nav-drawer .drawer-segment button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  min-width: 44px;
+  padding: 0 12px;
+  border-radius: 40px;
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--paragraph);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s var(--ease-pop),
+    box-shadow 0.25s var(--ease-pop);
+  -webkit-tap-highlight-color: transparent;
+}
+.mobile-nav-drawer .drawer-segment button svg {
+  font-size: 15px;
+}
+.mobile-nav-drawer .drawer-segment button:not(.active):hover {
+  color: var(--title-color);
+  background: rgba(239, 99, 38, 0.1);
+}
+.mobile-nav-drawer .drawer-segment button.active {
+  background: var(--main-gradient);
+  color: var(--on-accent);
+  box-shadow: 0 2px 0 var(--brand-brown);
+  cursor: default;
+}
+[data-theme="dark"] .mobile-nav-drawer .drawer-segment button.active {
+  box-shadow: 0 2px 0 #000;
+}
+.mobile-nav-drawer .drawer-segment button:not(.active):active {
+  transform: translateY(1px);
+}
+
+/* drawer height follows the visible viewport, so its footer never hides under the browser bar */
+@supports (height: 100dvh) {
+  .mobile-nav-drawer {
+    height: 100dvh;
+  }
+}

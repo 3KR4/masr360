@@ -17,8 +17,12 @@ import "@/styles/components/motion.css";
  * hidden unless this script is running (html.fx-ready gate).
  */
 
-// [selector, reveal variant, stagger step in ms]
+// [selector, reveal variant, stagger step in ms, force?]
+// `force` tags an element even if it already runs its own (looping) animation;
+// the CSS then layers the reveal on top of that animation instead of replacing it.
 const REVEAL_RULES = [
+  // "See All" buttons under the home grids (they loop the sunset gradient)
+  [".grid-holder.limit-to-show > .main-button", "pop", 0, true],
   [".title-holder", "up", 0],
   [".what-is-m360 .top-tag, .what-is-m360 .hero-title, .what-is-m360 .description", "up", 90],
   [".what-is-m360 .stat-item", "pop", 90],
@@ -69,11 +73,13 @@ export default function MotionFX() {
     ioRef.current = io;
 
     const tag = () => {
-      REVEAL_RULES.forEach(([selector, variant, step]) => {
+      // phones/tablets: tighter stagger so things don't feel sluggish
+      const staggerScale = window.matchMedia("(max-width: 992px)").matches ? 1 : 2;
+      REVEAL_RULES.forEach(([selector, variant, step, force]) => {
         document.querySelectorAll(selector).forEach((el) => {
           if (el.dataset.reveal) return;
           // never hijack an element that already runs its own animation
-          if (getComputedStyle(el).animationName !== "none") return;
+          if (!force && getComputedStyle(el).animationName !== "none") return;
           const siblings = el.parentElement
             ? Array.from(el.parentElement.children).filter((c) => c.matches(selector))
             : [el];
@@ -85,8 +91,8 @@ export default function MotionFX() {
           const perRow = Math.max(1, siblings.filter((c) => c.offsetTop === firstTop).length);
           const slot = perRow > 1 ? index % perRow : Math.min(index, 6); // stacked text → simple cascade
           el.dataset.reveal = variant;
-          // 2× stagger so items arrive at a calm pace
-          el.style.setProperty("--rd", `${Math.round(slot * step * 2)}ms`);
+          // 2× stagger on desktop so items arrive at a calm pace (1× on mobile)
+          el.style.setProperty("--rd", `${Math.round(slot * step * staggerScale)}ms`);
           io.observe(el);
         });
       });
@@ -152,6 +158,19 @@ export default function MotionFX() {
       root.classList.remove("is-scrolled", "header-tucked");
     };
   }, []);
+
+  /* ---------------- header height (progress bar sits under it on mobile) ---------------- */
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (!header) return;
+    const root = document.documentElement;
+    const setH = () =>
+      root.style.setProperty("--header-h", `${header.offsetHeight}px`);
+    setH();
+    const ro = new ResizeObserver(setH);
+    ro.observe(header);
+    return () => ro.disconnect();
+  }, [pathname]);
 
   /* ---------------- 3D tilt ---------------- */
   useEffect(() => {

@@ -1,6 +1,12 @@
 html {
   scroll-behavior: smooth;
 }
+/* nothing (reveal slides, glows, wide decorations) may widen the page sideways */
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
 
 * {
   margin: 0;

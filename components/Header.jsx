@@ -332,6 +332,62 @@ function Header() {
             </li>
           </ul>
         </div>
+
+        <div className="drawer-footer">
+          <div className="drawer-pref">
+            <span className="drawer-pref-label">
+              <GrLanguage />
+              {locale === "AR" ? "اللغة" : "Language"}
+            </span>
+            <div className="drawer-segment" role="group">
+              <button
+                type="button"
+                className={locale === "EN" ? "active" : ""}
+                aria-pressed={locale === "EN"}
+                onClick={() => locale !== "EN" && toggleLocale()}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                className={locale === "AR" ? "active" : ""}
+                aria-pressed={locale === "AR"}
+                onClick={() => locale !== "AR" && toggleLocale()}
+              >
+                عربي
+              </button>
+            </div>
+          </div>
+
+          <div className="drawer-pref">
+            <span className="drawer-pref-label">
+              {theme === "light" ? <FiSun /> : <FaRegMoon />}
+              {locale === "AR" ? "المظهر" : "Theme"}
+            </span>
+            <div className="drawer-segment" role="group">
+              <button
+                type="button"
+                className={theme === "light" ? "active" : ""}
+                aria-pressed={theme === "light"}
+                aria-label={t.header.lightTheme}
+                title={t.header.lightTheme}
+                onClick={() => theme !== "light" && toggleTheme()}
+              >
+                <FiSun />
+              </button>
+              <button
+                type="button"
+                className={theme !== "light" ? "active" : ""}
+                aria-pressed={theme !== "light"}
+                aria-label={t.header.darkTheme}
+                title={t.header.darkTheme}
+                onClick={() => theme === "light" && toggleTheme()}
+              >
+                <FaRegMoon />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -674,11 +730,32 @@ function Header() {
             </>
           ) : (
             <>
-              <button className="lang" onClick={toggleLocale}>
-                <span className="lang-span">
-                  <GrLanguage />
-                  {locale === "EN" ? "EN" : "AR"}
-                </span>
+              <button
+                type="button"
+                className="btn icon-action pref-lang"
+                onClick={toggleLocale}
+                title={t.header.change_language}
+                aria-label={t.header.change_language}
+              >
+                <GrLanguage />
+              </button>
+
+              <button
+                type="button"
+                className="btn icon-action pref-theme"
+                onClick={toggleTheme}
+                title={
+                  theme === "light" ? t.header.darkTheme : t.header.lightTheme
+                }
+                aria-label={
+                  theme === "light" ? t.header.darkTheme : t.header.lightTheme
+                }
+              >
+                {theme === "light" ? (
+                  <FaRegMoon key="moon" />
+                ) : (
+                  <FiSun key="sun" />
+                )}
               </button>
 
               <Link
