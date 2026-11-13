@@ -12,12 +12,12 @@ import Image from "next/image";
  */
 const SOURCES = {
   inline: {
-    light: { src: "/brand/wordmark-dark.png", w: 900, h: 108 },
-    dark: { src: "/brand/wordmark-light.png", w: 900, h: 108 },
+    light: { src: "/brand/m360-wordmark-dark.png", w: 900, h: 150 },
+    dark: { src: "/brand/m360-wordmark-light.png", w: 900, h: 150 },
   },
   lockup: {
-    light: { src: "/brand/lockup-dark.png", w: 900, h: 287 },
-    dark: { src: "/brand/lockup-light.png", w: 900, h: 287 },
+    light: { src: "/brand/m360-lockup-dark.png", w: 900, h: 240 },
+    dark: { src: "/brand/m360-lockup-light.png", w: 900, h: 240 },
   },
   sun: {
     light: { src: "/brand/sun-brown.png", w: 600, h: 600 },

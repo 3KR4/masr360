@@ -15,9 +15,23 @@
   z-index: 2;
   pointer-events: none;
   background:
-    radial-gradient(105% 100% at 0 100%, var(--body-color) 0%, var(--body-color) 35%, transparent 75%),
-    radial-gradient(105% 100% at 100% 100%, var(--body-color) 0%, var(--body-color) 35%, transparent 75%),
-    linear-gradient(transparent 0%, rgba(253, 226, 207, 0.4) 45%, var(--body-color) 100%);
+    radial-gradient(
+      105% 100% at 0 100%,
+      var(--body-color) 0%,
+      var(--body-color) 35%,
+      transparent 75%
+    ),
+    radial-gradient(
+      105% 100% at 100% 100%,
+      var(--body-color) 0%,
+      var(--body-color) 35%,
+      transparent 75%
+    ),
+    linear-gradient(
+      transparent 0%,
+      rgba(253, 226, 207, 0.4) 45%,
+      var(--body-color) 100%
+    );
 }
 
 [data-theme="dark"] .landing > .landing-overlay {
@@ -310,14 +324,27 @@
       var(--section-color) 35%,
       transparent 72%
     ),
-    linear-gradient(to bottom, transparent 0%, rgba(255, 241, 230, 0.3) 45%, var(--section-color) 100%);
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(255, 241, 230, 0.3) 45%,
+      var(--section-color) 100%
+    );
   backdrop-filter: blur(3px);
 }
 
 [data-theme="dark"] .grid-holder.limit-to-show > .overlay-layer {
   background:
-    radial-gradient(83% 100% at 50% 100%, var(--body-color) 0% 46%, transparent 100%),
-    linear-gradient(transparent 4%, rgba(0, 0, 0, 0.4) 41%, var(--body-color) 100%);
+    radial-gradient(
+      83% 100% at 50% 100%,
+      var(--body-color) 0% 46%,
+      transparent 100%
+    ),
+    linear-gradient(
+      transparent 4%,
+      rgba(0, 0, 0, 0.4) 41%,
+      var(--body-color) 100%
+    );
   backdrop-filter: blur(3px);
 }
 /*! PRODUCTS */
@@ -508,7 +535,6 @@
 }
 
 @media (max-width: 480px) {
-
   .swiper .slide-content h1 {
     font-size: 26px;
   }
@@ -636,7 +662,10 @@
 .what-is-m360-main-wrapper {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(var(--body-color) 64%, rgba(249, 172, 38, 0.08) 100%);
+  background: linear-gradient(
+    var(--body-color) 64%,
+    rgba(249, 172, 38, 0.08) 100%
+  );
 }
 
 .what-is-m360-main-wrapper .bg-eye {
@@ -1108,7 +1137,11 @@
   height: 70px;
   margin-bottom: 5px;
   color: var(--main-color);
-  background: radial-gradient(circle, var(--second-color) 0%, rgba(239, 99, 38, 0.06) 100%);
+  background: radial-gradient(
+    circle,
+    var(--second-color) 0%,
+    rgba(239, 99, 38, 0.06) 100%
+  );
   border: 1px solid rgba(239, 99, 38, 0.4);
   border-radius: 50%;
   justify-content: center;
@@ -1385,9 +1418,23 @@
 .landing > .landing-overlay,
 [data-theme="dark"] .landing > .landing-overlay {
   background:
-    radial-gradient(105% 100% at 0 100%, var(--body-color) 0%, var(--body-color) 35%, transparent 75%),
-    radial-gradient(105% 100% at 100% 100%, var(--body-color) 0%, var(--body-color) 35%, transparent 75%),
-    linear-gradient(transparent 0%, color-mix(in srgb, var(--body-color) 40%, transparent) 45%, var(--body-color) 100%);
+    radial-gradient(
+      105% 100% at 0 100%,
+      var(--body-color) 0%,
+      var(--body-color) 35%,
+      transparent 75%
+    ),
+    radial-gradient(
+      105% 100% at 100% 100%,
+      var(--body-color) 0%,
+      var(--body-color) 35%,
+      transparent 75%
+    ),
+    linear-gradient(
+      transparent 0%,
+      color-mix(in srgb, var(--body-color) 40%, transparent) 45%,
+      var(--body-color) 100%
+    );
 }
 .swiper .slide-content {
   gap: 14px;
@@ -1409,7 +1456,11 @@
   content: "";
   width: 46px;
   height: 8px;
-  background: repeating-linear-gradient(90deg, var(--brand-yellow) 0 5px, transparent 5px 10px);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--brand-yellow) 0 5px,
+    transparent 5px 10px
+  );
 }
 [lang="AR"] .swiper .slide-content span {
   letter-spacing: 0;
@@ -1417,19 +1468,26 @@
 }
 .swiper .slide-content h1 {
   font-family: var(--font-display);
-  font-size: clamp(40px, 6.6vw, 104px);
+  font-size: clamp(31px, 5.6vw, 88px); /* 15% smaller than before */
   line-height: 0.95;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #fff;
   text-shadow: 0 6px 40px rgba(43, 18, 10, 0.45);
-  max-width: 14ch;
+  max-width: 22ch;
   text-wrap: balance;
 }
 [lang="AR"] .swiper .slide-content h1 {
   line-height: 1.25;
   letter-spacing: 0;
-  max-width: 18ch;
+  max-width: 26ch;
+}
+/* mobile: drop the dashed dots on either side of the eyebrow */
+@media (max-width: 767px) {
+  .swiper .slide-content span::before,
+  .swiper .slide-content span::after {
+    display: none;
+  }
 }
 .swiper .slide-content h2 {
   font-family: var(--font-body);
@@ -1466,7 +1524,11 @@
   background: transparent;
 }
 .what-is-m360-main-wrapper::before {
-  background: repeating-linear-gradient(90deg, var(--main-color) 0 6px, transparent 6px 14px);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--main-color) 0 6px,
+    transparent 6px 14px
+  );
   opacity: 0.35;
   height: 2px;
 }
@@ -1629,7 +1691,11 @@
   right: 24px;
   bottom: 14px;
   height: 4px;
-  background: repeating-linear-gradient(90deg, var(--main-color) 0 8px, transparent 8px 16px);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--main-color) 0 8px,
+    transparent 8px 16px
+  );
   opacity: 0.18;
   transition: opacity 0.3s ease;
 }
@@ -1660,7 +1726,10 @@
   inset: -12px;
   z-index: -1;
   border-radius: 50%;
-  background: repeating-conic-gradient(var(--main-color-2) 0 5deg, transparent 5deg 13.333deg);
+  background: repeating-conic-gradient(
+    var(--main-color-2) 0 5deg,
+    transparent 5deg 13.333deg
+  );
   -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%);
   mask: radial-gradient(circle, transparent 60%, #000 61%);
   opacity: 0.55;
@@ -1717,8 +1786,18 @@
 .grid-holder.limit-to-show > .overlay-layer,
 [data-theme="dark"] .grid-holder.limit-to-show > .overlay-layer {
   background:
-    radial-gradient(ellipse 100% 100% at 50% 100%, var(--body-color) 0%, var(--body-color) 35%, transparent 72%),
-    linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--body-color) 30%, transparent) 45%, var(--body-color) 100%);
+    radial-gradient(
+      ellipse 100% 100% at 50% 100%,
+      var(--body-color) 0%,
+      var(--body-color) 35%,
+      transparent 72%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      color-mix(in srgb, var(--body-color) 30%, transparent) 45%,
+      var(--body-color) 100%
+    );
 }
 .grid-holder.limit-to-show > .main-button:hover {
   transform: translate(-50%, -3px) !important;
@@ -1826,7 +1905,11 @@
   order: -1;
   width: 34px;
   height: 4px;
-  background: repeating-linear-gradient(90deg, var(--main-color) 0 5px, transparent 5px 9px);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--main-color) 0 5px,
+    transparent 5px 9px
+  );
   transition: width 0.5s var(--ease-out);
 }
 .categories .box:hover .text-holder::after {
@@ -1964,14 +2047,18 @@
   opacity: 0.4 !important;
 }
 .swiper-pagination.backhome .swiper-pagination-bullet-active,
-[data-theme="dark"] .swiper-pagination.backhome .swiper-pagination-bullet-active {
+[data-theme="dark"]
+  .swiper-pagination.backhome
+  .swiper-pagination-bullet-active {
   width: 34px !important;
   border-radius: 999px !important;
   background: var(--brand-sunset) !important;
   opacity: 1 !important;
   box-shadow: 0 2px 0 var(--brand-brown) !important;
 }
-[data-theme="dark"] .swiper-pagination.backhome .swiper-pagination-bullet-active {
+[data-theme="dark"]
+  .swiper-pagination.backhome
+  .swiper-pagination-bullet-active {
   box-shadow: 0 2px 0 #000 !important;
 }
 
@@ -1989,7 +2076,9 @@
 }
 /* the two edge cards sit back a little */
 .categories
-  .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(.swiper-slide-next)
+  .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(
+    .swiper-slide-next
+  )
   .box {
   scale: 0.9;
 }
@@ -2064,5 +2153,9 @@
 /* ---------- Categories v5: 380px cards, scaling down on smaller screens ---------- */
 .categories .swiper .swiper-slide {
   aspect-ratio: auto;
-  height: clamp(280px, 27vw + 60px, 380px); /* 380 from ~1185px wide, 280 on phones */
+  height: clamp(
+    280px,
+    27vw + 60px,
+    380px
+  ); /* 380 from ~1185px wide, 280 on phones */
 }

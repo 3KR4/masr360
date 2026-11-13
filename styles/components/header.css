@@ -2052,11 +2052,6 @@ header .actions-btns .btn.pref-theme > svg {
     display: none;
   }
 }
-@media (max-width: 767px) {
-  header .logo .brand-logo__sun {
-    display: none;
-  }
-}
 
 /* ---------- drawer footer: language + theme ---------- */
 .mobile-nav-drawer .drawer-footer {

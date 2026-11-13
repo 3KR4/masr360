@@ -24,7 +24,7 @@
 }
 
 .brand-logo--inline {
-  gap: 10px;
+  gap: 4px;
   direction: ltr; /* the wordmark always reads left → right */
 }
 .brand-logo__sun {
