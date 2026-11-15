@@ -22,26 +22,43 @@ export const viewport = {
 };
 
 export const metadata = {
-  title: "Masr360",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://masr360.vercel.app"
+  ),
+  title: {
+    default: "Masr360 - Explore Egypt | Places, Culture, Events & Marketplace",
+    template: "%s | Masr360",
+  },
   description:
-    "Explore hidden gems, exciting night spots, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
+    "Masr360 is your ultimate interactive platform to explore Egypt. Discover historic places, vibrant nightlife, authentic marketplace products, upcoming events, and cultural games.",
+
+  alternates: {
+    canonical: "/",
+  },
 
   openGraph: {
-    title: "Masr360",
+    title: "Masr360 - Explore Egypt | Places, Culture, Events & Marketplace",
     description:
-      "Explore hidden gems, exciting night spots, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
-    url: "https://masr360.vercel.app/",
+      "Explore hidden gems, exciting night spots, authentic crafts, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
+    url: "https://masr360.vercel.app",
     siteName: "Masr360",
     images: [
       {
         url: "/brand/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Masr360-logo",
+        alt: "M360 - Explore Egypt",
       },
     ],
     locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Masr360 - Explore Egypt | Places, Culture, Events & Marketplace",
+    description:
+      "Explore hidden gems, exciting night spots, authentic crafts, and real Egyptian culture with Masr360.",
+    images: ["/brand/og-image.jpg"],
   },
   icons: {
     icon: [
@@ -60,7 +77,7 @@ export default function RootLayout({ children }) {
         {/* Apply saved theme + language before first paint (no theme flash) */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var d=document.documentElement,t=localStorage.getItem("theme")||"dark",l=localStorage.getItem("locale")||"EN";d.setAttribute("data-theme",t);d.setAttribute("lang",l);d.setAttribute("dir",l==="AR"?"rtl":"ltr")}catch(e){}`,
+            __html: `try{var d=document.documentElement,c=localStorage.getItem("theme_chosen")==="true",t=c?(localStorage.getItem("theme")||"light"):"light",l=localStorage.getItem("locale")||"EN";d.setAttribute("data-theme",t);d.setAttribute("lang",l);d.setAttribute("dir",l==="AR"?"rtl":"ltr")}catch(e){}`,
           }}
         />
       </head>

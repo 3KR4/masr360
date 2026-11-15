@@ -1,35 +1,14 @@
-"use client";
-import Navigations from "@/components/Navigations";
-import "@/styles/pages/discover.css";
-import DisplayContent from "@/components/DisplayContent";
+import EventsClient from "./EventsClient";
+import { buildSEO } from "@/utils/seo";
 
-import useTranslate from "@/Contexts/useTranslation";
+export const metadata = buildSEO({
+  title: "Upcoming Events & Festivals in Egypt | Masr360",
+  description:
+    "Find upcoming cultural festivals, exhibitions, concerts, and community events across Egypt on Masr360.",
+  url: "/events",
+  image: "/brand/og-image.jpg",
+});
+
 export default function EventsPage() {
-  const t = useTranslate();
-
-  return (
-    <div className="discover">
-      <div className="title-holder pages container">
-        <h1 className="main-title">
-          <hr />
-          {t.sectionsTitles.masr_events_page.mainTitle}
-          <hr />
-        </h1>
-        <p className="sub-title">
-          {t.sectionsTitles.masr_events_page.subTitle}
-        </p>
-      </div>
-
-      <Navigations
-        items={[
-          {
-            name: t.sectionsTitles.upcoming_events.title,
-            href: "/events",
-          },
-        ]}
-      />
-
-      <DisplayContent type={"event"} />
-    </div>
-  );
+  return <EventsClient />;
 }

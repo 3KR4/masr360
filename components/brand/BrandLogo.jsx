@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 /**
- * Theme-aware MASR 360 logo.
+ * Theme-aware M360 logo.
  * Both colourways are rendered and CSS shows the right one for [data-theme],
  * so there is no hydration mismatch and no flash when the theme toggles.
  *
@@ -27,7 +27,7 @@ const SOURCES = {
 
 export default function BrandLogo({
   variant = "inline",
-  alt = "MASR 360",
+  alt = "M360",
   priority = false,
   className = "",
 }) {

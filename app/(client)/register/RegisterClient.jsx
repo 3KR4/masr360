@@ -1,0 +1,688 @@
+"use client";
+
+import "@/styles/forms.css";
+import Image from "next/image";
+import BrandLogo from "@/components/brand/BrandLogo";
+import countryList from "react-select-country-list";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
+import { useForm } from "react-hook-form";
+import useTranslate from "@/Contexts/useTranslation";
+import { GrLanguage } from "react-icons/gr";
+import { useSearchParams, useRouter } from "next/navigation";
+import OtpInputs from "@/components/Otp";
+import { MdMarkEmailUnread } from "react-icons/md";
+import { useAuth } from "@/Contexts/AuthContext";
+import { useNotification } from "@/Contexts/NotificationContext";
+
+import {
+  LockKeyhole,
+  Mail,
+  Phone,
+  Eye,
+  UserRound,
+  EyeOff,
+  CircleAlert,
+} from "lucide-react";
+import { IoIosArrowDown, IoMdClose } from "react-icons/io";
+import {
+  loginUser,
+  registerUser,
+  sendVerficationMail,
+  verefyOtp,
+} from "@/services/auth/auth.service";
+import Link from "next/link";
+
+const STEPS = {
+  ACCOUNT: 1,
+  LOGIN: 2,
+  EMAIL_VERIFY: 3,
+  FORGET_PASS_VERIFY: 4,
+  VIEW_OR_UPDATE_PASS: 5,
+};
+
+function RegisterForm() {
+  const { login } = useAuth();
+  const t = useTranslate();
+  const auth = t.auth;
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { addNotification } = useNotification();
+  const redirectTo = searchParams.get("redirect") || "/";
+  const [registeredUser, setRegisteredUser] = useState(null);
+  const options = useMemo(() => countryList().getData(), []);
+  const [step, setStep] = useState(STEPS.ACCOUNT);
+  const [activeNational, setActiveNational] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [countrySearch, setCountrySearch] = useState("");
+  const [userId, setUserId] = useState();
+  const filteredCountries = options.filter((x) =>
+    x.label.toLowerCase().includes(countrySearch.toLowerCase()),
+  );
+  const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const password = watch("password", "");
+  const newPassValue = watch("newPass");
+  const [passEye, setPassEye] = useState({ password: false, confirm: false });
+
+  const OTP_LENGTH = 6;
+  const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
+
+  useEffect(() => {
+    if (step === STEPS.EMAIL_VERIFY || step === STEPS.FORGET_PASS_VERIFY) {
+      setOtp(Array(OTP_LENGTH).fill(""));
+    }
+  }, [step]);
+
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      if (step === STEPS.LOGIN) {
+        const payload = {
+          email: data.email,
+          password: data.loginPassword,
+        };
+
+        const res = await loginUser(payload);
+        if (res) {
+          login({
+            user: res.data.user,
+            accessToken: res.data.accessToken,
+          });
+          router.push(redirectTo);
+          addNotification({
+            type: "success",
+            message: "your account has been created successfully",
+          });
+        }
+
+        return;
+      }
+
+      if (step === STEPS.ACCOUNT) {
+        const payload = {
+          username: data.fullname,
+          email: data.email,
+          password: data.password,
+          phoneNumber: data.phone,
+          location: selectedCountry,
+        };
+
+        const res1 = await registerUser(payload);
+        const res2 = await sendVerficationMail({
+          email: data.email,
+        });
+        if (res1 && res2) {
+          setRegisteredUser({
+            email: data.email,
+            id: res2.data?.data?.userId,
+          });
+          setUserId(res2.data?.data?.userId);
+          setStep(STEPS.EMAIL_VERIFY);
+          addNotification({
+            type: "success",
+            message:
+              res1.data?.message || "Your account has been created successfully",
+          });
+        }
+
+        return;
+      }
+
+      if (step === STEPS.EMAIL_VERIFY) {
+        const code = otp.join("");
+        const res = await verefyOtp({
+          _id: registeredUser?.id || userId,
+          otp: code,
+        });
+
+        if (res) {
+          login({
+            user: res.data.user,
+            accessToken: res.data.accessToken || res.data.token,
+          });
+          router.push(redirectTo);
+          addNotification({
+            type: "success",
+            message: "Welcome back! 🎉 You've successfully logged in.",
+          });
+        }
+        return;
+      }
+    } catch (err) {
+      console.log("err", err);
+      const message =
+        err?.response?.data?.message ||
+        err?.response?.data?.errors?.[0]?.msg ||
+        err?.message ||
+        "Something went wrong";
+
+      if (
+        message == "user already registered" ||
+        message == "user is not verified"
+      ) {
+        const res2 = await sendVerficationMail({
+          email: data.email,
+        });
+        if (res2) {
+          setUserId(res2.data.data.userId);
+          setStep(STEPS.EMAIL_VERIFY);
+        }
+      } else {
+        addNotification({
+          type: "warning",
+          message,
+        });
+      }
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const titles = {
+    [STEPS.ACCOUNT]: auth.createAccount,
+    [STEPS.LOGIN]: auth.loginToAccount,
+    [STEPS.EMAIL_VERIFY]: auth.verifyEmail,
+    [STEPS.FORGET_PASS_VERIFY]: auth.forgetPass,
+    [STEPS.VIEW_OR_UPDATE_PASS]: auth.userVerified,
+  };
+
+  const descriptions = {
+    [STEPS.LOGIN]: auth.loginDescription || "",
+    [STEPS.EMAIL_VERIFY]: auth.emailDescription,
+    [STEPS.FORGET_PASS_VERIFY]: auth.emailDescription,
+    [STEPS.VIEW_OR_UPDATE_PASS]: auth.userVerifiedDescription,
+  };
+
+  const buttonLabels = {
+    [STEPS.ACCOUNT]: auth.createAccountBtn,
+    [STEPS.LOGIN]: auth.login,
+    [STEPS.EMAIL_VERIFY]: auth.verifyEmailBtn,
+    [STEPS.FORGET_PASS_VERIFY]: auth.forgetPassBtn,
+    [STEPS.VIEW_OR_UPDATE_PASS]: newPassValue
+      ? auth.update_pass_and_continue
+      : auth.login,
+  };
+
+  return (
+    <div className="form-holder">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {[STEPS.EMAIL_VERIFY, STEPS.FORGET_PASS_VERIFY].includes(step) && (
+          <MdMarkEmailUnread className="big-ico" />
+        )}
+
+        {(step == 1 || step == 2) && (
+          <Link href="/" className="logo">
+            <BrandLogo variant="lockup" alt="Masr360 Logo" className="main-img" priority />
+          </Link>
+        )}
+        <div className="top">
+          <h1>{titles[step]}</h1>
+          <p>{descriptions[step]}</p>
+        </div>
+
+        {step === STEPS.LOGIN && (
+          <>
+            <div className="box forInput">
+              <label>{auth.email}</label>
+              <div className="inputHolder">
+                <div className="holder">
+                  <Mail />
+                  <input
+                    type="email"
+                    {...register("email", {
+                      required: auth.errors.requiredEmail,
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        message: auth.errors.invalidEmail,
+                      },
+                    })}
+                    placeholder={auth.placeholders.email}
+                  />
+                </div>
+                {errors.email && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.email.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="box forInput">
+              <label>{auth.password}</label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+                  <input
+                    type={passEye.password ? "text" : "password"}
+                    {...register("loginPassword", {
+                      required: auth.errors.requiredPassword,
+                    })}
+                    placeholder={auth.placeholders.password}
+                  />
+                  {passEye.password ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: true }))
+                      }
+                    />
+                  )}
+                </div>
+                {errors.loginPassword && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.loginPassword.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div
+              className="have-problem"
+              onClick={() => {
+                setStep(STEPS.FORGET_PASS_VERIFY);
+                reset();
+              }}
+            >
+              {auth.forgetPassword}{" "}
+              <span className="mineLink">{auth.password}</span>
+            </div>
+          </>
+        )}
+
+        {step === STEPS.ACCOUNT && (
+          <>
+            <div className="box forInput">
+              <label>{auth.fullName}</label>
+              <div className="inputHolder">
+                <div className="holder">
+                  <UserRound />
+                  <input
+                    {...register("fullname", {
+                      required: auth.errors.requiredFullName,
+                      validate: (value) => {
+                        const words = value.trim().split(/\s+/);
+                        if (words.length < 2)
+                          return auth.errors.fullNameTwoWords;
+                        return true;
+                      },
+                    })}
+                    placeholder={auth.placeholders.fullName}
+                  />
+                </div>
+                {errors.fullname && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.fullname.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="box forInput">
+              <label>{auth.phone}</label>
+              <div className="inputHolder">
+                <div className="holder">
+                  <Phone />
+                  <input
+                    type="tel"
+                    {...register("phone", {
+                      required: auth.errors.requiredPhone,
+                      pattern: {
+                        value: /^\+?[0-9\s-()]{7,20}$/,
+                        message: auth.errors.invalidPhone,
+                      },
+                    })}
+                    placeholder={auth.placeholders.phone}
+                  />
+                </div>
+                {errors.phone && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.phone.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="box forInput">
+              <label>{auth.chooseNationality}</label>
+              <div className="filters for-cats">
+                <div className="btn">
+                  <GrLanguage />
+                  <h4
+                    onClick={() => setActiveNational(true)}
+                    className="ellipsis"
+                  >
+                    {activeNational ? (
+                      <input
+                        autoFocus
+                        value={countrySearch}
+                        onChange={(e) => setCountrySearch(e.target.value)}
+                        placeholder={auth.chooseNationality}
+                        className="search-input"
+                      />
+                    ) : !selectedCountry ? (
+                      auth.chooseNationality
+                    ) : (
+                      selectedCountry
+                    )}
+                  </h4>
+                  {activeNational ? (
+                    <IoMdClose
+                      className="main-ico"
+                      onClick={() => setActiveNational(false)}
+                    />
+                  ) : (
+                    <IoIosArrowDown
+                      className="main-ico"
+                      onClick={() => setActiveNational(true)}
+                    />
+                  )}
+                </div>
+                <div className={`menu backdrop-blur ${activeNational ? "active" : ""}`}>
+                  {filteredCountries?.length > 0 ? (
+                    filteredCountries.map((country, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        className={`${
+                          selectedCountry === country.label ? "active" : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedCountry(
+                            selectedCountry === country.label
+                              ? ""
+                              : country.label,
+                          );
+                          setActiveNational(false);
+                          setCountrySearch("");
+                        }}
+                      >
+                        {country.label}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="no-results">
+                      {auth.noResults || "No results"}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="box forInput">
+              <label>{auth.email}</label>
+              <div className="inputHolder">
+                <div className="holder">
+                  <Mail />
+                  <input
+                    type="email"
+                    {...register("email", {
+                      required: auth.errors.requiredEmail,
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        message: auth.errors.invalidEmail,
+                      },
+                    })}
+                    placeholder={auth.placeholders.email}
+                  />
+                </div>
+                {errors.email && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.email.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="box forInput">
+              <label>{auth.password}</label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+                  <input
+                    type={passEye.password ? "text" : "password"}
+                    {...register("password", {
+                      required: auth.errors.requiredPassword,
+                      minLength: {
+                        value: 8,
+                        message: auth.errors.passwordWeak,
+                      },
+                    })}
+                    placeholder={auth.placeholders.password}
+                  />
+                  {passEye.password ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: true }))
+                      }
+                    />
+                  )}
+                </div>
+                {errors.password && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.password.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="box forInput">
+              <label>{auth.confirmPassword}</label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+                  <input
+                    type={passEye.confirm ? "text" : "password"}
+                    {...register("passwordConfirmation", {
+                      required: auth.errors.passwordMismatch,
+                      validate: (value) =>
+                        value === password || auth.errors.passwordMismatch,
+                    })}
+                    placeholder={auth.placeholders.confirmPassword}
+                  />
+                  {passEye.confirm ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, confirm: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, confirm: true }))
+                      }
+                    />
+                  )}
+                </div>
+                {errors.passwordConfirmation && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.passwordConfirmation.message}
+                  </span>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        {step === STEPS.VIEW_OR_UPDATE_PASS && (
+          <>
+            <div className="box forInput">
+              <label>{auth.viewYourCurrentPassword}</label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+                  <input
+                    type={passEye.password ? "text" : "password"}
+                    value={"Aa123456@"}
+                    readOnly
+                  />
+                  {passEye.password ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: true }))
+                      }
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="box forInput">
+              <label>
+                {auth.makeNewPassword} <span>({auth.optional})</span>
+              </label>
+              <div className="inputHolder password">
+                <div className="holder">
+                  <LockKeyhole />
+                  <input
+                    type={passEye.password ? "text" : "password"}
+                    {...register("newPass", {
+                      pattern: {
+                        value:
+                          /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?~\-]).{8,}$/,
+                        message: auth.errors.passwordWeak,
+                      },
+                    })}
+                    placeholder={auth.placeholders.newPassword}
+                  />
+                  {passEye.password ? (
+                    <Eye
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: false }))
+                      }
+                    />
+                  ) : (
+                    <EyeOff
+                      className="eye"
+                      onClick={() =>
+                        setPassEye((p) => ({ ...p, password: true }))
+                      }
+                    />
+                  )}
+                </div>
+                {errors.newPass && (
+                  <span className="error">
+                    <CircleAlert />
+                    {errors.newPass.message}
+                  </span>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        {(step === STEPS.EMAIL_VERIFY || step === STEPS.FORGET_PASS_VERIFY) && (
+          <OtpInputs length={OTP_LENGTH} value={otp} onChange={setOtp} />
+        )}
+
+        <button type="submit" className="main-button" disabled={loading}>
+          {loading ? <span className="loader"></span> : buttonLabels[step]}
+        </button>
+
+        {(step === STEPS.ACCOUNT || step === STEPS.LOGIN) && (
+          <>
+            <div className="otherWay">
+              <hr />
+              <span>
+                {step === STEPS.LOGIN ? auth.orLoginWith : auth.orContinueWith}
+              </span>
+              <hr />
+            </div>
+            <div className="social-btns">
+              <div className="btn">
+                <Image
+                  src={`/google-icon.png`}
+                  width={22}
+                  height={22}
+                  alt="google icon"
+                />
+                {auth.google}
+              </div>
+              <div className="btn">
+                <Image
+                  src={`/facebook-icon.png`}
+                  width={22}
+                  height={22}
+                  alt="google icon"
+                />
+                Facebook
+              </div>
+            </div>
+          </>
+        )}
+
+        {(step === STEPS.ACCOUNT || step === STEPS.LOGIN) && (
+          <div
+            className="have-problem"
+            onClick={() => {
+              setStep(step === STEPS.ACCOUNT ? STEPS.LOGIN : STEPS.ACCOUNT);
+              reset();
+            }}
+          >
+            {step === STEPS.LOGIN ? auth.noAccount : auth.haveAccount}{" "}
+            <span className="mineLink">
+              {step === STEPS.LOGIN ? auth.createAccountBtn : auth.login}
+            </span>
+          </div>
+        )}
+      </form>
+    </div>
+  );
+}
+
+export default function RegisterClient() {
+  return (
+    <Suspense
+      fallback={
+        <div className="form-holder">
+          <div className="loader" style={{ margin: "60px auto" }} />
+        </div>
+      }
+    >
+      <RegisterForm />
+    </Suspense>
+  );
+}

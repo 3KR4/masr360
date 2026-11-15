@@ -27,7 +27,7 @@ export const metadata = {
         url: "/brand/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Masr360-logo",
+        alt: "M360-logo",
       },
     ],
     locale: "en_US",
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var d=document.documentElement,t=localStorage.getItem("theme")||"dark",l=localStorage.getItem("locale")||"EN";d.setAttribute("data-theme",t);d.setAttribute("lang",l);d.setAttribute("dir",l==="AR"?"rtl":"ltr")}catch(e){}`,
+            __html: `try{var d=document.documentElement,c=localStorage.getItem("theme_chosen")==="true",t=c?(localStorage.getItem("theme")||"light"):"light",l=localStorage.getItem("locale")||"EN";d.setAttribute("data-theme",t);d.setAttribute("lang",l);d.setAttribute("dir",l==="AR"?"rtl":"ltr")}catch(e){}`,
           }}
         />
       </head>

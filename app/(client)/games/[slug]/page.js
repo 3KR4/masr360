@@ -1,70 +1,37 @@
-"use client";
-import "@/styles/pages/discover.css";
-import { useParams } from "next/navigation";
-import { gamesEn, gamesAr, reviews, featuresEn, featuresAr } from "@/data";
-import "@/styles/pages/games.css";
-import ReviewSection from "@/components/reviews/ReviewSection";
-import useTranslate from "@/Contexts/useTranslation";
-import { mainContext } from "@/Contexts/mainContext";
-import { useState, useContext, useEffect } from "react";
-import { FaMoneyBillWave } from "react-icons/fa";
-import CardItem from "@/components/CardItem";
-import GameStepsAccordion from "@/components/GameStep";
+import GamePlayClient from "./GamePlayClient";
+import { getGameBySlug, buildSEO } from "@/utils/seo";
 
-export default function SingelGame() {
-  const { locale } = useContext(mainContext);
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
+  const game = getGameBySlug(slug);
 
-  const t = useTranslate();
-  const { slug } = useParams();
-  const [game, setGame] = useState(null);
-  const [GameReviews, setGameReviews] = useState(null);
+  if (!game) {
+    return buildSEO({
+      title: "Interactive Egyptian Cultural Games & Trivia",
+      description:
+        "Test your knowledge of Egyptian heritage, history, and geography with fun, interactive games and challenges on Masr360.",
+      url: `/games/${slug || ""}`,
+    });
+  }
 
-  useEffect(() => {
-    // const fetchSingelGame = async () => {
-    //   try {
-    //     const { data } = await getService.getSingleGame(slug);
-    //     const item = data?.data;
+  const gameName = game.name || "Egyptian Trivia Game";
+  const gameDesc =
+    game.description ||
+    `Play ${gameName} on Masr360 and test your knowledge of Egyptian culture, history, and landmarks.`;
 
-    //     if (item) {
-    //       setGame(item);
-    //       setGameReviews(item.reviews || null);
-    //     }
-    //   } catch (err) {
-    //     console.error("Failed to fetch product:", err);
-    //   }
-    // };
+  return buildSEO({
+    title: `Play ${gameName} | Masr360 Games`,
+    description: `Play ${gameName} on Masr360 and test your knowledge of Egyptian culture, history, and landmarks. ${gameDesc}`,
+    image: game.image || "/brand/og-image.jpg",
+    url: `/games/${slug}`,
+    extraOpenGraph: {
+      type: "website",
+    },
+  });
+}
 
-    // if (slug) fetchSingelGame();
-    const cureentGame =
-      locale == "EN"
-        ? gamesEn.find((x) => x.id == slug)
-        : gamesAr.find((x) => x.id == slug);
-
-    if (cureentGame) setGame(cureentGame);
-
-    setGameReviews(reviews[0]);
-  }, [slug, locale]);
-
-  // const features = locale == "EN" ? featuresEn : featuresAr;
-
-  return (
-    <div className="game-page single-game container">
-      <div className="title-holder pages">
-        <h1 className="main-title">
-          <hr />
-          {game?.name}
-          <hr />
-        </h1>
-        <p className="sub-title">here you can see the steps</p>
-      </div>
-
-      <div className="progress-holder">
-        <div className="progress-bar">
-          <div className="progress" style={{ width: `60%` }}></div>
-        </div>
-      </div>
-
-      {game && <GameStepsAccordion game={game} />}
-    </div>
-  );
+export default async function Page({ params }) {
+  const resolvedParams = await params;
+  return <GamePlayClient slug={resolvedParams?.slug} />;
 }

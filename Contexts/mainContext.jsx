@@ -17,18 +17,31 @@ export const MainProvider = ({ children }) => {
   const pathname = usePathname();
   const [screenSize, setScreenSize] = useState(null);
   const [isReady, setIsReady] = useState(false);
-  const [locale, setLocale] = useState(() => {
+
+  // Default locale is "EN" unless user explicitly chose otherwise
+  const [locale, setLocaleState] = useState(() => {
     if (typeof window !== "undefined") {
+      const isChosen = localStorage.getItem("locale_chosen") === "true";
+      if (isChosen) {
+        return localStorage.getItem("locale") || "EN";
+      }
       return localStorage.getItem("locale") || "EN";
     }
     return "EN";
   });
-  const [theme, setTheme] = useState(() => {
+
+  // Default theme is "light" unless user explicitly chose otherwise
+  const [theme, setThemeState] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") || "dark";
+      const isChosen = localStorage.getItem("theme_chosen") === "true";
+      if (isChosen) {
+        return localStorage.getItem("theme") || "light";
+      }
+      return "light";
     }
-    return "dark";
+    return "light";
   });
+
   const [referenceDataLoading, setReferenceDataLoading] = useState(true);
   const [governorates, setGovernorates] = useState([]);
   const [categoriesByType, setCategoriesByType] = useState(EMPTY_CATEGORIES);
@@ -52,19 +65,50 @@ export const MainProvider = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Update HTML attributes when locale changes
   useEffect(() => {
     document.documentElement.setAttribute("lang", locale);
     document.documentElement.setAttribute(
       "dir",
       locale === "AR" ? "rtl" : "ltr",
     );
-    localStorage.setItem("locale", locale);
   }, [locale]);
 
+  // Update HTML attributes when theme changes
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
   }, [theme]);
+
+  // Setters that persist user's manual choice to localStorage
+  const setLocale = (newLocale) => {
+    setLocaleState((prev) => {
+      const val = typeof newLocale === "function" ? newLocale(prev) : newLocale;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("locale", val);
+        localStorage.setItem("locale_chosen", "true");
+      }
+      return val;
+    });
+  };
+
+  const setTheme = (newTheme) => {
+    setThemeState((prev) => {
+      const val = typeof newTheme === "function" ? newTheme(prev) : newTheme;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("theme", val);
+        localStorage.setItem("theme_chosen", "true");
+      }
+      return val;
+    });
+  };
+
+  const toggleLocale = () => {
+    setLocale((prev) => (prev === "EN" ? "AR" : "EN"));
+  };
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   const applyReferenceData = (payload) => {
     setGovernorates(payload.governorates || []);
@@ -151,10 +195,6 @@ export const MainProvider = ({ children }) => {
       setReferenceDataLoading(false);
     }
   };
-
-  const toggleLocale = () => setLocale((prev) => (prev === "EN" ? "AR" : "EN"));
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   if (!isReady) {
     return null;

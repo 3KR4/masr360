@@ -1,34 +1,14 @@
-"use client";
-import Navigations from "@/components/Navigations";
-import DisplayContent from "@/components/DisplayContent";
-import "@/styles/pages/discover.css";
+import DiscoverClient from "./DiscoverClient";
+import { buildSEO } from "@/utils/seo";
 
-import useTranslate from "@/Contexts/useTranslation";
-export default function DiscoverContent() {
-  const t = useTranslate();
+export const metadata = buildSEO({
+  title: "Discover Egypt's Governorates & Regions | Masr360",
+  description:
+    "Explore Egypt governorate by governorate. Learn about Cairo, Alexandria, Luxor, Aswan, and beyond with comprehensive guides on Masr360.",
+  url: "/discover",
+  image: "/brand/og-image.jpg",
+});
 
-  return (
-    <div className="discover">
-      <div className="title-holder pages container">
-        <h1 className="main-title">
-          <hr />
-          {t.sectionsTitles.discover_egypt_page.mainTitle}
-          <hr />
-        </h1>
-        <p className="sub-title">
-          {t.sectionsTitles.discover_egypt_page.subTitle}
-        </p>
-      </div>
-
-      <Navigations
-        items={[
-          {
-            name: t.sideNav.governorates,
-            href: "",
-          },
-        ]}
-      />
-      <DisplayContent type={"gov"} />
-    </div>
-  );
+export default function DiscoverPage() {
+  return <DiscoverClient />;
 }

@@ -1,33 +1,14 @@
-"use client";
-import Navigations from "@/components/Navigations";
-import "@/styles/pages/discover.css";
-import DisplayContent from "@/components/DisplayContent";
+import PlacesClient from "./PlacesClient";
+import { buildSEO } from "@/utils/seo";
 
-import useTranslate from "@/Contexts/useTranslation";
-export default function DiscoverContent() {
-  const t = useTranslate();
+export const metadata = buildSEO({
+  title: "Explore Historic & Iconic Places in Egypt | Masr360",
+  description:
+    "Browse and discover ancient monuments, religious landmarks, beaches, and hidden gems across Egypt with Masr360.",
+  url: "/places",
+  image: "/brand/og-image.jpg",
+});
 
-  return (
-    <div className="discover">
-      <div className="title-holder pages container">
-        <h1 className="main-title">
-          <hr />
-          {t.sectionsTitles.discover_places.mainTitle}
-          <hr />
-        </h1>
-        <p className="sub-title">{t.sectionsTitles.discover_places.subTitle}</p>
-      </div>
-
-      <Navigations
-        items={[
-          {
-            name: t.sideNav.places,
-            href: "",
-          },
-        ]}
-      />
-
-      <DisplayContent type={"place"} />
-    </div>
-  );
+export default function PlacesPage() {
+  return <PlacesClient />;
 }

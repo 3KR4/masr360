@@ -148,7 +148,7 @@ export default function Footer() {
       {/* Top Header Section with Logo and Tagline */}
       <div className="footer-top container">
         <Link href="/" className="footer-logo">
-          <BrandLogo variant="lockup" alt={t.footer?.logo_alt || "Masr360 Logo"} />
+          <BrandLogo variant="lockup" alt={t.footer?.logo_alt || "M360 Logo"} />
         </Link>
         <p className="footer-tagline">
           {t.footer?.tagline ||

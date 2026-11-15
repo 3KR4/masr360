@@ -1,8 +1,14 @@
 import { notFound } from "next/navigation";
+import { buildSEO } from "@/utils/seo";
 
-// Any URL that matches no route lands here, so the branded
-// app/(client)/not-found.jsx renders inside the client layout
-// (header + footer) instead of Next's bare default 404.
+export const metadata = buildSEO({
+  title: "Page Not Found | Masr360",
+  description: "The page you are looking for does not exist on Masr360.",
+  url: "/404",
+  image: "/brand/og-image.jpg",
+  noindex: true,
+});
+
 export default function CatchAllNotFound() {
   notFound();
 }

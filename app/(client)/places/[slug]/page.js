@@ -1,196 +1,50 @@
-"use client";
-import { useContext, useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import "@/styles/pages/singel-details.css";
-import Image from "next/image";
-import Navigations from "@/components/Navigations";
-import { mainContext } from "@/Contexts/mainContext";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Navigation } from "swiper/modules";
-import SwiperCore from "swiper";
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import PlaceTickets from "@/components/PlaceTickets";
-import useTranslate from "@/Contexts/useTranslation";
-import { getOne } from "@/services/places/places.service";
+import PlaceDetailsClient from "./PlaceDetailsClient";
+import { getCachedPlace, buildSEO } from "@/utils/seo";
 
-export default function ProductDetails() {
-  const t = useTranslate();
-  const { screenSize, locale } = useContext(mainContext);
-  const { slug } = useParams();
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
+  const place = await getCachedPlace(slug);
 
-  SwiperCore.use([Autoplay, EffectFade, Navigation]);
+  if (!place) {
+    return buildSEO({
+      title: "Explore Historic Places in Egypt",
+      description:
+        "Discover ancient monuments, historical landmarks, and hidden gems across Egypt with Masr360.",
+      url: `/places/${slug || ""}`,
+    });
+  }
 
-  const [place, setPlace] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!slug) return;
-    const fetchPlace = async () => {
-      setLoading(true);
-      try {
-        const res = await getOne(slug);
-        setPlace(res?.data?.place || null);
-      } catch (error) {
-        console.error(error);
-        setPlace(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPlace();
-  }, [slug]);
-
-  const placeName =
-    place?.translations?.[locale]?.name || place?.name || "";
-  const placeDesc =
-    place?.translations?.[locale]?.desc ||
-    place?.description ||
-    place?.desc ||
-    "";
-  const placeGov =
-    place?.governorate?.translations?.[locale]?.name ||
+  const name =
+    place?.translations?.EN?.name || place?.name || "Historic Place in Egypt";
+  const govName =
+    place?.governorate?.translations?.EN?.name ||
     place?.governorate?.name ||
     place?.governorateName ||
     "";
+  const rawDesc =
+    place?.translations?.EN?.desc || place?.description || place?.desc || "";
 
-  return (
-    <div className="single-page forPlace container">
-      <div className="holder big-holder">
-        {/* HERO */}
-        <div className="hero-image-holder">
-          {loading ? (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: "300px",
-              }}
-            >
-              <p>{t.dashboard.forms.loading || "Loading..."}</p>
-            </div>
-          ) : (
-            place?.images?.[0] && (
-              <Image src={place.images[0]} alt={placeName} fill />
-            )
-          )}
-          {!loading && screenSize !== "small" && (
-            <div className="details">
-              <h3 className="ellipsis">{placeName}</h3>
-              {place?.tickets?.type === "free" && (
-                <div className="free">{t.singelPages.freeToVisit}</div>
-              )}
-            </div>
-          )}
-        </div>
+  const locationPart = govName ? ` in ${govName}` : "";
+  const dynamicDescription = `Discover ${name}${locationPart} with Masr360. Explore its history, highlights, location, and everything you need to know before visiting.${
+    rawDesc ? ` ${rawDesc.slice(0, 150).trim()}...` : ""
+  }`;
 
-        {/* NAV */}
-        <Navigations
-          items={[
-            { name: t.sideNav.places, href: "/places" },
-            { name: t.dashboard.tables.placeDetails, href: "" },
-          ]}
-          container="main"
-        />
+  const image =
+    place?.images?.[0] || place?.imgs?.[0] || "/brand/og-image.jpg";
 
-        {/* DETAILS */}
-        <div className="holds">
-          <div className="details-holder">
-            {screenSize === "small" && !loading && (
-              <div className="details">
-                <h3>{placeName}</h3>
-                {place?.tickets?.type === "free" && (
-                  <div className="free">{t.singelPages.freeToVisit}</div>
-                )}
-              </div>
-            )}
-            <p className="description">{placeDesc}</p>
-          </div>
+  return buildSEO({
+    title: `${name} | Explore Places in Egypt`,
+    description: dynamicDescription,
+    image,
+    url: `/places/${slug}`,
+    extraOpenGraph: {
+      type: "article",
+    },
+  });
+}
 
-          {/* TICKETS */}
-          <PlaceTickets tickets={place?.tickets} />
-        </div>
-
-        {/* IMAGES */}
-        {place?.images?.length > 0 && (
-          <div className="images-swiper">
-            <div className="top">
-              <h4>{t.singelPages.place_images}</h4>
-              {place?.images?.length > 2 && (
-                <div className="navigation">
-                  <button className="custom-prev">
-                    <IoIosArrowBack />
-                  </button>
-                  <button className="custom-next">
-                    <IoIosArrowForward />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <Swiper
-              key={locale}
-              dir={locale === "AR" ? "rtl" : "ltr"}
-              modules={[Autoplay, EffectFade]}
-              slidesPerView={2}
-              spaceBetween={8}
-              loop={true}
-              speed={1000}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-              navigation={{
-                nextEl: ".custom-next",
-                prevEl: ".custom-prev",
-              }}
-              className="categories-swiper"
-              breakpoints={{
-                0: { slidesPerView: 1 },
-                630: { slidesPerView: 1.3 },
-                768: { slidesPerView: 1.5 },
-                992: { slidesPerView: 2 },
-              }}
-            >
-              {place?.images?.map((img, index) => (
-                <SwiperSlide key={index}>
-                  <Image src={img} alt={`place img - ${index}`} fill />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )}
-
-        {/* LOCATION */}
-        <div className="location">
-          <div className="top">
-            <h4>
-              {t.singelPages.locationIn} {placeGov}
-            </h4>
-            <div className="actions">
-              <div className="hold">
-                <button className="main-button forFavoriet">
-                  {t.singelPages.view_in_google_maps}
-                </button>
-                <button className="main-button forFavoriet">
-                  {t.actions.copy_link}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="i-frame">
-            <iframe
-              width="100%"
-              height="100%"
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="map"
-              src={place?.location?.iFrame}
-            ></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+export default async function Page({ params }) {
+  const resolvedParams = await params;
+  return <PlaceDetailsClient slug={resolvedParams?.slug} />;
 }
