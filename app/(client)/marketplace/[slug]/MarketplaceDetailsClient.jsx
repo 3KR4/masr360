@@ -127,6 +127,21 @@ export default function MarketplaceDetailsClient({ slug: propSlug }) {
     activeLocale
   );
 
+  const availabilityContent = (
+    <div className="hold">
+      {t.marketplace.availability}:{" "}
+      {!isOutOfStock ? (
+        <span className="in">
+          <FaCircleCheck /> {t.marketplace.in_stock}
+        </span>
+      ) : (
+        <span className="out">
+          <IoCloseCircleSharp /> {t.marketplace.out_of_stock}
+        </span>
+      )}
+    </div>
+  );
+
   return (
     <div className="single-page container for-product">
       <Navigations
@@ -165,19 +180,8 @@ export default function MarketplaceDetailsClient({ slug: propSlug }) {
                 {categoryName}
               </Link>
             </h5>
-            <div className="Availability">
-              <div className="hold">
-                {t.marketplace.availability}:{" "}
-                {!isOutOfStock ? (
-                  <span className="in">
-                    <FaCircleCheck /> {t.marketplace.in_stock}
-                  </span>
-                ) : (
-                  <span className="out">
-                    <IoCloseCircleSharp /> {t.marketplace.out_of_stock}
-                  </span>
-                )}
-              </div>
+            <div className="Availability desktop-availability">
+              {availabilityContent}
             </div>
           </div>
           <h3>{productName}</h3>
@@ -207,6 +211,11 @@ export default function MarketplaceDetailsClient({ slug: propSlug }) {
               Dont Miss Out, only {product.stock} pieces left in stock
             </p>
           )}
+
+          <div className="Availability mobile-availability">
+            {availabilityContent}
+          </div>
+
           <div className="actions">
             <button
               className="main-button forCart buy-it-now-btn"

@@ -1456,15 +1456,22 @@ svg.main-ico {
 @media (max-width: 768px) {
   .title-holder {
     width: 100%;
-    padding: 0 15px !important;
+    padding: 0 12px !important;
     margin: 20px auto 15px;
   }
+  .title-holder.pages {
+    margin: 32px auto 18px;
+    padding: 0 12px !important;
+  }
   .main-title {
-    font-size: 30px;
+    gap: 8px;
+    line-height: 1.15;
   }
 
   .main-title hr {
-    width: 34px;
+    height: 6px;
+    width: 41px !important;
+    flex-shrink: 0;
   }
   .card.product img {
     aspect-ratio: 1.35;
@@ -1537,9 +1544,14 @@ svg.main-ico {
     border: 0;
   }
 }
+@media (max-width: 480px) {
+  .main-title {
+    gap: 8px;
+  }
+}
 @media (max-width: 400px) {
   .main-title {
-    font-size: 23px;
+    gap: 6px;
   }
   .sub-title {
     font-size: 14px;

@@ -115,6 +115,9 @@ min-width: max-content;
 .single-page .details-holder .Availability .out {
   color: #d94452;
 }
+.single-page .details-holder .Availability.mobile-availability {
+  display: none;
+}
 .single-page .details-holder .description {
   font-size: 17px;
   font-weight: 400;
@@ -593,6 +596,13 @@ min-width: max-content;
 }
 }
 @media (max-width: 768px) {
+  .single-page .details-holder .Availability.desktop-availability {
+    display: none !important;
+  }
+  .single-page .details-holder .Availability.mobile-availability {
+    display: flex !important;
+    margin: 6px 0 2px;
+  }
   .single-page > .holder {
     margin-bottom: 0;
   }
