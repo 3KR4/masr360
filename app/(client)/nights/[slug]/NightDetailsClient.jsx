@@ -5,10 +5,12 @@ import "@/styles/pages/singel-details.css";
 import Image from "next/image";
 import Navigations from "@/components/Navigations";
 import { mainContext } from "@/Contexts/mainContext";
+import { useNotification } from "@/Contexts/NotificationContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { FaCheck } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import { getOne } from "@/services/nights/nights.service";
@@ -22,6 +24,7 @@ function unwrapNightResponse(data) {
 export default function NightDetailsClient({ slug: propSlug }) {
   const t = useTranslate();
   const { screenSize, locale } = useContext(mainContext);
+  const { addNotification } = useNotification();
   const params = useParams();
   const slug = propSlug || params?.slug;
 
@@ -29,6 +32,7 @@ export default function NightDetailsClient({ slug: propSlug }) {
 
   const [night, setNight] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -63,8 +67,63 @@ export default function NightDetailsClient({ slug: propSlug }) {
     night?.governorate?.translations?.[localeKey]?.name ||
     night?.governorate?.name ||
     "";
-  const locationLink = typeof night?.location === "string" ? night.location : night?.location?.link || "";
-  const locationIframe = night?.locationIframe || night?.location?.iFrame || "";
+
+  const getGoogleMapsUrl = () => {
+    const directLink =
+      (typeof night?.location === "string" ? night.location : night?.location?.link) ||
+      night?.googleMapsLink ||
+      night?.locationLink;
+    if (directLink && typeof directLink === "string" && directLink.trim()) {
+      return directLink.trim();
+    }
+    const query = [nightName, nightGovName].filter(Boolean).join(" ");
+    return query
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+      : "https://maps.google.com";
+  };
+
+  const handleOpenMaps = () => {
+    const url = getGoogleMapsUrl();
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleCopyLink = async () => {
+    const url = getGoogleMapsUrl();
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = url;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+      setCopied(true);
+      if (addNotification) {
+        addNotification({
+          type: "success",
+          message:
+            locale === "AR"
+              ? "تم نسخ رابط خرائط جوجل بنجاح!"
+              : "Google Maps link copied successfully!",
+        });
+      }
+      setTimeout(() => setCopied(false), 2500);
+    } catch (err) {
+      console.error("Failed to copy link:", err);
+    }
+  };
+
+  const locationIframe =
+    night?.locationIframe ||
+    night?.location?.iFrame ||
+    (nightName
+      ? `https://maps.google.com/maps?q=${encodeURIComponent(
+          `${nightName} ${nightGovName}`.trim()
+        )}&t=&z=14&ie=UTF8&iwloc=&output=embed`
+      : "");
 
   return (
     <div className="single-page forPlace container">
@@ -72,12 +131,7 @@ export default function NightDetailsClient({ slug: propSlug }) {
         {/* HERO */}
         <div className="hero-image-holder">
           {nightImages[0] && (
-            <Image src={nightImages[0]} alt={nightName} fill />
-          )}
-          {screenSize !== "small" && (
-            <div className="details">
-              <h3 className="ellipsis">{nightName}</h3>
-            </div>
+            <Image src={nightImages[0]} alt={nightName} fill priority />
           )}
         </div>
 
@@ -93,7 +147,7 @@ export default function NightDetailsClient({ slug: propSlug }) {
         {/* DETAILS */}
         <div className="holds">
           <div className="details-holder">
-            {screenSize === "small" && (
+            {!loading && (
               <div className="details">
                 <h3>{nightName}</h3>
               </div>
@@ -109,10 +163,10 @@ export default function NightDetailsClient({ slug: propSlug }) {
               <h4>{t.singelPages.place_images}</h4>
               {nightImages.length > 2 && (
                 <div className="navigation">
-                  <button className="custom-prev">
+                  <button className="custom-prev" aria-label="Previous image">
                     <IoIosArrowBack />
                   </button>
-                  <button className="custom-next">
+                  <button className="custom-next" aria-label="Next image">
                     <IoIosArrowForward />
                   </button>
                 </div>
@@ -157,15 +211,28 @@ export default function NightDetailsClient({ slug: propSlug }) {
             </h4>
             <div className="actions">
               <div className="hold">
-                {locationLink && (
-                  <a href={locationLink} target="_blank" rel="noopener noreferrer">
-                    <button className="main-button forFavoriet">
-                      {t.singelPages.view_in_google_maps}
-                    </button>
-                  </a>
-                )}
-                <button className="main-button forFavoriet">
-                  {t.actions.copy_link}
+                <button
+                  type="button"
+                  className="main-button forFavoriet"
+                  onClick={handleOpenMaps}
+                  title={t.singelPages.view_in_google_maps}
+                >
+                  {t.singelPages.view_in_google_maps}
+                </button>
+                <button
+                  type="button"
+                  className="main-button forFavoriet"
+                  onClick={handleCopyLink}
+                  title={t.actions.copy_link}
+                >
+                  {copied ? (
+                    <>
+                      <FaCheck style={{ marginInlineEnd: 6 }} />
+                      {locale === "AR" ? "تم النسخ!" : "Copied!"}
+                    </>
+                  ) : (
+                    t.actions.copy_link
+                  )}
                 </button>
               </div>
             </div>
@@ -181,6 +248,7 @@ export default function NightDetailsClient({ slug: propSlug }) {
                 referrerPolicy="no-referrer-when-downgrade"
                 className="map"
                 src={locationIframe}
+                title={nightName || "Location Map"}
               ></iframe>
             </div>
           )}

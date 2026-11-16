@@ -110,12 +110,7 @@ export default function EventDetailsClient({ slug: propSlug }) {
         {/* HERO */}
         <div className="hero-image-holder">
           {eventImages[0] && (
-            <Image src={eventImages[0]} alt={eventName} fill />
-          )}
-          {screenSize !== "small" && (
-            <div className="details">
-              <h3 className="ellipsis">{eventName}</h3>
-            </div>
+            <Image src={eventImages[0]} alt={eventName} fill priority />
           )}
         </div>
 
@@ -131,7 +126,7 @@ export default function EventDetailsClient({ slug: propSlug }) {
         {/* EVENT INFO */}
         <div className="holds">
           <div className="details-holder">
-            {screenSize === "small" && (
+            {!loading && (
               <div className="details">
                 <h3>{eventName}</h3>
               </div>

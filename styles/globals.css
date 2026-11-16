@@ -34,8 +34,17 @@ body {
   --brand-cream-soft: #fff1e6;
   --brand-ink: #2b120a;
 
-  --brand-sunset: linear-gradient(120deg, #f9ac26 0%, #ef6326 55%, #d4501a 100%);
-  --brand-glow: radial-gradient(circle at 50% 50%, rgba(249, 172, 38, 0.35), transparent 65%);
+  --brand-sunset: linear-gradient(
+    120deg,
+    #f9ac26 0%,
+    #ef6326 55%,
+    #d4501a 100%
+  );
+  --brand-glow: radial-gradient(
+    circle at 50% 50%,
+    rgba(249, 172, 38, 0.35),
+    transparent 65%
+  );
 
   /* --- type --- */
   --font-display: var(--font-gotham), "Poppins", "Arial Black", sans-serif;
@@ -77,8 +86,10 @@ body {
   /* game-like "sticker" offset shadow */
   --pop-shadow: 0 4px 0 var(--brand-brown);
   --pop-shadow-hover: 0 7px 0 var(--brand-brown);
-  --card-shadow: 0 1px 0 rgba(102, 39, 21, 0.06), 0 12px 30px -14px rgba(102, 39, 21, 0.28);
-  --card-shadow-hover: 0 2px 0 rgba(102, 39, 21, 0.08), 0 24px 44px -18px rgba(102, 39, 21, 0.42);
+  --card-shadow:
+    0 1px 0 rgba(102, 39, 21, 0.06), 0 12px 30px -14px rgba(102, 39, 21, 0.28);
+  --card-shadow-hover:
+    0 2px 0 rgba(102, 39, 21, 0.08), 0 24px 44px -18px rgba(102, 39, 21, 0.42);
 
   --red-color: #c8323f;
   --success-color: #2f8a4c;
@@ -117,9 +128,12 @@ body {
 
   --pop-shadow: 0 4px 0 #000;
   --pop-shadow-hover: 0 7px 0 #000;
-  --card-shadow: 0 1px 0 rgba(253, 226, 207, 0.04) inset, 0 14px 34px -16px rgba(0, 0, 0, 0.8);
-  --card-shadow-hover: 0 1px 0 rgba(253, 226, 207, 0.06) inset, 0 26px 50px -18px rgba(0, 0, 0, 0.9),
-    0 0 0 1px rgba(239, 99, 38, 0.35);
+  --card-shadow:
+    0 1px 0 rgba(253, 226, 207, 0.04) inset,
+    0 14px 34px -16px rgba(0, 0, 0, 0.8);
+  --card-shadow-hover:
+    0 1px 0 rgba(253, 226, 207, 0.06) inset,
+    0 26px 50px -18px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(239, 99, 38, 0.35);
 
   --red-color: #ff5d6c;
   --success-color: #4ccf7a;
@@ -164,8 +178,16 @@ body::before {
     var(--main-color) 0deg 3.2deg,
     transparent 3.2deg 13.333deg
   );
-  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 0%, transparent 75%);
-  mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    #000 0%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    #000 0%,
+    transparent 75%
+  );
 }
 
 ::selection {
@@ -365,8 +387,8 @@ body > .support,
   padding-top: 85px;
   padding-bottom: 50px;
 }
-.single-page.for-product {
-  padding-top: 130px;
+.single-page.for-product .big-holder {
+  margin: 0;
 }
 
 .grid-holder {
@@ -580,7 +602,11 @@ div.review-section .sub-title {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, rgba(249, 172, 38, 0.16) -5%, transparent 51%);
+  background: radial-gradient(
+    circle,
+    rgba(249, 172, 38, 0.16) -5%,
+    transparent 51%
+  );
   animation: breath-light 6s ease-in-out infinite;
 }
 
@@ -1121,11 +1147,11 @@ button:hover .loader {
 
 .hero-image-holder {
   background: var(--body-color);
-  border-radius: 0 0 45px 45px;
+  aspect-ratio: 2;
+  border-radius: 45px;
   margin: 0 auto 20px;
   position: relative;
   overflow: hidden;
-  aspect-ratio: 2.4;
 }
 .hero-image-holder img {
   object-fit: cover;
@@ -1398,8 +1424,7 @@ svg.main-ico {
   }
 
   .hero-image-holder {
-    border-radius: 0 0 28px 28px;
-    aspect-ratio: 2;
+    border-radius: 40px;
   }
 
   .card .name-link {
@@ -1453,10 +1478,7 @@ svg.main-ico {
     font-size: 18px;
     height: 40px;
   }
-  .hero-image-holder {
-    padding: 0;
-    border-radius: 0 0 30px 30px;
-  }
+
   .hero-image-holder .details p {
     width: 100%;
   }

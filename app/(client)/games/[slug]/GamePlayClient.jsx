@@ -21,6 +21,16 @@ export default function GamePlayClient({ slug: propSlug }) {
   const [GameReviews, setGameReviews] = useState(null);
 
   useEffect(() => {
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    } catch {
+      window.scrollTo(0, 0);
+    }
+  }, [slug]);
+
+  useEffect(() => {
     const cureentGame =
       locale == "EN"
         ? gamesEn.find((x) => x.id == slug)

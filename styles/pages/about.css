@@ -273,7 +273,7 @@
 .about .our-values .card h4 {
   font-size: 18px;
   font-weight: 700;
-  color: var(--main-color-2);
+    color: var(--title-color);
 }
 
 .about .our-values .card p {
@@ -311,10 +311,10 @@
 
 .about .closing p {
   background: var(--section-color);
-  color: var(--main-color-2);
+    color: var(--title-color);
   border-radius: 30px;
   padding: 8px 20px;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
   text-transform: uppercase;
 }

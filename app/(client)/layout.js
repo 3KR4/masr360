@@ -13,6 +13,7 @@ import { NotificationProvider } from "@/Contexts/NotificationContext";
 import NotificationHolder from "@/components/settings/NotificationHolder";
 import GoldDust from "@/components/GoldDust";
 import AOSInit from "@/components/AOSInit";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export const viewport = {
   themeColor: [
@@ -82,6 +83,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <ScrollToTop />
         <AOSInit />
         <MotionFX />
         <GoldDust />

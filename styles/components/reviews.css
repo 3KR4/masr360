@@ -219,9 +219,7 @@
   }
 }
 @media (max-width: 992px) {
-  .review-section .holder {
-    flex-direction: column;
-  }
+
   .review-section .overview {
     width: 100%;
     position: relative;

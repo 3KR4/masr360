@@ -5,10 +5,12 @@ import "@/styles/pages/singel-details.css";
 import Image from "next/image";
 import Navigations from "@/components/Navigations";
 import { mainContext } from "@/Contexts/mainContext";
+import { useNotification } from "@/Contexts/NotificationContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { FaCheck } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import PlaceTickets from "@/components/PlaceTickets";
@@ -18,6 +20,7 @@ import { getOne } from "@/services/places/places.service";
 export default function PlaceDetailsClient({ slug: propSlug }) {
   const t = useTranslate();
   const { screenSize, locale } = useContext(mainContext);
+  const { addNotification } = useNotification();
   const params = useParams();
   const slug = propSlug || params?.slug;
 
@@ -25,6 +28,7 @@ export default function PlaceDetailsClient({ slug: propSlug }) {
 
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -56,6 +60,63 @@ export default function PlaceDetailsClient({ slug: propSlug }) {
     place?.governorateName ||
     "";
 
+  const getGoogleMapsUrl = () => {
+    const directLink =
+      (typeof place?.location === "string" ? place.location : place?.location?.link) ||
+      place?.googleMapsLink ||
+      place?.locationLink;
+    if (directLink && typeof directLink === "string" && directLink.trim()) {
+      return directLink.trim();
+    }
+    const query = [placeName, placeGov].filter(Boolean).join(" ");
+    return query
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+      : "https://maps.google.com";
+  };
+
+  const handleOpenMaps = () => {
+    const url = getGoogleMapsUrl();
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleCopyLink = async () => {
+    const url = getGoogleMapsUrl();
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = url;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+      setCopied(true);
+      if (addNotification) {
+        addNotification({
+          type: "success",
+          message:
+            locale === "AR"
+              ? "تم نسخ رابط خرائط جوجل بنجاح!"
+              : "Google Maps link copied successfully!",
+        });
+      }
+      setTimeout(() => setCopied(false), 2500);
+    } catch (err) {
+      console.error("Failed to copy link:", err);
+    }
+  };
+
+  const mapIframeSrc =
+    place?.location?.iFrame ||
+    place?.locationIframe ||
+    (placeName
+      ? `https://maps.google.com/maps?q=${encodeURIComponent(
+          `${placeName} ${placeGov}`.trim()
+        )}&t=&z=14&ie=UTF8&iwloc=&output=embed`
+      : "");
+
   return (
     <div className="single-page forPlace container">
       <div className="holder big-holder">
@@ -74,16 +135,8 @@ export default function PlaceDetailsClient({ slug: propSlug }) {
             </div>
           ) : (
             place?.images?.[0] && (
-              <Image src={place.images[0]} alt={placeName} fill />
+              <Image src={place.images[0]} alt={placeName} fill priority />
             )
-          )}
-          {!loading && screenSize !== "small" && (
-            <div className="details">
-              <h3 className="ellipsis">{placeName}</h3>
-              {place?.tickets?.type === "free" && (
-                <div className="free">{t.singelPages.freeToVisit}</div>
-              )}
-            </div>
           )}
         </div>
 
@@ -99,7 +152,7 @@ export default function PlaceDetailsClient({ slug: propSlug }) {
         {/* DETAILS */}
         <div className="holds">
           <div className="details-holder">
-            {screenSize === "small" && !loading && (
+            {!loading && (
               <div className="details">
                 <h3>{placeName}</h3>
                 {place?.tickets?.type === "free" && (
@@ -121,10 +174,10 @@ export default function PlaceDetailsClient({ slug: propSlug }) {
               <h4>{t.singelPages.place_images}</h4>
               {place?.images?.length > 2 && (
                 <div className="navigation">
-                  <button className="custom-prev">
+                  <button className="custom-prev" aria-label="Previous image">
                     <IoIosArrowBack />
                   </button>
-                  <button className="custom-next">
+                  <button className="custom-next" aria-label="Next image">
                     <IoIosArrowForward />
                   </button>
                 </div>
@@ -169,27 +222,47 @@ export default function PlaceDetailsClient({ slug: propSlug }) {
             </h4>
             <div className="actions">
               <div className="hold">
-                <button className="main-button forFavoriet">
+                <button
+                  type="button"
+                  className="main-button forFavoriet"
+                  onClick={handleOpenMaps}
+                  title={t.singelPages.view_in_google_maps}
+                >
                   {t.singelPages.view_in_google_maps}
                 </button>
-                <button className="main-button forFavoriet">
-                  {t.actions.copy_link}
+                <button
+                  type="button"
+                  className="main-button forFavoriet"
+                  onClick={handleCopyLink}
+                  title={t.actions.copy_link}
+                >
+                  {copied ? (
+                    <>
+                      <FaCheck style={{ marginInlineEnd: 6 }} />
+                      {locale === "AR" ? "تم النسخ!" : "Copied!"}
+                    </>
+                  ) : (
+                    t.actions.copy_link
+                  )}
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="i-frame">
-            <iframe
-              width="100%"
-              height="100%"
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="map"
-              src={place?.location?.iFrame}
-            ></iframe>
-          </div>
+          {mapIframeSrc && (
+            <div className="i-frame">
+              <iframe
+                width="100%"
+                height="100%"
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="map"
+                src={mapIframeSrc}
+                title={placeName || "Location Map"}
+              ></iframe>
+            </div>
+          )}
         </div>
       </div>
     </div>
