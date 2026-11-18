@@ -129,7 +129,8 @@ function RegisterForm() {
           addNotification({
             type: "success",
             message:
-              res1.data?.message || "Your account has been created successfully",
+              res1.data?.message ||
+              "Your account has been created successfully",
           });
         }
 
@@ -221,7 +222,12 @@ function RegisterForm() {
 
         {(step == 1 || step == 2) && (
           <Link href="/" className="logo">
-            <BrandLogo variant="lockup" alt="Masr360 Logo" className="main-img" priority />
+            <BrandLogo
+              variant="lockup"
+              alt="M360 Logo"
+              className="main-img"
+              priority
+            />
           </Link>
         )}
         <div className="top">
@@ -398,7 +404,9 @@ function RegisterForm() {
                     />
                   )}
                 </div>
-                <div className={`menu backdrop-blur ${activeNational ? "active" : ""}`}>
+                <div
+                  className={`menu backdrop-blur ${activeNational ? "active" : ""}`}
+                >
                   {filteredCountries?.length > 0 ? (
                     filteredCountries.map((country, index) => (
                       <button

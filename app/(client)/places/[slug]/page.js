@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
     return buildSEO({
       title: "Explore Historic Places in Egypt",
       description:
-        "Discover ancient monuments, historical landmarks, and hidden gems across Egypt with Masr360.",
+        "Discover ancient monuments, historical landmarks, and hidden gems across Egypt with M360.",
       url: `/places/${slug || ""}`,
     });
   }
@@ -26,12 +26,11 @@ export async function generateMetadata({ params }) {
     place?.translations?.EN?.desc || place?.description || place?.desc || "";
 
   const locationPart = govName ? ` in ${govName}` : "";
-  const dynamicDescription = `Discover ${name}${locationPart} with Masr360. Explore its history, highlights, location, and everything you need to know before visiting.${
+  const dynamicDescription = `Discover ${name}${locationPart} with M360. Explore its history, highlights, location, and everything you need to know before visiting.${
     rawDesc ? ` ${rawDesc.slice(0, 150).trim()}...` : ""
   }`;
 
-  const image =
-    place?.images?.[0] || place?.imgs?.[0] || "/brand/og-image.jpg";
+  const image = place?.images?.[0] || place?.imgs?.[0] || "/brand/og-image.jpg";
 
   return buildSEO({
     title: `${name} | Explore Places in Egypt`,

@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
     return buildSEO({
       title: "Preview Egyptian Games & Trivia",
       description:
-        "Preview games on Masr360. Challenge yourself with interactive Egyptian trivia and adventure games.",
+        "Preview games on M360. Challenge yourself with interactive Egyptian trivia and adventure games.",
       url: `/games/preview/${slug || ""}`,
     });
   }
@@ -18,11 +18,11 @@ export async function generateMetadata({ params }) {
   const gameName = game.name || "Egyptian Trivia Game";
   const gameDesc =
     game.description ||
-    `Preview ${gameName} on Masr360. Get ready to challenge yourself with interactive Egyptian trivia and games.`;
+    `Preview ${gameName} on M360. Get ready to challenge yourself with interactive Egyptian trivia and games.`;
 
   return buildSEO({
-    title: `Preview: ${gameName} | Masr360 Games`,
-    description: `Preview ${gameName} on Masr360. Get ready to challenge yourself with interactive Egyptian trivia and games. ${gameDesc}`,
+    title: `Preview: ${gameName} | M360 Games`,
+    description: `Preview ${gameName} on M360. Get ready to challenge yourself with interactive Egyptian trivia and games. ${gameDesc}`,
     image: game.image || "/brand/og-image.jpg",
     url: `/games/preview/${slug}`,
     extraOpenGraph: {

@@ -125,7 +125,7 @@ export default function AboutClient() {
 
         {/* CLOSING */}
         <div className="closing">
-          <h5>Masr360</h5>
+          <h5>M360</h5>
           <div>
             {t.about.closing.map((line, i) => (
               <p key={i}>{line}</p>

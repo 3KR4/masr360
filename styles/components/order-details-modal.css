@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ORDER DETAILS MODAL STYLES (MATCHING SCREENSHOT & MASR360 THEME)
+   ORDER DETAILS MODAL STYLES (MATCHING SCREENSHOT & M360 THEME)
    ========================================================================== */
 
 .order-details-overlay {
@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  opacity: 0; 
+  opacity: 0;
   animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -784,7 +784,8 @@
 }
 
 .support-ticket-modal .support-select-options.select-active,
-.support-ticket-modal .support-select-options:has(.filters.for-cats .menu.active) {
+.support-ticket-modal
+  .support-select-options:has(.filters.for-cats .menu.active) {
   z-index: 1005 !important;
 }
 

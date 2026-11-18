@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
     return buildSEO({
       title: "Nightlife & Evening Entertainment in Egypt",
       description:
-        "Experience the best of Egyptian nightlife, live music, river cruises, and evening entertainment with Masr360.",
+        "Experience the best of Egyptian nightlife, live music, river cruises, and evening entertainment with M360.",
       url: `/nights/${slug || ""}`,
     });
   }
@@ -27,17 +27,20 @@ export async function generateMetadata({ params }) {
     night?.translations?.EN?.desc || night?.desc || night?.description || "";
 
   const locationPart = nightGov ? ` in ${nightGov}` : "";
-  const dynamicDescription = `Discover ${nightName} and explore Egypt's vibrant nightlife, music, and evening entertainment with Masr360.${locationPart}${
+  const dynamicDescription = `Discover ${nightName} and explore Egypt's vibrant nightlife, music, and evening entertainment with M360.${locationPart}${
     nightDesc ? ` ${nightDesc.slice(0, 140).trim()}...` : ""
   }`;
 
   const image =
-    (Array.isArray(night?.imgs) && (typeof night.imgs[0] === "string" ? night.imgs[0] : night.imgs[0]?.url)) ||
+    (Array.isArray(night?.imgs) &&
+      (typeof night.imgs[0] === "string"
+        ? night.imgs[0]
+        : night.imgs[0]?.url)) ||
     night?.image ||
     "/brand/og-image.jpg";
 
   return buildSEO({
-    title: `${nightName} | Masr360 Nights`,
+    title: `${nightName} | M360 Nights`,
     description: dynamicDescription,
     image,
     url: `/nights/${slug}`,

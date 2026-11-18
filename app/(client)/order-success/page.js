@@ -2,7 +2,7 @@ import OrderSuccessClient from "./OrderSuccessClient";
 import { buildSEO } from "@/utils/seo";
 
 export const metadata = buildSEO({
-  title: "Order Confirmation | Masr360",
+  title: "Order Confirmation | M360",
   description:
     "Thank you for your order. Your purchase has been received and is being processed.",
   url: "/order-success",

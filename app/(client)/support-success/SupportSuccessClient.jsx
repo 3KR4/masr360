@@ -2,7 +2,14 @@
 import React, { Suspense, useContext } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { FaCheck, FaHeadset, FaHome, FaArrowRight, FaArrowLeft, FaListUl } from "react-icons/fa";
+import {
+  FaCheck,
+  FaHeadset,
+  FaHome,
+  FaArrowRight,
+  FaArrowLeft,
+  FaListUl,
+} from "react-icons/fa";
 import { mainContext } from "@/Contexts/mainContext";
 import { useAuth } from "@/Contexts/AuthContext";
 import useTranslate from "@/Contexts/useTranslation";
@@ -32,8 +39,8 @@ function SupportSuccessContent() {
 
         <p className="order-success-desc">
           {isAr
-            ? "شكراً لتواصلك مع Masr360! تم استلام شكواك / استفسارك بنجاح وسيقوم فريق الدعم الفني بمراجعتها والتواصل معك عبر وسيلة الاتصال التي حددتها في أقرب وقت."
-            : "Thank you for contacting Masr360! Your ticket has been received and our support team will review it and get in touch with you via your chosen contact method shortly."}
+            ? "شكراً لتواصلك مع M360! تم استلام شكواك / استفسارك بنجاح وسيقوم فريق الدعم الفني بمراجعتها والتواصل معك عبر وسيلة الاتصال التي حددتها في أقرب وقت."
+            : "Thank you for contacting M360! Your ticket has been received and our support team will review it and get in touch with you via your chosen contact method shortly."}
         </p>
 
         {ticketId && (
@@ -46,7 +53,10 @@ function SupportSuccessContent() {
         <div className="order-success-actions">
           {isAuthenticated ? (
             <>
-              <Link href="/support?tab=my_tickets" className="btn-success-primary">
+              <Link
+                href="/support?tab=my_tickets"
+                className="btn-success-primary"
+              >
                 <FaListUl />
                 <span>{isAr ? "رؤية قائمة التذاكر" : "View Tickets List"}</span>
               </Link>

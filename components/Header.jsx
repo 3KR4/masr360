@@ -503,7 +503,7 @@ function Header() {
                     <p>
                       {locale === "AR"
                         ? "مرحباً بك في مصر 360"
-                        : "Welcome to Masr360"}
+                        : "Welcome to M360"}
                     </p>
                     <Link
                       href={`/register?redirect=${pathname}`}
@@ -711,14 +711,13 @@ function Header() {
                       <GrLanguage />
                       {t.header.change_language}
                     </li>
-                    
+
                     <li className="lang not-link" onClick={toggleTheme}>
                       {theme === "light" ? <FaRegMoon /> : <FiSun />}
                       {theme === "light"
                         ? t.header.darkTheme
                         : t.header.lightTheme}
                     </li>
-                   
 
                     <li className="not-link danger" onClick={logout}>
                       <MdLogout />

@@ -11,17 +11,17 @@ import { FormsCompsProvider } from "@/Contexts/forms";
 import { NotificationProvider } from "@/Contexts/NotificationContext";
 import { AuthProvider } from "@/Contexts/AuthContext";
 import AdminGuard from "@/components/dashboard/AdminGuard";
-  import NotificationHolder from "@/components/settings/NotificationHolder";
+import NotificationHolder from "@/components/settings/NotificationHolder";
 
 export const metadata = {
-  title: "Masr360 DashBoard",
+  title: "M360 DashBoard",
   description: "",
 
   openGraph: {
-    title: "Masr360 DashBoard",
+    title: "M360 DashBoard",
     description: "",
-    url: "https://masr360.vercel.app/dashboard",
-    siteName: "Masr360 DashBoard",
+    url: "https://M360.vercel.app/dashboard",
+    siteName: "M360 DashBoard",
     images: [
       {
         url: "/brand/og-image.jpg",
@@ -40,7 +40,6 @@ export const metadata = {
   },
 };
 export default function RootLayout({ children }) {
-
   return (
     <html lang="EN" className={fontVariables} suppressHydrationWarning>
       <head>
@@ -54,22 +53,22 @@ export default function RootLayout({ children }) {
         <MainProvider>
           <NotificationProvider>
             <AuthProvider>
-            <DashBoardProvider>
-              <FormsCompsProvider>
-                <AdminGuard>
-                <div className="dashboard">
-                  <SideNav />
+              <DashBoardProvider>
+                <FormsCompsProvider>
+                  <AdminGuard>
+                    <div className="dashboard">
+                      <SideNav />
 
-                  <div className="dash-holder">
-                    <Head />
-                    <Toolbar />
-                    {children}
-                  </div>
-                </div>
-                </AdminGuard>
-                <NotificationHolder />
-              </FormsCompsProvider>
-            </DashBoardProvider>
+                      <div className="dash-holder">
+                        <Head />
+                        <Toolbar />
+                        {children}
+                      </div>
+                    </div>
+                  </AdminGuard>
+                  <NotificationHolder />
+                </FormsCompsProvider>
+              </DashBoardProvider>
             </AuthProvider>
           </NotificationProvider>
         </MainProvider>

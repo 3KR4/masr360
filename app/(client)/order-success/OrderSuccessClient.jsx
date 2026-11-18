@@ -2,7 +2,13 @@
 import React, { Suspense, useContext } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { FaCheck, FaReceipt, FaStore, FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import {
+  FaCheck,
+  FaReceipt,
+  FaStore,
+  FaArrowRight,
+  FaArrowLeft,
+} from "react-icons/fa";
 import { mainContext } from "@/Contexts/mainContext";
 import useTranslate from "@/Contexts/useTranslation";
 import "@/styles/pages/order-success.css";
@@ -30,8 +36,8 @@ function OrderSuccessContent() {
 
         <p className="order-success-desc">
           {isAr
-            ? "شكراً لتسوقك من Masr360! تم استلام طلبك بنجاح وجاري الآن مراجعته وتجهيزه للتوصيل إلى عنوانك."
-            : "Thank you for shopping with Masr360! Your order has been placed and is currently being processed for delivery."}
+            ? "شكراً لتسوقك من M360! تم استلام طلبك بنجاح وجاري الآن مراجعته وتجهيزه للتوصيل إلى عنوانك."
+            : "Thank you for shopping with M360! Your order has been placed and is currently being processed for delivery."}
         </p>
 
         {orderId && (

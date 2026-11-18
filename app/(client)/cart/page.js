@@ -2,7 +2,7 @@ import CartClient from "./CartClient";
 import { buildSEO } from "@/utils/seo";
 
 export const metadata = buildSEO({
-  title: "Your Shopping Cart | Masr360",
+  title: "Your Shopping Cart | M360",
   description:
     "Review the authentic Egyptian products and crafts in your shopping cart.",
   url: "/cart",

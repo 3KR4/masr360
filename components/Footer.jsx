@@ -123,7 +123,10 @@ export default function Footer() {
       label: t.footer?.quick_links_items?.products || "Products",
       href: "/marketplace",
     },
-    { label: t.footer?.quick_links_items?.support || "Support", href: "/support" },
+    {
+      label: t.footer?.quick_links_items?.support || "Support",
+      href: "/support",
+    },
   ];
 
   const legalLinks = [
@@ -203,9 +206,7 @@ export default function Footer() {
 
         {/* Column 2: CONNECT */}
         <div className="footer-col">
-          <h4 className="footer-col-title">
-            {t.footer?.connect || "CONNECT"}
-          </h4>
+          <h4 className="footer-col-title">{t.footer?.connect || "CONNECT"}</h4>
           <ul className="footer-links-list">
             {connectLinks.map((link, idx) => (
               <li key={idx}>
@@ -233,9 +234,7 @@ export default function Footer() {
 
         {/* Column 4: LEGAL */}
         <div className="footer-col">
-          <h4 className="footer-col-title">
-            {t.footer?.legal || "LEGAL"}
-          </h4>
+          <h4 className="footer-col-title">{t.footer?.legal || "LEGAL"}</h4>
           <ul className="footer-links-list">
             {legalLinks.map((link, idx) => (
               <li key={idx}>
@@ -250,15 +249,22 @@ export default function Footer() {
       <div className="footer-bottom container">
         <div className="footer-bottom-left">
           <p className="footer-copyright-main">
-            © 2026 {t.footer?.copyright_owner || (locale === "AR" ? "M360 وكافة شخصيات M360 هي ملك لـ M360." : "M360 and all M360 characters are the property of M360.")}
+            © 2026{" "}
+            {t.footer?.copyright_owner ||
+              (locale === "AR"
+                ? "M360 وكافة شخصيات M360 هي ملك لـ M360."
+                : "M360 and all M360 characters are the property of M360.")}
           </p>
           <p className="footer-copyright-sub">
-            {t.footer?.rights || (locale === "AR" ? "جميع الحقوق محفوظة. يُحظر النسخ أو الاستخدام غير المصرح به." : "All rights reserved. Unauthorized copying or use is prohibited.")}
+            {t.footer?.rights ||
+              (locale === "AR"
+                ? "جميع الحقوق محفوظة. يُحظر النسخ أو الاستخدام غير المصرح به."
+                : "All rights reserved. Unauthorized copying or use is prohibited.")}
           </p>
         </div>
         <div className="footer-bottom-right">
           <span className="footer-tag-dots">
-            {locale === "AR" ? "مصر 360 · M360" : "Masr360 · M360"}
+            {locale === "AR" ? "مصر 360 · M360" : "M360 · M360"}
           </span>
         </div>
       </div>

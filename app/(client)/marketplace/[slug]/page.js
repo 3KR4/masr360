@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
     return buildSEO({
       title: "Egyptian Heritage Marketplace | Handmade Crafts & Souvenirs",
       description:
-        "Shop authentic Egyptian handmade crafts, jewelry, home decor, and souvenirs made by talented local artisans on Masr360.",
+        "Shop authentic Egyptian handmade crafts, jewelry, home decor, and souvenirs made by talented local artisans on M360.",
       url: `/marketplace/${slug || ""}`,
     });
   }
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
     "";
   const pricePart = product?.price ? ` Price: ${product.price} EGP.` : "";
 
-  const dynamicDescription = `Discover ${productName}, an authentic Egyptian product that celebrates local craftsmanship and heritage, available through Masr360.${pricePart}${
+  const dynamicDescription = `Discover ${productName}, an authentic Egyptian product that celebrates local craftsmanship and heritage, available through M360.${pricePart}${
     productDesc ? ` ${productDesc.slice(0, 140).trim()}...` : ""
   }`;
 
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }) {
     product?.images?.[0] || product?.imgs?.[0] || "/brand/og-image.jpg";
 
   return buildSEO({
-    title: `${productName} | Masr360 Marketplace`,
+    title: `${productName} | M360 Marketplace`,
     description: dynamicDescription,
     image,
     url: `/marketplace/${slug}`,

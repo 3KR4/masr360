@@ -82,7 +82,7 @@ const en = {
       "Discover the beauty, history, and culture of Egypt — all in one place.",
     description:
       "Discover the beauty, history, and culture of Egypt — all in one place.",
-    logo_alt: "Masr360 Logo",
+    logo_alt: "M360 Logo",
 
     our_values: "OUR VALUES",
     values: {
@@ -141,7 +141,8 @@ const en = {
       contact: "Contact",
     },
 
-    copyright: "© 2026 M360 and all M360 characters are the property of M360. All rights reserved. Unauthorized copying or use is prohibited.",
+    copyright:
+      "© 2026 M360 and all M360 characters are the property of M360. All rights reserved. Unauthorized copying or use is prohibited.",
     copyright_owner: "M360 and all M360 characters are the property of M360.",
     rights: "All rights reserved. Unauthorized copying or use is prohibited.",
     privacy: "Privacy Policy",
@@ -206,7 +207,8 @@ const en = {
       stat3Label: "Integrated Platform",
       stat4Num: "∞",
       stat4Label: "Stories To Explore",
-      positioningText: "M360 is not just a tourism directory. It turns discovering Egypt into an interactive journey where exploration, challenges, rewards, and progression are seamlessly connected.",
+      positioningText:
+        "M360 is not just a tourism directory. It turns discovering Egypt into an interactive journey where exploration, challenges, rewards, and progression are seamlessly connected.",
       quote: "EGYPT IS NOT JUST A DESTINATION. IT'S AN EXPERIENCE.",
     },
 
@@ -243,13 +245,17 @@ const en = {
 
       ecoTitle: "THE M360 REWARD & COMMUNITY ECOSYSTEM",
       eco1Title: "Real Value Credits",
-      eco1Desc: "Every challenge completed and destination discovered earns you M360 credits with actual value in the ecosystem.",
+      eco1Desc:
+        "Every challenge completed and destination discovered earns you M360 credits with actual value in the ecosystem.",
       eco2Title: "Marketplace & Local Crafts",
-      eco2Desc: "Redeem credits for exclusive discounts on authentic, handmade Egyptian products and artisan crafts.",
+      eco2Desc:
+        "Redeem credits for exclusive discounts on authentic, handmade Egyptian products and artisan crafts.",
       eco3Title: "Explorer Leaderboards",
-      eco3Desc: "Compete with fellow travelers, track your progression, and rise on the official explorer rankings.",
+      eco3Desc:
+        "Compete with fellow travelers, track your progression, and rise on the official explorer rankings.",
       eco4Title: "Merchandise & Launch Perks",
-      eco4Desc: "Unlock official M360 merchandise, early access passes, and launch rewards as your journey unfolds.",
+      eco4Desc:
+        "Unlock official M360 merchandise, early access passes, and launch rewards as your journey unfolds.",
 
       quote: "THE MORE YOU EXPLORE, THE MORE YOU UNLOCK.",
     },
@@ -302,7 +308,8 @@ const en = {
       description:
         "We're still digging the M360 game out of the sand. Light up the walls, find what's hidden, and knock if you dare.",
       hintMouse: "Move your torch across the walls, then knock on the door.",
-      hintTouch: "Drag your finger to light the walls, then tap the door to knock.",
+      hintTouch:
+        "Drag your finger to light the walls, then tap the door to knock.",
       hintHunt: "Five scarabs are hidden in these walls. Find them all.",
       doorLabel: "Knock on the sealed door",
       scarabLabel: "Hidden scarab",
@@ -331,11 +338,26 @@ const en = {
       locked: "Still sealed",
       lockedHint: "Search the chamber walls",
       secrets: [
-        { title: "Real Missions", sub: "Quests at real landmarks across Egypt's 27 governorates." },
-        { title: "Photo Challenges", sub: "Snap the shot on the spot to prove you were there." },
-        { title: "Earn Credits", sub: "Every stage you clear earns credits for the marketplace." },
-        { title: "Leaderboards", sub: "Climb the ranks against explorers from all over Egypt." },
-        { title: "Real Rewards", sub: "Turn your credits into real rewards and discounts." },
+        {
+          title: "Real Missions",
+          sub: "Quests at real landmarks across Egypt's 27 governorates.",
+        },
+        {
+          title: "Photo Challenges",
+          sub: "Snap the shot on the spot to prove you were there.",
+        },
+        {
+          title: "Earn Credits",
+          sub: "Every stage you clear earns credits for the marketplace.",
+        },
+        {
+          title: "Leaderboards",
+          sub: "Climb the ranks against explorers from all over Egypt.",
+        },
+        {
+          title: "Real Rewards",
+          sub: "Turn your credits into real rewards and discounts.",
+        },
       ],
       ctaTitle: "CAN'T WAIT FOR",
       ctaGold: "THE FULL GAME?",
@@ -348,7 +370,8 @@ const en = {
       modalTitleAll: "You found all 5 secrets",
       modalBody:
         "There's a demo of the game on our landing page: 7 questions to prove you know Egypt.",
-      modalPromise: "But hey, the real game behind this door will be way better. Don't worry.",
+      modalPromise:
+        "But hey, the real game behind this door will be way better. Don't worry.",
       play: "PLAY THE DEMO",
       later: "I'll wait for the real one",
     },
@@ -832,7 +855,8 @@ const en = {
     },
     cancelOrder: "Cancel Order",
     cancelConfirmTitle: "Cancel Order?",
-    cancelConfirmMessage: "Are you sure you want to cancel this order? This action cannot be undone.",
+    cancelConfirmMessage:
+      "Are you sure you want to cancel this order? This action cannot be undone.",
     cancelling: "Cancelling...",
     cancelSuccess: "Order cancelled successfully.",
     cancelFailed: "Failed to cancel order.",
@@ -911,12 +935,12 @@ const en = {
 
     about_title: "ABOUT US",
     about_p1: {
-      main: "Masr360 is a fully integrated digital tourism ecosystem designed to transform the way people explore Egypt. We don’t just help visitors find places - ",
+      main: "M360 is a fully integrated digital tourism ecosystem designed to transform the way people explore Egypt. We don’t just help visitors find places - ",
       highlight:
         "We guide them through a complete journey where every step is interactive, rewarding, and meaningful.",
     },
     about_p2:
-      "At the heart of Masr360 lies our unique gamified experience: a 24-step exploration game that encourages travelers to discover the real Egypt while earning rewards.",
+      "At the heart of M360 lies our unique gamified experience: a 24-step exploration game that encourages travelers to discover the real Egypt while earning rewards.",
 
     ecosystem_title: "Around this game, we built a full ecosystem:",
     ecosystem: [
@@ -942,7 +966,7 @@ const en = {
       },
     ],
 
-    not_app_title: "Masr360 is not an app -",
+    not_app_title: "M360 is not an app -",
     not_app_highlight:
       "It's an end-to-end ecosystem that connects tourists, local communities, businesses, and culture.",
     not_app_text:
@@ -954,9 +978,9 @@ const en = {
       "To build Egypt’s first all-in-one tourism ecosystem where exploration becomes a game and culture becomes interactive.",
 
     game_title: "GAME CENTER - OUR CORE FEATURE",
-    game_subtitle: "Our Game Is the Heart of Masr360",
+    game_subtitle: "Our Game Is the Heart of M360",
     game_intro:
-      "The Masr360 Game transforms tourism into an interactive adventure.",
+      "The M360 Game transforms tourism into an interactive adventure.",
 
     game_points: [
       "Earn points by visiting sites",
@@ -972,11 +996,11 @@ const en = {
       "It's the engine that connects discovery, partners, marketplace, and tourism services.",
     game_note_end: "This is what no other tourism platform in Egypt offers.",
 
-    why_title: "WHY MASR360?",
+    why_title: "WHY M360?",
     why_text: [
-      "Masr360 turns discovering Egypt into a connected, gamified ecosystem.",
+      "M360 turns discovering Egypt into a connected, gamified ecosystem.",
       "Visitors explore Egypt, unlock challenges, earn rewards, and engage with local businesses.",
-      "Masr360 delivers real value to tourists, creators, and Egypt’s cultural identity.",
+      "M360 delivers real value to tourists, creators, and Egypt’s cultural identity.",
     ],
 
     values_title: "OUR VALUES",
@@ -1052,7 +1076,8 @@ const en = {
     },
     guest_contact: {
       title: "Your Contact Details",
-      subtitle: "Since you're not logged in, please provide your contact info so our team can reach you.",
+      subtitle:
+        "Since you're not logged in, please provide your contact info so our team can reach you.",
       email_label: "Your Email Address",
       email_placeholder: "e.g. name@example.com",
       phone_label: "Your Phone / WhatsApp Number",
@@ -1104,26 +1129,29 @@ const en = {
       ticket_created: "Your support ticket has been submitted successfully!",
       ticket_updated: "Support ticket updated successfully!",
       ticket_deleted: "Support ticket deleted successfully!",
-      ticket_create_failed: "Failed to submit support ticket. Please try again.",
+      ticket_create_failed:
+        "Failed to submit support ticket. Please try again.",
       ticket_update_failed: "Failed to update support ticket.",
       ticket_delete_failed: "Failed to delete support ticket.",
-      ticket_not_found: "Ticket not found or you are not authorized to view it.",
+      ticket_not_found:
+        "Ticket not found or you are not authorized to view it.",
       only_open_editable: "Only open tickets can be edited.",
-      confirm_delete: "Are you sure you want to delete this ticket? This action cannot be undone.",
+      confirm_delete:
+        "Are you sure you want to delete this ticket? This action cannot be undone.",
     },
   },
   privacy: {
     privacy_policy: {
-      mainTitle: "Privacy Policy - Masr360",
+      mainTitle: "Privacy Policy - M360",
       effectiveDate: "[Insert Date]",
       lastUpdated: "[Insert Date]",
       sections: {
         introduction: {
           title: "1. Introduction",
           content: [
-            "Welcome to Masr360, a smart tourism platform that blends culture, technology, and gamified exploration across Egypt.",
+            "Welcome to M360, a smart tourism platform that blends culture, technology, and gamified exploration across Egypt.",
             "This Privacy Policy explains how we collect, use, and protect your personal information when you visit our website or mobile application.",
-            "By using Masr360, you consent to this Privacy Policy.",
+            "By using M360, you consent to this Privacy Policy.",
           ],
         },
         information_we_collect: {
@@ -1156,7 +1184,7 @@ const en = {
         sharing_of_information: {
           title: "4. Sharing of Information",
           content: [
-            "Masr360 does not sell or rent your personal data.",
+            "M360 does not sell or rent your personal data.",
             "We may share limited data only in the following cases:",
             "With verified vendors or partners (to complete bookings or purchases).",
             "With service providers (e.g., payment gateways, analytics tools).",
@@ -1179,7 +1207,7 @@ const en = {
             "Access, correct, or delete your personal data.",
             "Withdraw consent for marketing communication.",
             "Request details about stored information.",
-            "Requests can be made via email: privacy@masr360.com",
+            "Requests can be made via email: privacy@M360.com",
           ],
         },
         data_retention: {
@@ -1192,7 +1220,7 @@ const en = {
         cookies: {
           title: "8. Cookies and Tracking Technologies",
           content: [
-            "Masr360 uses cookies to improve performance and personalize content.",
+            "M360 uses cookies to improve performance and personalize content.",
             "You can manage or disable cookies in your browser settings.",
             "For details, please review our Cookie Policy.",
           ],
@@ -1201,13 +1229,13 @@ const en = {
           title: "9. Third-Party Links",
           content: [
             "Our platform may contain links to third-party websites or vendors.",
-            "Masr360 is not responsible for their privacy practices, and we recommend reviewing their policies separately.",
+            "M360 is not responsible for their privacy practices, and we recommend reviewing their policies separately.",
           ],
         },
         changes: {
           title: "10. Changes to This Policy",
           content: [
-            "Masr360 may update this Privacy Policy periodically.",
+            "M360 may update this Privacy Policy periodically.",
             'Updates will be posted with a new "Last Updated" date.',
             "Continued use of the platform after updates means you accept the changes.",
           ],
@@ -1216,8 +1244,8 @@ const en = {
           title: "11. Contact Us",
           content: [
             "If you have questions or concerns about this Privacy Policy, please contact us at:",
-            "privacy@masr360.com",
-            "www.masr360.com",
+            "privacy@M360.com",
+            "www.M360.com",
           ],
         },
       },

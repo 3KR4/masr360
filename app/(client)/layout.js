@@ -24,25 +24,25 @@ export const viewport = {
 
 export const metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://masr360.vercel.app"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://M360.vercel.app",
   ),
   title: {
-    default: "Masr360 - Explore Egypt | Places, Culture, Events & Marketplace",
-    template: "%s | Masr360",
+    default: "M360 - Explore Egypt | Places, Culture, Events & Marketplace",
+    template: "%s | M360",
   },
   description:
-    "Masr360 is your ultimate interactive platform to explore Egypt. Discover historic places, vibrant nightlife, authentic marketplace products, upcoming events, and cultural games.",
+    "M360 is your ultimate interactive platform to explore Egypt. Discover historic places, vibrant nightlife, authentic marketplace products, upcoming events, and cultural games.",
 
   alternates: {
     canonical: "/",
   },
 
   openGraph: {
-    title: "Masr360 - Explore Egypt | Places, Culture, Events & Marketplace",
+    title: "M360 - Explore Egypt | Places, Culture, Events & Marketplace",
     description:
-      "Explore hidden gems, exciting night spots, authentic crafts, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
-    url: "https://masr360.vercel.app",
-    siteName: "Masr360",
+      "Explore hidden gems, exciting night spots, authentic crafts, and real Egyptian culture with M360. Your journey starts here — fun, local, and unforgettable.",
+    url: "https://M360.vercel.app",
+    siteName: "M360",
     images: [
       {
         url: "/brand/og-image.jpg",
@@ -56,9 +56,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Masr360 - Explore Egypt | Places, Culture, Events & Marketplace",
+    title: "M360 - Explore Egypt | Places, Culture, Events & Marketplace",
     description:
-      "Explore hidden gems, exciting night spots, authentic crafts, and real Egyptian culture with Masr360.",
+      "Explore hidden gems, exciting night spots, authentic crafts, and real Egyptian culture with M360.",
     images: ["/brand/og-image.jpg"],
   },
   icons: {

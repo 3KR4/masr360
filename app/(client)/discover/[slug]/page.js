@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
     return buildSEO({
       title: "Discover Egypt's Governorates & Regions",
       description:
-        "Explore Egypt governorate by governorate. Learn about Cairo, Alexandria, Luxor, Aswan, and beyond with comprehensive guides on Masr360.",
+        "Explore Egypt governorate by governorate. Learn about Cairo, Alexandria, Luxor, Aswan, and beyond with comprehensive guides on M360.",
       url: `/discover/${slug || ""}`,
     });
   }
@@ -20,14 +20,14 @@ export async function generateMetadata({ params }) {
   const govDesc =
     gov?.translations?.EN?.desc || gov?.description || gov?.desc || "";
 
-  const dynamicDescription = `Explore ${govName} with Masr360. Discover its top attractions, cultural landmarks, travel tips, and authentic experiences.${
+  const dynamicDescription = `Explore ${govName} with M360. Discover its top attractions, cultural landmarks, travel tips, and authentic experiences.${
     govDesc ? ` ${govDesc.slice(0, 140).trim()}...` : ""
   }`;
 
   const image = gov?.image || "/brand/og-image.jpg";
 
   return buildSEO({
-    title: `Discover ${govName} | Masr360`,
+    title: `Discover ${govName} | M360`,
     description: dynamicDescription,
     image,
     url: `/discover/${slug}`,

@@ -1,4 +1,5 @@
-export { navLinks } from "./data/navLinks"; const legacyNavLinks = [
+export { navLinks } from "./data/navLinks";
+const legacyNavLinks = [
   {
     title: {
       EN: "Governorates",
@@ -178,8 +179,8 @@ export const slides = [
       AR: "اكتشف مصر",
     },
     paragraph: {
-      EN: "Explore hidden gems, exciting night spots, and real Egyptian culture with Masr360. Your journey starts here — fun, local, and unforgettable.",
-      AR: "اكتشف الأماكن الخفية، والسهرات المميزة، والثقافة المصرية الحقيقية مع Masr360. رحلتك تبدأ من هنا — ممتعة، محلية، ولا تُنسى.",
+      EN: "Explore hidden gems, exciting night spots, and real Egyptian culture with M360. Your journey starts here — fun, local, and unforgettable.",
+      AR: "اكتشف الأماكن الخفية، والسهرات المميزة، والثقافة المصرية الحقيقية مع M360. رحلتك تبدأ من هنا — ممتعة، محلية، ولا تُنسى.",
     },
     title: {
       EN: "Live the Full Experience",
@@ -218,8 +219,8 @@ export const slides = [
       AR: "اكتشف مصر بشكل مختلف",
     },
     paragraph: {
-      EN: "Find hidden gems, unique experiences, and special rewards across all Egyptian governorates. Masr360 is your smart guide to explore, play, and enjoy every part of Egypt.",
-      AR: "اكتشف أماكن خفية، وتجارب فريدة، ومكافآت مميزة في جميع محافظات مصر. Masr360 هو دليلك الذكي للاستكشاف واللعب والاستمتاع بكل جزء من مصر.",
+      EN: "Find hidden gems, unique experiences, and special rewards across all Egyptian governorates. M360 is your smart guide to explore, play, and enjoy every part of Egypt.",
+      AR: "اكتشف أماكن خفية، وتجارب فريدة، ومكافآت مميزة في جميع محافظات مصر. M360 هو دليلك الذكي للاستكشاف واللعب والاستمتاع بكل جزء من مصر.",
     },
     title: {
       EN: "Discover the Real Egypt",
@@ -4149,8 +4150,6 @@ export const gamesEn = [
       },
     ],
   },
-
-
 ];
 
 export const gamesAr = [

@@ -8,7 +8,7 @@ import { normalizeProduct } from "@/services/normalizers/productNormalizer";
 import { gamesEn } from "@/data";
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://masr360.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://M360.vercel.app";
 
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/brand/og-image.jpg`;
 
@@ -38,13 +38,13 @@ export function buildSEO({
   extraOpenGraph = {},
   extraTwitter = {},
 }) {
-  const formattedTitle = title?.includes("Masr360")
+  const formattedTitle = title?.includes("M360")
     ? title
-    : `${title || "Explore Egypt"} | Masr360`;
+    : `${title || "Explore Egypt"} | M360`;
 
   const cleanDescription =
     description ||
-    "Masr360 is your ultimate interactive platform to explore Egypt. Discover historic places, vibrant nightlife, authentic marketplace products, upcoming events, and cultural games.";
+    "M360 is your ultimate interactive platform to explore Egypt. Discover historic places, vibrant nightlife, authentic marketplace products, upcoming events, and cultural games.";
 
   const absImage = toAbsoluteUrl(image);
   const canonicalUrl = url
@@ -63,7 +63,7 @@ export function buildSEO({
       title: formattedTitle,
       description: cleanDescription,
       url: canonicalUrl,
-      siteName: "Masr360",
+      siteName: "M360",
       type,
       locale: "en_US",
       images: [
@@ -109,7 +109,10 @@ export const getCachedPlace = cache(async (slug) => {
     const res = await getPlaceApi(slug);
     return res?.data?.place || res?.place || null;
   } catch (err) {
-    console.error(`[SEO] Failed to fetch place for slug: ${slug}`, err?.message);
+    console.error(
+      `[SEO] Failed to fetch place for slug: ${slug}`,
+      err?.message,
+    );
     return null;
   }
 });
@@ -124,7 +127,10 @@ export const getCachedProduct = cache(async (slug) => {
     const raw = res?.data?.data || res?.data || res;
     return normalizeProduct(raw);
   } catch (err) {
-    console.error(`[SEO] Failed to fetch product for slug: ${slug}`, err?.message);
+    console.error(
+      `[SEO] Failed to fetch product for slug: ${slug}`,
+      err?.message,
+    );
     return null;
   }
 });
@@ -139,7 +145,10 @@ export const getCachedEvent = cache(async (slug) => {
     const data = res?.data;
     return data?.event || data?.data?.event || data?.data || data || null;
   } catch (err) {
-    console.error(`[SEO] Failed to fetch event for slug: ${slug}`, err?.message);
+    console.error(
+      `[SEO] Failed to fetch event for slug: ${slug}`,
+      err?.message,
+    );
     return null;
   }
 });
@@ -154,7 +163,10 @@ export const getCachedNight = cache(async (slug) => {
     const data = res?.data;
     return data?.night || data?.data?.night || data?.data || data || null;
   } catch (err) {
-    console.error(`[SEO] Failed to fetch night for slug: ${slug}`, err?.message);
+    console.error(
+      `[SEO] Failed to fetch night for slug: ${slug}`,
+      err?.message,
+    );
     return null;
   }
 });
@@ -168,7 +180,10 @@ export const getCachedGovernorate = cache(async (slug) => {
     const res = await getGovApi(slug);
     return res?.data?.governorate || res?.data || null;
   } catch (err) {
-    console.error(`[SEO] Failed to fetch governorate for slug: ${slug}`, err?.message);
+    console.error(
+      `[SEO] Failed to fetch governorate for slug: ${slug}`,
+      err?.message,
+    );
     return null;
   }
 });
@@ -179,7 +194,7 @@ export const getCachedGovernorate = cache(async (slug) => {
 export function getGameBySlug(slug) {
   if (!slug) return null;
   const found = gamesEn.find(
-    (g) => String(g.id) === String(slug) || String(g._id) === String(slug)
+    (g) => String(g.id) === String(slug) || String(g._id) === String(slug),
   );
   return found || null;
 }
