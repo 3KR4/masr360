@@ -120,10 +120,10 @@ const TERMS_DATA = {
       text: "Joining the waitlist makes you eligible for announced launch rewards where applicable. Rewards may be subject to eligibility checks and anti-fraud measures.",
     },
     {
-      id: "intellectual-property",
-      title: "7. Intellectual Property",
+      id: "ownership-and-intellectual-property",
+      title: "7. Ownership & Intellectual Property",
       type: "paragraph",
-      text: "All content, logos, branding, graphics, text and software on this website are owned by or licensed to m360 and may not be copied or reused without permission.",
+      text: "The M360 names and logos, the sun icon, the hawk guide, and our characters (Bissa, Hudhud, The Guardian, Qulla), together with their names, designs, personalities, stories, and animations, are owned by M360 or its licensors. They are protected by copyright, trademark, and other intellectual property laws of Egypt, including Law No. 82 of 2002, and by international treaties.\n\nAll content, logos, branding, graphics, text, icons, audiovisual materials, and software on this website are owned by or licensed to M360 and may not be copied, reproduced, distributed, or reused without prior written permission.",
     },
     {
       id: "website-availability",
@@ -278,10 +278,10 @@ const TERMS_DATA_AR = {
       text: "الانضمام إلى قائمة الانتظار يجعلك مؤهلاً للحصول على مكافآت ونقاط الإطلاق المعلنة عند توفرها. قد تخضع المكافآت للتحقق من الأهلية وإجراءات مكافحة الاحتيال.",
     },
     {
-      id: "intellectual-property",
-      title: "7. الملكية الفكرية",
+      id: "ownership-and-intellectual-property",
+      title: "7. حقوق الملكية والملكية الفكرية",
       type: "paragraph",
-      text: "جميع المحتويات، والشعارات، والعلامات التجارية، والتصميمات، والنصوص، والبرمجيات المتوفرة على هذه المنصة مملوكة لشركة مصر 360 أو مرخصة لها، ولا يجوز نسخها أو إعادة استخدامها بدون إذن مسبق.",
+      text: "إن أسماء وشعارات M360، وأيقونة الشمس، والمرشد الصقر، وشخصياتنا (بيسة، هدهد، الحارس، قُلّة)، بالإضافة إلى أسمائها وتصميماتها وشخصياتها وقصصها ورسومها المتحركة، هي ملك لـ M360 أو المرخصين لها. وهي محمية بموجب قوانين حقوق النشر والعلامات التجارية وقوانين الملكية الفكرية في جمهورية مصر العربية، بما في ذلك القانون رقم 82 لسنة 2002، والمعاهدات والاتفاقيات الدولية ذات الصلة.\n\nكافة المحتويات، والشعارات، والتصميمات، والنصوص، والمواد المرئية والصوتية، والبرمجيات المتوفرة على هذه المنصة مملوكة لشركة M360 أو مرخصة لها، ولا يجوز نسخها أو إعادة إنتاجها أو توزيعها أو استخدامها دون تصريح كتابي مسبق.",
     },
     {
       id: "website-availability",

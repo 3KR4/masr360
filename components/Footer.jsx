@@ -249,10 +249,11 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="footer-bottom container">
         <div className="footer-bottom-left">
-          <p>
-            © {new Date().getFullYear()}{" "}
-            {locale === "AR" ? "مصر 360" : "M360"}.{" "}
-            {t.footer?.rights || "All rights reserved."}
+          <p className="footer-copyright-main">
+            © 2026 {t.footer?.copyright_owner || (locale === "AR" ? "M360 وكافة شخصيات M360 هي ملك لـ M360." : "M360 and all M360 characters are the property of M360.")}
+          </p>
+          <p className="footer-copyright-sub">
+            {t.footer?.rights || (locale === "AR" ? "جميع الحقوق محفوظة. يُحظر النسخ أو الاستخدام غير المصرح به." : "All rights reserved. Unauthorized copying or use is prohibited.")}
           </p>
         </div>
         <div className="footer-bottom-right">

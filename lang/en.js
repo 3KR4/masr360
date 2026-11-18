@@ -27,7 +27,7 @@ const en = {
     write_another: "Write another review",
   },
   header: {
-    logo_alt: "Masr 360",
+    logo_alt: "M360",
     dashboard: "dashboard",
     search_placeholder: "Explore Egypt",
     search: "Search",
@@ -141,7 +141,9 @@ const en = {
       contact: "Contact",
     },
 
-    rights: "All rights reserved.",
+    copyright: "© 2026 M360 and all M360 characters are the property of M360. All rights reserved. Unauthorized copying or use is prohibited.",
+    copyright_owner: "M360 and all M360 characters are the property of M360.",
+    rights: "All rights reserved. Unauthorized copying or use is prohibited.",
     privacy: "Privacy Policy",
     scroll_to_top: "Scroll to Top",
   },
@@ -161,7 +163,7 @@ const en = {
     },
 
     masr_nights: {
-      title: "Masr Nights",
+      title: "M360 Nights",
       subtitle:
         "Discover the vibrant nightlife of Egypt — from lively evening events and cultural shows to riverside cruises and hidden gems waiting to be explored after dark.",
       btn: "Explore More",
@@ -263,7 +265,7 @@ const en = {
     discover_egypt_page: {
       mainTitle: "Discover Egypt",
       subTitle:
-        "With Masr 360, you can explore each governorate and experience Egypt like never before.",
+        "With M360, you can explore each governorate and experience Egypt like never before.",
     },
     marketplace_page: {
       subTitle:
@@ -272,19 +274,19 @@ const en = {
 
     governorate_places: (governorateName) => ({
       mainTitle: `${governorateName} Places`,
-      subTitle: `Explore the beauty and attractions of ${governorateName}. Discover its history, landmarks, and hidden treasures only on Masr 360.`,
+      subTitle: `Explore the beauty and attractions of ${governorateName}. Discover its history, landmarks, and hidden treasures only on M360.`,
     }),
 
     discover_places: {
       mainTitle: "Discover Places",
       subTitle:
-        "With Masr 360, explore top destinations, uncover local stories, and experience the true essence of every location.",
+        "With M360, explore top destinations, uncover local stories, and experience the true essence of every location.",
     },
 
     masr_nights_page: {
-      mainTitle: "Masr Nights",
+      mainTitle: "M360 Nights",
       subTitle:
-        "With Masr 360, explore top destinations, uncover local stories, and experience the true essence of every location after dark.",
+        "With  M360, explore top destinations, uncover local stories, and experience the true essence of every location after dark.",
     },
 
     masr_events_page: {

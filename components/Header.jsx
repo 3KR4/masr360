@@ -627,7 +627,7 @@ function Header() {
                   placeholder={
                     locale === "AR"
                       ? "ابحث عن أي شيء في مصر 360..."
-                      : "Search anything in Masr 360..."
+                      : "Search anything in M360..."
                   }
                   autoFocus={searchActive}
                 />

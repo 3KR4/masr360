@@ -126,7 +126,7 @@ export default function BadgeQuest() {
             <div className="speech-bubble">{copy.bubble}</div>
             <Image
               src="/brand/mascot/falcon.webp"
-              alt={isAr ? "صقر مصر 360" : "The MASR 360 falcon explorer"}
+              alt={isAr ? "صقر مصر 360" : "The M360 falcon explorer"}
               width={900}
               height={1055}
               sizes="(max-width: 768px) 40vw, 260px"

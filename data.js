@@ -75,7 +75,7 @@ export { navLinks } from "./data/navLinks"; const legacyNavLinks = [
   },
   {
     title: {
-      EN: "Masr Nights",
+      EN: "M360 Nights",
       AR: "ليالي مصر",
     },
     link: "/nights",

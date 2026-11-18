@@ -76,7 +76,7 @@ export const navLinks = [
   /*
   {
     title: {
-      EN: "Masr Nights",
+      EN: "M360 Nights",
       AR: "ليالي مصر",
     },
     link: "/nights",
